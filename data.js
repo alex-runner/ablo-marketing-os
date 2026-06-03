@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T20:16:21.307241+00:00"
+    "updatedISO": "2026-06-03T20:22:06.329767+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2772,7 +2772,7 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 279,
+            "d7": 280,
             "d30": 788,
             "d90": 788,
             "all": 788
@@ -3125,7 +3125,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 443,
+          "users": 444,
           "signups": 20,
           "tryons": 7,
           "checkouts": 0,
@@ -3475,7 +3475,7 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-03",
-          "landed": 60,
+          "landed": 61,
           "engaged": 21,
           "modal": 20,
           "signups": 7,
