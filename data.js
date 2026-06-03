@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T22:35:02.261575+00:00"
+    "updatedISO": "2026-06-03T23:03:35.438735+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,7 +51,7 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 71 of 165 opens finish (~43%). Auth mix (live): email/magic-link is the top signup method (45) vs Google (25). The Google-primary change shipped May 27 and now leads recent signups. Keep Google first, but don't demote email; it still drives most signups. The real leak is modal completion, not the auth method.",
+      "Fix the signup-modal drop. Only 71 of 168 opens finish (~42%). Auth mix (live): email/magic-link is the top signup method (45) vs Google (25). The Google-primary change shipped May 27 and now leads recent signups. Keep Google first, but don't demote email; it still drives most signups. The real leak is modal completion, not the auth method.",
       "Close the try-on activation gap. 87 entered the studio, 49 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
@@ -2108,7 +2108,7 @@ window.ABLO_OS = {
           "verdict": "done",
           "doneSignal": true,
           "evidence": [
-            "experiment: modal completion 33.3% -> 44.1% (+10.8 pts)",
+            "experiment: modal completion 33.3% -> 42.7% (+9.4 pts)",
             "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is in progress"
           ],
           "disagree": false,
@@ -2286,12 +2286,12 @@ window.ABLO_OS = {
           "v": "≥ 8%"
         },
         {
-          "k": "Signup → activation",
-          "v": "≥ 50%"
+          "k": "Signup → activation · goal ≥ 50%",
+          "v": "49%"
         },
         {
-          "k": "CPL",
-          "v": "≤ $20"
+          "k": "CPL · goal ≤ $20",
+          "v": "$6.09"
         }
       ],
       "rule": "Every item below earns its place by moving one of these. The agent ranks by goal-impact: anything that does not ladder up to a KPI does not belong in the queue."
@@ -2705,10 +2705,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 44% (41/93). Change: +11 pts.",
-        "delta": 10.8,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 43% (41/96). Change: +9 pts.",
+        "delta": 9.4,
         "before": 33.3,
-        "after": 44.1,
+        "after": 42.7,
         "shipped": true
       }
     ],
@@ -2772,10 +2772,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 276,
-            "d30": 793,
-            "d90": 793,
-            "all": 793
+            "d7": 278,
+            "d30": 795,
+            "d90": 795,
+            "all": 795
           }
         },
         {
@@ -2784,10 +2784,10 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 75,
-            "d30": 184,
-            "d90": 184,
-            "all": 184
+            "d7": 77,
+            "d30": 186,
+            "d90": 186,
+            "all": 186
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2797,10 +2797,10 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 72,
-            "d30": 165,
-            "d90": 165,
-            "all": 165
+            "d7": 74,
+            "d30": 168,
+            "d90": 168,
+            "all": 168
           }
         },
         {
@@ -2809,7 +2809,7 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 34,
+            "d7": 33,
             "d30": 71,
             "d90": 71,
             "all": 71
@@ -3125,7 +3125,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 447,
+          "users": 449,
           "signups": 20,
           "tryons": 7,
           "checkouts": 0,
@@ -3166,10 +3166,10 @@ window.ABLO_OS = {
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
         "in progress": 5,
-        "to do": 27,
+        "to do": 26,
         "Closed": 16,
-        "done": 11,
-        "review": 6
+        "review": 7,
+        "done": 11
       },
       "open": [
         {
@@ -3263,20 +3263,20 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
-          "name": "Marketing OS — revisit 'demote email': magic-link conversion is ~37%, not 'almost everyone leaks'",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba90z9b",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
           "name": "Pedir a Jason: evento `Subscription Started` -> Klaviyo (gate del flow de conversión)",
           "status": "to do",
           "color": "#87909e",
           "type": "open",
           "url": "https://app.clickup.com/t/86ba90xk4",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Task-keeper routine log",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba90xcx",
           "due": "",
           "assignee": "Alejo Escrivá"
         }
@@ -3475,9 +3475,9 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-03",
-          "landed": 67,
-          "engaged": 22,
-          "modal": 21,
+          "landed": 69,
+          "engaged": 25,
+          "modal": 24,
           "signups": 8,
           "models": 6,
           "imports": 5,

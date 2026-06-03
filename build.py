@@ -1019,6 +1019,31 @@ def reconcile_queue(content, meta_live, experiments, clickup):
     log(f"reconcile: {sum(1 for it in items if it.get('verify'))} verified item(s), {flagged} disagreement(s)")
 
 
+def bind_objectives_kpis(content, activation, meta_live):
+    """Live-bind the Command Center's north-star KPI anchor. For the KPIs we can
+    actually measure (Activation = signup→try-on, CPL = Meta cost/signup) show the
+    live current value as the headline and fold the target into the label, so the
+    anchor reads 'where we are' not just 'where we want to be'. The other two
+    (paying customers, signup→paid) stay as curated targets on purpose: they need
+    a `purchase_completed` event that isn't instrumented yet (it's queue item #5),
+    so a live 0 would read as measured-zero rather than not-yet-measured.
+
+    Pure, non-destructive data binding. Idempotent: build reloads content.json
+    fresh each run, so each k.v always starts as its curated target."""
+    kpis = ((content.get("commandCenter") or {}).get("objectives") or {}).get("kpis") or []
+    # Use the CPL string exactly as the KPI strip shows it (e.g. "$6.09") so the
+    # two surfaces stay coherent — matching numbers is the whole point here.
+    cpl_now = (meta_live or {}).get("cpl") or None
+    act_now = activation.replace("~", "") if activation and activation != "—" else None
+    for k in kpis:
+        label, target = (k.get("k") or "").lower(), k.get("v", "")
+        if "activation" in label and act_now:
+            k["k"], k["v"] = f"{k['k']} · goal {target}", act_now
+        elif "cpl" in label and cpl_now:
+            k["k"], k["v"] = f"{k['k']} · goal {target}", cpl_now
+    log("objectives KPIs: bound activation + CPL to live values")
+
+
 # ------------------------------------------------------------------ build ----
 def build():
     content = json.loads(CONTENT.read_text())
@@ -1126,6 +1151,8 @@ def build():
     # skill, which reasons over the live funnel/campaigns/experiments/lifecycle.
     if "commandCenter" in content:
         content["commandCenter"]["updated"] = content["meta"]["updated"]
+        # Live-bind the north-star KPI anchor (Activation, CPL) to current values.
+        bind_objectives_kpis(content, activation, meta_live)
         # Always-on deterministic guardrail: annotate each curated item with the
         # live verdict so the queue self-corrects when its hand-written status
         # drifts (the "stale priority" gap). Runs every build, no LLM needed.
