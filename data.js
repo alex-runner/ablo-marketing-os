@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T23:46:29.380634+00:00"
+    "updatedISO": "2026-06-03T23:52:02.928632+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2663,7 +2663,7 @@ window.ABLO_OS = {
       },
       {
         "label": "Blended CAC",
-        "value": "$13.71",
+        "value": "$15.74",
         "sub": "all paid ÷ all signups · target ≤ $20",
         "tone": "default"
       },
@@ -2675,8 +2675,8 @@ window.ABLO_OS = {
       },
       {
         "label": "Total ad spend",
-        "value": "$973",
-        "sub": "Meta ~$668 + LinkedIn $305",
+        "value": "$1,118",
+        "sub": "Meta ~$668 + LinkedIn $450",
         "tone": "default"
       },
       {

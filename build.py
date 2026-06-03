@@ -20,6 +20,7 @@ import re
 import sys
 import urllib.request
 import urllib.error
+import urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -792,12 +793,100 @@ def snapshot_history(env, funnel, meta_live, lifecycle, instagram=None, paying=N
 # (a fixed historical fact that never changes).
 CLOSED_FLIGHTS_PRE_HISTORY = 631.32
 
-# LinkedIn ad spend is NOT API-pulled (the only LinkedIn token is the Conversions
-# API, not ads reporting). Wave 1 (Deniz's promoted post) + Wave 2 (Won's promoted
-# post) are CLOSED campaigns with a fixed total, from LinkedIn Campaign Manager
-# (mirrored in ablo-dashboard's CSV). Meta ~$668 + this ~= the ~$1k actually spent.
-# Update this one number if corrected, or wire the LinkedIn Marketing API later.
-LINKEDIN_CLOSED_SPEND = 305.47
+# LinkedIn ad spend is pulled LIVE from the Marketing API (see fetch_linkedin_spend).
+# This constant is only the FALLBACK shown if the API/token is unavailable (a
+# defensible last-known total of the Wave 1 + Wave 2 promoted posts).
+LINKEDIN_CLOSED_SPEND = 450.0
+LINKEDIN_VERSION = "202506"  # LinkedIn API version (YYYYMM); bump when LinkedIn sunsets it
+
+
+# ----------------------------------------------------------------- LinkedIn ----
+def _update_env_keys(path, kv):
+    """Rewrite ~/.claude/.env, replacing the given keys (export KEY='val'), 0600."""
+    lines = path.read_text().splitlines() if path.exists() else []
+    kept = [l for l in lines
+            if not any(re.match(rf"\s*(export\s+)?{k}=", l) for k in kv)]
+    for k, v in kv.items():
+        kept.append(f"export {k}='{v}'")
+    path.write_text("\n".join(kept) + "\n")
+    os.chmod(path, 0o600)
+
+
+def _linkedin_refresh(env):
+    """Mint a fresh access token from the stored refresh token; persist it. None on failure."""
+    rt, cid, cs = env.get("LINKEDIN_REFRESH_TOKEN"), env.get("LINKEDIN_CLIENT_ID"), env.get("LINKEDIN_CLIENT_SECRET")
+    if not (rt and cid and cs):
+        return None
+    body = urllib.parse.urlencode({
+        "grant_type": "refresh_token", "refresh_token": rt,
+        "client_id": cid, "client_secret": cs,
+    }).encode()
+    try:
+        req = urllib.request.Request("https://www.linkedin.com/oauth/v2/accessToken",
+            data=body, headers={"Content-Type": "application/x-www-form-urlencoded"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            resp = json.loads(r.read().decode())
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as e:
+        log(f"LinkedIn token refresh failed ({e})")
+        return None
+    at = resp.get("access_token")
+    if not at:
+        return None
+    updates = {"LINKEDIN_ADS_TOKEN": at}
+    if resp.get("refresh_token"):  # LinkedIn rotates refresh tokens
+        updates["LINKEDIN_REFRESH_TOKEN"] = resp["refresh_token"]
+    _update_env_keys(ENV_FILE, updates)
+    env.update(updates)
+    log("LinkedIn: access token auto-refreshed")
+    return at
+
+
+def fetch_linkedin_spend(env):
+    """Lifetime LinkedIn ad spend (all campaigns) via the Marketing API adAnalytics
+    endpoint. Auto-refreshes the token on 401. Returns a float, or None on any
+    failure (caller falls back to LINKEDIN_CLOSED_SPEND)."""
+    tok, acct = env.get("LINKEDIN_ADS_TOKEN"), env.get("LINKEDIN_AD_ACCOUNT_ID")
+    if not tok or not acct:
+        return None
+    acct_urn = f"urn:li:sponsoredAccount:{acct}".replace(":", "%3A")
+    q = ("q=analytics&pivot=ACCOUNT&timeGranularity=ALL"
+         "&dateRange=(start:(year:2024,month:1,day:1),end:(year:2030,month:12,day:31))"
+         f"&accounts=List({acct_urn})&fields=costInLocalCurrency")
+    url = "https://api.linkedin.com/rest/adAnalytics?" + q
+
+    def _call(token):
+        req = urllib.request.Request(url, headers={
+            "Authorization": f"Bearer {token}",
+            "LinkedIn-Version": LINKEDIN_VERSION,
+            "X-Restli-Protocol-Version": "2.0.0",
+        })
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return json.loads(r.read().decode())
+
+    try:
+        data = _call(tok)
+    except urllib.error.HTTPError as e:
+        if e.code in (401, 403):  # expired/invalid token -> refresh once and retry
+            tok = _linkedin_refresh(env)
+            if not tok:
+                return None
+            try:
+                data = _call(tok)
+            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError):
+                return None
+        else:
+            log(f"LinkedIn spend fetch failed (HTTP {e.code})")
+            return None
+    except (urllib.error.URLError, TimeoutError, ValueError) as e:
+        log(f"LinkedIn spend fetch failed ({e})")
+        return None
+
+    els = data.get("elements", [])
+    if not els:
+        return None
+    total = round(sum(float(e.get("costInLocalCurrency", 0) or 0) for e in els), 2)
+    log(f"LinkedIn: ${total:,.2f} lifetime spend (live)")
+    return total
 
 
 def _closed_flights_spend(history_rows):
@@ -1128,10 +1217,13 @@ def build():
     # the call should act on.
     CLOSED_FLIGHTS_SPEND = _closed_flights_spend(history.get("rows", []))
 
-    # Blended paid spend across channels. The autopilot tracks only Meta; LinkedIn
-    # is the fixed closed-campaign total (Wave 1 + Wave 2 promoted posts).
+    # Blended paid spend across channels. Meta from the autopilot (live), LinkedIn
+    # live from the Marketing API (falls back to LINKEDIN_CLOSED_SPEND if the token
+    # is missing/expired and can't refresh).
     meta_all_time = CLOSED_FLIGHTS_SPEND + _money(meta_live.get("spend"))
-    total_paid = meta_all_time + LINKEDIN_CLOSED_SPEND
+    linkedin_live = fetch_linkedin_spend(env)
+    linkedin_spend = linkedin_live if linkedin_live is not None else LINKEDIN_CLOSED_SPEND
+    total_paid = meta_all_time + linkedin_spend
 
     # Lifetime signups = ALL sources (Meta + LinkedIn + organic + direct), taken
     # from the PostHog "Signed up" stage all-window count, not Meta-attributed only.
@@ -1156,7 +1248,7 @@ def build():
         {"label": "Lifetime signups", "value": signups_value, "sub": "all-time, all sources", "tone": "default"},
         {"label": "Blended CAC", "value": blended_cac, "sub": "all paid ÷ all signups · target ≤ $20", "tone": "default"},
         {"label": "Activation", "value": activation, "sub": "signup → try-on · target ≥ 50%", "tone": "default"},
-        {"label": "Total ad spend", "value": f"${total_paid:,.0f}", "sub": f"Meta ~${meta_all_time:,.0f} + LinkedIn ${LINKEDIN_CLOSED_SPEND:,.0f}", "tone": "default"},
+        {"label": "Total ad spend", "value": f"${total_paid:,.0f}", "sub": f"Meta ~${meta_all_time:,.0f} + LinkedIn ${linkedin_spend:,.0f}{'' if linkedin_live is not None else ' (cached)'}", "tone": "default"},
         {"label": "Live experiments", "value": str(len(experiments)) if experiments else "1", "sub": "running in PostHog", "tone": "default"},
     ]
 
