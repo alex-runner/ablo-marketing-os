@@ -144,11 +144,10 @@ Cloudflare Access or a similar auth proxy.
 | `gen_sections.py` | Seeds the curated funnel/lifecycle/channels/command-center fallbacks |
 | `gen_battlecard.py` | Imports the competitive battlecard workbook into content.json |
 | `gen_connect.py` | Seeds Command Center ladders, objectives, and the Content Calendar |
-| `gen_marketing_call.py` | Drafts the weekly marketing-call agenda from `data.js` (read-only consumer) |
 | `refresh.sh` | Refresh wrapper (build + commit + push) |
 | `assets/` | Logo |
 
-The `gen_*.py` scripts are **standalone** one-shot seeders / consumers — none are imported by `build.py`. Run them by hand when you need to (re)seed a section; the daily pipeline is just `build.py`.
+The `gen_*.py` scripts are **standalone** one-shot seeders — none are imported by `build.py`. Run them by hand when you need to (re)seed a section; the daily pipeline is just `build.py`.
 
 ## The self-improving routine (two layers)
 
