@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T23:06:17.048731+00:00"
+    "updatedISO": "2026-06-03T23:46:29.380634+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,7 +51,7 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 71 of 168 opens finish (~42%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (45 vs Google's 25). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
+      "Fix the signup-modal drop. Only 71 of 169 opens finish (~42%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (45 vs Google's 25). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
       "Close the try-on activation gap. 87 entered the studio, 49 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
@@ -2108,7 +2108,7 @@ window.ABLO_OS = {
           "verdict": "done",
           "doneSignal": true,
           "evidence": [
-            "experiment: modal completion 33.3% -> 42.7% (+9.4 pts)",
+            "experiment: modal completion 33.3% -> 42.3% (+8.9 pts)",
             "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is in progress"
           ],
           "disagree": false,
@@ -2282,8 +2282,8 @@ window.ABLO_OS = {
           "v": "0 / 5"
         },
         {
-          "k": "Signup → paid",
-          "v": "≥ 8%"
+          "k": "Signup → paid · goal ≥ 8%",
+          "v": "0%"
         },
         {
           "k": "Signup → activation · goal ≥ 50%",
@@ -2705,10 +2705,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 43% (41/96). Change: +9 pts.",
-        "delta": 9.4,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 42% (41/97). Change: +9 pts.",
+        "delta": 8.9,
         "before": 33.3,
-        "after": 42.7,
+        "after": 42.3,
         "shipped": true
       }
     ],
@@ -2772,10 +2772,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 278,
-            "d30": 795,
-            "d90": 795,
-            "all": 795
+            "d7": 277,
+            "d30": 797,
+            "d90": 797,
+            "all": 797
           }
         },
         {
@@ -2784,10 +2784,10 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 77,
-            "d30": 186,
-            "d90": 186,
-            "all": 186
+            "d7": 78,
+            "d30": 187,
+            "d90": 187,
+            "all": 187
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2797,10 +2797,10 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 74,
-            "d30": 168,
-            "d90": 168,
-            "all": 168
+            "d7": 75,
+            "d30": 169,
+            "d90": 169,
+            "all": 169
           }
         },
         {
@@ -3125,7 +3125,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 449,
+          "users": 451,
           "signups": 20,
           "tryons": 7,
           "checkouts": 0,
@@ -3166,7 +3166,7 @@ window.ABLO_OS = {
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
         "in progress": 5,
-        "to do": 26,
+        "to do": 29,
         "Closed": 16,
         "review": 7,
         "done": 11
@@ -3218,6 +3218,33 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
+          "name": "Build: Try-before-signup (value-first flow + pre-signup data capture) — #1 growth experiment",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9gxyc",
+          "due": "",
+          "assignee": ""
+        },
+        {
+          "name": "Build: Ablo Studio 2-step post-signup onboarding (style + use-case)",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9gw2w",
+          "due": "",
+          "assignee": ""
+        },
+        {
+          "name": "Build: Ablo Studio 2-step post-signup onboarding (style + use-case)",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9gw2t",
+          "due": "",
+          "assignee": ""
+        },
+        {
           "name": "Verify purchase_completed fires on a real Studio purchase",
           "status": "to do",
           "color": "#87909e",
@@ -3252,36 +3279,9 @@ window.ABLO_OS = {
           "url": "https://app.clickup.com/t/86ba96dbw",
           "due": "",
           "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Stand up an incentivized user-interview offer",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba96daq",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Pedir a Jason: evento `Subscription Started` -> Klaviyo (gate del flow de conversión)",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba90xk4",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Task-keeper routine log",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba90xcx",
-          "due": "",
-          "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 65
+      "total": 68
     },
     "instagram": {
       "username": "ablo.ai",
@@ -3475,9 +3475,9 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-03",
-          "landed": 69,
-          "engaged": 25,
-          "modal": 24,
+          "landed": 72,
+          "engaged": 26,
+          "modal": 25,
           "signups": 8,
           "models": 6,
           "imports": 5,

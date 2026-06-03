@@ -1026,14 +1026,18 @@ def reconcile_queue(content, meta_live, experiments, clickup):
     log(f"reconcile: {sum(1 for it in items if it.get('verify'))} verified item(s), {flagged} disagreement(s)")
 
 
-def bind_objectives_kpis(content, activation, meta_live):
-    """Live-bind the Command Center's north-star KPI anchor. For the KPIs we can
-    actually measure (Activation = signup→try-on, CPL = Meta cost/signup) show the
-    live current value as the headline and fold the target into the label, so the
-    anchor reads 'where we are' not just 'where we want to be'. The other two
-    (paying customers, signup→paid) stay as curated targets on purpose: they need
-    a `purchase_completed` event that isn't instrumented yet (it's queue item #5),
-    so a live 0 would read as measured-zero rather than not-yet-measured.
+def bind_objectives_kpis(content, activation, meta_live, paying, total_signups):
+    """Live-bind the Command Center's north-star KPI anchor so it reads 'where we
+    are' not just 'where we want to be', and stays coherent with the KPI strip.
+    All four KPIs are live:
+      - Paying customers:    live purchase_completed count / 5 (the brag).
+      - Signup → paid:       live paying / signups, the make-or-break revenue KPI.
+      - Signup → activation: signup → try-on, from the funnel spine.
+      - CPL:                 Meta cost / signup (string matched to the KPI tile).
+    `purchase_completed` IS instrumented (PR #37); paying is just genuinely 0 so
+    far (no sales yet, confirmed by Alejo), so the live 0 is accurate and the
+    anchor auto-flips on the first sale. Measurable KPIs fold their target into
+    the label and show the live value; "Paying customers" keeps the "n / 5" form.
 
     Pure, non-destructive data binding. Idempotent: build reloads content.json
     fresh each run, so each k.v always starts as its curated target."""
@@ -1042,13 +1046,19 @@ def bind_objectives_kpis(content, activation, meta_live):
     # two surfaces stay coherent — matching numbers is the whole point here.
     cpl_now = (meta_live or {}).get("cpl") or None
     act_now = activation.replace("~", "") if activation and activation != "—" else None
+    paid_pct = (f"{round(paying / total_signups * 100)}%"
+                if paying is not None and total_signups else None)
     for k in kpis:
         label, target = (k.get("k") or "").lower(), k.get("v", "")
-        if "activation" in label and act_now:
+        if "paying" in label and paying is not None:
+            k["v"] = f"{paying} / 5"
+        elif "paid" in label and paid_pct is not None:
+            k["k"], k["v"] = f"{k['k']} · goal {target}", paid_pct
+        elif "activation" in label and act_now:
             k["k"], k["v"] = f"{k['k']} · goal {target}", act_now
         elif "cpl" in label and cpl_now:
             k["k"], k["v"] = f"{k['k']} · goal {target}", cpl_now
-    log("objectives KPIs: bound activation + CPL to live values")
+    log("objectives KPIs: bound paying, signup→paid, activation, CPL to live values")
 
 
 # ------------------------------------------------------------------ build ----
@@ -1159,8 +1169,8 @@ def build():
     # skill, which reasons over the live funnel/campaigns/experiments/lifecycle.
     if "commandCenter" in content:
         content["commandCenter"]["updated"] = content["meta"]["updated"]
-        # Live-bind the north-star KPI anchor (Activation, CPL) to current values.
-        bind_objectives_kpis(content, activation, meta_live)
+        # Live-bind the north-star KPI anchor (all four KPIs) to current values.
+        bind_objectives_kpis(content, activation, meta_live, paying, total_signups)
         # Always-on deterministic guardrail: annotate each curated item with the
         # live verdict so the queue self-corrects when its hand-written status
         # drifts (the "stale priority" gap). Runs every build, no LLM needed.
