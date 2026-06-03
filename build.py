@@ -792,6 +792,13 @@ def snapshot_history(env, funnel, meta_live, lifecycle, instagram=None, paying=N
 # (a fixed historical fact that never changes).
 CLOSED_FLIGHTS_PRE_HISTORY = 631.32
 
+# LinkedIn ad spend is NOT API-pulled (the only LinkedIn token is the Conversions
+# API, not ads reporting). Wave 1 (Deniz's promoted post) + Wave 2 (Won's promoted
+# post) are CLOSED campaigns with a fixed total, from LinkedIn Campaign Manager
+# (mirrored in ablo-dashboard's CSV). Meta ~$668 + this ~= the ~$1k actually spent.
+# Update this one number if corrected, or wire the LinkedIn Marketing API later.
+LINKEDIN_CLOSED_SPEND = 305.47
+
 
 def _closed_flights_spend(history_rows):
     total = CLOSED_FLIGHTS_PRE_HISTORY
@@ -1111,13 +1118,10 @@ def build():
     # the call should act on.
     CLOSED_FLIGHTS_SPEND = _closed_flights_spend(history.get("rows", []))
 
-    def _spend_sub(spend_str):
-        try:
-            cur = float(str(spend_str).replace("$", "").replace(",", "")) if spend_str else 0.0
-        except ValueError:
-            cur = 0.0
-        all_time = CLOSED_FLIGHTS_SPEND + cur
-        return f"Meta only · ~${all_time:,.0f} all-time (LinkedIn not included)"
+    # Blended paid spend across channels. The autopilot tracks only Meta; LinkedIn
+    # is the fixed closed-campaign total (Wave 1 + Wave 2 promoted posts).
+    meta_all_time = CLOSED_FLIGHTS_SPEND + _money(meta_live.get("spend"))
+    total_paid = meta_all_time + LINKEDIN_CLOSED_SPEND
 
     # Lifetime signups = ALL sources (Meta + LinkedIn + organic + direct), taken
     # from the PostHog "Signed up" stage all-window count, not Meta-attributed only.
@@ -1130,15 +1134,19 @@ def build():
     except (KeyError, TypeError):
         pass
     signups_value = str(total_signups) if total_signups is not None else (str(signups) if signups is not None else "—")
+    # Blended CAC = all paid spend / all signups. This is a FLOOR: it includes
+    # organic signups in the denominator, so true paid-only CAC is higher. The
+    # sub-label states the method so it can't be read as paid-only.
+    blended_cac = f"${total_paid / total_signups:.2f}" if total_signups else "—"
     kpis = [
         # Paying customers from the PostHog purchase event (Studio-scoped by nature).
         {"label": "Paying customers",
          "value": f"{paying} / 5" if paying is not None else "0 / 5",
          "sub": "self-serve only · the brag · CAC < $300", "tone": "accent"},
         {"label": "Lifetime signups", "value": signups_value, "sub": "all-time, all sources", "tone": "default"},
-        {"label": "Meta cost / signup", "value": meta_live["cpl"] or "—", "sub": "Meta only, excl. LinkedIn · target ≤ $20", "tone": "default"},
+        {"label": "Blended CAC", "value": blended_cac, "sub": "all paid ÷ all signups · target ≤ $20", "tone": "default"},
         {"label": "Activation", "value": activation, "sub": "signup → try-on · target ≥ 50%", "tone": "default"},
-        {"label": "Meta ad spend", "value": meta_live["spend"] or "$0", "sub": _spend_sub(meta_live["spend"]), "tone": "default"},
+        {"label": "Total ad spend", "value": f"${total_paid:,.0f}", "sub": f"Meta ~${meta_all_time:,.0f} + LinkedIn ${LINKEDIN_CLOSED_SPEND:,.0f}", "tone": "default"},
         {"label": "Live experiments", "value": str(len(experiments)) if experiments else "1", "sub": "running in PostHog", "tone": "default"},
     ]
 
