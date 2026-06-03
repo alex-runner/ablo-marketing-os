@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T23:03:35.438735+00:00"
+    "updatedISO": "2026-06-03T23:06:17.048731+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,7 +51,7 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 71 of 168 opens finish (~42%). Auth mix (live): email/magic-link is the top signup method (45) vs Google (25). The Google-primary change shipped May 27 and now leads recent signups. Keep Google first, but don't demote email; it still drives most signups. The real leak is modal completion, not the auth method.",
+      "Fix the signup-modal drop. Only 71 of 168 opens finish (~42%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (45 vs Google's 25). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
       "Close the try-on activation gap. 87 entered the studio, 49 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
@@ -2662,9 +2662,9 @@ window.ABLO_OS = {
         "tone": "default"
       },
       {
-        "label": "Meta cost / signup",
-        "value": "$6.09",
-        "sub": "Meta only, excl. LinkedIn · target ≤ $20",
+        "label": "Blended CAC",
+        "value": "$13.71",
+        "sub": "all paid ÷ all signups · target ≤ $20",
         "tone": "default"
       },
       {
@@ -2674,9 +2674,9 @@ window.ABLO_OS = {
         "tone": "default"
       },
       {
-        "label": "Meta ad spend",
-        "value": "$36.54",
-        "sub": "Meta only · ~$668 all-time (LinkedIn not included)",
+        "label": "Total ad spend",
+        "value": "$973",
+        "sub": "Meta ~$668 + LinkedIn $305",
         "tone": "default"
       },
       {
