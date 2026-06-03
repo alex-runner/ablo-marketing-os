@@ -313,33 +313,37 @@ def fetch_funnel(env, base):
     return funnel
 
 
-def fetch_magiclink(env):
-    """Distinct persons who requested an email magic link, and how many of
-    those made it into the app (login OR signup completed). This is the live
-    measure behind the 'email path is leaky' claim in the Overview's Current
-    Focus. Returns {'req': int, 'in': int} or None on failure (curated
-    fallbacks in content.json then keep the narrative intact)."""
+def fetch_signup_methods(env):
+    """Distinct persons who completed signup, split by auth method
+    (magic_link / google / password). signup_completed.method already
+    attributes each signup, so this is clean with no extra instrumentation.
+    It's the live measure behind the auth-mix line in the Overview's Current
+    Focus. Returns {'magic_link': int, 'google': int, ...} or None on failure
+    (curated fallbacks in content.json then keep the narrative intact).
+
+    NOTE: prefer this over a magic_link_requested join — that event undercounts
+    (more people sign up via magic link than fire the requested event: 45 vs
+    24 as of 2026-06-03), which made the email path look far leakier than it is."""
     q = """
-        SELECT countIf(req>0) AS requested,
-               countIf(req>0 AND (login>0 OR su>0)) AS in_app
-        FROM (
-          SELECT person_id,
-            maxIf(1, event='magic_link_requested') req,
-            maxIf(1, event='login_completed') login,
-            maxIf(1, event='signup_completed') su
-          FROM events WHERE timestamp >= now() - INTERVAL 365 DAY
-          GROUP BY person_id
-        )
+        SELECT properties.method AS method, count(DISTINCT person_id) AS n
+        FROM events
+        WHERE event='signup_completed' AND timestamp >= now() - INTERVAL 365 DAY
+        GROUP BY properties.method
     """.strip()
     rows = _hogql(env, q)
-    if not rows or not rows[0]:
+    if not rows:
         return None
-    try:
-        req, in_app = int(rows[0][0]), int(rows[0][1])
-    except (ValueError, TypeError, IndexError):
+    out = {}
+    for r in rows:
+        if r and r[0] is not None:
+            try:
+                out[str(r[0])] = int(r[1])
+            except (ValueError, TypeError, IndexError):
+                continue
+    if not out:
         return None
-    log(f"PostHog magic-link: {req} requested, {in_app} made it in")
-    return {"req": req, "in": in_app}
+    log(f"PostHog signup methods: {out}")
+    return out
 
 
 # Fill {{key|fallback}} placeholders from a vars dict. Missing or None values
@@ -354,27 +358,29 @@ def apply_template_vars(text, variables):
     return _TPL_RE.sub(repl, text)
 
 
-def bind_current_focus(content, funnel, magiclink):
+def bind_current_focus(content, funnel, methods):
     """Bind the live funnel figures into the Overview's curated Current Focus
     so it can never silently drift from the Funnel tab. Reads the same `funnel`
     object the site renders (which itself falls back to the curated block), plus
-    the magic-link conversion. Pure string substitution over {{key|fallback}}."""
+    the live signup auth-mix. Pure string substitution over {{key|fallback}}."""
     def stage_all(key):
         for s in funnel.get("stages", []):
             if s.get("key") == key:
                 return (s.get("counts") or {}).get("all")
         return None
 
+    intent, signup = stage_all("intent"), stage_all("signup")
     studio, model = stage_all("studio"), stage_all("model")
-    pct = round((studio - model) / studio * 100) if studio and model is not None else None
+    methods = methods or {}
     variables = {
-        "intent": stage_all("intent"),
-        "signup": stage_all("signup"),
+        "intent": intent,
+        "signup": signup,
+        "signupPct": round(signup / intent * 100) if intent and signup is not None else None,
         "studio": studio,
         "model": model,
-        "studioNoModelPct": pct,
-        "mlReq": magiclink.get("req") if magiclink else None,
-        "mlIn": magiclink.get("in") if magiclink else None,
+        "studioNoModelPct": round((studio - model) / studio * 100) if studio and model is not None else None,
+        "mlSignups": methods.get("magic_link"),
+        "googleSignups": methods.get("google"),
     }
     cf = content.get("overview", {}).get("currentFocus")
     if isinstance(cf, list):
@@ -1044,7 +1050,7 @@ def build():
 
     # Keep the Overview's Current Focus numbers bound to the live funnel so the
     # narrative and the Funnel tab can never disagree (the coherence rule).
-    bind_current_focus(content, funnel, fetch_magiclink(env))
+    bind_current_focus(content, funnel, fetch_signup_methods(env))
 
     # Live channel attribution from PostHog UTMs (ties each source through to
     # signup / try-on / checkout). None on failure.

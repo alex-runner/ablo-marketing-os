@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T22:32:51.987543+00:00"
+    "updatedISO": "2026-06-03T22:35:02.261575+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,7 +51,7 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 71 of 165 signup-modal opens finish, and the email magic-link path is leaky (70 requested a magic link, only 26 made it in). Promote Google sign-in, demote email. The single highest-leverage fix on the live funnel.",
+      "Fix the signup-modal drop. Only 71 of 165 opens finish (~43%). Auth mix (live): email/magic-link is the top signup method (45) vs Google (25). The Google-primary change shipped May 27 and now leads recent signups. Keep Google first, but don't demote email; it still drives most signups. The real leak is modal completion, not the auth method.",
       "Close the try-on activation gap. 87 entered the studio, 49 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
