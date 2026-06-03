@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T20:58:29.007722+00:00"
+    "updatedISO": "2026-06-03T22:32:51.987543+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,8 +51,8 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 70 of 164 signup-modal opens finish, and the email magic-link path is leaky (69 requested a magic link, only 26 made it in). Promote Google sign-in, demote email. The single highest-leverage fix on the live funnel.",
-      "Close the try-on activation gap. 86 entered the studio, 48 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
+      "Fix the signup-modal drop. Only 71 of 165 signup-modal opens finish, and the email magic-link path is leaky (70 requested a magic link, only 26 made it in). Promote Google sign-in, demote email. The single highest-leverage fix on the live funnel.",
+      "Close the try-on activation gap. 87 entered the studio, 49 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
     ]
@@ -2108,7 +2108,7 @@ window.ABLO_OS = {
           "verdict": "done",
           "doneSignal": true,
           "evidence": [
-            "experiment: modal completion 33.3% -> 43.5% (+10.1 pts)",
+            "experiment: modal completion 33.3% -> 44.1% (+10.8 pts)",
             "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is in progress"
           ],
           "disagree": false,
@@ -2652,19 +2652,19 @@ window.ABLO_OS = {
       {
         "label": "Paying customers",
         "value": "0 / 5",
-        "sub": "the brag · CAC < $300",
+        "sub": "self-serve only · the brag · CAC < $300",
         "tone": "accent"
       },
       {
         "label": "Lifetime signups",
-        "value": "70",
+        "value": "71",
         "sub": "all-time, all sources",
         "tone": "default"
       },
       {
-        "label": "Cost per signup",
+        "label": "Meta cost / signup",
         "value": "$6.09",
-        "sub": "paid · target ≤ $20",
+        "sub": "Meta only, excl. LinkedIn · target ≤ $20",
         "tone": "default"
       },
       {
@@ -2674,9 +2674,9 @@ window.ABLO_OS = {
         "tone": "default"
       },
       {
-        "label": "Paid spend",
+        "label": "Meta ad spend",
         "value": "$36.54",
-        "sub": "this flight · ~$668 all-time",
+        "sub": "Meta only · ~$668 all-time (LinkedIn not included)",
         "tone": "default"
       },
       {
@@ -2705,10 +2705,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 43% (40/92). Change: +10 pts.",
-        "delta": 10.1,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 44% (41/93). Change: +11 pts.",
+        "delta": 10.8,
         "before": 33.3,
-        "after": 43.5,
+        "after": 44.1,
         "shipped": true
       }
     ],
@@ -2772,10 +2772,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 278,
-            "d30": 788,
-            "d90": 788,
-            "all": 788
+            "d7": 276,
+            "d30": 793,
+            "d90": 793,
+            "all": 793
           }
         },
         {
@@ -2785,9 +2785,9 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 75,
-            "d30": 183,
-            "d90": 183,
-            "all": 183
+            "d30": 184,
+            "d90": 184,
+            "all": 184
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2798,9 +2798,9 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 72,
-            "d30": 164,
-            "d90": 164,
-            "all": 164
+            "d30": 165,
+            "d90": 165,
+            "all": 165
           }
         },
         {
@@ -2809,10 +2809,10 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 33,
-            "d30": 70,
-            "d90": 70,
-            "all": 70
+            "d7": 34,
+            "d30": 71,
+            "d90": 71,
+            "all": 71
           },
           "benchmark": "8.5% land→signup (target 5%)"
         },
@@ -2822,10 +2822,10 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 42,
-            "d30": 86,
-            "d90": 86,
-            "all": 86
+            "d7": 43,
+            "d30": 87,
+            "d90": 87,
+            "all": 87
           }
         },
         {
@@ -2834,10 +2834,10 @@ window.ABLO_OS = {
           "sub": "model_generated",
           "group": "Activate",
           "counts": {
-            "d7": 21,
-            "d30": 48,
-            "d90": 48,
-            "all": 48
+            "d7": 22,
+            "d30": 49,
+            "d90": 49,
+            "all": 49
           },
           "benchmark": "67% signup→model (target 50%)"
         },
@@ -2847,10 +2847,10 @@ window.ABLO_OS = {
           "sub": "product_imported",
           "group": "Activate",
           "counts": {
-            "d7": 14,
-            "d30": 35,
-            "d90": 35,
-            "all": 35
+            "d7": 15,
+            "d30": 36,
+            "d90": 36,
+            "all": 36
           }
         },
         {
@@ -2859,10 +2859,10 @@ window.ABLO_OS = {
           "sub": "tryon_completed",
           "group": "Aha",
           "counts": {
-            "d7": 12,
-            "d30": 34,
-            "d90": 34,
-            "all": 34
+            "d7": 13,
+            "d30": 35,
+            "d90": 35,
+            "all": 35
           },
           "aha": true
         },
@@ -2907,38 +2907,38 @@ window.ABLO_OS = {
       "spine": {
         "label": "Activation spine",
         "note": "Same user, of everyone who signed up (since launch). Strictly monotonic, this is the cleanest drop story.",
-        "denominator": 70,
+        "denominator": 71,
         "steps": [
           {
             "label": "Signed up",
-            "count": 70,
+            "count": 71,
             "pct": 100
           },
           {
             "label": "Entered studio",
-            "count": 70,
+            "count": 71,
             "pct": 100
           },
           {
             "label": "Generated a model",
-            "count": 48,
+            "count": 49,
             "pct": 69
           },
           {
             "label": "Imported a product",
-            "count": 35,
-            "pct": 50
+            "count": 36,
+            "pct": 51
           },
           {
             "label": "Tried on (aha)",
-            "count": 34,
+            "count": 35,
             "pct": 49,
             "aha": true
           },
           {
             "label": "Downloaded result",
             "count": 6,
-            "pct": 9
+            "pct": 8
           },
           {
             "label": "Clicked pricing",
@@ -3010,9 +3010,9 @@ window.ABLO_OS = {
             {
               "name": "Welcome Email",
               "timing": "On signup (Day 0)",
-              "recipients": 59,
-              "open": 100.0,
-              "click": 3.4,
+              "recipients": 60,
+              "open": 98.3,
+              "click": 3.3,
               "conv": 0,
               "unsub": 1
             },
@@ -3117,19 +3117,19 @@ window.ABLO_OS = {
       "attribution": [
         {
           "channel": "Direct / untagged",
-          "users": 364,
-          "signups": 50,
-          "tryons": 29,
+          "users": 366,
+          "signups": 51,
+          "tryons": 30,
           "checkouts": 8,
-          "signupShare": 71
+          "signupShare": 72
         },
         {
           "channel": "Meta Ads",
-          "users": 444,
+          "users": 447,
           "signups": 20,
           "tryons": 7,
           "checkouts": 0,
-          "signupShare": 29
+          "signupShare": 28
         },
         {
           "channel": "LinkedIn",
@@ -3141,7 +3141,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Instagram (organic)",
-          "users": 25,
+          "users": 26,
           "signups": 0,
           "tryons": 0,
           "checkouts": 0,
@@ -3156,7 +3156,7 @@ window.ABLO_OS = {
           "signupShare": 0
         }
       ],
-      "insight": "71% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
+      "insight": "72% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
       "updated": "June 3, 2026",
       "source": "PostHog UTM · live"
     },
@@ -3285,7 +3285,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223687,
+      "followers": 223686,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3475,13 +3475,13 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-03",
-          "landed": 61,
-          "engaged": 21,
-          "modal": 20,
-          "signups": 7,
-          "models": 5,
-          "imports": 4,
-          "tryons": 4,
+          "landed": 67,
+          "engaged": 22,
+          "modal": 21,
+          "signups": 8,
+          "models": 6,
+          "imports": 5,
+          "tryons": 5,
           "downloads": 1,
           "checkouts": 0,
           "spend_lifetime": 36.54,
@@ -3491,7 +3491,7 @@ window.ABLO_OS = {
           "email_click": 2.5,
           "email_recipients": 80,
           "paying_customers": 0,
-          "ig_followers": 223687,
+          "ig_followers": 223686,
           "activation_rate": 69,
           "aha_rate": 49,
           "payment_rate": 10

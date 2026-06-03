@@ -1086,7 +1086,7 @@ def build():
         except ValueError:
             cur = 0.0
         all_time = CLOSED_FLIGHTS_SPEND + cur
-        return f"this flight · ~${all_time:,.0f} all-time"
+        return f"Meta only · ~${all_time:,.0f} all-time (LinkedIn not included)"
 
     # Lifetime signups = ALL sources (Meta + LinkedIn + organic + direct), taken
     # from the PostHog "Signed up" stage all-window count, not Meta-attributed only.
@@ -1103,11 +1103,11 @@ def build():
         # Paying customers from the PostHog purchase event (Studio-scoped by nature).
         {"label": "Paying customers",
          "value": f"{paying} / 5" if paying is not None else "0 / 5",
-         "sub": "the brag · CAC < $300", "tone": "accent"},
+         "sub": "self-serve only · the brag · CAC < $300", "tone": "accent"},
         {"label": "Lifetime signups", "value": signups_value, "sub": "all-time, all sources", "tone": "default"},
-        {"label": "Cost per signup", "value": meta_live["cpl"] or "—", "sub": "paid · target ≤ $20", "tone": "default"},
+        {"label": "Meta cost / signup", "value": meta_live["cpl"] or "—", "sub": "Meta only, excl. LinkedIn · target ≤ $20", "tone": "default"},
         {"label": "Activation", "value": activation, "sub": "signup → try-on · target ≥ 50%", "tone": "default"},
-        {"label": "Paid spend", "value": meta_live["spend"] or "$0", "sub": _spend_sub(meta_live["spend"]), "tone": "default"},
+        {"label": "Meta ad spend", "value": meta_live["spend"] or "$0", "sub": _spend_sub(meta_live["spend"]), "tone": "default"},
         {"label": "Live experiments", "value": str(len(experiments)) if experiments else "1", "sub": "running in PostHog", "tone": "default"},
     ]
 
