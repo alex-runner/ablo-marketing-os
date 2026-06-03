@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 3, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T20:22:06.329767+00:00"
+    "updatedISO": "2026-06-03T20:58:29.007722+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2772,7 +2772,7 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 280,
+            "d7": 278,
             "d30": 788,
             "d90": 788,
             "all": 788
@@ -3285,7 +3285,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223688,
+      "followers": 223687,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3491,7 +3491,7 @@ window.ABLO_OS = {
           "email_click": 2.5,
           "email_recipients": 80,
           "paying_customers": 0,
-          "ig_followers": 223688,
+          "ig_followers": 223687,
           "activation_rate": 69,
           "aha_rate": 49,
           "payment_rate": 10
