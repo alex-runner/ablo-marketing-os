@@ -20,7 +20,12 @@ export const meta = {
 const REPO = '/Users/alejo/Documents/Claude/ablo-marketing-os'
 const SKILL = '/Users/alejo/.claude/skills/marketing-os-refresh/SKILL.md'
 const CONTRACTS = '/Users/alejo/.claude/skills/marketing-os-refresh/references/read-agent-contracts.md'
-const dryRun = !!(typeof args !== 'undefined' && args && args.dryRun)
+// Robust args parse: the harness may deliver `args` as an object OR a JSON string.
+// (A prior run received it as a string, so args.dryRun was undefined and a "dry"
+// test executed for real, committing + pushing. Parse defensively.)
+let _args = (typeof args !== 'undefined' && args) ? args : {}
+if (typeof _args === 'string') { try { _args = JSON.parse(_args) } catch (e) { _args = {} } }
+const dryRun = _args.dryRun === true || _args.dryRun === 'true'
 
 // ---- schemas (validated at the tool layer, agents must return matching JSON) ----
 const ORIENT = {
@@ -73,6 +78,7 @@ const READONLY = 'READ-ONLY: gather and return only the JSON below, no writes, n
 const GOAL = 'Goal: first paying customer by end-of-June, CAC < $300, signup→paid ≥ 8%.'
 
 // ---- step 0: orient ----
+log(`marketing-os-refresh starting · dryRun=${dryRun} (false = real run: writes + commit + push)`)
 phase('Orient')
 const orient = await agent(
   `You are the ORIENT step of the Ablo marketing OS daily routine. Playbook: ${SKILL} (step 0).

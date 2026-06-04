@@ -1,7 +1,25 @@
 # Marketing OS — subagent restructure plan
 
-Status: **proposed, awaiting Alejo's approval.** Nothing here is implemented yet.
+Status: **Phase 1 + Phase 2 BUILT (2026-06-03).** Approved by Alejo and implemented.
 Author: Claude (marketing-os-refresh session). Date: 2026-06-03.
+
+## Implementation status
+
+- **Phase 1 (orchestrator + interactive read-agents): live.** SKILL.md runs as a thin
+  orchestrator; steps 1–4 dispatch read-agents (contracts in
+  `~/.claude/skills/marketing-os-refresh/references/read-agent-contracts.md`). Validated
+  on the first supervised run (2026-06-03): 3–4 agents read ~50–90k tokens each
+  out-of-context and returned compact JSON for clean synthesis.
+- **Phase 2 (deterministic Workflow port): built** at `scripts/refresh-workflow.js`
+  (orient → 4 parallel read-agents → synthesize, with a `dryRun` arg). Validated
+  end-to-end by a full run. **Caveat fixed:** the harness can deliver `args` as a JSON
+  string, so the first `dryRun:true` test parsed `args.dryRun` as undefined and executed
+  for real (committed + pushed). The script now parses `args` defensively
+  (object-or-string) so `dryRun` is reliable.
+- **Still gated:** wiring Phase 2 into the unattended launchd/cron daily job. Per the
+  skill, that waits for ~a week of trusted supervised runs. Until then, run it manually:
+  `Workflow({ scriptPath: 'scripts/refresh-workflow.js' })` (real) or
+  `{ args: { dryRun: true } }` (read-only).
 
 ## Why
 
