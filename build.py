@@ -682,6 +682,89 @@ def fetch_channel_attribution(env):
             "updated": datetime.now(timezone.utc).strftime("%B %-d, %Y"), "source": "PostHog UTM · live"}
 
 
+# ------------------------------------------------------------ landing pages --
+# Per-entry-page conversion (the visitor's FIRST $pageview pathname -> did they
+# engage, did they sign up). This is what makes top-of-funnel CRO measurable: an
+# aggregate "land -> engage" rate hides WHICH page bleeds the visit. With this,
+# a homepage rewrite or a paid landing-page variant is a per-page, testable bet
+# instead of a hunch. argMinIf picks the earliest pageview path per person.
+LANDING_Q = """
+SELECT entry, count() AS visitors,
+  countIf(eng > 0) AS engagers,
+  countIf(sig > 0) AS signups
+FROM (
+  SELECT person_id,
+    argMinIf(properties.$pathname, timestamp, event = '$pageview') AS entry,
+    maxIf(1, event IN ('cta_clicked','surprise_me_clicked','book_call_clicked')) AS eng,
+    maxIf(1, event = 'signup_completed') AS sig
+  FROM events
+  WHERE timestamp >= now() - INTERVAL 60 DAY
+    AND event IN ('$pageview','cta_clicked','surprise_me_clicked','book_call_clicked','signup_completed')
+  GROUP BY person_id
+)
+WHERE entry != ''
+GROUP BY entry
+HAVING visitors >= 5
+ORDER BY visitors DESC
+LIMIT 30
+""".strip()
+
+# Entry paths that are app/auth surfaces, not marketing landing pages. Excluded
+# from the "which landing page converts" read so they do not muddy CRO targeting
+# (e.g. /auth/verify shows a fake-high signup rate — those visitors were already
+# mid-signup when they hit it).
+_NON_LANDING = {"/auth/verify", "/auth", "/login", "/studio", "/app"}
+
+
+def fetch_landing_pages(env):
+    """Live per-landing-page bounce + signup conversion from PostHog. None on
+    failure. Surfaces the worst-converting high-volume entry page so the daily
+    routine targets homepage / landing CRO with data, not a hunch."""
+    rows = _hogql(env, LANDING_Q)
+    if not rows:
+        return None
+    pages = []
+    for r in rows:
+        if not r or not r[0]:
+            continue
+        path, visitors = r[0], int(r[1])
+        engagers, signups = int(r[2]), int(r[3])
+        pages.append({
+            "path": path, "visitors": visitors,
+            "engagers": engagers, "signups": signups,
+            "engagePct": round(engagers / visitors * 100, 1) if visitors else 0,
+            "signupPct": round(signups / visitors * 100, 1) if visitors else 0,
+            "isLanding": path not in _NON_LANDING,
+        })
+    # Read the leak: among real-volume marketing landing pages (>= 20 visitors),
+    # call out the homepage and the best/worst landing-page conversion. The
+    # worst/best contrast only uses pages that actually drive signup (>= 1 signup)
+    # so a no-signup-by-design path like /try (the anonymous try-on flow) can't
+    # masquerade as the worst CRO target. A 2x gap between two functioning paid
+    # landing pages is proof the page, not the ad, is the lever.
+    landing = [p for p in pages if p["isLanding"] and p["visitors"] >= 20]
+    convertible = [p for p in landing if p["signups"] >= 1]
+    insight = ""
+    if landing:
+        home = next((p for p in landing if p["path"] == "/"), None)
+        bits = []
+        if home:
+            bits.append(f"Homepage takes {home['visitors']} visitors but only "
+                        f"{home['engagePct']}% click any CTA and {home['signupPct']}% sign up")
+        if len(convertible) >= 2:
+            worst = min(convertible, key=lambda p: p["signupPct"])
+            best = max(convertible, key=lambda p: p["signupPct"])
+            if worst is not best and worst["signupPct"] * 2 <= best["signupPct"]:
+                bits.append(f"{worst['path']} converts {worst['signupPct']}% to signup vs "
+                            f"{best['path']} at {best['signupPct']}%, so the landing page, not "
+                            f"the ad, is the leak — a clean CRO test")
+        insight = ". ".join(bits) + ("." if bits else "")
+    log(f"PostHog landing pages: {len(pages)} entry page(s) read")
+    return {"pages": pages, "insight": insight, "window": "60d",
+            "updated": datetime.now(timezone.utc).strftime("%B %-d, %Y"),
+            "source": "PostHog · live HogQL (first-pageview pathname)"}
+
+
 # ------------------------------------------------------------------ history --
 # Daily distinct-user reach per stage, reconstructed in full from the PostHog
 # event log on every run (self-healing — no drift, no dedupe needed). Non-
@@ -1203,6 +1286,10 @@ def build():
     # signup / try-on / checkout). None on failure.
     channels_live = fetch_channel_attribution(env)
 
+    # Live per-landing-page conversion (entry pathname -> engage -> signup). Makes
+    # top-of-funnel CRO a measurable, per-page bet instead of an aggregate hunch.
+    landing_live = fetch_landing_pages(env)
+
     # ClickUp task feed (source of truth for action items) + IG organic stats.
     clickup = fetch_clickup(env)
     instagram = fetch_instagram(env)
@@ -1311,6 +1398,7 @@ def build():
         "funnel": funnel,
         "lifecycle": lifecycle,
         "channels": channels_live,
+        "landingPages": landing_live,
         "clickup": clickup,
         "instagram": instagram,
         "history": history,
@@ -1321,6 +1409,7 @@ def build():
             "funnel": funnel_live,
             "klaviyo": klaviyo_live,
             "channels": channels_live is not None,
+            "landingPages": landing_live is not None,
             "clickup": clickup is not None,
             "instagram": instagram is not None,
             "history": history.get("phLive", False),

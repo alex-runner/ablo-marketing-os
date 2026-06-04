@@ -44,9 +44,14 @@ read the `actual` and score it.
 
 ## 2. Funnel agent
 
-Brief: read the live funnel (per-stage reach + same-user activation spine + leaks block),
-compare to `history.jsonl`, score any `dueForReview` funnel-fix predictions, and name the
-single biggest leak by leverage toward paid conversion.
+Brief: read the live funnel (per-stage reach + same-user activation spine + leaks block)
+**and `live.landingPages`** (per-entry-page engage% + signup%), compare to `history.jsonl`,
+score any `dueForReview` funnel-fix predictions, and name the single biggest leak by
+leverage toward paid conversion. **Treat top-of-funnel bounce (land→engage, land→signup)
+as a first-class leak, not "normal" homepage behavior.** It is the largest loss of humans
+by raw volume. If the homepage or a paid landing page is the biggest leak by volume, say so
+and name the worst-converting high-volume page; a 2x signup-rate gap between two landing
+pages is proof the page, not the ad, is the lever.
 
 ```json
 {
@@ -55,6 +60,12 @@ single biggest leak by leverage toward paid conversion.
   ],
   "biggest_leak": {"stage":"...","why":"...","leverage_to_paid":"high"},
   "hypotheses": ["...", "..."],
+  "landing_pages": {
+    "home": {"path":"/","visitors":537,"engagePct":22.3,"signupPct":6.7},
+    "worst": {"path":"/toddler","visitors":139,"engagePct":18.7,"signupPct":2.2},
+    "page_is_the_leak": true,
+    "cro_hypothesis": "one page-level bet, UTM-tagged so the lift is measurable"
+  },
   "fix_to_movement": [
     {"shipped":"OS-...","metric":"...","predicted":0.40,"actual":0.37,"moved":true}
   ],
@@ -99,6 +110,9 @@ nothing).
 - `measurement_ok: false` from either → flag a tracking regression loudly (step 5).
 - `headline`s + `biggest_leak` + segment/anomaly/gap signals → re-rank the Command Center
   (step 6) and feed the experiment roadmap (step 7).
+- `landing_pages` (page-level CRO read) → drive step 2b (question the frame): if the worst
+  high-volume page is the biggest leak by volume and has no owner, add a Command Center item;
+  its `cro_hypothesis` feeds the roadmap as a UTM-tagged page/landing test.
 
 ## 5. QA skeptic agents (step 7.5)
 

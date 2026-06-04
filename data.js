@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 4, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-04T03:37:09.791222+00:00"
+    "updatedISO": "2026-06-04T06:55:28.338265+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,8 +51,8 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 73 of 171 opens finish (~43%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (47 vs Google's 25). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
-      "Close the try-on activation gap. 89 entered the studio, 50 generated a model (44% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
+      "Fix the signup-modal drop. Only 74 of 189 opens finish (~39%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (47 vs Google's 26). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
+      "Close the try-on activation gap. 91 entered the studio, 50 generated a model (45% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
     ]
@@ -1807,11 +1807,11 @@ window.ABLO_OS = {
     },
     "drops": [
       {
-        "sev": "med",
-        "title": "Engagement gap (land → engage)",
-        "rate": "21%",
-        "detail": "Only 161 of 752 visitors click any CTA. The hero is not converting the visit into intent.",
-        "fix": "Sharpen the hero promise and CTA; lead from the bodies-you-cannot-shoot wedge."
+        "sev": "high",
+        "title": "Top-of-funnel bounce (land → engage)",
+        "rate": "22%",
+        "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 537 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
+        "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with /toddler (worst converter on real paid volume). Tag each variant with a UTM so the lift is readable."
       },
       {
         "sev": "high",
@@ -2118,6 +2118,37 @@ window.ABLO_OS = {
       },
       {
         "rank": "5",
+        "sev": "high",
+        "title": "Win the homepage + paid landing pages (CRO)",
+        "owner": "Marketing / Product",
+        "status": "New. Biggest single leak by volume: ~78% of visitors leave before one click. No test running.",
+        "targets": "land → engage · land → signup",
+        "body": "The homepage (/) takes 537 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
+        "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
+        "verify": {
+          "clickup": [
+            "homepage",
+            "landing page",
+            "hero CRO"
+          ],
+          "doneWhen": "clickup"
+        },
+        "live": {
+          "verdict": "done",
+          "doneSignal": true,
+          "evidence": [
+            "ClickUp: “Propose polish of Upload Studio landing page copy” is Closed"
+          ],
+          "disagree": true,
+          "clickup": {
+            "name": "Propose polish of Upload Studio landing page copy",
+            "status": "Closed",
+            "url": "https://app.clickup.com/t/86b9ud25p"
+          }
+        }
+      },
+      {
+        "rank": "6",
         "sev": "med",
         "title": "Close the activation gap",
         "owner": "Product",
@@ -2147,7 +2178,7 @@ window.ABLO_OS = {
         }
       },
       {
-        "rank": "6",
+        "rank": "7",
         "sev": "med",
         "title": "Stop the value-capture leak",
         "owner": "Product / Marketing",
@@ -2157,7 +2188,7 @@ window.ABLO_OS = {
         "ladder": "Lever 2/3 · Activation-to-paid + ARPU"
       },
       {
-        "rank": "7",
+        "rank": "8",
         "sev": "med",
         "title": "Keep Meta delivery healthy, fix the Kids pixel",
         "owner": "Autopilot / Alejo",
@@ -2179,7 +2210,7 @@ window.ABLO_OS = {
         }
       },
       {
-        "rank": "8",
+        "rank": "9",
         "sev": "done",
         "title": "Fix the signup-modal leak",
         "owner": "Product",
@@ -2200,7 +2231,7 @@ window.ABLO_OS = {
           "verdict": "done",
           "doneSignal": true,
           "evidence": [
-            "experiment: modal completion 33.3% -> 43.4% (+10.1 pts)",
+            "experiment: modal completion 33.3% -> 37.6% (+4.3 pts)",
             "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is done"
           ],
           "disagree": false,
@@ -2296,7 +2327,7 @@ window.ABLO_OS = {
         },
         {
           "k": "Signup → activation · goal ≥ 50%",
-          "v": "48%"
+          "v": "47%"
         },
         {
           "k": "CPL · goal ≤ $20",
@@ -2666,19 +2697,19 @@ window.ABLO_OS = {
       },
       {
         "label": "Lifetime signups",
-        "value": "73",
+        "value": "74",
         "sub": "all-time, all sources",
         "tone": "default"
       },
       {
         "label": "Blended CAC",
-        "value": "$15.31",
+        "value": "$15.11",
         "sub": "all paid ÷ all signups · target ≤ $20",
         "tone": "default"
       },
       {
         "label": "Activation",
-        "value": "~48%",
+        "value": "~47%",
         "sub": "signup → try-on · target ≥ 50%",
         "tone": "default"
       },
@@ -2714,10 +2745,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 43% (43/99). Change: +10 pts.",
-        "delta": 10.1,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 38% (44/117). Change: +4 pts.",
+        "delta": 4.3,
         "before": 33.3,
-        "after": 43.4,
+        "after": 37.6,
         "shipped": true
       }
     ],
@@ -2781,10 +2812,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 279,
-            "d30": 805,
-            "d90": 805,
-            "all": 805
+            "d7": 321,
+            "d30": 852,
+            "d90": 852,
+            "all": 852
           }
         },
         {
@@ -2793,10 +2824,10 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 77,
-            "d30": 189,
-            "d90": 189,
-            "all": 189
+            "d7": 78,
+            "d30": 190,
+            "d90": 190,
+            "all": 190
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2806,10 +2837,10 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 74,
-            "d30": 171,
-            "d90": 171,
-            "all": 171
+            "d7": 92,
+            "d30": 189,
+            "d90": 189,
+            "all": 189
           }
         },
         {
@@ -2818,10 +2849,10 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 34,
-            "d30": 73,
-            "d90": 73,
-            "all": 73
+            "d7": 35,
+            "d30": 74,
+            "d90": 74,
+            "all": 74
           },
           "benchmark": "8.5% land→signup (target 5%)"
         },
@@ -2831,10 +2862,10 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 41,
-            "d30": 89,
-            "d90": 89,
-            "all": 89
+            "d7": 43,
+            "d30": 91,
+            "d90": 91,
+            "all": 91
           }
         },
         {
@@ -2916,16 +2947,16 @@ window.ABLO_OS = {
       "spine": {
         "label": "Activation spine",
         "note": "Same user, of everyone who signed up (since launch). Strictly monotonic, this is the cleanest drop story.",
-        "denominator": 73,
+        "denominator": 74,
         "steps": [
           {
             "label": "Signed up",
-            "count": 73,
+            "count": 74,
             "pct": 100
           },
           {
             "label": "Entered studio",
-            "count": 73,
+            "count": 74,
             "pct": 100
           },
           {
@@ -2941,7 +2972,7 @@ window.ABLO_OS = {
           {
             "label": "Tried on (aha)",
             "count": 35,
-            "pct": 48,
+            "pct": 47,
             "aha": true
           },
           {
@@ -2952,23 +2983,23 @@ window.ABLO_OS = {
           {
             "label": "Clicked pricing",
             "count": 7,
-            "pct": 10
+            "pct": 9
           },
           {
             "label": "Started checkout",
             "count": 7,
-            "pct": 10,
+            "pct": 9,
             "payment": true
           }
         ]
       },
       "drops": [
         {
-          "sev": "med",
-          "title": "Engagement gap (land → engage)",
-          "rate": "21%",
-          "detail": "Only 161 of 752 visitors click any CTA. The hero is not converting the visit into intent.",
-          "fix": "Sharpen the hero promise and CTA; lead from the bodies-you-cannot-shoot wedge."
+          "sev": "high",
+          "title": "Top-of-funnel bounce (land → engage)",
+          "rate": "22%",
+          "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 537 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
+          "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with /toddler (worst converter on real paid volume). Tag each variant with a UTM so the lift is readable."
         },
         {
           "sev": "high",
@@ -3019,7 +3050,7 @@ window.ABLO_OS = {
             {
               "name": "Welcome Email",
               "timing": "On signup (Day 0)",
-              "recipients": 62,
+              "recipients": 63,
               "open": 95.2,
               "click": 3.2,
               "conv": 0,
@@ -3126,15 +3157,15 @@ window.ABLO_OS = {
       "attribution": [
         {
           "channel": "Direct / untagged",
-          "users": 384,
-          "signups": 53,
+          "users": 513,
+          "signups": 54,
           "tryons": 30,
           "checkouts": 8,
           "signupShare": 73
         },
         {
           "channel": "Meta Ads",
-          "users": 453,
+          "users": 480,
           "signups": 20,
           "tryons": 7,
           "checkouts": 0,
@@ -3169,18 +3200,98 @@ window.ABLO_OS = {
       "updated": "June 4, 2026",
       "source": "PostHog UTM · live"
     },
+    "landingPages": {
+      "pages": [
+        {
+          "path": "/",
+          "visitors": 537,
+          "engagers": 120,
+          "signups": 36,
+          "engagePct": 22.3,
+          "signupPct": 6.7,
+          "isLanding": true
+        },
+        {
+          "path": "/toddler",
+          "visitors": 139,
+          "engagers": 26,
+          "signups": 3,
+          "engagePct": 18.7,
+          "signupPct": 2.2,
+          "isLanding": true
+        },
+        {
+          "path": "/plus-size",
+          "visitors": 73,
+          "engagers": 22,
+          "signups": 5,
+          "engagePct": 30.1,
+          "signupPct": 6.8,
+          "isLanding": true
+        },
+        {
+          "path": "/try",
+          "visitors": 43,
+          "engagers": 0,
+          "signups": 0,
+          "engagePct": 0.0,
+          "signupPct": 0.0,
+          "isLanding": true
+        },
+        {
+          "path": "/auth/verify",
+          "visitors": 36,
+          "engagers": 16,
+          "signups": 26,
+          "engagePct": 44.4,
+          "signupPct": 72.2,
+          "isLanding": false
+        },
+        {
+          "path": "/studio",
+          "visitors": 15,
+          "engagers": 5,
+          "signups": 3,
+          "engagePct": 33.3,
+          "signupPct": 20.0,
+          "isLanding": false
+        },
+        {
+          "path": "/pricing",
+          "visitors": 6,
+          "engagers": 0,
+          "signups": 0,
+          "engagePct": 0.0,
+          "signupPct": 0.0,
+          "isLanding": true
+        }
+      ],
+      "insight": "Homepage takes 537 visitors but only 22.3% click any CTA and 6.7% sign up. /toddler converts 2.2% to signup vs /plus-size at 6.8%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "window": "60d",
+      "updated": "June 4, 2026",
+      "source": "PostHog · live HogQL (first-pageview pathname)"
+    },
     "clickup": {
       "source": "ClickUp · live",
       "updated": "June 4, 2026",
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
-        "done": 15,
-        "in progress": 5,
+        "done": 17,
+        "in progress": 6,
+        "to do": 34,
         "Closed": 18,
-        "to do": 32,
         "review": 5
       },
       "open": [
+        {
+          "name": "Experiment: /try landing vs homepage — paid A/B test",
+          "status": "in progress",
+          "color": "#1090e0",
+          "type": "custom",
+          "url": "https://app.clickup.com/t/86ba9n6my",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
         {
           "name": "Build paid-conversion (post-AHA) Klaviyo flow",
           "status": "in progress",
@@ -3227,6 +3338,33 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
+          "name": "/try store-URL product scrape + CRM lead capture (HubSpot)",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9nfny",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Wire the Marketing OS to auto-capture new assets & initiatives (ClickUp = bridge)",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9n6w5",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Fix Klaviyo welcome-email link tracking + UTMs",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9mpba",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
           "name": "Wire marketing-os Phase 2 into the unattended daily job",
           "status": "to do",
           "color": "#87909e",
@@ -3252,49 +3390,13 @@ window.ABLO_OS = {
           "url": "https://app.clickup.com/t/86ba9kmj6",
           "due": "",
           "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Run the price-ask test (5 kids + 5 swim founders)",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9kmhq",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Try-before-signup PR2 — anonymous trial generation + watermarked preview + claim-on-signup",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9hzdj",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Fix surprise_me_clicked instrumentation (39 clicks vs 1 event)",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9hvme",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Rotate LinkedIn Client Secret (pasted in chat)",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9h510",
-          "due": "",
-          "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 75
+      "total": 80
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223685,
+      "followers": 223683,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3507,10 +3609,10 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-04",
-          "landed": 9,
-          "engaged": 2,
-          "modal": 2,
-          "signups": 2,
+          "landed": 57,
+          "engaged": 3,
+          "modal": 20,
+          "signups": 3,
           "models": 1,
           "imports": 0,
           "tryons": 0,
@@ -3523,10 +3625,10 @@ window.ABLO_OS = {
           "email_click": 2.5,
           "email_recipients": 80,
           "paying_customers": 0,
-          "ig_followers": 223685,
+          "ig_followers": 223683,
           "activation_rate": 68,
-          "aha_rate": 48,
-          "payment_rate": 10
+          "aha_rate": 47,
+          "payment_rate": 9
         }
       ],
       "updated": "2026-06-04",
@@ -3611,6 +3713,7 @@ window.ABLO_OS = {
       "funnel": true,
       "klaviyo": true,
       "channels": true,
+      "landingPages": true,
       "clickup": true,
       "instagram": true,
       "history": true
