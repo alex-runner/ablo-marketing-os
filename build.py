@@ -808,7 +808,23 @@ def _update_env_keys(path, kv):
             if not any(re.match(rf"\s*(export\s+)?{k}=", l) for k in kv)]
     for k, v in kv.items():
         kept.append(f"export {k}='{v}'")
-    path.write_text("\n".join(kept) + "\n")
+    new_text = "\n".join(kept) + "\n"
+    if path.exists():
+        # Back up the master secret file before rewriting it (rolling .bak, 0600),
+        # and refuse to write if the rewrite would silently drop any unrelated key.
+        bak = path.parent / (path.name + ".bak")
+        bak.write_text(path.read_text()); os.chmod(bak, 0o600)
+        def _keys(text):
+            out = set()
+            for ln in text.splitlines():
+                m = re.match(r"\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)=", ln)
+                if m:
+                    out.add(m.group(1))
+            return out
+        dropped = _keys("\n".join(lines)) - _keys(new_text) - set(kv)
+        if dropped:
+            raise RuntimeError(f"env rewrite would drop keys {sorted(dropped)}; aborted (backup at {bak})")
+    path.write_text(new_text)
     os.chmod(path, 0o600)
 
 
