@@ -6,3 +6,5 @@ __pycache__/
 .claude-flow/
 .claude/
 gen_marketing_call.py
+.playwright-mcp/
+try-*.png

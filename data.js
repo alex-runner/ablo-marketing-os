@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 4, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-04T01:15:33.941389+00:00"
+    "updatedISO": "2026-06-04T01:52:06.937600+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2771,10 +2771,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 274,
-            "d30": 797,
-            "d90": 797,
-            "all": 797
+            "d7": 275,
+            "d30": 799,
+            "d90": 799,
+            "all": 799
           }
         },
         {
@@ -2821,7 +2821,7 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 41,
+            "d7": 40,
             "d30": 87,
             "d90": 87,
             "all": 87
@@ -3116,7 +3116,7 @@ window.ABLO_OS = {
       "attribution": [
         {
           "channel": "Direct / untagged",
-          "users": 366,
+          "users": 371,
           "signups": 51,
           "tryons": 30,
           "checkouts": 8,
@@ -3167,7 +3167,7 @@ window.ABLO_OS = {
         "in progress": 6,
         "Closed": 18,
         "to do": 28,
-        "done": 13,
+        "done": 14,
         "review": 5
       },
       "open": [
@@ -3226,6 +3226,15 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
+          "name": "Try-before-signup PR2 — anonymous trial generation + watermarked preview + claim-on-signup",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9hzdj",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
           "name": "Fix surprise_me_clicked instrumentation (39 clicks vs 1 event)",
           "status": "to do",
           "color": "#87909e",
@@ -3242,15 +3251,6 @@ window.ABLO_OS = {
           "url": "https://app.clickup.com/t/86ba9h510",
           "due": "",
           "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Build: Try-before-signup (value-first flow + pre-signup data capture) — #1 growth experiment",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9gxyc",
-          "due": "",
-          "assignee": ""
         },
         {
           "name": "Build: Ablo Studio 2-step post-signup onboarding (style + use-case)",
@@ -3280,7 +3280,7 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 70
+      "total": 71
     },
     "instagram": {
       "username": "ablo.ai",
@@ -3497,7 +3497,7 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-04",
-          "landed": 1,
+          "landed": 3,
           "engaged": 0,
           "modal": 0,
           "signups": 0,

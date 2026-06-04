@@ -11,7 +11,7 @@
     "5_measurement": "done",
     "6_command_center": "done",
     "7_experiment": "done",
-    "8_publish": "in_progress"
+    "8_publish": "done"
   },
   "findings": {
     "experiments": "PH-374260 coachmarks live, underpowered 6/7 exposures, keep running. OS-SIGNUP-GOOGLE held 33%->42%.",
