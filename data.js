@@ -12,9 +12,9 @@ window.ABLO_OS = {
     "ownerBD": "Michael Scarpellini, Head of Partnerships (enterprise / out of self-serve scope)",
     "northStar": "Liquid revenue via self-serve. First paying customers plus a repeatable acquisition channel with stable CAC.",
     "endOfJuneGoal": "First paying customer.",
-    "updated": "June 3, 2026",
+    "updated": "June 4, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-03T23:52:02.928632+00:00"
+    "updatedISO": "2026-06-04T01:15:33.941389+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2053,17 +2053,27 @@ window.ABLO_OS = {
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 3, 2026",
+    "updated": "June 4, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
         "rank": "1",
         "sev": "high",
+        "title": "Run the price-ask test",
+        "owner": "Alejo",
+        "status": "Decisive lever, start this week",
+        "targets": "first paying customer · willingness to pay",
+        "body": "With ~4 weeks to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
+      },
+      {
+        "rank": "2",
+        "sev": "high",
         "title": "Wire the prepared lifecycle emails",
         "owner": "Marketing",
-        "status": "Ready, fastest lever",
+        "status": "Ready, fastest automated lever",
         "targets": "signup → model · model → try-on",
-        "body": "The Activate (A1-A3) and AHA (B1-B3) templates exist but sit in no flow. Build two behavioral flows in Klaviyo (Added-to-List → Activate, Model Generated → AHA). Zero new copy, ships this week.",
+        "body": "The Activate (A1-A3) and AHA (B1-B3) templates exist but sit in no flow. Build two behavioral flows in Klaviyo (Added-to-List with no Model Generated in 24h → Activate, Model Generated → AHA). Klaviyo already receives the Model Generated metric, so it is buildable today. Directly attacks the #1 funnel leak, the activation gap. Zero new copy.",
         "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
         "verify": {
           "clickup": [
@@ -2087,46 +2097,13 @@ window.ABLO_OS = {
         }
       },
       {
-        "rank": "2",
-        "sev": "done",
-        "title": "Fix the signup-modal leak",
-        "owner": "Product",
-        "status": "Shipped — modal completion 33% → 42% (+9 pts)",
-        "done": true,
-        "targets": "open → signup",
-        "body": "Google one-click is now the primary full-width button, email demoted. Shipped and measured: modal completion before May 27 was 33% (22/66), after is 42% (36/85), a +9 pt lift. Next leak to chase is the activation gap (rank 3), not this one.",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
-        "verify": {
-          "signal": "signupModalShipped",
-          "clickup": [
-            "Google button",
-            "sign-up modal"
-          ],
-          "doneWhen": "signal"
-        },
-        "live": {
-          "verdict": "done",
-          "doneSignal": true,
-          "evidence": [
-            "experiment: modal completion 33.3% -> 42.3% (+8.9 pts)",
-            "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is in progress"
-          ],
-          "disagree": false,
-          "clickup": {
-            "name": "📊 Experiment: Google button on sign-up modal (before/after)",
-            "status": "in progress",
-            "url": "https://app.clickup.com/t/86ba709mn"
-          }
-        }
-      },
-      {
         "rank": "3",
         "sev": "high",
         "title": "Close the activation gap",
         "owner": "Product",
-        "status": "Investigating",
-        "targets": "signup → model (67%)",
-        "body": "Pull /studio session replays on the non-activators and find the control that stalls before the first Generate. Rage-click cluster confirmed. Coachmarks experiment live.",
+        "status": "Investigating. Coachmarks live but underpowered (6/7 exposures)",
+        "targets": "signup → model (69%)",
+        "body": "The #1 funnel leak: 31% of signups never generate a first model, and every paid step is gated on a model existing. Rage-click cluster on /studio confirmed. The coachmarks A/B (PH-374260) is live but at ~3% of the sample it needs, leave it running. Pull /studio replays on the non-activators to find the control that stalls before the first Generate.",
         "ladder": "Lever 2 · Activation → signup-to-activation ≥ 50%",
         "verify": {
           "clickup": [
@@ -2152,32 +2129,31 @@ window.ABLO_OS = {
       {
         "rank": "4",
         "sev": "high",
+        "title": "Verify purchase_completed actually fires",
+        "owner": "Product / Data",
+        "status": "Instrumented (PR #37), not yet confirmed firing",
+        "targets": "checkout → paid",
+        "body": "purchase_completed is still absent from the PostHog event schema, so signup→paid stays unreadable. With 0 purchases we cannot tell 'not deployed' from 'no sale yet'. Run a test or sandbox purchase to confirm the event reaches PostHog end-to-end, before the first real sale, so the make-or-break number is not discovered broken at the worst moment.",
+        "ladder": "Measurement · unblocks signup-to-paid (the make-or-break KPI)"
+      },
+      {
+        "rank": "5",
+        "sev": "med",
         "title": "Stop the value-capture leak",
         "owner": "Product / Marketing",
         "status": "New",
         "targets": "try-on → download (17%)",
-        "body": "Only 5 of 30 aha-reachers export a result. Add a download / share prompt the instant the try-on renders, so the value leaves the app.",
+        "body": "Only 5 of 30 aha-reachers export a result. Add a download / share prompt the instant the try-on renders, so the value leaves the app. Lower-stage than activation, so it ranks below the gap that gates it.",
         "ladder": "Lever 2/3 · Activation-to-paid + ARPU"
-      },
-      {
-        "rank": "5",
-        "sev": "done",
-        "title": "Instrument purchase_completed",
-        "owner": "Product / Data",
-        "status": "Shipped (PR #37), deploying",
-        "targets": "checkout → paid",
-        "body": "No paid-conversion event fires, so true signup→paid and revenue cannot be measured. This blocks the make-or-break number the whole strategy hinges on.",
-        "done": true,
-        "ladder": "Measurement · unblocks signup-to-paid (the make-or-break KPI)"
       },
       {
         "rank": "6",
         "sev": "med",
-        "title": "Keep Meta delivery healthy, concentrate Kids/Swim",
+        "title": "Keep Meta delivery healthy, fix the Kids pixel",
         "owner": "Autopilot / Alejo",
-        "status": "Healthy — resumed Jun 2",
+        "status": "Resumed Jun 2 after a 6-day billing stall",
         "targets": "top of funnel",
-        "body": "Delivery stalled May 28–Jun 1 (6 zero-spend days, billing) and resumed Jun 2–3. Kids funnel is firing again (40% signup rate, ~$3 CPL). Let the autopilot reconcentrate spend on the Kids and Swim winners and watch for another stall.",
+        "body": "The live flight runs ~$8 CPL with Women's-swim the standout ($3.95 CPL, 7.69% CTR). Kids has healthy CTR but its conversions are undercounted: the /toddler and /plus-size pixels under-fire, so the converting segment looks worse than it is. Fix the pixel, let the autopilot concentrate on Kids and Swim, and watch for another billing stall.",
         "ladder": "Lever 1 · Grow top-of-funnel → CPL ≤ $20",
         "verify": {
           "signal": "metaDeliveryLive"
@@ -2194,13 +2170,36 @@ window.ABLO_OS = {
       },
       {
         "rank": "7",
-        "sev": "med",
-        "title": "Run the price-ask test",
-        "owner": "Alejo",
-        "status": "Queued",
-        "targets": "ARPU · willingness to pay",
-        "body": "Manually onboard 5 kids and 5 swim founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
-        "ladder": "The brag · ARPU ≥ $50, validate willingness to pay"
+        "sev": "done",
+        "title": "Fix the signup-modal leak",
+        "owner": "Product",
+        "status": "Shipped. Modal completion 33% → 42%, held",
+        "done": true,
+        "targets": "open → signup",
+        "body": "Google one-click is now the primary full-width button, email demoted. Shipped and measured: completion rose from 33% to a 44% peak and has held at 42%. Logged as a hit (PRED-2026-05-20-google-signup, +11pp). Done, the next leak is the activation gap (rank 3).",
+        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
+        "verify": {
+          "signal": "signupModalShipped",
+          "clickup": [
+            "Google button",
+            "sign-up modal"
+          ],
+          "doneWhen": "signal"
+        },
+        "live": {
+          "verdict": "done",
+          "doneSignal": true,
+          "evidence": [
+            "experiment: modal completion 33.3% -> 42.3% (+8.9 pts)",
+            "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is in progress"
+          ],
+          "disagree": false,
+          "clickup": {
+            "name": "📊 Experiment: Google button on sign-up modal (before/after)",
+            "status": "in progress",
+            "url": "https://app.clickup.com/t/86ba709mn"
+          }
+        }
       }
     ],
     "loop": "Two layers keep this queue honest. Every build, a deterministic reconciler cross-checks each item against the live signals it already pulled (experiment results, the autopilot's delivery status, and matching ClickUp tasks) and flags any card whose hand-written status disagrees with reality, so stale priorities surface immediately. On top of that, the marketing-os-refresh reasoning pass re-ranks the queue by KPI impact and rewrites the items. Ranking is still human-owned; the reconciler is the always-on guardrail between reasoning passes.",
@@ -2748,7 +2747,7 @@ window.ABLO_OS = {
       ]
     },
     "funnel": {
-      "updated": "June 3, 2026",
+      "updated": "June 4, 2026",
       "source": "PostHog · live HogQL",
       "windows": [
         "d7",
@@ -2772,7 +2771,7 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 277,
+            "d7": 274,
             "d30": 797,
             "d90": 797,
             "all": 797
@@ -2784,7 +2783,7 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 78,
+            "d7": 75,
             "d30": 187,
             "d90": 187,
             "all": 187
@@ -2797,7 +2796,7 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 75,
+            "d7": 72,
             "d30": 169,
             "d90": 169,
             "all": 169
@@ -2809,7 +2808,7 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 33,
+            "d7": 32,
             "d30": 71,
             "d90": 71,
             "all": 71
@@ -2822,7 +2821,7 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 43,
+            "d7": 41,
             "d30": 87,
             "d90": 87,
             "all": 87
@@ -2834,7 +2833,7 @@ window.ABLO_OS = {
           "sub": "model_generated",
           "group": "Activate",
           "counts": {
-            "d7": 22,
+            "d7": 21,
             "d30": 49,
             "d90": 49,
             "all": 49
@@ -2996,7 +2995,7 @@ window.ABLO_OS = {
       ]
     },
     "lifecycle": {
-      "updated": "June 3, 2026",
+      "updated": "June 4, 2026",
       "source": "Klaviyo · live API",
       "note": "Klaviyo already receives the product events as metrics (Model Generated, Try-on Completed, Checkout Started), so behavioral triggers are possible today. Only the Added-to-List onboarding flow is live; the behavioral flows that would fix the funnel are unbuilt even though the emails exist.",
       "liveFlows": [
@@ -3157,19 +3156,19 @@ window.ABLO_OS = {
         }
       ],
       "insight": "72% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
-      "updated": "June 3, 2026",
+      "updated": "June 4, 2026",
       "source": "PostHog UTM · live"
     },
     "clickup": {
       "source": "ClickUp · live",
-      "updated": "June 3, 2026",
+      "updated": "June 4, 2026",
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
-        "in progress": 5,
-        "to do": 29,
-        "Closed": 16,
-        "review": 7,
-        "done": 11
+        "in progress": 6,
+        "Closed": 18,
+        "to do": 28,
+        "done": 13,
+        "review": 5
       },
       "open": [
         {
@@ -3187,6 +3186,15 @@ window.ABLO_OS = {
           "color": "#1090e0",
           "type": "custom",
           "url": "https://app.clickup.com/t/86ba6v3mx",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Interview the 12 activated users (feeds Wave 3 copy)",
+          "status": "in progress",
+          "color": "#1090e0",
+          "type": "custom",
+          "url": "https://app.clickup.com/t/86ba6v3ag",
           "due": "",
           "assignee": "Alejo Escrivá"
         },
@@ -3215,6 +3223,24 @@ window.ABLO_OS = {
           "type": "custom",
           "url": "https://app.clickup.com/t/86ba705xt",
           "due": "Jun 6, 2026",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Fix surprise_me_clicked instrumentation (39 clicks vs 1 event)",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9hvme",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Rotate LinkedIn Client Secret (pasted in chat)",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9h510",
+          "due": "",
           "assignee": "Alejo Escrivá"
         },
         {
@@ -3252,40 +3278,13 @@ window.ABLO_OS = {
           "url": "https://app.clickup.com/t/86ba99f57",
           "due": "",
           "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Marketing OS one-pager (team + Josh)",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba96dd7",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Reframe outreach as problem interviews + one shared pipeline",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba96dcj",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "In-product feedback intercept (booking prompt + 1-question survey)",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba96dbw",
-          "due": "",
-          "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 68
+      "total": 70
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223686,
+      "followers": 223685,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3490,14 +3489,37 @@ window.ABLO_OS = {
           "email_open": 97.5,
           "email_click": 2.5,
           "email_recipients": 80,
+          "aha_rate": 49,
+          "activation_rate": 69,
+          "payment_rate": 10,
           "paying_customers": 0,
-          "ig_followers": 223686,
+          "ig_followers": 223686
+        },
+        {
+          "date": "2026-06-04",
+          "landed": 1,
+          "engaged": 0,
+          "modal": 0,
+          "signups": 0,
+          "models": 0,
+          "imports": 0,
+          "tryons": 0,
+          "downloads": 0,
+          "checkouts": 0,
+          "spend_lifetime": 36.54,
+          "cpl": 6.09,
+          "signups_meta": 6,
+          "email_open": 97.5,
+          "email_click": 2.5,
+          "email_recipients": 80,
+          "paying_customers": 0,
+          "ig_followers": 223685,
           "activation_rate": 69,
           "aha_rate": 49,
           "payment_rate": 10
         }
       ],
-      "updated": "2026-06-03",
+      "updated": "2026-06-04",
       "phLive": true
     },
     "learning": {
@@ -3530,7 +3552,22 @@ window.ABLO_OS = {
           "source_pred": "PRED-2026-05-20-google-signup"
         }
       ],
-      "openPredictions": [],
+      "openPredictions": [
+        {
+          "type": "prediction",
+          "id": "PRED-2026-06-03-activate-flow",
+          "date": "2026-06-03",
+          "action": "Wire the Activate A1-A3 Klaviyo flow (re-engage signups with no model generated in 24h) to lift activation",
+          "linked": "CC-rank-2",
+          "metric": "activation_rate",
+          "baseline": 69,
+          "predicted": 75,
+          "horizon_days": 21,
+          "due": "2026-06-24",
+          "rationale": "31% of signups never generate a first model; an automated 24h nudge built from existing templates should recover a meaningful share. Modest call: calibration is thin (n=1) and traffic is low. Conditional on the flow going live; if unshipped by due date, mark moot.",
+          "status": "open"
+        }
+      ],
       "dueForReview": [],
       "calibration": {
         "n": 1,
@@ -3539,9 +3576,9 @@ window.ABLO_OS = {
       },
       "counts": {
         "lessons": 2,
-        "predictions": 1,
+        "predictions": 2,
         "resolved": 1,
-        "open": 0
+        "open": 1
       }
     },
     "refreshedSources": {
@@ -3553,6 +3590,44 @@ window.ABLO_OS = {
       "clickup": true,
       "instagram": true,
       "history": true
-    }
+    },
+    "sourceHealth": [
+      {
+        "key": "posthog",
+        "label": "PostHog",
+        "state": "live",
+        "detail": "live"
+      },
+      {
+        "key": "meta",
+        "label": "Meta",
+        "state": "live",
+        "detail": "live"
+      },
+      {
+        "key": "klaviyo",
+        "label": "Klaviyo",
+        "state": "live",
+        "detail": "live"
+      },
+      {
+        "key": "clickup",
+        "label": "ClickUp",
+        "state": "live",
+        "detail": "live"
+      },
+      {
+        "key": "instagram",
+        "label": "Instagram",
+        "state": "live",
+        "detail": "live"
+      },
+      {
+        "key": "linkedin",
+        "label": "LinkedIn",
+        "state": "live",
+        "detail": "live"
+      }
+    ]
   }
 };

@@ -1269,6 +1269,25 @@ def build():
         reconcile_queue(content, meta_live, experiments, clickup)
     if clickup:
         clickup.pop("all", None)  # reconciler-only pool; don't embed it in data.js
+
+    # Per-source health for the footer status lights. Three states so an OUTAGE
+    # reads loud and distinct from a source that is curated-by-design:
+    #   live = credentials present and the pull succeeded (green)
+    #   down = credentials present but the pull failed, we are on cached data (red)
+    #   off  = no credentials configured / not connected (grey, calm)
+    def _health(has_creds, ok):
+        return ("live" if ok else "down") if has_creds else "off"
+    _HDETAIL = {"live": "live", "down": "pull failed · on cached data", "off": "not connected"}
+    source_health = [
+        {"key": "posthog",   "label": "PostHog",   "state": _health(bool(env.get("POSTHOG_PERSONAL_API_KEY")), funnel_live or posthog_live or channels_live is not None)},
+        {"key": "meta",      "label": "Meta",      "state": _health(bool(env.get("META_ADS_TOKEN")), signups is not None)},
+        {"key": "klaviyo",   "label": "Klaviyo",   "state": _health(bool(env.get("KLAVIYO_API_KEY_ABLO")), klaviyo_live)},
+        {"key": "clickup",   "label": "ClickUp",   "state": _health(bool(env.get("CLICKUP_TOKEN_ABLO")), clickup is not None)},
+        {"key": "instagram", "label": "Instagram", "state": _health(bool(env.get("META_ADS_TOKEN")), instagram is not None)},
+        {"key": "linkedin",  "label": "LinkedIn",  "state": _health(bool(env.get("LINKEDIN_ADS_TOKEN")), linkedin_live is not None)},
+    ]
+    for _s in source_health:
+        _s["detail"] = _HDETAIL[_s["state"]]
     content["live"] = {
         "kpis": kpis,
         "experiments": experiments,
@@ -1290,6 +1309,7 @@ def build():
             "instagram": instagram is not None,
             "history": history.get("phLive", False),
         },
+        "sourceHealth": source_health,
     }
 
     banner = (

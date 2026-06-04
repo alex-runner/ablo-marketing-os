@@ -1,0 +1,26 @@
+{
+  "date": "2026-06-03",
+  "mode": "supervised-first-run",
+  "steps": {
+    "0_orient": "done",
+    "1_experiments": "done",
+    "2_funnel": "done",
+    "3_campaigns": "done",
+    "4_lifecycle": "done",
+    "4b_content": "done",
+    "5_measurement": "done",
+    "6_command_center": "done",
+    "7_experiment": "done",
+    "8_publish": "in_progress"
+  },
+  "findings": {
+    "experiments": "PH-374260 coachmarks live, underpowered 6/7 exposures, keep running. OS-SIGNUP-GOOGLE held 33%->42%.",
+    "funnel": "Biggest leak = activation gap signup->model 69% (31% drop), /studio rage-click cluster.",
+    "campaigns": "Live flight ~$8 CPL, Women's-swim standout $3.95; Kids pixel undercounts conversions; 6-day billing stall, resumed Jun 2.",
+    "lifecycle": "Activate A1-A3 + AHA B1-B3 templates wired to nothing; Activate is highest-leverage build.",
+    "measurement": "measurement_ok=false: purchase_completed not firing (0 purchases, unverifiable). Other key events fire.",
+    "predictions_resolved": [],
+    "predictions_opened": ["PRED-2026-06-03-activate-flow"],
+    "command_center": "Re-ranked: price-ask to #1, lifecycle wiring #2, activation gap #3, purchase_completed verify #4 (un-done), value-capture #5, Meta+Kids-pixel #6, signup-modal #7 (done)."
+  }
+}
