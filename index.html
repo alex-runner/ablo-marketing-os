@@ -662,6 +662,7 @@
     };
 
     S.funnel = ()=>{ const f=(L.funnel)||D.funnelCurated||{}; const live=(L.refreshedSources||{}).funnel;
+      const lp=(L.landingPages)||null;
       const wins = f.windows||['all'];
       let win = wins.includes(funnelWin) ? funnelWin : 'all';
       const stages=f.stages||[]; const wl=f.windowLabels||{};
@@ -725,6 +726,20 @@
           h('p',{style:'margin-bottom:8px'}, d.detail),
           d.fix? h('p',{class:'small',style:'color:var(--accent-dim)'}, '▸ Fix: '+d.fix):null
         ]}))),
+        lp? frag(
+          blocktitle('Where they land · per-page conversion'),
+          lp.insight? h('div',{class:'callout warn'}, h('div',{class:'tag'},'CRO signal'), h('p',{html:'<b>'+lp.insight+'</b>'})):null,
+          h('div',{class:'table-wrap',style:'margin-top:14px'},
+            (function(){ const t=h('table'); const hr=h('tr');
+              ['Entry page','Visitors','Engage','Signup'].forEach((x,i)=>hr.append(h('th',{style:i?'text-align:right':''},x))); t.append(h('thead',{},hr));
+              const tb=h('tbody'); (lp.pages||[]).forEach(p=>{ const tr=h('tr', p.isLanding?{}:{style:'opacity:.5'});
+                tr.append(h('td',{class:'lead-cell'}, h('div',{style:'display:flex;align-items:center;gap:8px;flex-wrap:wrap'},
+                  h('span',{}, p.path),
+                  (p.isLanding&&p.visitors>=20&&p.signups>=1&&p.signupPct<4)? chip('CRO target','error') : (p.isLanding? null : chip('app/auth','muted')))));
+                [p.visitors, p.engagePct+'%', p.signupPct+'%'].forEach(v=>tr.append(h('td',{style:'text-align:right'}, String(v))));
+                tb.append(tr); }); t.append(tb); return t; })()),
+          h('p',{class:'small',style:'margin-top:8px;color:var(--muted)'}, 'First-pageview pathname · last '+(lp.window||'60d')+' · '+(lp.source||'PostHog'))
+        ):null,
         blocktitle('Measurement gaps'),
         card({cls:'flat',children:[bullets(f.gaps||[])]})
       );
