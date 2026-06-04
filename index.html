@@ -1274,7 +1274,8 @@
     const down=health.filter(s=>s.state==='down');
     if(down.length) foot.append(h('div',{class:'stamp',style:'color:var(--error)'},
       down.length+(down.length>1?' sources':' source')+' down · on cached data'));
-    foot.append(h('div',{class:'stamp'}, 'Updated '+((D.meta||{}).updated||'· ')+' · auto-refreshes'));
+    const _hm=(((D.meta||{}).updatedISO)||'').slice(11,16);
+    foot.append(h('div',{class:'stamp'}, 'Updated '+((D.meta||{}).updated||'· ')+(_hm?', '+_hm+' UTC':'')+' · auto-refreshes'));
 
     const view=document.getElementById('view');
     const crumb=document.getElementById('crumb');
