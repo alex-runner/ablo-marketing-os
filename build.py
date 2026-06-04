@@ -28,6 +28,7 @@ HERE = Path(__file__).resolve().parent
 CONTENT = HERE / "content.json"
 OUT = HERE / "data.js"
 HISTORY = HERE / "history.jsonl"  # append-only daily time-series (one row per UTC day)
+REGISTRY = HERE / "coverage-registry.json"  # git-tracked manifest of what the OS models (Coverage Reconciler)
 
 # The ablo-ads-autopilot keeps fresh Meta state here (refreshed every 6h).
 AUTOPILOT = Path(
@@ -1313,6 +1314,336 @@ def bind_objectives_kpis(content, activation, meta_live, paying, total_signups):
     log("objectives KPIs: bound paying, signup→paid, activation, CPL to live values")
 
 
+# ============================================================== COVERAGE =====
+# The Coverage Reconciler. Every build it enumerates the live marketing surface
+# (events / experiments / ClickUp tasks) and diffs it against coverage-registry.json
+# (what the OS is told to model). Live-but-unmodeled = a blind spot. v1 is
+# detect + escalate only: no auto-wiring, and it NEVER writes content.json — it
+# touches only data.js (live.coverage) and coverage-registry.json (write-on-change).
+# Design: docs/superpowers/specs/2026-06-04-coverage-reconciler-design.md
+#
+# Every scanner is fail-open: any pull failure makes that dimension return None
+# ("no data"), the build continues, and a None dimension is SKIPPED by the differ
+# so a failed pull can never emit false "stale" entries.
+
+# Weak signal: a ClickUp task name that *looks* like an experiment. Used ONLY to
+# escalate (surface in the Coverage tab for a human to triage) — never to auto-
+# create a card. A false match is cheap: it adds a line to a triage list, not a
+# junk card to the user-facing Experiments tab.
+_EXPERIMENT_NAME_RE = re.compile(r"experiment|test|a/b|split|variant", re.I)
+
+
+def load_registry():
+    """Read coverage-registry.json. Returns the parsed dict, or a minimal empty
+    skeleton on any failure (missing/corrupt) so the build never crashes."""
+    skeleton = {"version": 1, "dimensions": {}, "clickupTasks": {}}
+    if not REGISTRY.exists():
+        log("coverage: no coverage-registry.json; seeding empty (everything live will surface)")
+        return skeleton
+    try:
+        return json.loads(REGISTRY.read_text())
+    except (ValueError, OSError) as e:
+        log(f"coverage: registry unreadable ({e}); using empty skeleton")
+        return skeleton
+
+
+def scan_events(env):
+    """Live event taxonomy over 30d: distinct-user + raw-event counts per event.
+    Returns {event: {users, count}} or None on failure (dimension skipped)."""
+    q = """
+        SELECT event,
+          count(DISTINCT person_id) AS users,
+          count() AS cnt
+        FROM events
+        WHERE timestamp >= now() - INTERVAL 30 DAY
+        GROUP BY event
+    """.strip()
+    rows = _hogql(env, q)
+    if rows is None:  # None = pull failed; [] = pull succeeded but no events
+        return None
+    out = {}
+    for r in rows:
+        if not r or not r[0]:
+            continue
+        try:
+            out[str(r[0])] = {"users": int(r[1]), "count": int(r[2])}
+        except (ValueError, TypeError, IndexError):
+            continue
+    log(f"coverage scan_events: {len(out)} distinct event(s) live (30d)")
+    return out
+
+
+def scan_experiments(env, posthog_experiments, clickup):
+    """Live experiment surface = PostHog experiment objects (already pulled) +
+    open Ablo Studio ClickUp tasks whose name matches the experiment regex (a weak
+    ESCALATE-only signal). Returns {posthog:[ids], clickupCandidates:[{id,name}]}
+    or None only if BOTH inputs are unavailable.
+
+    The PostHog ids are normalized to the same 'PH-<id>' form build.py uses, so
+    they line up with registry.experiments.modeled."""
+    ph_ids = []
+    for e in (posthog_experiments or []):
+        if isinstance(e, dict) and e.get("id"):
+            ph_ids.append(str(e["id"]))
+
+    # ClickUp candidates: open tasks whose name looks like an experiment. We only
+    # consider the still-open feed (clickup['open']); closed experiments are not
+    # actionable blind spots.
+    clickup_candidates = None
+    if clickup is not None:
+        clickup_candidates = []
+        for t in (clickup.get("open") or []):
+            nm = t.get("name") or ""
+            if _EXPERIMENT_NAME_RE.search(nm):
+                tid = _task_id_from_url(t.get("url", ""))
+                if tid:
+                    clickup_candidates.append({"id": tid, "name": nm, "url": t.get("url", "")})
+
+    if not ph_ids and clickup_candidates is None:
+        return None
+    log(f"coverage scan_experiments: {len(ph_ids)} PostHog · "
+        f"{len(clickup_candidates) if clickup_candidates is not None else 'n/a'} ClickUp experiment-like task(s)")
+    return {"posthog": ph_ids, "clickupCandidates": clickup_candidates}
+
+
+def scan_clickup(clickup, registry):
+    """Open Ablo Studio tasks that the OS surfaces nowhere — i.e. whose id is NOT
+    in registry.clickupTasks.modeled and NOT in experiments.clickupMapped. These
+    are marketing work the OS does not model. Returns [{id,name,url,status}] or
+    None on failure."""
+    if clickup is None:
+        return None
+    mapped = set((((registry.get("dimensions") or {}).get("experiments") or {})
+                  .get("clickupMapped") or {}).values())
+    modeled = set(((registry.get("clickupTasks") or {}).get("modeled") or []))
+    referenced = mapped | modeled
+    out = []
+    for t in (clickup.get("open") or []):
+        tid = _task_id_from_url(t.get("url", ""))
+        if not tid or tid in referenced:
+            continue
+        out.append({"id": tid, "name": t.get("name", ""), "url": t.get("url", ""),
+                    "status": t.get("status", "")})
+    log(f"coverage scan_clickup: {len(out)} open task(s) the OS surfaces nowhere")
+    return out
+
+
+def _task_id_from_url(url):
+    """ClickUp task urls end in /t/<id>. Extract the id (the stable key we diff on)."""
+    if not url:
+        return None
+    m = re.search(r"/t/([A-Za-z0-9]+)/?$", url)
+    return m.group(1) if m else url.rstrip("/").rsplit("/", 1)[-1] or None
+
+
+def reconcile_coverage(registry, scans):
+    """Pure differ. For each dimension: blind = live - modeled - ignore (filtered
+    by threshold, ranked by volume); stale = modeled - live (only for dimensions
+    whose live scan SUCCEEDED, so a failed pull never emits false stale). No I/O.
+
+    `scans` = {events, experiments, clickup} where any value may be None ("no data").
+    Returns {blindSpots:[...], stale:[...]} with blind items shaped
+    {key, dimension, where, volume, cluster?, action, status:'escalated'}."""
+    dims = registry.get("dimensions") or {}
+    blind, stale = [], []
+
+    # -- events -------------------------------------------------------------
+    ev_reg = dims.get("events") or {}
+    ev_live = scans.get("events")
+    if ev_live is not None:
+        modeled = set(ev_reg.get("modeled") or [])
+        ignore = set(ev_reg.get("ignore") or [])
+        threshold = ev_reg.get("minUsers30d", 0) or 0
+        # Cluster unmodeled events by their prefix-before-'_' so a whole new flow
+        # (e.g. tbs_*) reads as one blind spot, ranked by the cluster's total reach.
+        clusters = {}
+        singles = []
+        for ev, stat in ev_live.items():
+            if ev in modeled or ev in ignore:
+                continue
+            users = stat.get("users", 0)
+            if "_" in ev:
+                prefix = ev.split("_", 1)[0]
+                c = clusters.setdefault(prefix, {"events": [], "users": 0})
+                c["events"].append(ev)
+                c["users"] = max(c["users"], users)  # cluster reach ~ its busiest event (distinct-user, not summable)
+            else:
+                singles.append((ev, users))
+        for prefix, c in clusters.items():
+            if c["users"] < threshold:
+                continue
+            key = prefix + "_*"
+            blind.append({
+                "key": key, "dimension": "events",
+                "where": f"PostHog, {c['users']} users/30d ({len(c['events'])} events)",
+                "volume": c["users"], "cluster": True,
+                "action": f"Investigate the {key} flow; map a funnel stage or dismiss it to the registry with a reason",
+                "status": "escalated",
+            })
+        for ev, users in singles:
+            if users < threshold:
+                continue
+            blind.append({
+                "key": ev, "dimension": "events",
+                "where": f"PostHog, {users} users/30d",
+                "volume": users, "cluster": False,
+                "action": f"Decide if {ev} is a funnel signal to model or noise to dismiss",
+                "status": "escalated",
+            })
+        # stale: modeled but absent from the live taxonomy (possible tracking regression)
+        for ev in sorted(modeled):
+            if ev not in ev_live:
+                stale.append({"key": ev, "dimension": "events",
+                              "note": "modeled but 0 users in 30d — possible tracking regression"})
+
+    # -- experiments --------------------------------------------------------
+    ex_reg = dims.get("experiments") or {}
+    ex_live = scans.get("experiments")
+    if ex_live is not None:
+        modeled = set(ex_reg.get("modeled") or [])
+        mapped = set((ex_reg.get("clickupMapped") or {}).values())
+        ignore = set(ex_reg.get("ignore") or [])
+        # PostHog experiment objects not yet modeled (rare; normally auto-modeled
+        # via PH-<id>, but a brand-new one the registry hasn't seen surfaces here).
+        for pid in (ex_live.get("posthog") or []):
+            if pid in modeled or pid in ignore:
+                continue
+            blind.append({
+                "key": pid, "dimension": "experiments",
+                "where": "PostHog experiments", "volume": None,
+                "action": "New PostHog experiment not yet in the OS; wire an experiment card or dismiss",
+                "status": "escalated",
+            })
+        # ClickUp experiment-looking tasks not already mapped/ignored.
+        cands = ex_live.get("clickupCandidates")
+        if cands is not None:
+            for c in cands:
+                tid = c.get("id")
+                if not tid or tid in mapped or tid in ignore or tid in modeled:
+                    continue
+                blind.append({
+                    "key": tid, "dimension": "experiments",
+                    "where": f"ClickUp Ablo Studio · “{(c.get('name') or '')[:60]}” matches an experiment name",
+                    "volume": None,
+                    "action": "Confirm it is a real experiment, then wire an OS-* card (agent owns content.json) or dismiss",
+                    "status": "escalated",
+                })
+
+    # -- clickup ------------------------------------------------------------
+    ck_live = scans.get("clickup")
+    if ck_live is not None:
+        ck_reg = registry.get("clickupTasks") or {}
+        ignore = set(ck_reg.get("ignore") or [])
+        for t in ck_live:
+            tid = t.get("id")
+            if not tid or tid in ignore:
+                continue
+            blind.append({
+                "key": tid, "dimension": "clickup",
+                "where": f"ClickUp Ablo Studio · “{(t.get('name') or '')[:60]}” [{t.get('status','')}]",
+                "volume": None,
+                "action": "Marketing work the OS surfaces nowhere; wire a Command Center item or dismiss",
+                "status": "escalated",
+            })
+
+    # Rank blind spots by volume desc (None volume sinks below counted ones),
+    # then by dimension + key for a stable, deterministic order.
+    blind.sort(key=lambda b: (-(b.get("volume") or 0), b.get("dimension", ""), b.get("key", "")))
+    stale.sort(key=lambda s: (s.get("dimension", ""), s.get("key", "")))
+    return {"blindSpots": blind, "stale": stale}
+
+
+def autowire_coverage(registry, diff, env):
+    """v1: NO-OP. Detection + escalate only — every blind spot stays 'escalated'
+    for the agent/human to resolve. The signature takes `registry` (not content)
+    on purpose: even in v2 the auto-wirer may only ever touch coverage-registry.json,
+    never the brain-owned content.json. Returns (registry, autowired_log).
+
+    Kept as a real seam so v2 can introduce the two mechanical wirings (page/
+    destination, explicit-tag experiment) without changing the build wiring."""
+    return registry, []
+
+
+def _canonical_registry(reg):
+    """Deterministic serialization: sorted keys + sorted list members so logically
+    identical registry state is byte-identical across runs. The `updated` field is
+    excluded from the structural comparison (it tracks content changes, not the
+    run timestamp), so a no-op build never rewrites the file."""
+    def _sort(v):
+        if isinstance(v, dict):
+            return {k: _sort(v[k]) for k in sorted(v)}
+        if isinstance(v, list):
+            # members are scalars (event names / ids); sort for stability
+            return sorted(v, key=lambda x: (str(type(x)), x))
+        return v
+    body = {k: v for k, v in reg.items() if k != "updated"}
+    return json.dumps(_sort(body), ensure_ascii=False, indent=2, sort_keys=True)
+
+
+def write_registry_if_changed(registry, today):
+    """Write coverage-registry.json ONLY when its structural content changed vs the
+    on-disk file. A no-op build leaves the file byte-identical (no diff, no daily
+    commit noise). `updated` bumps only on a real change. Atomic temp-then-replace
+    so a crashed build can't corrupt the registry. Returns True if it wrote."""
+    new_canon = _canonical_registry(registry)
+    old_canon = None
+    if REGISTRY.exists():
+        try:
+            old_canon = _canonical_registry(json.loads(REGISTRY.read_text()))
+        except (ValueError, OSError):
+            old_canon = None
+    if old_canon == new_canon:
+        return False  # structurally identical -> never touch the file
+
+    out = dict(registry)
+    out["updated"] = today
+    # Serialize with the same stable ordering used for comparison so the on-disk
+    # form round-trips to byte-identical canon next run.
+    sorted_body = json.loads(new_canon)
+    sorted_body["updated"] = today
+    text = json.dumps(sorted_body, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+    tmp = REGISTRY.with_suffix(".json.tmp")
+    tmp.write_text(text)
+    os.replace(tmp, REGISTRY)
+    return True
+
+
+def scan_coverage(env, posthog_experiments, clickup, registry):
+    """Run every v1 scanner. Each is fail-open and returns None ("no data") on a
+    failed pull. Returns {events, experiments, clickup}."""
+    return {
+        "events": scan_events(env),
+        "experiments": scan_experiments(env, posthog_experiments, clickup),
+        "clickup": scan_clickup(clickup, registry),
+    }
+
+
+def build_coverage(env, posthog_experiments, clickup, today):
+    """Orchestrate the Coverage Reconciler and return the live.coverage block.
+    Fully fail-open: any unexpected error yields an empty coverage block so the
+    build (and the site render) never break."""
+    try:
+        registry = load_registry()
+        scans = scan_coverage(env, posthog_experiments, clickup, registry)
+        diff = reconcile_coverage(registry, scans)
+        registry, autowired = autowire_coverage(registry, diff, env)
+        wrote = write_registry_if_changed(registry, today)
+        blind, stale = diff["blindSpots"], diff["stale"]
+        log(f"coverage: {len(blind)} blind spot(s), {len(stale)} stale, "
+            f"{len(autowired)} auto-wired · registry {'written' if wrote else 'unchanged'}")
+        return {
+            "updated": today,
+            "blindSpots": blind,
+            "stale": stale,
+            "autowired": autowired,
+            "summary": {"blind": len(blind), "autowired": len(autowired), "stale": len(stale)},
+        }
+    except Exception as e:  # noqa: BLE001 -- coverage must never break the build
+        log(f"coverage: unexpected failure ({e}); emitting empty coverage block")
+        return {"updated": today, "blindSpots": [], "stale": [], "autowired": [],
+                "summary": {"blind": 0, "autowired": 0, "stale": 0}}
+
+
 # ------------------------------------------------------------------ build ----
 def build():
     content = json.loads(CONTENT.read_text())
@@ -1429,6 +1760,12 @@ def build():
     now = datetime.now(timezone.utc)
     content["meta"]["updated"] = now.strftime("%B %-d, %Y")
     content["meta"]["updatedISO"] = now.isoformat()
+
+    # Coverage Reconciler — diff the live marketing surface (events / experiments /
+    # ClickUp) against coverage-registry.json. Fully fail-open; writes only the
+    # registry (on real change) and the live.coverage block below, never content.json.
+    # Runs before clickup['all'] is popped (it reads clickup['open'], which survives).
+    coverage = build_coverage(env, experiments, clickup, now.strftime("%Y-%m-%d"))
     # Self-improving Command Center: stamp it reviewed on every run so the action
     # queue always reflects "checked today". Deeper status re-ranking (resolve
     # done items, surface new leaks) is done by the marketing-os-refresh agent
@@ -1474,6 +1811,7 @@ def build():
         "instagram": instagram,
         "history": history,
         "learning": learning,
+        "coverage": coverage,
         "refreshedSources": {
             "posthog": posthog_live,
             "meta": signups is not None,

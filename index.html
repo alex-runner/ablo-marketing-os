@@ -437,6 +437,7 @@
       calendar:'M3 5h18v16H3zM3 9h18M8 3v4M16 3v4',
       bot:'M12 2v3M5 8h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1zM9 13v1M15 13v1M2 12v3M22 12v3',
       map:'M9 3L3 6v15l6-3 6 3 6-3V3l-6 3zM9 3v15M15 6v15',
+      radar:'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 12l5-3M12 12m-4 0a4 4 0 1 0 8 0M12 3v2',
     };
     const svg = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${p.split('M').filter(Boolean).map(d=>'<path d="M'+d+'"/>').join('')}</svg>`;
 
@@ -881,6 +882,53 @@
       );
     };
 
+    // Coverage Reconciler — live marketing surface diffed against what the OS
+    // models. Blind spots = live but unmodeled (escalated for the agent to wire or
+    // dismiss); stale = modeled but stopped firing. v1 never auto-wires.
+    const DIMLABEL={events:'events', experiments:'experiments', clickup:'ClickUp', pages:'pages', channels:'channels', flows:'flows'};
+    const DIMTONE={events:'accent', experiments:'warn', clickup:'muted', pages:'muted', channels:'muted', flows:'muted'};
+    S.coverage = ()=>{ const cov=(L.coverage)||{}; const live=(L.refreshedSources||{}).posthog;
+      const blind=cov.blindSpots||[]; const stale=cov.stale||[]; const auto=cov.autowired||[];
+      const sm=cov.summary||{blind:blind.length, autowired:auto.length, stale:stale.length};
+      return frag(
+        sectionHead('Coverage','What the OS is, and is not, watching',
+          'Every build enumerates the live marketing surface (events, experiments, ClickUp) and diffs it against the registry of what the OS models. Live-but-unmodeled is a blind spot, escalated here for the agent to wire in or dismiss. This closes the gap inside the instrumented world; a genuinely new surface with no scanner still needs one added.'),
+        h('div',{class:'freshness'},
+          h('span',{class:'pill'}, h('span',{class:'dot '+(live?'live':'cached')}), 'Reconciler · '+(live?'live':'cached snapshot')),
+          cov.updated? h('span',{},'Scanned '+cov.updated):null,
+          chip(sm.blind+' blind '+(sm.blind===1?'spot':'spots'), sm.blind?'warn':'success'),
+          chip(sm.stale+' stale', sm.stale?'error':'muted'),
+          chip(sm.autowired+' auto-wired','muted')),
+        blocktitle('Blind spots · live surface the OS does not model'),
+        blind.length? h('div',{class:'stack'}, blind.map(b=>card({cls:'flat',children:[
+          h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px'},
+            h('div',{style:'display:flex;align-items:center;gap:10px;flex-wrap:wrap'},
+              h('span',{class:'mono',style:'color:var(--accent);font-weight:600;letter-spacing:.03em'}, b.key),
+              chip(DIMLABEL[b.dimension]||b.dimension, DIMTONE[b.dimension]||'muted'),
+              b.cluster? chip('cluster','accent'):null,
+              (b.volume!=null)? chip(b.volume+' users/30d','muted'):null),
+            chip((b.status==='auto-wired'?'auto-wired':'escalated'), b.status==='auto-wired'?'success':'warn')),
+          b.where? h('p',{class:'small',style:'margin:0 0 8px;color:var(--text2)'}, b.where):null,
+          b.action? h('p',{class:'small',style:'margin:0;color:var(--accent-dim)'},'▸ '+b.action):null
+        ]}))) : h('div',{class:'callout'}, h('div',{class:'tag'},'All clear'), h('p',{},'No blind spots. Every live event cluster, experiment, and ClickUp task the scanners see is either modeled by the OS or dismissed in the registry with a reason.')),
+        blocktitle('Stale / possible tracking regression'),
+        stale.length? h('div',{class:'card flat'}, stale.map(s=>h('div',{class:'cutask'},
+          h('span',{class:'cudot',style:'background:var(--error)'}),
+          h('span',{class:'nm mono'}, s.key),
+          h('span',{class:'custatus'}, DIMLABEL[s.dimension]||s.dimension),
+          h('span',{class:'custatus'}, s.note||'modeled but absent in the live window')))) :
+          card({cls:'flat',body:'No stale items. Every modeled event still fired in the last 30 days.'}),
+        auto.length? frag(
+          blocktitle('Auto-wired log'),
+          h('div',{class:'card flat'}, auto.map(a=>h('div',{class:'cutask'},
+            h('span',{class:'cudot',style:'background:var(--success)'}),
+            h('span',{class:'nm mono'}, a.key||a.id||''),
+            h('span',{class:'custatus'}, a.note||'auto-wired'))))) :
+          h('div',{class:'callout',style:'margin-top:18px'}, h('div',{class:'tag'},'v1 scope'),
+            h('p',{},'v1 is detect + escalate only — nothing is auto-wired, and the reconciler never writes content.json. Every item above waits for the agent to wire it into the OS (funnel stage, experiment card, or Command Center item) or dismiss it to the registry with a reason. Mechanical auto-wiring (pages / destinations / explicit-tag experiments) arrives in v2 once the pattern has earned trust.'))
+      );
+    };
+
     S.calendar = ()=>{ const cal=D.contentCalendar||{}; const ig=(L.instagram)||null;
       const items=cal.items||[];
       const COLORS={Instagram:'#e0a8c8', LinkedIn:'#7fb1e6', Email:'#e8d5a3', Blog:'#9fe0bd', Campaign:'#e8b483'};
@@ -1223,6 +1271,7 @@
       {group:'Operate', items:[
         {id:'agents',label:'For Agents',icon:I.bot},
         {id:'commandcenter',label:'Command Center',icon:I.zap},
+        {id:'coverage',label:'Coverage',icon:I.radar},
         {id:'trends',label:'Trends',icon:I.trend},
       ]},
       {group:'Strategy', items:[
@@ -1274,6 +1323,13 @@
     const down=health.filter(s=>s.state==='down');
     if(down.length) foot.append(h('div',{class:'stamp',style:'color:var(--error)'},
       down.length+(down.length>1?' sources':' source')+' down · on cached data'));
+    // Coverage health pill — one-line read of the blind-spot reconciler, links to the tab.
+    const _cov=(L.coverage||{}).summary; if(_cov){
+      const _msg = _cov.blind ? (_cov.blind+' blind '+(_cov.blind===1?'spot needs':'spots need')+' you'+(_cov.stale?', '+_cov.stale+' stale':''))
+                              : (_cov.stale ? _cov.stale+' stale, no blind spots' : 'all surfaces covered');
+      foot.append(h('a',{class:'stamp',href:'#coverage',style:'color:'+(_cov.blind?'var(--accent-dim)':'var(--success)')+';text-decoration:none'},
+        'Coverage · '+_msg));
+    }
     const _iso=(((D.meta||{}).updatedISO)||''); const _hm=_iso.slice(11,16);
     let _pt=''; if(_iso){ try{ _pt=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Los_Angeles',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(_iso)); }catch(e){} }
     foot.append(h('div',{class:'stamp'}, 'Updated '+((D.meta||{}).updated||'· ')+(_hm?', '+_hm+' UTC':'')+(_pt?' · '+_pt+' PT':'')+' · auto-refreshes'));

@@ -1,0 +1,134 @@
+{
+  "clickupTasks": {
+    "ignore": [
+      "86ba1qn7c",
+      "86ba6v3ag",
+      "86ba99f57",
+      "86ba9kmj6",
+      "86ba9kmjg",
+      "86ba9kmk0",
+      "86ba9mpba",
+      "86ba9n48c",
+      "86ba9n6w5",
+      "86ba9nfny",
+      "86baa3d56"
+    ],
+    "ignoreReasons": {
+      "86ba1qn7c": "Autopilot run-log task; the OS already surfaces Meta delivery in Command Center/Campaigns.",
+      "86ba6v3ag": "User-interview ops task; qualitative research, not a marketing surface the OS models.",
+      "86ba99f57": "Engineering verification task (purchase_completed), not a marketing surface the OS models.",
+      "86ba9kmj6": "Engineering verification task (purchase_completed test purchase).",
+      "86ba9kmjg": "Pixel-undercount engineering fix, tracked in Command Center rank 8 narrative.",
+      "86ba9kmk0": "Infra task to wire the OS runner itself; meta, not a tracked marketing surface.",
+      "86ba9mpba": "Klaviyo link-tracking engineering fix; the lifecycle gap it serves is in Command Center rank 3.",
+      "86ba9n48c": "Meta task about the OS runner itself; not a marketing surface.",
+      "86ba9n6w5": "This Coverage Reconciler family of work; meta, not a tracked surface.",
+      "86ba9nfny": "Product build task (/try store-URL scrape); surfaced via the /try experiment, not a standalone OS surface.",
+      "86baa3d56": "This Coverage Reconciler build task; meta, not a tracked surface."
+    },
+    "list": "901415977874",
+    "modeled": [
+      "86b9ve7pp",
+      "86ba6v3mx",
+      "86ba705xt",
+      "86ba709mn",
+      "86ba70be6",
+      "86ba9gw2t",
+      "86ba9gw2w",
+      "86ba9n6my",
+      "86ba9wgw8"
+    ]
+  },
+  "dimensions": {
+    "events": {
+      "ignore": [
+        "$autocapture",
+        "$exception",
+        "$feature_flag_called",
+        "$identify",
+        "$pageleave",
+        "$rageclick",
+        "$session_summary_ready",
+        "$set",
+        "$web_vitals",
+        "feature_tip_dismissed",
+        "feature_tip_shown",
+        "product_recovery_action",
+        "product_recovery_shown",
+        "product_scrape_failed",
+        "studio_step_change",
+        "web vitals"
+      ],
+      "ignoreReasons": {
+        "$autocapture": "PostHog autocapture noise, not a modeled product event.",
+        "$exception": "PostHog client exception event, system noise.",
+        "$feature_flag_called": "PostHog flag-evaluation event, system noise.",
+        "$identify": "PostHog identity event, system noise.",
+        "$pageleave": "PostHog page-leave event, paired with $pageview, not separately modeled.",
+        "$rageclick": "PostHog rage-click heuristic event, system noise.",
+        "$session_summary_ready": "PostHog session-summary signal, system noise.",
+        "$set": "PostHog person-property set event, system noise.",
+        "$web_vitals": "PostHog web-vitals performance event, system noise.",
+        "feature_tip_dismissed": "Studio coachmark telemetry; not a funnel milestone.",
+        "feature_tip_shown": "Studio coachmark telemetry (the coachmarks A/B is tracked as PH-374260); not a funnel milestone.",
+        "product_recovery_action": "Import error-recovery action (off the happy path); not a modeled funnel signal.",
+        "product_recovery_shown": "Import error-recovery prompt (off the happy path); not a modeled funnel signal.",
+        "product_scrape_failed": "Import failure event (off the happy path); the funnel models product_scrape_succeeded.",
+        "studio_step_change": "Granular within-Studio navigation event; the funnel models studio_entered, not each step change.",
+        "web vitals": "Web-vitals variant label, system noise."
+      },
+      "minUsers30d": 10,
+      "modeled": [
+        "$pageview",
+        "book_call_clicked",
+        "checkout_started",
+        "cta_clicked",
+        "login_completed",
+        "magic_link_requested",
+        "model_generated",
+        "pricing_plan_clicked",
+        "product_imported",
+        "product_scrape_succeeded",
+        "product_url_submitted",
+        "purchase_completed",
+        "result_downloaded",
+        "results_downloaded_all",
+        "signup_completed",
+        "signup_modal_opened",
+        "studio_entered",
+        "surprise_me_clicked",
+        "tryon_completed"
+      ]
+    },
+    "experiments": {
+      "clickupMapped": {
+        "OS-SIGNUP-GOOGLE": "86ba709mn",
+        "OS-TRY-VS-HOME": "86ba9n6my",
+        "PH-374260": "86ba705xt"
+      },
+      "ignore": [
+        "86b9w64g7",
+        "86ba823dh",
+        "86ba8vjq1",
+        "86ba9gxyc",
+        "86ba9kmhq",
+        "86ba9kmj6"
+      ],
+      "ignoreReasons": {
+        "86b9w64g7": "Etsy channel 'test' is a channel exploration, not an instrumented experiment.",
+        "86ba823dh": "'demand-testing' phrasing trips the regex; it is a Josh-automation task, not an OS-tracked experiment.",
+        "86ba8vjq1": "Autopilot creative 'testing' trips the regex; it is ad-ops work, not a tracked experiment.",
+        "86ba9gxyc": "Build task for the value-first flow (now the /try experiment, mapped separately); the build task is not itself an experiment.",
+        "86ba9kmhq": "Price-ask 'test' is a qualitative interview round, not an instrumented A/B the OS tracks.",
+        "86ba9kmj6": "purchase_completed 'test purchase' is an engineering verification, not an experiment."
+      },
+      "modeled": [
+        "OS-SIGNUP-GOOGLE",
+        "OS-TRY-VS-HOME",
+        "PH-374260"
+      ]
+    }
+  },
+  "updated": "2026-06-04",
+  "version": 1
+}
