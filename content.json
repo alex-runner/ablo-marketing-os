@@ -565,6 +565,16 @@
       "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
       "signal": "Measuring before vs after May 27. Live before/after completion computes on each refresh."
     },
+    "tryExperiment": {
+      "id": "OS-TRY-VS-HOME",
+      "name": "Paid landing A/B: /try (value-first) vs homepage",
+      "status": "Running, measuring",
+      "flag": "Meta landing split (not a PostHog A/B)",
+      "metric": "visitor → signup, per entry page",
+      "started": "in progress (ClickUp 86ba9n6my)",
+      "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
+      "signal": "Live comparison computes on each refresh."
+    },
     "policy": "Focus beats volume. Run no more than 2 to 3 experiments at once, one primary test per funnel stage. With traffic this low, more concurrent tests dilute the signal and slow every conclusion. Ship the winner, then start the next."
   },
   "campaignsCurated": {

@@ -1120,6 +1120,62 @@ def fetch_signup_experiment(env, base):
     return out
 
 
+# The /try value-first funnel uses its OWN event taxonomy (tbs_* = "try before
+# signup"), NOT the homepage's cta_clicked. Measuring /try with the homepage funnel
+# undercounts it, so read the tbs_* steps explicitly for /try entrants.
+TRY_FUNNEL_Q = """
+SELECT
+  count(DISTINCT person_id) AS landed,
+  count(DISTINCT if(event IN ('tbs_category_selected','tbs_sample_selected','tbs_garment_added','tbs_scene_selected'), person_id, NULL)) AS customized,
+  count(DISTINCT if(event = 'tbs_generate_clicked', person_id, NULL)) AS generated,
+  count(DISTINCT if(event = 'tbs_signup_wall_shown', person_id, NULL)) AS hit_wall,
+  count(DISTINCT if(event = 'signup_completed', person_id, NULL)) AS signed
+FROM events
+WHERE timestamp >= now() - INTERVAL 60 DAY
+  AND person_id IN (
+    SELECT person_id FROM (
+      SELECT person_id, argMinIf(properties.$pathname, timestamp, event = '$pageview') AS entry
+      FROM events WHERE timestamp >= now() - INTERVAL 60 DAY AND event = '$pageview'
+      GROUP BY person_id
+    ) WHERE entry = '/try'
+  )
+""".strip()
+
+
+def fetch_try_experiment(env, base, landing):
+    """OS-tracked read on the /try (value-first) vs homepage paid landing A/B.
+    This is a Meta-level landing split, NOT a PostHog experiment, so it never shows
+    in the experiments API; we measure it from the live per-page signup rate + the
+    /try value-first (tbs_*) funnel. Returns base enriched, or base on failure."""
+    out = dict(base)
+    pages = {p.get("path"): p for p in ((landing or {}).get("pages") or [])}
+    home, tryp = pages.get("/"), pages.get("/try")
+    cmp_bits = []
+    if home:
+        cmp_bits.append(f"Homepage {home.get('signupPct')}% signup ({home.get('signups')}/{home.get('visitors')})")
+    if tryp:
+        cmp_bits.append(f"/try {tryp.get('signupPct')}% ({tryp.get('signups')}/{tryp.get('visitors')})")
+    funnel_bit = ""
+    rows = _hogql(env, TRY_FUNNEL_Q)
+    if rows and rows[0]:
+        try:
+            landed, customized, generated, hit_wall, signed = [int(x) for x in rows[0]]
+            funnel_bit = (f" /try value-first funnel: {landed} land -> {customized} customize -> "
+                          f"{generated} generate -> {hit_wall} hit the signup wall -> {signed} signup.")
+            out["tryFunnel"] = {"landed": landed, "customized": customized, "generated": generated,
+                                "hitWall": hit_wall, "signed": signed}
+        except (ValueError, TypeError):
+            pass
+    caveat = (" Caveats: /try engagement fires as tbs_* events, not cta_clicked, so the Funnel tab's "
+              "engage step understates /try; and anonymous->identified signup attribution (magic-link) "
+              "may undercount /try signups (ClickUp 86ba2wp4t). Thin sample, directional only.")
+    out["signal"] = (" vs ".join(cmp_bits) + ("." if cmp_bits else "") + funnel_bit + caveat).strip()
+    if home and tryp and isinstance(home.get("signupPct"), (int, float)) and isinstance(tryp.get("signupPct"), (int, float)):
+        out["status"] = "Running, /try ahead (thin)" if tryp["signupPct"] >= home["signupPct"] else "Running, /try behind (thin)"
+    log(f"try-experiment: home {home.get('signupPct') if home else '?'}% vs /try {tryp.get('signupPct') if tryp else '?'}%")
+    return out
+
+
 # -------------------------------------------------------------- reconcile ----
 _DONE_TYPES = {"done", "closed"}
 
@@ -1297,6 +1353,13 @@ def build():
     # Live per-landing-page conversion (entry pathname -> engage -> signup). Makes
     # top-of-funnel CRO a measurable, per-page bet instead of an aggregate hunch.
     landing_live = fetch_landing_pages(env)
+
+    # Wire the /try-vs-homepage paid landing A/B as an OS-tracked experiment, fed
+    # from the live per-page signup rate + the /try value-first (tbs_*) funnel, so a
+    # Meta-level landing split surfaces in the Experiments tab with a live verdict.
+    tx = content.get("experimentsCurated", {}).get("tryExperiment")
+    if tx:
+        experiments = list(experiments) + [fetch_try_experiment(env, tx, landing_live)]
 
     # ClickUp task feed (source of truth for action items) + IG organic stats.
     clickup = fetch_clickup(env)
