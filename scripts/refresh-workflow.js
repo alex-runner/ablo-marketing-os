@@ -129,7 +129,7 @@ Do the orchestrator writes, exactly per the playbook:
 - Append 2-3 lines to state/refresh-log.md.
 ${dryRun
     ? '- DRY RUN: do NOT write any file, do NOT run build.py, do NOT commit. Instead REPORT the proposed re-rank, the predictions you WOULD resolve/open, and what you WOULD commit. Set wrote=false, committed=null.'
-    : '- Then run `python3 build.py` to re-render, and COMMIT EXACTLY ONCE: `git add -A && git commit -m "chore: daily marketing routine $(date +%F)" && git push origin main`. Mark state/run-$(date +%F).json complete. Set wrote=true, committed=true (or false if the push failed).'}
+    : '- Then run `python3 build.py` to re-render, and COMMIT EXACTLY ONCE. Stage ONLY the routine\'s own files, never `git add -A` (it would sweep in unrelated untracked files): `git add content.json data.js index.html history.jsonl state/lessons.jsonl state/refresh-log.md state/experiment-roadmap.md "state/run-$(date +%F).json" && git commit -m "chore: daily marketing routine $(date +%F)" && git push origin main`. Set wrote=true, committed=true (or false if the push failed).'}
 
 Return ONLY the Synthesis JSON: reranked (each {rank,title,sev}), predictions_resolved, predictions_opened, wrote, committed, summary (3 short lines: top movement, top action, anything needing Alejo), scoreboard (one line: resolved with verdicts, opened, calibration hitRate/n).`,
   { schema: SYNTH, label: 'synthesize', phase: 'Synthesize' },
