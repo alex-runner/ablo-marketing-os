@@ -2050,7 +2050,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 3, 2026",
+    "updated": "June 4, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2058,73 +2058,83 @@
         "sev": "high",
         "title": "Run the price-ask test",
         "owner": "Alejo",
-        "status": "Decisive lever, start this week",
+        "status": "Not started. 27 days to end-June goal, now urgent.",
         "targets": "first paying customer · willingness to pay",
-        "body": "With ~4 weeks to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "body": "With 27 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
         "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
       },
       {
         "rank": "2",
         "sev": "high",
-        "title": "Wire the prepared lifecycle emails",
-        "owner": "Marketing",
-        "status": "Ready, fastest automated lever",
-        "targets": "signup → model · model → try-on",
-        "body": "The Activate (A1-A3) and AHA (B1-B3) templates exist but sit in no flow. Build two behavioral flows in Klaviyo (Added-to-List with no Model Generated in 24h → Activate, Model Generated → AHA). Klaviyo already receives the Model Generated metric, so it is buildable today. Directly attacks the #1 funnel leak, the activation gap. Zero new copy.",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
-        "verify": { "clickup": ["Klaviyo flow", "email flows"], "doneWhen": "clickup" }
+        "title": "Verify purchase_completed actually fires",
+        "owner": "Product / Data",
+        "status": "7 checkout starters confirmed. 0 paid verified. Potentially live revenue we cannot see.",
+        "targets": "checkout → paid",
+        "body": "7 people started checkout (10% of all signups) but 0 purchases are confirmed because no success event fires in PostHog. With 27 days to the end-June goal, we cannot afford to discover this event is broken on the first real sale. Run a sandbox purchase to confirm purchase_completed reaches PostHog end-to-end. If any of the 7 converted, we already have paying customers we do not know about.",
+        "ladder": "Measurement · unblocks signup-to-paid (the make-or-break KPI)"
       },
       {
         "rank": "3",
         "sev": "high",
-        "title": "Close the activation gap",
-        "owner": "Product",
-        "status": "Investigating. Coachmarks live but underpowered (6/7 exposures)",
-        "targets": "signup → model (69%)",
-        "body": "The #1 funnel leak: 31% of signups never generate a first model, and every paid step is gated on a model existing. Rage-click cluster on /studio confirmed. The coachmarks A/B (PH-374260) is live but at ~3% of the sample it needs, leave it running. Pull /studio replays on the non-activators to find the control that stalls before the first Generate.",
-        "ladder": "Lever 2 · Activation → signup-to-activation ≥ 50%",
-        "verify": { "clickup": ["coachmarks", "onboarding"], "doneWhen": "clickup" }
+        "title": "Wire the prepared lifecycle emails",
+        "owner": "Marketing",
+        "status": "Unwired. Activate A1-A3 and AHA B1-B3 exist in Klaviyo, no behavioral flow live.",
+        "targets": "signup → model · model → try-on",
+        "body": "The Activate (A1-A3) and AHA (B1-B3) templates exist but sit in no flow. Build two behavioral flows in Klaviyo (Added-to-List with no Model Generated in 24h → Activate, Model Generated → AHA). Klaviyo already receives the Model Generated metric, so it is buildable today. Directly attacks the activation gap. Zero new copy.",
+        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
+        "verify": { "clickup": ["Klaviyo flow", "email flows"], "doneWhen": "clickup" }
       },
       {
         "rank": "4",
         "sev": "high",
-        "title": "Verify purchase_completed actually fires",
-        "owner": "Product / Data",
-        "status": "Instrumented (PR #37), not yet confirmed firing",
-        "targets": "checkout → paid",
-        "body": "purchase_completed is still absent from the PostHog event schema, so signup→paid stays unreadable. With 0 purchases we cannot tell 'not deployed' from 'no sale yet'. Run a test or sandbox purchase to confirm the event reaches PostHog end-to-end, before the first real sale, so the make-or-break number is not discovered broken at the worst moment.",
-        "ladder": "Measurement · unblocks signup-to-paid (the make-or-break KPI)"
+        "title": "Remove magic-link from signup modal",
+        "owner": "Product",
+        "status": "Residual leak. Email (64 clicks) still out-clicks Google (59) despite demotion. Magic-link completes at 7%.",
+        "targets": "open → signup",
+        "body": "Making Google the primary button (rank 8, done) lifted completion from 33% to 42%. But email still wins more clicks than Google (64 vs 59), and magic-link completion is 7% (4 of 58 requesters log in). The fix is not demoting email, it is removing the modal option entirely. Keep password recovery below the fold, but the signup modal should be Google-only. This is the next lift on signup_completion_rate.",
+        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%"
       },
       {
         "rank": "5",
         "sev": "med",
-        "title": "Stop the value-capture leak",
-        "owner": "Product / Marketing",
-        "status": "New",
-        "targets": "try-on → download (17%)",
-        "body": "Only 5 of 30 aha-reachers export a result. Add a download / share prompt the instant the try-on renders, so the value leaves the app. Lower-stage than activation, so it ranks below the gap that gates it.",
-        "ladder": "Lever 2/3 · Activation-to-paid + ARPU"
+        "title": "Close the activation gap",
+        "owner": "Product",
+        "status": "69% signup→model, above the 50% target. Coachmarks experiment running (low sample). Monitor.",
+        "targets": "signup → model (69% vs target 50%)",
+        "body": "Activation is above target but 31% of signups (22 users) still never generate a model, and every paid step gates on a model existing. The coachmarks A/B (PH-374260) is live but at single-digit exposures it needs more traffic to conclude. Pull /studio session replays on the non-activators to identify the stall point while the experiment collects sample. Rank falls because we are above the 50% target, not because the gap is closed.",
+        "ladder": "Lever 2 · Activation → signup-to-activation ≥ 50%",
+        "verify": { "clickup": ["coachmarks", "onboarding"], "doneWhen": "clickup" }
       },
       {
         "rank": "6",
         "sev": "med",
+        "title": "Stop the value-capture leak",
+        "owner": "Product / Marketing",
+        "status": "6 of 35 try-on users export. 17% capture rate.",
+        "targets": "try-on → download (17%)",
+        "body": "Only 6 of 35 users who reach the aha export a result. Add a download / share prompt the instant the try-on renders, so the value leaves the app. Lower-stage than activation, so it ranks below the gap that gates it.",
+        "ladder": "Lever 2/3 · Activation-to-paid + ARPU"
+      },
+      {
+        "rank": "7",
+        "sev": "med",
         "title": "Keep Meta delivery healthy, fix the Kids pixel",
         "owner": "Autopilot / Alejo",
-        "status": "Resumed Jun 2 after a 6-day billing stall",
+        "status": "Delivery live. CPL $6.09 on current flight (healthy). Pixel fix still open.",
         "targets": "top of funnel",
-        "body": "The live flight runs ~$8 CPL with Women's-swim the standout ($3.95 CPL, 7.69% CTR). Kids has healthy CTR but its conversions are undercounted: the /toddler and /plus-size pixels under-fire, so the converting segment looks worse than it is. Fix the pixel, let the autopilot concentrate on Kids and Swim, and watch for another billing stall.",
+        "body": "Delivery resumed after the 6-day billing stall (May 28 to Jun 2). Current flight CPL is $6.09, with Women's-swim the standout ($3.95 CPL, 7.69% CTR). Kids pixel still under-fires on /toddler and /plus-size, making Kids conversions look worse than they are. Fix the pixel so the autopilot can concentrate budget accurately on Kids and Swim.",
         "ladder": "Lever 1 · Grow top-of-funnel → CPL ≤ $20",
         "verify": { "signal": "metaDeliveryLive" }
       },
       {
-        "rank": "7",
+        "rank": "8",
         "sev": "done",
         "title": "Fix the signup-modal leak",
         "owner": "Product",
-        "status": "Shipped. Modal completion 33% → 42%, held",
+        "status": "Shipped. Modal completion 33% → 42%, held. Residual magic-link leak tracked in rank 4.",
         "done": true,
         "targets": "open → signup",
-        "body": "Google one-click is now the primary full-width button, email demoted. Shipped and measured: completion rose from 33% to a 44% peak and has held at 42%. Logged as a hit (PRED-2026-05-20-google-signup, +11pp). Done, the next leak is the activation gap (rank 3).",
+        "body": "Google one-click is now the primary full-width button, email demoted. Shipped and measured: completion rose from 33% to a 44% peak and has held at 42%. Logged as a hit (PRED-2026-05-20-google-signup, +11pp). Residual magic-link leak (email still out-clicks Google 64 vs 59) tracked in rank 4.",
         "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
         "verify": { "signal": "signupModalShipped", "clickup": ["Google button", "sign-up modal"], "doneWhen": "signal" }
       }
