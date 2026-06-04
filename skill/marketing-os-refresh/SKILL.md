@@ -46,6 +46,8 @@ The OS is not just a dashboard you re-read each day, it is a system that **compo
 
 **Honesty rule:** mark `verdict:"hit"` only when the actual cleared the predicted target. A near-miss is `partial`, a wrong-direction or no-move is `miss`. The ledger is a true scoreboard, not a flattering one. A `miss` that yields a sharp lesson is worth more than a vague `hit`.
 
+**Two feedback layers.** The loop above scores *decisions* (predictions → lessons). The QA pressure-test (step 7.5) adds a second layer that scores the *run itself*: every mistake QA catches is written back as a `qa`-tagged `lesson` the next run reads first, so caught errors do not recur. Decision-feedback makes the bets better; QA-feedback makes the whole routine harder to fool. Both are just `lesson` records, the `qa` tag is what step 7.5 reads first.
+
 ---
 
 ## Execution model (orchestrator + read-agents)
@@ -107,15 +109,26 @@ Every experiment has a stable **ID** (PostHog `PH-####` or OS-tracked `OS-...`).
 - If it is a full rollout, ship-and-measure: add it as an `OS-...` before/after tracked experiment so build.py measures it.
 - **Log the launch as a `prediction`** (metric, baseline, predicted, horizon), then add or re-rank the roadmap so tomorrow starts from the queue, not a blank page.
 
+### 7.5 QA pressure-test (adversarial self-check, then feed it back)
+Before you publish, try to break your own run. This is the quality gate that makes autonomy safe, and its catches are the fuel that makes the next run sharper.
+- **Read prior QA lessons first.** Open the `qa`-tagged lessons in `live.learning`. They are the checklist of mistakes past runs made. Check today's decisions against each before anything else.
+- **Refute, do not rubber-stamp.** Dispatch 2 to 3 independent skeptic agents (Agent tool, `general-purpose`), each told to REFUTE the run, not bless it. Split the work: one re-verifies every number in the re-rank, predictions, and conclusions against `data.js` and `history.jsonl` (catch a hallucinated or stale figure); one attacks the calls (is any "winner" actually powered? does each Command Center item still ladder to the goal? does the new prediction respect calibration, or is it optimistic on thin `n`?); one checks the safety boundary below (did anything irreversible get auto-applied?). Default to refuted when uncertain.
+- **Act on the verdict.** Any decision a skeptic refutes and you cannot defend with the data: revise it or hold it, do not commit it. Log a held decision as "held by QA: reason" in `state/refresh-log.md`, never drop it silently.
+- **Feed it back (the self-improving part).** Every real catch becomes a durable `lesson` tagged `qa` in `state/lessons.jsonl`, written forward as a rule ("confirm ~200 exposures per variant before calling a winner"), not as a diary note. The next run reads it first in this step, so the same class of mistake cannot recur. Track a running QA catch rate alongside `calibration`: falling means the decision step is learning, rising means something regressed.
+- **Promote recurring catches.** If the same `qa` lesson fires across several runs, queue a SKILL.md edit in the monthly second-order audit so it hardens from soft memory into a playbook rule.
+
 ### 8. Publish + report
-- Mark the run complete in `state/run-$(date +%F).json`, then `python3 build.py` again to re-render (it recomputes `learning` + `calibration` from your ledger edits). **Commit exactly once, here only** (never mid-run): `git add -A && git commit -m "chore: daily marketing routine $(date +%F)" && git push origin main`. The commit includes your `state/lessons.jsonl`, `state/experiment-roadmap.md`, and run-state edits; the ledger is version-controlled memory.
+- Mark the run complete in `state/run-$(date +%F).json`, then `python3 build.py` again to re-render (it recomputes `learning` + `calibration` from your ledger edits). **Commit exactly once, here only** (never mid-run), and **stage only the routine's own files, never `git add -A`** (it sweeps in unrelated untracked files): `git add content.json data.js index.html history.jsonl state/lessons.jsonl state/refresh-log.md state/experiment-roadmap.md "state/run-$(date +%F).json" && git commit -m "chore: daily marketing routine $(date +%F)" && git push origin main`. The ledger is version-controlled memory.
 - Append 2 to 3 lines to `state/refresh-log.md`: what moved, what concluded, what was added, what you propose next.
 - Output a 3-line summary: top movement, top action, anything that needs Alejo. Add a one-line scoreboard: predictions resolved today (with verdicts), new predictions opened, and current calibration (`hitRate`, `n`).
 
 ---
 
-## What you escalate to Alejo (do not decide these alone)
-Money and budget changes, pricing or positioning calls, anything users will notice in the product that is not a clear low-risk tracking change, ad-account/billing access, and any irreversible data operation. Everything else (instrument an event, run an analysis, re-rank the queue, draft an experiment, wire a Klaviyo flow) you own. See the CTO ownership contract.
+## The autonomous safety boundary (what auto-applies vs what escalates)
+This is the safety gate, separate from the QA quality gate (step 7.5). It does not depend on judgment, it is a hard line drawn by reversibility, and it is what makes running unattended safe.
+- **Auto-apply (reversible, git-tracked):** resolve predictions, write lessons (incl. `qa`), re-rank the Command Center, update the roadmap and refresh-log, draft a PostHog experiment, commit + push. You own these and do them every run.
+- **Escalate, never auto-fire (irreversible or user-visible):** money or budget changes, pricing or positioning calls, launching a live experiment, turning on or sending a Klaviyo flow that emails real users, ad-account or billing access, deleting data, and anything users will notice in the product that is not a clear low-risk tracking change. Stage these as a proposal or draft in the Command Center and flag them for Alejo, do not execute.
+- **Why two gates:** QA (7.5) catches bad *decisions*; this boundary contains bad *consequences*. A wrong call that slips past QA is recoverable as long as it only touched reversible state. See the CTO ownership contract.
 
 ## Cadence
 - **Daily:** this whole checklist.

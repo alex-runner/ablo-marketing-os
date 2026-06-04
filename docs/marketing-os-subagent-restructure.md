@@ -15,7 +15,19 @@ Author: Claude (marketing-os-refresh session). Date: 2026-06-03.
   end-to-end by a full run. **Caveat fixed:** the harness can deliver `args` as a JSON
   string, so the first `dryRun:true` test parsed `args.dryRun` as undefined and executed
   for real (committed + pushed). The script now parses `args` defensively
-  (object-or-string) so `dryRun` is reliable.
+  (object-or-string) so `dryRun` is reliable, confirmed by a zero-agent diagnostic
+  (`args` arrives as a JSON string, and the fix resolves `dryRun:true` correctly).
+- **QA + autonomy-safety layer (built 2026-06-03).** The run now ends with two gates that
+  make unattended operation safe:
+  1. **QA pressure-test (quality, SKILL.md step 7.5 / workflow QA phase):** synthesis
+     PROPOSES the re-rank, predictions, and conclusions with NO writes; 2–3 independent
+     skeptics REFUTE it on distinct lenses (numbers vs data.js/history.jsonl, the calls vs
+     calibration + ladder, the safety boundary); only QA-approved decisions are applied.
+  2. **Self-improving QA:** every real catch is written back as a `qa`-tagged `lesson` the
+     next run reads first, so caught mistakes do not recur and the QA itself sharpens.
+  3. **Reversibility boundary (consequence safety):** auto-apply only reversible,
+     git-tracked work; stage anything irreversible or user-visible (live experiment, email
+     send, budget, deletes) as a proposal and escalate, never auto-fire.
 - **Still gated:** wiring Phase 2 into the unattended launchd/cron daily job. Per the
   skill, that waits for ~a week of trusted supervised runs. Until then, run it manually:
   `Workflow({ scriptPath: 'scripts/refresh-workflow.js' })` (real) or

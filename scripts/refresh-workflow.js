@@ -5,6 +5,8 @@ export const meta = {
     { title: 'Orient' },
     { title: 'Read' },
     { title: 'Synthesize' },
+    { title: 'QA' },
+    { title: 'Publish' },
   ],
 }
 
@@ -113,26 +115,78 @@ Read the lifecycle blocks in ${REPO}/data.js (Klaviyo flow status + prepared tem
     { schema: LIFECYCLE, label: 'lifecycle', phase: 'Read' }),
 ])
 
-// ---- steps 0-resolve, 5, 6, 7, 8: synthesis + writes (orchestrator role) ----
+// ---- step 6/7 (PROPOSE): synthesis computes the plan, NO writes, NO commit ----
 phase('Synthesize')
 const findings = JSON.stringify({ orient, experiments, funnel, campaigns, lifecycle })
-const synth = await agent(
-  `You are the SYNTHESIS + PUBLISH step of the Ablo marketing OS. Playbook: ${SKILL} (steps 0-resolve, 5, 6, 7, 8). Work in ${REPO}.
+const PROPOSAL = {
+  type: 'object', required: ['reranked', 'predictions_to_resolve', 'predictions_to_open', 'roadmap_changes', 'escalations', 'summary'],
+  properties: {
+    reranked: { type: 'array', items: { type: 'object', properties: { rank: { type: 'string' }, title: { type: 'string' }, sev: { type: 'string' }, why: { type: 'string' } } } },
+    predictions_to_resolve: { type: 'array' }, predictions_to_open: { type: 'array' },
+    roadmap_changes: { type: 'array' }, escalations: { type: 'array' }, measurement_flags: { type: 'array' },
+    summary: { type: 'array', items: { type: 'string' } },
+  },
+}
+const proposal = await agent(
+  `You are the SYNTHESIS (PROPOSE) step of the Ablo marketing OS. Playbook: ${SKILL} (steps 0-resolve, 5, 6, 7). Work from the findings only, do NOT re-read raw sources, and **do NOT write any file or commit** — only PROPOSE.
 ${GOAL}
-Here are the orient + 4 read-agent findings (already gathered, do NOT re-read the raw sources): ${findings}
-
-Do the orchestrator writes, exactly per the playbook:
-- Resolve every dueForReview prediction using the agents' scored_predictions: edit state/lessons.jsonl in place (status, actual, verdict, resolved_date) and append a one-line lesson.
-- Measurement integrity: if any measurement_ok is false, treat it as a flag (do not over-claim signup→paid).
-- Re-rank commandCenter.items in content.json by leverage toward the goal (the renderer uses ARRAY ORDER; reorder the array AND renumber rank, move done items to the bottom). Only edit the commandCenter block. Validate content.json parses.
-- Build the next experiment from state/experiment-roadmap.md respecting the non-overlap rule (≤1 live test per surface); log the leading bet as a prediction in state/lessons.jsonl (metric must be a real history.jsonl key); re-rank the roadmap.
-- Append 2-3 lines to state/refresh-log.md.
-${dryRun
-    ? '- DRY RUN: do NOT write any file, do NOT run build.py, do NOT commit. Instead REPORT the proposed re-rank, the predictions you WOULD resolve/open, and what you WOULD commit. Set wrote=false, committed=null.'
-    : '- Then run `python3 build.py` to re-render, and COMMIT EXACTLY ONCE. Stage ONLY the routine\'s own files, never `git add -A` (it would sweep in unrelated untracked files): `git add content.json data.js index.html history.jsonl state/lessons.jsonl state/refresh-log.md state/experiment-roadmap.md "state/run-$(date +%F).json" && git commit -m "chore: daily marketing routine $(date +%F)" && git push origin main`. Set wrote=true, committed=true (or false if the push failed).'}
-
-Return ONLY the Synthesis JSON: reranked (each {rank,title,sev}), predictions_resolved, predictions_opened, wrote, committed, summary (3 short lines: top movement, top action, anything needing Alejo), scoreboard (one line: resolved with verdicts, opened, calibration hitRate/n).`,
-  { schema: SYNTH, label: 'synthesize', phase: 'Synthesize' },
+Findings: ${findings}
+Propose, per the playbook:
+- predictions_to_resolve: each dueForReview prediction + its actual/verdict from the agents' scored_predictions.
+- predictions_to_open: the leading funnel/experiment bet (metric must be a real history.jsonl key, baseline from data, predicted lift tempered by calibration).
+- reranked: the full commandCenter order (each {rank,title,sev,why}), by leverage toward the goal.
+- roadmap_changes: experiment-roadmap edits respecting the non-overlap rule (≤1 live test per surface).
+- escalations: anything irreversible or user-visible (per the SKILL.md safety boundary) that must be staged for a human, NOT auto-applied.
+- measurement_flags: any measurement_ok=false issue.
+Return ONLY the Proposal JSON.`,
+  { schema: PROPOSAL, label: 'propose', phase: 'Synthesize' },
 )
 
-return { dryRun, orient, experiments, funnel, campaigns, lifecycle, synth }
+// ---- step 7.5 (QA): 2-3 skeptics REFUTE the proposal in parallel, distinct lenses ----
+phase('QA')
+const QA = {
+  type: 'object', required: ['lens', 'refutations', 'qa_lessons', 'verdict', 'headline'],
+  properties: {
+    lens: { type: 'string' }, refutations: { type: 'array' }, qa_lessons: { type: 'array' },
+    verdict: { type: 'string' }, headline: { type: 'string' },
+  },
+}
+const proposalStr = JSON.stringify(proposal)
+const LENSES = [
+  { key: 'numbers', brief: 're-verify EVERY figure in the proposal against data.js and history.jsonl; flag anything hallucinated, stale, or off.' },
+  { key: 'calls', brief: 'attack the judgment: is any "winner" actually powered (~200 exposures/variant)? does every Command Center item ladder to the goal? does each new prediction respect calibration (humble when n is thin)?' },
+  { key: 'boundary', brief: 'did the proposal auto-apply anything irreversible or user-visible (see the SKILL.md safety boundary)? those belong in escalations, not committed.' },
+]
+const qa = await parallel(LENSES.map((L) => () =>
+  agent(`You are a QA SKEPTIC for the Ablo marketing OS, lens "${L.key}". Contract: ${CONTRACTS} (section 5). READ-ONLY. Your job is to REFUTE this run, not bless it. Default to refuted when uncertain.
+${GOAL}
+Proposal to attack: ${proposalStr}
+Findings it came from: ${findings}
+Your lens: ${L.brief}
+Return ONLY the QA JSON (lens="${L.key}").`,
+    { schema: QA, label: `qa:${L.key}`, phase: 'QA' })))
+
+// ---- step 7.5 act + feed-back, step 8 publish: APPLY only QA-approved work ----
+phase('Publish')
+const qaStr = JSON.stringify(qa.filter(Boolean))
+const apply = await agent(
+  `You are the APPLY + PUBLISH step of the Ablo marketing OS. Playbook: ${SKILL} (step 7.5 act/feed-back + step 8). Work in ${REPO}.
+${GOAL}
+The proposal: ${proposalStr}
+The QA skeptics' verdicts: ${qaStr}
+
+Act on QA first:
+- Any decision a skeptic REFUTED that the proposal cannot defend with the data: revise or HOLD it (do not apply). Log each held item as "held by QA: reason" in state/refresh-log.md.
+- Write every real qa_lesson from the skeptics as a lesson tagged "qa" in state/lessons.jsonl (a forward-looking rule), so the next run reads it first.
+- Keep all escalations as proposals / Command Center items only; never auto-fire irreversible or user-visible actions.
+
+Then apply the QA-approved proposal per the playbook: resolve predictions + append lessons in state/lessons.jsonl; re-rank commandCenter.items in content.json (renderer uses ARRAY ORDER: reorder + renumber, done items last; only the commandCenter block; validate it parses); update state/experiment-roadmap.md; append 2-3 lines to state/refresh-log.md.
+${dryRun
+    ? '- DRY RUN: do NOT write any file, do NOT run build.py, do NOT commit. REPORT what you WOULD apply and hold. Set wrote=false, committed=null.'
+    : '- Then run `python3 build.py`, and COMMIT EXACTLY ONCE (stage only the routine files, never `git add -A`): `git add content.json data.js index.html history.jsonl state/lessons.jsonl state/refresh-log.md state/experiment-roadmap.md "state/run-$(date +%F).json" && git commit -m "chore: daily marketing routine $(date +%F)" && git push origin main`. Set wrote=true, committed=true (or false if push failed).'}
+
+Return ONLY the Synthesis JSON: reranked (each {rank,title,sev}), predictions_resolved, predictions_opened, wrote, committed, summary (3 lines: top movement, top action, anything needing Alejo incl. QA holds + escalations), scoreboard (one line: resolved with verdicts, opened, qa catches this run, calibration hitRate/n).`,
+  { schema: SYNTH, label: 'apply+publish', phase: 'Publish' },
+)
+
+return { dryRun, orient, experiments, funnel, campaigns, lifecycle, proposal, qa, apply }

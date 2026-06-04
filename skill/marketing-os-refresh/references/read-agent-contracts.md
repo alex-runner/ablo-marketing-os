@@ -99,3 +99,37 @@ nothing).
 - `measurement_ok: false` from either → flag a tracking regression loudly (step 5).
 - `headline`s + `biggest_leak` + segment/anomaly/gap signals → re-rank the Command Center
   (step 6) and feed the experiment roadmap (step 7).
+
+## 5. QA skeptic agents (step 7.5)
+
+After synthesis proposes the re-rank, predictions, and conclusions, dispatch **2-3
+skeptic agents in parallel**, each told to **REFUTE** the proposal, not bless it. Give
+each a distinct lens so they do not share a blind spot. Each is read-only and returns
+only the JSON below.
+
+- **Lens A — numbers:** re-verify every figure in the proposal (re-rank rationale,
+  prediction baselines/targets, any conclusion) against `data.js` and `history.jsonl`.
+  Flag anything hallucinated, stale, or off.
+- **Lens B — calls:** attack the judgment. Is any "winner" actually powered (~200
+  exposures/variant)? Does every Command Center item still ladder to the goal? Does each
+  new prediction respect `calibration` (humble when `n` is thin), or is it optimistic?
+- **Lens C — boundary:** did the run auto-apply anything irreversible or user-visible
+  (see the safety boundary in SKILL.md)? Those must be staged + escalated, not committed.
+
+```json
+{
+  "lens": "numbers|calls|boundary",
+  "refutations": [
+    {"decision": "moved price-ask to #1", "verdict": "refuted|upheld", "reason": "...", "evidence": "data.js / history.jsonl ref"}
+  ],
+  "qa_lessons": [
+    {"lesson": "forward-looking rule, e.g. confirm ~200 exposures/variant before calling a winner", "confidence": "high|med|low"}
+  ],
+  "verdict": "pass|revise|hold",
+  "headline": "one line"
+}
+```
+
+The orchestrator: revises or holds any **refuted** decision it cannot defend, writes each
+`qa_lesson` as a `lesson` tagged `qa` in `state/lessons.jsonl` (read first next run), and
+only then proceeds to publish (step 8).
