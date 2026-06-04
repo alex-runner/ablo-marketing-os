@@ -1807,7 +1807,7 @@
         "sev": "high",
         "title": "Top-of-funnel bounce (land → engage)",
         "rate": "22%",
-        "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 537 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
+        "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 540 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
         "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with /toddler (worst converter on real paid volume). Tag each variant with a UTM so the lift is readable."
       },
       {
@@ -2058,9 +2058,9 @@
         "sev": "high",
         "title": "Run the price-ask test",
         "owner": "Alejo",
-        "status": "Not started. 27 days to end-June goal, now urgent.",
+        "status": "Not started. 26 days to end-June goal, now urgent.",
         "targets": "first paying customer · willingness to pay",
-        "body": "With 27 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "body": "With 26 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
         "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
       },
       {
@@ -2099,9 +2099,9 @@
         "sev": "high",
         "title": "Win the homepage + paid landing pages (CRO)",
         "owner": "Marketing / Product",
-        "status": "New. Biggest single leak by volume: ~78% of visitors leave before one click. No test running.",
+        "status": "Confirmed #1 leak by volume: 78% of 855 visitors leave before any click (land→engage 22%). Live proof the page, not the ad, is the lever: /toddler signup 2.2% vs /plus-size 6.8%, and paid Swim converts 4% on its landing despite the best CPL ($2.22). Hero-rebuild test queued (PRED-2026-06-04-homepage-cro). Needs Product to build the variant.",
         "targets": "land → engage · land → signup",
-        "body": "The homepage (/) takes 537 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
+        "body": "The homepage (/) takes 540 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
         "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
         "verify": { "clickup": ["homepage", "landing page", "hero CRO"], "doneWhen": "clickup" }
       },

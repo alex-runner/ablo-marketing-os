@@ -19,15 +19,16 @@ Updated: 2026-06-03.
 |----|------|---------|--------|
 | PH-374260 | Studio onboarding coachmarks | /studio create-model | running, badly underpowered (~6/7 exposures, ~3% of sample). Hold, do not conclude. |
 
-Surfaces occupied: **/studio**. Free surfaces: email/lifecycle, try-on result screen, pricing.
+Surfaces occupied: **/studio**. Free surfaces: homepage/landing pages, email/lifecycle, try-on result screen, pricing.
 
 ## Queue (ranked)
 
 | rank | candidate test | surface | funnel leak it targets | Big Bet it ladders to | primary metric | leverage | win-prob | notes |
 |------|----------------|---------|------------------------|----------------------|----------------|----------|----------|-------|
-| 1 | Activate A1-A3 behavioral flow (24h no-model nudge) | email/lifecycle | activation gap (signup→model 69%) | Lever 2 · Conversion | `activation_rate` | high | med | Ship-and-measure as OS before/after, not an A/B (traffic too thin for power). Templates exist, buildable today. = CC rank 2. Bet logged: PRED-2026-06-03-activate-flow (69→75, due 2026-06-24). |
-| 2 | Download/share prompt on try-on render | try-on result screen | value-capture (try-on→download 17%) | Lever 2/3 · Activation-to-paid + ARPU | `downloads` | med | med | Non-overlapping with /studio. Ship-and-measure (thin traffic). = CC rank 5. |
-| 3 | Conclude coachmarks, ship if it wins | /studio create-model | activation gap | Lever 2 · Conversion | `activation_rate` | high | tbd | Blocked until PH-374260 reaches ~200/variant. Then conclude and, if it wins, roll out + re-measure. |
+| 1 | Activate A1-A3 behavioral flow (24h no-model nudge) | email/lifecycle | activation gap (signup→model 69%) | Lever 2 · Conversion | `activation_rate` | high | med | Launchable now: ship-and-measure as OS before/after, not an A/B (traffic too thin for power). Templates exist, buildable today, no Product eng cycle. = CC rank 3. Bet logged: PRED-2026-06-03-activate-flow (69→75, due 2026-06-24). Escalate: emails real users, so human-gate the turn-on. |
+| 2 | Hero rebuild on homepage + /toddler (match /plus-size structure, mkt1-homepage-positioning lens), UTM-tagged hero_v2 vs hero_v1 | homepage / paid landing pages | top-of-funnel bounce (land→engage 22%, land→signup 6.7%) | Lever 1/2 · Convert the visit, lower CAC | `home_signup_pct` | high | low (blocked on Product build) | HIGHEST leverage (biggest leak by volume, 78% of 855 bounce; live proof page is the lever: /toddler 2.2% vs /plus-size 6.8%, paid Swim 4% on landing despite best CPL). Ranked #2 not #1 because near-term win-prob is gated: **needs Product to build the hero variant (user-visible, not auto-launchable)**, so it cannot ship as fast as the launchable-today items. Priority lives in CC rank 5; this row is launch-order. Bet: PRED-2026-06-04-homepage-cro (scored on the hero_v2 UTM cohort, moot if unshipped by 2026-07-19). |
+| 3 | Download/share prompt on try-on render | try-on result screen | value-capture (try-on→download 17%) | Lever 2/3 · Activation-to-paid + ARPU | `downloads` | med | med | Non-overlapping with /studio. Ship-and-measure (thin traffic). = CC rank 7. |
+| 4 | Conclude coachmarks, ship if it wins | /studio create-model | activation gap | Lever 2 · Conversion | `activation_rate` | high | tbd | Blocked until PH-374260 reaches ~200/variant. Then conclude and, if it wins, roll out + re-measure. |
 
 ## Concluded
 _Moved here with the winner + one-line conclusion + linked `PRED-...` once resolved._

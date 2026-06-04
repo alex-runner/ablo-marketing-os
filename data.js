@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 4, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-04T06:55:28.338265+00:00"
+    "updatedISO": "2026-06-04T07:20:22.414926+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -1810,7 +1810,7 @@ window.ABLO_OS = {
         "sev": "high",
         "title": "Top-of-funnel bounce (land → engage)",
         "rate": "22%",
-        "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 537 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
+        "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 540 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
         "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with /toddler (worst converter on real paid volume). Tag each variant with a UTM so the lift is readable."
       },
       {
@@ -2061,9 +2061,9 @@ window.ABLO_OS = {
         "sev": "high",
         "title": "Run the price-ask test",
         "owner": "Alejo",
-        "status": "Not started. 27 days to end-June goal, now urgent.",
+        "status": "Not started. 26 days to end-June goal, now urgent.",
         "targets": "first paying customer · willingness to pay",
-        "body": "With 27 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "body": "With 26 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
         "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
       },
       {
@@ -2121,9 +2121,9 @@ window.ABLO_OS = {
         "sev": "high",
         "title": "Win the homepage + paid landing pages (CRO)",
         "owner": "Marketing / Product",
-        "status": "New. Biggest single leak by volume: ~78% of visitors leave before one click. No test running.",
+        "status": "Confirmed #1 leak by volume: 78% of 855 visitors leave before any click (land→engage 22%). Live proof the page, not the ad, is the lever: /toddler signup 2.2% vs /plus-size 6.8%, and paid Swim converts 4% on its landing despite the best CPL ($2.22). Hero-rebuild test queued (PRED-2026-06-04-homepage-cro). Needs Product to build the variant.",
         "targets": "land → engage · land → signup",
-        "body": "The homepage (/) takes 537 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
+        "body": "The homepage (/) takes 540 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
         "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
         "verify": {
           "clickup": [
@@ -2331,7 +2331,7 @@ window.ABLO_OS = {
         },
         {
           "k": "CPL · goal ≤ $20",
-          "v": "$6.09"
+          "v": "$4.62"
         }
       ],
       "rule": "Every item below earns its place by moving one of these. The agent ranks by goal-impact: anything that does not ladder up to a KPI does not belong in the queue."
@@ -2703,7 +2703,7 @@ window.ABLO_OS = {
       },
       {
         "label": "Blended CAC",
-        "value": "$15.11",
+        "value": "$15.30",
         "sub": "all paid ÷ all signups · target ≤ $20",
         "tone": "default"
       },
@@ -2715,8 +2715,8 @@ window.ABLO_OS = {
       },
       {
         "label": "Total ad spend",
-        "value": "$1,118",
-        "sub": "Meta ~$668 + LinkedIn $450",
+        "value": "$1,132",
+        "sub": "Meta ~$682 + LinkedIn $450",
         "tone": "default"
       },
       {
@@ -2753,37 +2753,37 @@ window.ABLO_OS = {
       }
     ],
     "meta": {
-      "spend": "$36.54",
-      "signups": 6,
-      "cpl": "$6.09",
+      "spend": "$50.78",
+      "signups": 11,
+      "cpl": "$4.62",
       "status": "Live",
-      "asOf": "Jun 3, 2026",
-      "deliveryFlag": "Stalled 2 days ago, delivery has since resumed. 6 zero-spend day(s) in last 7: 2026-06-01, 2026-05-31, 2026-05-30, 2026-05-29, 2026-05-28.",
-      "funnelHeadline": "Delivery has resumed after a 6-day stall (May 28–Jun 1) and signup rate is healthy at 8.4%, so the funnel top dried up rather than regressed, the biggest controllable lever stays the magic-link sign-in leak, where only 4 of 58 requesters ever complete a login.",
+      "asOf": "Jun 4, 2026",
+      "deliveryFlag": "",
+      "funnelHeadline": "CPL fell to $3.81 (was $14.77 a week ago) with delivery healthy, so acquisition is no longer the problem, the biggest controllable lever stays the magic-link sign-in leak (63 requested a link, only 4 ever completed login).",
       "funnelSuggestions": [
         {
           "step": "Signed up",
           "severity": "high",
-          "title": "Magic-link is the signup leak, make Google the primary path",
-          "evidence": "147 opened the modal, only 54 finished (37%), and abandonment is device-even (mobile 37% vs desktop 38%) so it's the flow, not layout. The smoking gun: 58 people requested a magic link but only 4 completed a login (7%). \"Email me a link\" (64 clicks) still out-clicks \"Continue with Google\" (59), backwards. On the Jun-3 delivery-resume day the leak persisted: 15 of 20 modal opens abandoned."
+          "title": "Magic-link is the signup leak, make Google the default path",
+          "evidence": "175 opened the modal, only 60 finished (34%). The smoking gun: 63 people requested a magic link but only 4 completed a login (6%). Desktop converts worse than mobile (17/61 = 28% vs 44/113 = 39%). Abandons are still hot, 21 on Jun 3, 17 on Jun 4 vs only 8 and 3 completions."
         },
         {
           "step": "Tried the product",
           "severity": "high",
           "title": "Half of studio visitors never generate their first model",
-          "evidence": "67 entered the studio but only 34 generated a model (51%) and 22 reached try-on, the generation step is the activation cliff, not just the rage-clicks. seed_model_selected is too new to credit yet (first seen Jun 2; 32 events / 4 people)."
+          "evidence": "74 entered the studio but only 37 generated a model (50%) and 24 reached try-on, generation is the activation cliff. seed_model_selected is still too new to credit (first seen Jun 2; 32 events / 4 people)."
         },
         {
           "step": "Tried the product",
           "severity": "medium",
           "title": "Rage-clicks keep clustering on /studio",
-          "evidence": "13 people rage-clicked /studio 33 times, ~19% of the 67 who entered, and by far the largest cluster (next is /pricing at 3 clicks, n=3). It spiked at 14 on launch day, never fully cleared, and ticked back to 5 on Jun 3 as delivery resumed."
+          "evidence": "14 people rage-clicked /studio 36 times, ~19% of the 74 who entered, and by far the largest cluster (next is /pricing at 3 clicks). It spiked at 14 on launch day, never fully cleared, and ticked back up to 8 on Jun 3."
         },
         {
           "step": "Tried the product",
-          "severity": "low",
-          "title": "URL-importer failures are mostly a launch-day artifact, not current friction",
-          "evidence": "The cumulative 10-of-13 failure rate looks alarming but is dominated by launch day, 24 of ~34 scrape failures landed on May 20. Since then daily failures are near zero (0 most days, 5 on May 29, 2 on Jun 3), so the importer is not the bottleneck the cumulative number implies."
+          "severity": "medium",
+          "title": "New pre-signup builder (TBS) drops a third before \"Generate\"",
+          "evidence": "TBS events first appeared Jun 4: 48 viewed the page → 35 selected a category → 32 added a garment → only 18 clicked Generate (a 44% drop from garment-added to generate in a single day). Counts are still small, so treat as a watch item, not a confirmed leak."
         }
       ]
     },
@@ -2812,10 +2812,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 321,
-            "d30": 852,
-            "d90": 852,
-            "all": 852
+            "d7": 318,
+            "d30": 856,
+            "d90": 856,
+            "all": 856
           }
         },
         {
@@ -2837,7 +2837,7 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 92,
+            "d7": 91,
             "d30": 189,
             "d90": 189,
             "all": 189
@@ -2849,7 +2849,7 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 35,
+            "d7": 34,
             "d30": 74,
             "d90": 74,
             "all": 74
@@ -2998,7 +2998,7 @@ window.ABLO_OS = {
           "sev": "high",
           "title": "Top-of-funnel bounce (land → engage)",
           "rate": "22%",
-          "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 537 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
+          "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 540 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
           "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with /toddler (worst converter on real paid volume). Tag each variant with a UTM so the lift is readable."
         },
         {
@@ -3157,7 +3157,7 @@ window.ABLO_OS = {
       "attribution": [
         {
           "channel": "Direct / untagged",
-          "users": 513,
+          "users": 521,
           "signups": 54,
           "tryons": 30,
           "checkouts": 8,
@@ -3165,7 +3165,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 480,
+          "users": 482,
           "signups": 20,
           "tryons": 7,
           "checkouts": 0,
@@ -3204,10 +3204,10 @@ window.ABLO_OS = {
       "pages": [
         {
           "path": "/",
-          "visitors": 537,
+          "visitors": 541,
           "engagers": 120,
           "signups": 36,
-          "engagePct": 22.3,
+          "engagePct": 22.2,
           "signupPct": 6.7,
           "isLanding": true
         },
@@ -3266,7 +3266,7 @@ window.ABLO_OS = {
           "isLanding": true
         }
       ],
-      "insight": "Homepage takes 537 visitors but only 22.3% click any CTA and 6.7% sign up. /toddler converts 2.2% to signup vs /plus-size at 6.8%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "insight": "Homepage takes 541 visitors but only 22.2% click any CTA and 6.7% sign up. /toddler converts 2.2% to signup vs /plus-size at 6.8%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
       "updated": "June 4, 2026",
       "source": "PostHog · live HogQL (first-pageview pathname)"
@@ -3609,7 +3609,7 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-04",
-          "landed": 57,
+          "landed": 61,
           "engaged": 3,
           "modal": 20,
           "signups": 3,
@@ -3618,9 +3618,9 @@ window.ABLO_OS = {
           "tryons": 0,
           "downloads": 0,
           "checkouts": 0,
-          "spend_lifetime": 36.54,
-          "cpl": 6.09,
-          "signups_meta": 6,
+          "spend_lifetime": 50.78,
+          "cpl": 4.62,
+          "signups_meta": 11,
           "email_open": 97.5,
           "email_click": 2.5,
           "email_recipients": 80,
@@ -3628,7 +3628,9 @@ window.ABLO_OS = {
           "ig_followers": 223683,
           "activation_rate": 68,
           "aha_rate": 47,
-          "payment_rate": 9
+          "payment_rate": 9,
+          "home_engage_pct": 22.2,
+          "home_signup_pct": 6.7
         }
       ],
       "updated": "2026-06-04",
@@ -3636,6 +3638,45 @@ window.ABLO_OS = {
     },
     "learning": {
       "lessons": [
+        {
+          "type": "lesson",
+          "id": "LES-2026-06-04-qa-figures",
+          "date": "2026-06-04",
+          "lesson": "Derive headline visitor/land counts from the build's own data.js at write time, never hand-carry a number across a session: an off-by-3 (537 vs live 540) crept in because the figure was retyped from an earlier read while the 60d window moved.",
+          "evidence": "QA numbers lens caught 537/854 in content.json+ledger vs live data.js 540/855.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "process",
+            "numbers"
+          ]
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-06-04-qa-rolling-metric",
+          "date": "2026-06-04",
+          "lesson": "A rolling N-day aggregate cannot cleanly score a fix that ships mid-window; bind the prediction to a post-ship or UTM-isolated cohort window or it scores 'miss' for dilution, not truth.",
+          "evidence": "QA calls lens: home_signup_pct is a 60d-trailing aggregate (build.py LANDING_Q INTERVAL 60 DAY); PRED-2026-06-04-homepage-cro re-plumbed to score on the hero_v2 UTM cohort.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "predictions",
+            "measurement"
+          ]
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-06-04-qa-roadmap-winprob",
+          "date": "2026-06-04",
+          "lesson": "On a roadmap ranked by leverage x win-probability, a test blocked on another team has near-zero NEAR-TERM win-prob; rank launchable-today tests first and label the blocked one's win-prob 'low (blocked)', even if its leverage is highest.",
+          "evidence": "QA calls lens: hero-rebuild CRO was ranked roadmap #1 but needs Product to build the variant; re-ordered below the buildable-today Activate flow.",
+          "confidence": "med",
+          "tags": [
+            "qa",
+            "roadmap",
+            "prioritization"
+          ]
+        },
         {
           "type": "lesson",
           "id": "LES-2026-06-03-cpl",
@@ -3692,6 +3733,21 @@ window.ABLO_OS = {
           "due": "2026-06-24",
           "rationale": "31% of signups never generate a first model; an automated 24h nudge built from existing templates should recover a meaningful share. Modest call: calibration is thin (n=1) and traffic is low. Conditional on the flow going live; if unshipped by due date, mark moot.",
           "status": "open"
+        },
+        {
+          "type": "prediction",
+          "id": "PRED-2026-06-04-homepage-cro",
+          "date": "2026-06-04",
+          "action": "Homepage + paid-landing CRO: sharper hero from the bodies-you-cannot-shoot wedge (mkt1-homepage-positioning lens), rebuild /toddler to match /plus-size, UTM-tag variants",
+          "linked": "CC-rank-5",
+          "metric": "home_signup_pct",
+          "baseline": 6.7,
+          "predicted": 8.0,
+          "horizon_days": 45,
+          "due": "2026-07-19",
+          "rationale": "Homepage is ~63% of entry volume (540 of 855) at 6.7% signup; biggest leak by raw volume (78% sitewide bounce, land->engage 22%). Live proof the page is the lever, not the ad: /toddler 2.2% vs /plus-size 6.8% signup, and paid Swim converts 4% on the landing despite the best CPL ($2.22). A sharper hero should lift homepage signup. SCORING: resolve on the hero_v2 UTM cohort signup rate vs hero_v1 (post-ship, >=2 weeks of traffic), NOT the blended 60d home_signup_pct, which dilutes a mid-window ship; home_signup_pct is the directional indicator only. Conditional: needs Product to ship the variant (escalated, user-visible). If unshipped by due, mark MOOT (not miss). Calibration thin (n=1) so a modest +1.3pp call.",
+          "status": "open",
+          "scoring": "hero_v2 vs hero_v1 UTM-cohort signup rate, post-ship >=14d; home_signup_pct directional only; moot if unshipped by due"
         }
       ],
       "dueForReview": [],
@@ -3701,10 +3757,10 @@ window.ABLO_OS = {
         "hitRate": 1.0
       },
       "counts": {
-        "lessons": 2,
-        "predictions": 3,
+        "lessons": 5,
+        "predictions": 4,
         "resolved": 1,
-        "open": 2
+        "open": 3
       }
     },
     "refreshedSources": {

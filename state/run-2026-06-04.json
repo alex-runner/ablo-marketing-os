@@ -1,0 +1,20 @@
+{
+  "date": "2026-06-04",
+  "status": "complete",
+  "steps_done": [
+    "orient",
+    "experiments",
+    "funnel",
+    "campaigns",
+    "lifecycle",
+    "synthesize",
+    "roadmap",
+    "qa",
+    "publish"
+  ],
+  "summary": "Top-of-funnel CRO wired + surfaced in UI; funnel agent independently proposed the page bet (step 2b works). Opened PRED-2026-06-04-homepage-cro. QA revised: figures fixed, prediction re-plumbed to UTM cohort, roadmap re-ranked.",
+  "new_predictions": [
+    "PRED-2026-06-04-homepage-cro"
+  ],
+  "qa_verdict": "revise->applied, then clean"
+}

@@ -789,7 +789,7 @@ GROUP BY d ORDER BY d
 # Fields that cannot be recomputed from the event log — persisted day by day.
 PERSIST_KEYS = ["spend_lifetime", "cpl", "signups_meta", "email_open", "email_click",
                 "email_recipients", "aha_rate", "activation_rate", "payment_rate",
-                "paying_customers", "ig_followers"]
+                "paying_customers", "ig_followers", "home_engage_pct", "home_signup_pct"]
 PH_COLS = ["landed", "engaged", "modal", "signups", "models", "imports", "tryons", "downloads", "checkouts"]
 
 
@@ -800,10 +800,11 @@ def _money(s):
         return None
 
 
-def snapshot_history(env, funnel, meta_live, lifecycle, instagram=None, paying=None):
+def snapshot_history(env, funnel, meta_live, lifecycle, instagram=None, paying=None, landing=None):
     """Upsert today's row and rewrite history.jsonl. Returns the last 120 days
     for embedding. PostHog reach is recomputed in full; Meta/Klaviyo/rate
-    fields persist forward."""
+    fields persist forward (incl. the homepage top-of-funnel CRO rates, so the
+    land->engage / land->signup leak is trendable over time)."""
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     # 1) PostHog daily reach (full history, authoritative)
@@ -853,6 +854,13 @@ def snapshot_history(env, funnel, meta_live, lifecycle, instagram=None, paying=N
         "ig_followers": (instagram or {}).get("followers"),
         **rates,
     }
+    # Homepage top-of-funnel CRO rates (stable, highest-volume entry page) persisted
+    # today-forward so the land->engage / land->signup leak trends in history + Trends.
+    if landing:
+        home = next((p for p in (landing.get("pages") or []) if p.get("path") == "/"), None)
+        if home:
+            today_fields["home_engage_pct"] = home.get("engagePct")
+            today_fields["home_signup_pct"] = home.get("signupPct")
     persisted[today] = {k: v for k, v in today_fields.items() if v is not None}
 
     # 4) merge across the union of dates and rewrite
@@ -1296,7 +1304,7 @@ def build():
     paying = fetch_paying(env)
 
     # Daily time-series — snapshot today and rewrite history.jsonl.
-    history = snapshot_history(env, funnel, meta_live, lifecycle, instagram, paying=paying)
+    history = snapshot_history(env, funnel, meta_live, lifecycle, instagram, paying=paying, landing=landing_live)
 
     # Self-improvement memory — read the agent's own ledger back into the OS so
     # every run starts with what past runs learned (and what bets are due to score).
