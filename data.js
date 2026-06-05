@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T00:45:45.619068+00:00"
+    "updatedISO": "2026-06-05T00:57:08.247361+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2846,7 +2846,7 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 320,
+            "d7": 319,
             "d30": 933,
             "d90": 933,
             "all": 933
@@ -2896,7 +2896,7 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 40,
+            "d7": 39,
             "d30": 98,
             "d90": 98,
             "all": 98
@@ -3322,8 +3322,8 @@ window.ABLO_OS = {
         "done": 19,
         "in progress": 6,
         "to do": 31,
-        "Closed": 18,
-        "review": 5
+        "Closed": 19,
+        "review": 4
       },
       "open": [
         {
@@ -3381,6 +3381,15 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
+          "name": "Signup: Replace magic link with email + password",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86baa5axa",
+          "due": "",
+          "assignee": "Jason Ladias"
+        },
+        {
           "name": "Experiment: Ablo Studio \"Day Mode\" (light theme) A/B test",
           "status": "to do",
           "color": "#87909e",
@@ -3422,15 +3431,6 @@ window.ABLO_OS = {
           "color": "#87909e",
           "type": "open",
           "url": "https://app.clickup.com/t/86ba9mpba",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Wire marketing-os Phase 2 into the unattended daily job",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9kmk0",
           "due": "",
           "assignee": "Alejo Escrivá"
         }
@@ -3749,13 +3749,29 @@ window.ABLO_OS = {
           "type": "lesson",
           "id": "LES-2026-06-04-try-landing",
           "date": "2026-06-04",
-          "lesson": "The /try value-first paid landing badly underperforms the homepage for signups: 1.5% (1/68 visitors) vs 7.4% (42/568); route paid to the homepage and do not fund /try further until it is fixed or the test is powered.",
+          "lesson": "[SUPERSEDED by LES-2026-06-04-try-mismeasure: the 1.5% was an attribution artifact; true /try view->signup ~4.4%.] The /try value-first paid landing badly underperforms the homepage for signups: 1.5% (1/68 visitors) vs 7.4% (42/568); route paid to the homepage and do not fund /try further until it is fixed or the test is powered.",
           "evidence": "data.js landingPages 2026-06-04: / = 42/568 (7.4%), /try = 1/68 (1.5%), /try-kids = 0/13; OS-TRY-VS-HOME running, /try arm thin (1 conversion).",
           "confidence": "med",
           "tags": [
             "funnel",
             "paid",
             "cro",
+            "try"
+          ],
+          "source_pred": null
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-06-04-try-mismeasure",
+          "date": "2026-06-04",
+          "lesson": "The /try landing 'signup %' in landingPages is an attribution artifact, not the real rate: keying signup_completed to first-pageview pathname=/try caught only 2 of 24 actual signup-wall reaches and credited 3 of 4 /try-flow signups to other pages. Measure /try by its own tbs_* funnel: 91 viewed -> 25 generate -> 24 wall -> 4 signed = 4.4% view->signup (16.7% wall->signup). Signup tracking itself is fine (the wall->modal->signup chain fires); the landing-page attribution is what is broken.",
+          "evidence": "HogQL 30d: entry=/try=68/12/2/2/1 vs tbs_ taxonomy=91 page_viewed/54 category/25 generate/24 wall/4 signed; the 4 tbs signups attribute to entry=/ (2), /try (1), /onboarding (1).",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "tracking",
+            "measurement",
+            "funnel",
             "try"
           ],
           "source_pred": null
@@ -3840,7 +3856,7 @@ window.ABLO_OS = {
         "hitRate": 1.0
       },
       "counts": {
-        "lessons": 6,
+        "lessons": 7,
         "predictions": 4,
         "resolved": 1,
         "open": 3
@@ -3857,6 +3873,14 @@ window.ABLO_OS = {
           "cluster": true,
           "action": "Investigate the tbs_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
+        },
+        {
+          "key": "86baa5axa",
+          "dimension": "clickup",
+          "where": "ClickUp Ablo Studio · “Signup: Replace magic link with email + password” [to do]",
+          "volume": null,
+          "action": "Marketing work the OS surfaces nowhere; wire a Command Center item or dismiss",
+          "status": "escalated"
         }
       ],
       "stale": [
@@ -3868,7 +3892,7 @@ window.ABLO_OS = {
       ],
       "autowired": [],
       "summary": {
-        "blind": 1,
+        "blind": 2,
         "autowired": 0,
         "stale": 1
       }

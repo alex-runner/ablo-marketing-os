@@ -33,3 +33,8 @@ Newest entries on top.
 - Coverage blind spots 4 -> 1. Dismissed HubSpot-verify task 86baa3y5b (ops/measurement check, not a marketing surface). Wired Day Mode (light-theme) A/B from ClickUp 86baa3ykz as OS-DAYMODE stub (discovered, NOT launched -- launching escalates).
 - /try decision surfaced: homepage / = 7.4% signup (42/568) vs /try = 1.5% (1/68, thin). Recommend routing paid to the homepage and pausing /try until fixed/powered (escalated to Alejo, folded into Command Center #5). tbs_* (91 users, 13 events) left escalated pending kill/fix call -- not bulk-dismissed.
 - Logged LES-2026-06-04-try-landing (confidence med; /try arm under-powered). No experiment launched, no Meta change executed.
+
+## 2026-06-04 (correction: /try measurement)
+- Investigated whether /try's 1.5% was a tracking error (Alejo's question). CONFIRMED a measurement bug: landingPages keys signup_completed to first-pageview pathname=/try, which captures only 2 of 24 real signup-wall reaches and mis-credits 3 of 4 /try signups to other entry pages.
+- True /try funnel (tbs_* taxonomy): 91 viewed -> 54 category -> 25 generate -> 24 wall -> 4 signed = 4.4% view->signup (16.7% wall->signup), not 1.5%. Signup events fire correctly; attribution is the bug.
+- Corrected CC#5 and superseded LES-2026-06-04-try-landing with LES-2026-06-04-try-mismeasure. Held the 'route paid off /try' recommendation. Code fix (measure /try via tbs_) proposed, not yet applied.
