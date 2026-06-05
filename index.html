@@ -403,6 +403,12 @@
     .bgv-stage { border:1px solid var(--line); border-radius:14px; padding:24px; background:#0c0c0c; margin:6px 0 10px; }
     .bgv-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
     .bgv-btn { display:inline-flex; align-items:center; gap:8px; border-radius:9999px; font-weight:500; font-size:13px; padding:10px 20px; border:1px solid transparent; }
+    .bgv-ico { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:11px; background:var(--bg2); border:1px solid var(--line); color:#e8d5a3; }
+    .bgv-ico svg { width:18px; height:18px; }
+    .bgv-radii { display:flex; gap:16px; flex-wrap:wrap; }
+    .bgv-radii .r { text-align:center; }
+    .bgv-radii .box { width:46px; height:46px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); }
+    .bgv-radii .lbl { font-size:10.5px; color:var(--muted); margin-top:7px; font-family:ui-monospace,Menlo,monospace; }
   </style>
 </head>
 <body>
@@ -979,11 +985,32 @@
           h('div',{style:'border-radius:16px;border:1px solid rgba(232,213,163,.2);background:linear-gradient(135deg,rgba(232,213,163,.07),rgba(255,255,255,.02),transparent);padding:16px 18px;min-width:170px'},
             h('div',{style:'color:#fafafa;font-weight:600;font-size:14px'},'Accent card'),
             h('div',{style:'color:#c9a96e;font-size:12px;margin-top:4px'},'the "chosen" highlight'))));
+      const ICONS=[['Sparkles','M12 3l1.7 5.3 5.3 1.7-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7z'],['Check','M20 6 9 17l-5-5'],
+        ['ArrowRight','M5 12h14M13 6l6 6-6 6'],['Plus','M12 5v14M5 12h14'],['Download','M12 3v11M8 11l4 4 4-4M5 20h14'],
+        ['Zap','M13 2L4 14h7l-1 8 10-12h-7z'],['Crown','M3 18h18M5 18l-2-9 5 4 4-7 4 7 5-4-2 9'],
+        ['Image','M4 5h16v14H4zM4 16l4-4 4 4 3-3 5 5']];
+      const iconRow=h('div',{class:'bgv-row'}, ICONS.map(([n,p])=>h('span',{class:'bgv-ico',title:n,html:svg(p)})));
+      const RADII=[['full','9999px'],['2xl','16px'],['xl','12px'],['lg','8px'],['md','6px']];
+      const radiiRow=h('div',{class:'bgv-radii'}, RADII.map(([n,r])=>h('div',{class:'r'},
+        h('div',{class:'box',style:'border-radius:'+r}), h('div',{class:'lbl'},'rounded-'+n))));
+      const elev=h('div',{class:'bgv-stage'},
+        h('div',{class:'bgv-row'},
+          h('div',{style:'border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);padding:16px 18px;min-width:150px'},
+            h('div',{style:'color:#fafafa;font-weight:600;font-size:13px'},'Glass'),
+            h('div',{style:'color:#999;font-size:11.5px;margin-top:3px'},'backdrop-blur')),
+          h('div',{style:'border-radius:14px;background:#151515;border:1px solid rgba(232,213,163,.3);box-shadow:0 0 26px rgba(232,213,163,.22);padding:16px 18px;min-width:150px'},
+            h('div',{style:'color:#fafafa;font-weight:600;font-size:13px'},'Accent glow'),
+            h('div',{style:'color:#c9a96e;font-size:11.5px;margin-top:3px'},'focus / emphasis'))),
+        h('div',{style:'height:1px;margin:18px 0 6px;background:linear-gradient(to right,transparent,rgba(255,255,255,.10),transparent)'}),
+        h('div',{style:'color:#555;font-size:11px;text-align:center'},'divider · gradient-to-r'));
       return frag(
         blocktitle('Palette'), swatches,
         blocktitle('Type & accent'), specimen,
         blocktitle('Components'), comps,
-        h('p',{class:'small',style:'color:var(--muted);margin:-2px 0 6px'},'Rendered live from the product tokens. Full spec below.'));
+        blocktitle('Icons · lucide-react'), iconRow,
+        blocktitle('Radius'), radiiRow,
+        blocktitle('Elevation & glass'), elev,
+        h('p',{class:'small',style:'color:var(--muted);margin:8px 0 6px'},'Rendered live from the product tokens. Full spec below.'));
     }
 
     // Foundation — the strategy context layer. Canonical docs live as markdown in
