@@ -393,6 +393,16 @@
     .srcbar:hover { border-color:var(--accent-dim); color:var(--text); }
     .srcbar-ico svg { width:14px; height:14px; stroke:var(--accent); display:block; }
     .srcbar-edit { color:var(--muted); }
+    /* Brand Guide — visual specimen (renders the design system, not just describes it) */
+    .bgv-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(116px,1fr)); gap:10px; margin:6px 0 10px; }
+    .bgv-sw { border-radius:10px; overflow:hidden; border:1px solid var(--line); background:var(--bg2); }
+    .bgv-sw .fill { height:50px; }
+    .bgv-sw .meta { padding:8px 10px; }
+    .bgv-sw .nm { font-size:11px; color:var(--text); font-weight:600; }
+    .bgv-sw .hx { font-size:10.5px; color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.02em; margin-top:2px; }
+    .bgv-stage { border:1px solid var(--line); border-radius:14px; padding:24px; background:#0c0c0c; margin:6px 0 10px; }
+    .bgv-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .bgv-btn { display:inline-flex; align-items:center; gap:8px; border-radius:9999px; font-weight:500; font-size:13px; padding:10px 20px; border:1px solid transparent; }
   </style>
 </head>
 <body>
@@ -940,6 +950,42 @@
       );
     };
 
+    // Brand Guide — render the design system, not just describe it (inspired by a
+    // Claude Design handoff). Tokens are the product's own (ablo-tech globals.css),
+    // shown on the brand's near-black canvas so the guide IS the brand.
+    function brandGuideVisual(){
+      const SW=[['bg-primary','#0c0c0c'],['bg-secondary','#151515'],['bg-tertiary','#1a1a1a'],['bg-elevated','#222222'],
+        ['border','#2a2a2a'],['text-primary','#fafafa'],['text-secondary','#999999'],['text-muted','#555555'],
+        ['accent','#e8d5a3'],['accent-hover','#f0e0b5'],['accent-dim','#c9a96e'],['success','#4ade80'],['error','#f87171']];
+      const swatches=h('div',{class:'bgv-grid'}, SW.map(([n,hex])=>h('div',{class:'bgv-sw'},
+        h('div',{class:'fill',style:'background:'+hex}),
+        h('div',{class:'meta'}, h('div',{class:'nm'},n), h('div',{class:'hx'},hex)))));
+      const specimen=h('div',{class:'bgv-stage'},
+        h('div',{style:'font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#e8d5a3;font-weight:600;margin-bottom:14px'},'Eyebrow label'),
+        h('div',{style:'font-weight:700;font-size:clamp(26px,4vw,38px);line-height:.95;letter-spacing:-.03em;color:#fafafa;margin-bottom:12px'},
+          'Start free. ', h('span',{style:'color:#e8d5a3'},'Scale per drop.')),
+        h('div',{style:'color:#999;font-size:15px;line-height:1.6;max-width:48ch'},
+          'Inter, tight on the display line and relaxed in the body. One warm gold accent carries emphasis on a near-black canvas. The two-tone headline is the signature move.'));
+      const comps=h('div',{class:'bgv-stage'},
+        h('div',{class:'bgv-row'},
+          h('span',{class:'bgv-btn',style:'background:#fafafa;color:#0c0c0c'},'Primary'),
+          h('span',{class:'bgv-btn',style:'background:rgba(255,255,255,.06);color:#fafafa;border-color:rgba(255,255,255,.08)'},'Secondary'),
+          h('span',{class:'bgv-btn',style:'color:#999'},'Ghost'),
+          h('span',{style:'display:inline-flex;border-radius:9999px;background:#e8d5a3;color:#0c0c0c;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px'},'Most popular')),
+        h('div',{class:'bgv-row',style:'margin-top:14px'},
+          h('div',{style:'border-radius:16px;background:#151515;border:1px solid rgba(255,255,255,.04);padding:16px 18px;min-width:170px'},
+            h('div',{style:'color:#fafafa;font-weight:600;font-size:14px'},'Card'),
+            h('div',{style:'color:#999;font-size:12px;margin-top:4px'},'rounded-2xl · hairline border')),
+          h('div',{style:'border-radius:16px;border:1px solid rgba(232,213,163,.2);background:linear-gradient(135deg,rgba(232,213,163,.07),rgba(255,255,255,.02),transparent);padding:16px 18px;min-width:170px'},
+            h('div',{style:'color:#fafafa;font-weight:600;font-size:14px'},'Accent card'),
+            h('div',{style:'color:#c9a96e;font-size:12px;margin-top:4px'},'the "chosen" highlight'))));
+      return frag(
+        blocktitle('Palette'), swatches,
+        blocktitle('Type & accent'), specimen,
+        blocktitle('Components'), comps,
+        h('p',{class:'small',style:'color:var(--muted);margin:-2px 0 6px'},'Rendered live from the product tokens. Full spec below.'));
+    }
+
     // Foundation — the strategy context layer. Canonical docs live as markdown in
     // the Brain (Obsidian); build.py embeds each body + status into live.strategy.
     // This view renders them and shows, by group, what is complete vs a gap.
@@ -974,6 +1020,7 @@
             d.updated? h('span',{}, 'upd '+d.updated):null,
             d.wordCount? h('span',{}, d.wordCount+'w'):null)));
         const bw=h('div',{class:'fdoc-body'});
+        if(d.key==='brand-guide' && d.body){ bw.append(brandGuideVisual()); }
         if(d.body){ mdNodes(d.body).forEach(n=>bw.append(n)); }
         else { bw.append(h('p',{class:'small',style:'color:var(--muted)'}, 'No file yet at '+(d.file||'this slot')+'. '+(d.feeds||''))); }
         det.append(bw);
