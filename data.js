@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T18:45:53.427000+00:00"
+    "updatedISO": "2026-06-05T18:47:36.893174+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -3446,7 +3446,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223659,
+      "followers": 223658,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3700,7 +3700,7 @@ window.ABLO_OS = {
           "email_click": 2.5,
           "email_recipients": 80,
           "paying_customers": 0,
-          "ig_followers": 223659,
+          "ig_followers": 223658,
           "activation_rate": 64,
           "aha_rate": 46,
           "payment_rate": 8,
@@ -4245,8 +4245,8 @@ window.ABLO_OS = {
           "status": "complete",
           "updated": "2026-06-05",
           "owner": "Alejo",
-          "body": "# Naming & Pricing\n\n**Live as of 2026-06-05.** Verified from the pricing page. This supersedes the old \"$50/mo SMB tier (planned)\" and the retired \"$1,250/mo Pro\" entry. The metering unit is **try-ons per month**, billed monthly or annual (annual = 2 months free).\n\n**Page promise:** *\"Start free. Scale per drop.\"* — 50 free try-ons, no card required. Top-ups unlock when you need them, sized for a single drop or a full quarter. No annual contracts. No minimums.\n\n## Tiers\n\n| Tier | Price (monthly) | Allowance | Notes |\n|------|-----------------|-----------|-------|\n| **Free** | $0, no card | 50 free try-ons | The free start |\n| **Starter** | $29/mo | 200 try-ons/mo | Entry paid tier |\n| **Growth** | $99/mo | 800 try-ons/mo | **Most popular** (the anchor) |\n| **Scale** | $349/mo | 3,000 try-ons/mo | Top tier |\n| **Enterprise** | Custom | — | Embedded-workflow deals, separate BD motion |\n\nAnnual billing gives 2 months free (effective ~17% off). Top-up packs are available on Growth and Scale.\n\n## What's in each tier\n\n| Feature | Starter | Growth | Scale |\n|---------|:---:|:---:|:---:|\n| Try-ons / month | 200 | 800 | 3,000 |\n| AI model generation | ✓ | ✓ | ✓ |\n| Image editing | ✓ | ✓ | ✓ |\n| Product import (free) | ✓ | ✓ | ✓ |\n| Top-up packs | — | ✓ | ✓ |\n| Social Media Content Generator | — | — | ✓ |\n| Support | Email | Priority | Priority |\n| Dedicated account manager | — | — | ✓ |\n\n## Underlying credit mechanics\n\nThe pricing page meters in try-ons, but the product runs on credits: model generation 5 (10 with a reference photo), try-on 5, edit 2, product import free. The tier \"try-ons/month\" allowances map to credit budgets behind the scenes.\n\n## Implications to reconcile\n\n- **Unit economics in [[kpis]] are now stale.** They assumed a ~$50 base + ~$30 expansion (~$80 ARPU). The live ladder is $29 / $99 / $349 with **Growth ($99) as the anchor**, so blended ARPU is likely higher than the old model. Refresh the ARPU, LTV, and CAC-ceiling math against the real tiers.\n- **The battle-card grid still shows the old Ablo pricing.** [[battle-card]] flags it; regenerate the competitive workbook so the Ablo Studio column reads $29/$99/$349, not \"$50 planned / $1,250 wall.\"\n- **Naming is now concrete:** Free, Starter, Growth, Scale, Enterprise. Use these names in copy; stop improvising tier names.\n- **Expansion path is built in:** top-up packs (Growth/Scale) are the per-drop expansion lever the old strategy called for. The \"scale per drop\" message is the productized version of that.",
-          "wordCount": 450
+          "body": "# Naming & Pricing\n\n**Live as of 2026-06-05.** Verified from the pricing page. This supersedes the old \"$50/mo SMB tier (planned)\" and the retired \"$1,250/mo Pro\" entry. The metering unit is **try-ons per month**, billed monthly or annual (annual = 2 months free).\n\n**Page promise:** *\"Start free. Scale per drop.\"* — 50 free try-ons, no card required. Top-ups unlock when you need them, sized for a single drop or a full quarter. No annual contracts. No minimums.\n\n## Tiers\n\n| Tier | Monthly | Annual (billed once/yr) | Effective /mo on annual | Allowance |\n|------|---------|-------------------------|-------------------------|-----------|\n| **Free** | $0, no card | — | — | 50 free try-ons |\n| **Starter** | $29/mo | $290/yr | $24/mo | 200 try-ons/mo |\n| **Growth** | $99/mo | $990/yr | $83/mo | 800 try-ons/mo · **most popular** (the anchor) |\n| **Scale** | $349/mo | $3,490/yr | $291/mo | 3,000 try-ons/mo |\n| **Enterprise** | Custom | — | — | Embedded-workflow deals, separate BD motion |\n\n**Annual = pay for 10 months (2 months free):** monthly × 10 = the annual price, so the effective monthly rate drops ~17%. Top-up packs are available on Growth and Scale.\n\n## What's in each tier\n\n| Feature | Starter | Growth | Scale |\n|---------|:---:|:---:|:---:|\n| Try-ons / month | 200 | 800 | 3,000 |\n| AI model generation | ✓ | ✓ | ✓ |\n| Image editing | ✓ | ✓ | ✓ |\n| Product import (free) | ✓ | ✓ | ✓ |\n| Top-up packs | — | ✓ | ✓ |\n| Social Media Content Generator | — | — | ✓ |\n| Support | Email | Priority | Priority |\n| Dedicated account manager | — | — | ✓ |\n\n## Underlying credit mechanics\n\nThe pricing page meters in try-ons, but the product runs on credits: model generation 5 (10 with a reference photo), try-on 5, edit 2, product import free. The tier \"try-ons/month\" allowances map to credit budgets behind the scenes.\n\n## Implications to reconcile\n\n- **Unit economics in [[kpis]] are now stale.** They assumed a ~$50 base + ~$30 expansion (~$80 ARPU). The live ladder is $29 / $99 / $349 with **Growth ($99) as the anchor**, so blended ARPU is likely higher than the old model. Refresh the ARPU, LTV, and CAC-ceiling math against the real tiers.\n- **The battle-card grid still shows the old Ablo pricing.** [[battle-card]] flags it; regenerate the competitive workbook so the Ablo Studio column reads $29/$99/$349, not \"$50 planned / $1,250 wall.\"\n- **Naming is now concrete:** Free, Starter, Growth, Scale, Enterprise. Use these names in copy; stop improvising tier names.\n- **Expansion path is built in:** top-up packs (Growth/Scale) are the per-drop expansion lever the old strategy called for. The \"scale per drop\" message is the productized version of that.",
+          "wordCount": 477
         },
         {
           "key": "lifecycle",
