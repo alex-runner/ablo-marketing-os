@@ -28,3 +28,8 @@ Newest entries on top.
 - `build.py` now surfaces it as `window.ABLO_OS.live.learning` (lessons, openPredictions, dueForReview, calibration).
 - Seeded with the resolved Google-signup bet (33%→44%, hit) + 2 durable lessons. Calibration: 1/1 hits so far (thin, n=1).
 - Next: every run logs a falsifiable prediction per fix/experiment and resolves matured bets against `history.jsonl`.
+
+## 2026-06-04 (focused re-run)
+- Coverage blind spots 4 -> 1. Dismissed HubSpot-verify task 86baa3y5b (ops/measurement check, not a marketing surface). Wired Day Mode (light-theme) A/B from ClickUp 86baa3ykz as OS-DAYMODE stub (discovered, NOT launched -- launching escalates).
+- /try decision surfaced: homepage / = 7.4% signup (42/568) vs /try = 1.5% (1/68, thin). Recommend routing paid to the homepage and pausing /try until fixed/powered (escalated to Alejo, folded into Command Center #5). tbs_* (91 users, 13 events) left escalated pending kill/fix call -- not bulk-dismissed.
+- Logged LES-2026-06-04-try-landing (confidence med; /try arm under-powered). No experiment launched, no Meta change executed.

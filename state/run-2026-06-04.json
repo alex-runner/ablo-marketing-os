@@ -16,5 +16,12 @@
   "new_predictions": [
     "PRED-2026-06-04-homepage-cro"
   ],
-  "qa_verdict": "revise->applied, then clean"
+  "qa_verdict": "revise->applied, then clean",
+  "reruns": [
+    {
+      "at": "focused-rerun",
+      "did": "resolved 3/4 coverage blind spots; surfaced /try routing decision; logged LES-2026-06-04-try-landing",
+      "coverage_blind": "4->1"
+    }
+  ]
 }

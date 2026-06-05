@@ -11,7 +11,8 @@
       "86ba9n48c",
       "86ba9n6w5",
       "86ba9nfny",
-      "86baa3d56"
+      "86baa3d56",
+      "86baa3y5b"
     ],
     "ignoreReasons": {
       "86ba1qn7c": "Autopilot run-log task; the OS already surfaces Meta delivery in Command Center/Campaigns.",
@@ -24,7 +25,8 @@
       "86ba9n48c": "Meta task about the OS runner itself; not a marketing surface.",
       "86ba9n6w5": "This Coverage Reconciler family of work; meta, not a tracked surface.",
       "86ba9nfny": "Product build task (/try store-URL scrape); surfaced via the /try experiment, not a standalone OS surface.",
-      "86baa3d56": "This Coverage Reconciler build task; meta, not a tracked surface."
+      "86baa3d56": "This Coverage Reconciler build task; meta, not a tracked surface.",
+      "86baa3y5b": "Ops measurement-integrity task (confirm HubSpot ablo_* contact props populate); a verification check, not a marketing surface the OS models."
     },
     "list": "901415977874",
     "modeled": [
@@ -36,7 +38,8 @@
       "86ba9gw2t",
       "86ba9gw2w",
       "86ba9n6my",
-      "86ba9wgw8"
+      "86ba9wgw8",
+      "86baa3ykz"
     ]
   },
   "dimensions": {
@@ -102,6 +105,7 @@
     },
     "experiments": {
       "clickupMapped": {
+        "OS-DAYMODE": "86baa3ykz",
         "OS-SIGNUP-GOOGLE": "86ba709mn",
         "OS-TRY-VS-HOME": "86ba9n6my",
         "PH-374260": "86ba705xt"
@@ -123,6 +127,7 @@
         "86ba9kmj6": "purchase_completed 'test purchase' is an engineering verification, not an experiment."
       },
       "modeled": [
+        "OS-DAYMODE",
         "OS-SIGNUP-GOOGLE",
         "OS-TRY-VS-HOME",
         "PH-374260"

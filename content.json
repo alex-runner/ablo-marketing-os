@@ -553,6 +553,13 @@
         "hyp": "Letting a brand upload its guidelines or logo as context is the highest-leverage product investment across all segments, because brand-integrity is the quality test in every segment.",
         "owner": "Product (backlog)",
         "status": "Backlog"
+      },
+      {
+        "title": "Ablo Studio Day Mode (light theme) A/B",
+        "hyp": "The all-black UI may read as off-brand or risky for a fashion audience; a light theme could feel more premium and lift activation. Discovered from ClickUp 86baa3ykz.",
+        "owner": "Product",
+        "status": "Discovered, not launched. Drafted in ClickUp. Launching a live test escalates to Alejo.",
+        "id": "OS-DAYMODE"
       }
     ],
     "signupExperiment": {
@@ -2060,7 +2067,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 4, 2026",
+    "updated": "June 5, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2092,7 +2099,13 @@
         "targets": "signup → model · model → try-on",
         "body": "The Activate (A1-A3) and AHA (B1-B3) templates exist but sit in no flow. Build two behavioral flows in Klaviyo (Added-to-List with no Model Generated in 24h → Activate, Model Generated → AHA). Klaviyo already receives the Model Generated metric, so it is buildable today. Directly attacks the activation gap. Zero new copy.",
         "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
-        "verify": { "clickup": ["Klaviyo flow", "email flows"], "doneWhen": "clickup" }
+        "verify": {
+          "clickup": [
+            "Klaviyo flow",
+            "email flows"
+          ],
+          "doneWhen": "clickup"
+        }
       },
       {
         "rank": "4",
@@ -2109,11 +2122,18 @@
         "sev": "high",
         "title": "Win the homepage + paid landing pages (CRO)",
         "owner": "Marketing / Product",
-        "status": "Confirmed #1 leak by volume: 78% of 855 visitors leave before any click (land→engage 22%). Live proof the page, not the ad, is the lever: /toddler signup 2.2% vs /plus-size 6.8%, and paid Swim converts 4% on its landing despite the best CPL ($2.22). Hero-rebuild test queued (PRED-2026-06-04-homepage-cro). Needs Product to build the variant.",
+        "status": "Confirmed #1 leak by volume: ~78% of homepage visitors leave before any click. Paid split now read: homepage / = 7.4% signup (42/568), /try = 1.5% (1/68), /try-kids 0/13. Recommend routing paid to the homepage and pausing /try spend until it is fixed or powered (escalated to Alejo). The /try tbs_* flow (91 users, 13 events) stays unmodeled pending a kill/fix call.",
         "targets": "land → engage · land → signup",
         "body": "The homepage (/) takes 540 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
         "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
-        "verify": { "clickup": ["homepage", "landing page", "hero CRO"], "doneWhen": "clickup" }
+        "verify": {
+          "clickup": [
+            "homepage",
+            "landing page",
+            "hero CRO"
+          ],
+          "doneWhen": "clickup"
+        }
       },
       {
         "rank": "6",
@@ -2124,7 +2144,13 @@
         "targets": "signup → model (69% vs target 50%)",
         "body": "Activation is above target but 31% of signups (22 users) still never generate a model, and every paid step gates on a model existing. The coachmarks A/B (PH-374260) is live but at single-digit exposures it needs more traffic to conclude. Pull /studio session replays on the non-activators to identify the stall point while the experiment collects sample. Rank falls because we are above the 50% target, not because the gap is closed.",
         "ladder": "Lever 2 · Activation → signup-to-activation ≥ 50%",
-        "verify": { "clickup": ["coachmarks", "onboarding"], "doneWhen": "clickup" }
+        "verify": {
+          "clickup": [
+            "coachmarks",
+            "onboarding"
+          ],
+          "doneWhen": "clickup"
+        }
       },
       {
         "rank": "7",
@@ -2145,7 +2171,9 @@
         "targets": "top of funnel",
         "body": "Delivery resumed after the 6-day billing stall (May 28 to Jun 2). Current flight CPL is $6.09, with Women's-swim the standout ($3.95 CPL, 7.69% CTR). Kids pixel still under-fires on /toddler and /plus-size, making Kids conversions look worse than they are. Fix the pixel so the autopilot can concentrate budget accurately on Kids and Swim.",
         "ladder": "Lever 1 · Grow top-of-funnel → CPL ≤ $20",
-        "verify": { "signal": "metaDeliveryLive" }
+        "verify": {
+          "signal": "metaDeliveryLive"
+        }
       },
       {
         "rank": "9",
@@ -2157,7 +2185,14 @@
         "targets": "open → signup",
         "body": "Google one-click is now the primary full-width button, email demoted. Shipped and measured: completion rose from 33% to a 44% peak and has held at 42%. Logged as a hit (PRED-2026-05-20-google-signup, +11pp). Residual magic-link leak (email still out-clicks Google 64 vs 59) tracked in rank 4.",
         "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
-        "verify": { "signal": "signupModalShipped", "clickup": ["Google button", "sign-up modal"], "doneWhen": "signal" }
+        "verify": {
+          "signal": "signupModalShipped",
+          "clickup": [
+            "Google button",
+            "sign-up modal"
+          ],
+          "doneWhen": "signal"
+        }
       }
     ],
     "loop": "Two layers keep this queue honest. Every build, a deterministic reconciler cross-checks each item against the live signals it already pulled (experiment results, the autopilot's delivery status, and matching ClickUp tasks) and flags any card whose hand-written status disagrees with reality, so stale priorities surface immediately. On top of that, the marketing-os-refresh reasoning pass re-ranks the queue by KPI impact and rewrites the items. Ranking is still human-owned; the reconciler is the always-on guardrail between reasoning passes.",
