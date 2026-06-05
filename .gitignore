@@ -8,3 +8,6 @@ __pycache__/
 gen_marketing_call.py
 .playwright-mcp/
 try-*.png
+# Local product/test screenshots dropped at the repo root (not part of the OS).
+# docs/*.png (e.g. the architecture render) stays tracked. Use `git add -f` to force a root png.
+/*.png
