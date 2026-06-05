@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T20:56:57.927600+00:00"
+    "updatedISO": "2026-06-05T21:01:01.012214+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -4298,25 +4298,24 @@ window.ABLO_OS = {
           "osSection": null,
           "feeds": "Not yet a tab · the marketing tools and who owns what",
           "file": "27-tech-stack.md",
-          "status": "stub",
+          "status": "complete",
           "updated": "2026-06-05",
           "owner": "Alejo",
-          "body": "# Tech Stack & DRIs\n\n> **Stub.** The tools are in use and wired into the Marketing OS, but they have never been documented as a single reference with owners. Writing this prevents agents and humans from guessing what's possible.\n\n## What goes here (to write)\n\nA table of the marketing stack: tool, what it's used for, who owns it (DRI), and the account/workspace it lives in.\n\n## Known stack (from the OS data sources — to confirm and complete)\n\n| Tool | Used for | DRI |\n|------|----------|-----|\n| PostHog | Product analytics, funnel, experiments, UTM attribution | Alejo |\n| Meta Ads | Paid social acquisition (via the ads autopilot) | Alejo |\n| Klaviyo | Lifecycle email + product-event metrics | Alejo |\n| ClickUp | Task source of truth (Ablo Studio list) | Alejo |\n| Instagram (@ablo.ai) | Organic social | (confirm) |\n| LinkedIn | Founder-led distribution + paid | Deniz / Won / Alejo |\n| HubSpot | Contact properties (ablo_*) | (confirm) |\n\n## To complete\n\n- Confirm each DRI and fill the blanks.\n- Add the tools not surfaced by the OS (design, scheduling, any CRM, the website/CMS).\n- Note key IDs/accounts and where credentials live, without pasting secrets here.\n- Team ownership: Deniz (product), Won (vision/investors), Alejo (marketing), Jason (dev — never route marketing-tool work to Jason), Michael (partnerships/BD).",
-          "wordCount": 229
+          "body": "# Tech Stack & DRIs\n\nThe marketing, growth, and analytics stack, with owners. Verified against what is actually wired (the Marketing OS data sources, the product app, and the site's tracking tags). Credentials live in `~/.claude/.env` (never pasted here).\n\n## Analytics & tracking\n\n| Tool | Used for | Key / ID | DRI |\n|------|----------|----------|-----|\n| **PostHog** | Product analytics: funnel, experiments, UTM attribution, session data. The OS's primary live source. | Project `419152` (US), `posthog-js` in app | Alejo |\n| **GA4** | Site analytics on the product/marketing site. Note: deliberately NOT wired into the Marketing OS (PostHog UTM covers attribution there). | `G-J0RVJJNT83` (gtag) | Alejo |\n| **LinkedIn Insight Tag** | Site conversion + retargeting pixel for LinkedIn ads. | Partner `9159970` | Alejo |\n\n## Paid acquisition\n\n| Tool | Used for | Key / ID | DRI |\n|------|----------|----------|-----|\n| **Meta Ads** | Primary paid channel, run via the **ads autopilot** (refreshes Meta state every ~6h; state in `Brain/.../autopilot/state`). $200/wk test budget. | `META_ADS_TOKEN` | Alejo |\n| **LinkedIn Ads** | Founder-led + paid distribution; discovery campaign ran here. | Ad account `537310176`, `LINKEDIN_ADS_TOKEN` (+ refresh token, auto-rotates) | Alejo + Deniz/Won (founder posts) |\n| **Meta Conversions API** | Server-side conversion signal (app \"Ablo Studio CAPI\"). | (same Meta app) | Alejo |\n\n## Lifecycle & CRM\n\n| Tool | Used for | Key / ID | DRI |\n|------|----------|----------|-----|\n| **Klaviyo** | Lifecycle email + product-event metrics. One live flow (\"Ablo Studio — Onboarding\"); product events (Model Generated, Try-on Completed, Checkout Started) arrive as metrics for behavioral triggers. | `KLAVIYO_API_KEY_ABLO` | Alejo |\n| **HubSpot** | Contact CRM. The app syncs contacts + `ablo_*` properties at login/onboarding. | (see app `lib/api.ts`, LoginModal, OnboardingPage) | Alejo |\n\n## Product & commerce (context for what's possible)\n\n| Tool | Used for | DRI |\n|------|----------|-----|\n| **Stripe** | Payments / checkout (the `checkout_started` → `purchase_completed` path). | Jason / product |\n| **Vercel** | Hosts the product app (Vite build, `apps/web/dist`). Site: studio.ablo.ai / ablo.tech. | Jason / product |\n| **Shopify + Cafe24** | Product import integrations baked into the product. | Jason / product |\n\n## Marketing OS automation (the OS itself)\n\n| Piece | What | DRI |\n|-------|------|-----|\n| **Marketing OS** | Static dashboard, repo `alex-runner/ablo-marketing-os` (public), GitHub Pages. `build.py` merges live data into `data.js`. | Alejo |\n| **Brain (Obsidian)** | Canonical strategy source, repo `alejoras/brain` (private). The `foundation/` folder is what this OS renders. | Alejo |\n| **launchd crons** | Daily 09:00 data refresh; Mon-Fri 09:20 autonomous LLM re-rank (self-deploys to main past a QA gate). Entrypoints in `~/.local/bin/`. | Alejo |\n| **ClickUp** | Task source of truth (Space Runners workspace). Surfaced live in the OS Command Center. Writes go through `~/.local/bin/clickup` only. | Alejo |\n| **Instagram** | `@ablo.ai` follower/post stats via Meta Graph. Note: `META_IG_TOKEN` is expired, so posting + post-level engagement need a refreshed token. | Alejo |\n\n## Team & DRIs\n\n| Person | Role | Owns |\n|--------|------|------|\n| **Deniz** | Co-CEO | Product owner; founder LinkedIn |\n| **Won** | Co-CEO | Vision, investors; founder LinkedIn |\n| **Alejo** | Marketing | All marketing/growth/analytics tooling above; the Marketing OS |\n| **Jason** | Dev | Product engineering (Stripe, Vercel, app). **Never route marketing-tool work to Jason.** |\n| **Michael** | Partnerships / BD | Enterprise / embedded-workflow motion (separate from self-serve) |\n\n## Open items\n\n- **GA4 vs PostHog overlap** — both run on the site. Confirmed intentional (PostHog is the OS source of truth; GA4 is a secondary site-analytics view). Don't wire GA4 into the OS.\n- **Expired `META_IG_TOKEN`** — refresh with `instagram_content_publish` scope to re-enable IG posting + post-level engagement in the OS.\n- **HubSpot ↔ PostHog identity** — confirm `ablo_*` contact props populate reliably (the measurement-integrity check). Owner: Alejo.\n- **No dedicated design or scheduling tool documented** — if Figma, a social scheduler, or a CMS is in use, add them here.",
+          "wordCount": 665
         }
       ],
       "summary": {
         "total": 20,
         "present": 20,
-        "complete": 16,
+        "complete": 17,
         "draft": 1,
-        "stub": 3,
+        "stub": 2,
         "missing": 0,
-        "pct": 80,
+        "pct": 85,
         "gaps": [
           "channel-strategy",
-          "lifecycle",
-          "tech-stack"
+          "lifecycle"
         ]
       }
     },
