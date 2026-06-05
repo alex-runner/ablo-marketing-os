@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T00:57:08.247361+00:00"
+    "updatedISO": "2026-06-05T01:05:34.765378+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2776,13 +2776,12 @@ window.ABLO_OS = {
         "metric": "visitor → signup, per entry page",
         "started": "in progress (ClickUp 86ba9n6my)",
         "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-        "signal": "Homepage 7.4% signup (42/568) vs /try 1.5% (1/68). /try value-first funnel: 68 land -> 12 customize -> 2 generate -> 2 hit the signup wall -> 1 signup. Caveats: /try engagement fires as tbs_* events, not cta_clicked, so the Funnel tab's engage step understates /try; and anonymous->identified signup attribution (magic-link) may undercount /try signups (ClickUp 86ba2wp4t). Thin sample, directional only.",
+        "signal": "Homepage 7.4% signup (42/568) vs /try 4.4% (4/91, tbs_* cohort). /try value-first funnel: 91 land -> 25 generate -> 24 hit the signup wall -> 4 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
         "tryFunnel": {
-          "landed": 68,
-          "customized": 12,
-          "generated": 2,
-          "hitWall": 2,
-          "signed": 1
+          "landed": 91,
+          "generated": 25,
+          "hitWall": 24,
+          "signed": 4
         }
       }
     ],
@@ -3265,12 +3264,14 @@ window.ABLO_OS = {
         },
         {
           "path": "/try",
-          "visitors": 68,
-          "engagers": 1,
-          "signups": 1,
-          "engagePct": 1.5,
-          "signupPct": 1.5,
-          "isLanding": true
+          "visitors": 91,
+          "engagers": 25,
+          "signups": 4,
+          "engagePct": 27.5,
+          "signupPct": 4.4,
+          "isLanding": true,
+          "measure": "tbs-cohort",
+          "note": "measured by the tbs_* cohort (entry = tbs_page_viewed) reach, not first-pageview pathname; signups are a floor (anon->identified split may hide a few). ClickUp 86ba2wp4t."
         },
         {
           "path": "/auth/verify",
@@ -3309,10 +3310,16 @@ window.ABLO_OS = {
           "isLanding": true
         }
       ],
-      "insight": "Homepage takes 568 visitors but only 22.9% click any CTA and 7.4% sign up. /try converts 1.5% to signup vs / at 7.4%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "insight": "Homepage takes 568 visitors but only 22.9% click any CTA and 7.4% sign up. /toddler converts 2.0% to signup vs / at 7.4%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
+      "tryFunnel": {
+        "landed": 91,
+        "generated": 25,
+        "hitWall": 24,
+        "signed": 4
+      },
       "updated": "June 5, 2026",
-      "source": "PostHog · live HogQL (first-pageview pathname)"
+      "source": "PostHog · live HogQL (first-pageview pathname; /try via tbs_* cohort)"
     },
     "clickup": {
       "source": "ClickUp · live",
@@ -3778,6 +3785,22 @@ window.ABLO_OS = {
         },
         {
           "type": "lesson",
+          "id": "LES-2026-06-04-anon-funnel-reach",
+          "date": "2026-06-04",
+          "lesson": "When measuring an anonymous flow's funnel (e.g. /try tbs_*), count each step's OWN distinct-user reach; do not intersect deeper steps on the entry event's person-set. PostHog re-splits anonymous person_ids across steps, so the intersection silently drops most users (the cohort query read generate=5 vs the true reach of 25). Endpoints (page-view, signup) are the reliable anchors; a multi-event union step over-counts and is best dropped.",
+          "evidence": "build.py _correct_try_row: intersected-on-tbs_page_viewed gave [91,17,5,5,4]; per-event reach gave [91,118,25,24,4]; shipped funnel uses the monotonic spine 91 land -> 25 generate -> 24 wall -> 4 signup = 4.4%.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "tracking",
+            "measurement",
+            "funnel",
+            "engineering"
+          ],
+          "source_pred": null
+        },
+        {
+          "type": "lesson",
           "id": "LES-2026-06-03-cpl",
           "date": "2026-06-03",
           "lesson": "The current signup-launch flight runs CPL ~$7.79, roughly 3x cheaper than the prior flight's $21.04. Keep budget on the current creative+targeting before testing new angles.",
@@ -3856,7 +3879,7 @@ window.ABLO_OS = {
         "hitRate": 1.0
       },
       "counts": {
-        "lessons": 7,
+        "lessons": 8,
         "predictions": 4,
         "resolved": 1,
         "open": 3

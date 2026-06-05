@@ -716,6 +716,74 @@ LIMIT 30
 # mid-signup when they hit it).
 _NON_LANDING = {"/auth/verify", "/auth", "/login", "/studio", "/app"}
 
+# The /try value-first flow fires its OWN event taxonomy (tbs_* = "try before
+# signup") and stitches anonymous->identified at signup. Keying its conversion to
+# the first-pageview pathname (LANDING_Q) undercounts it badly: that attribution
+# caught ~2 of 24 real signup-wall reaches and credited /try signups to other entry
+# pages, reading a fake 1.5%. Re-measure /try by its TRUE cohort: everyone whose
+# entry signal is tbs_page_viewed, counted through the tbs_* steps. Signups stay a
+# floor (a signup under a split identified id can fall outside the cohort), but far
+# truer than the pathname read. See ClickUp 86ba2wp4t.
+# Per-event distinct reach (NOT intersected on one person set): the /try flow is
+# anonymous and PostHog re-splits person_ids across steps, so intersecting deeper
+# steps with the tbs_page_viewed set silently drops most of them (it read generate=5
+# when the real reach is 25). We count each step's own distinct-user reach, and scope
+# signup_completed to anyone who fired any tbs_* event. The intermediate "customize"
+# step (a 4-event union) over-counts under the same fragmentation, so it is dropped;
+# the reliable, monotonic spine is land -> generate -> signup-wall -> signup.
+TRY_COHORT_Q = """
+SELECT
+  count(DISTINCT if(event = 'tbs_page_viewed', person_id, NULL)) AS landed,
+  count(DISTINCT if(event = 'tbs_generate_clicked', person_id, NULL)) AS generated,
+  count(DISTINCT if(event = 'tbs_signup_wall_shown', person_id, NULL)) AS hit_wall,
+  count(DISTINCT if(event = 'signup_completed', person_id, NULL)) AS signed
+FROM events
+WHERE timestamp >= now() - INTERVAL 60 DAY
+  AND ( event LIKE 'tbs_%'
+        OR (event = 'signup_completed' AND person_id IN (
+            SELECT DISTINCT person_id FROM events
+            WHERE timestamp >= now() - INTERVAL 60 DAY AND event LIKE 'tbs_%')) )
+""".strip()
+
+
+def _correct_try_row(env, pages):
+    """Overwrite the /try row in `pages` with its true tbs_* cohort funnel (see
+    TRY_COHORT_Q), so every downstream read (Funnel tab, the /try experiment, the
+    CRO insight) uses the honest number instead of the pathname-attribution artifact.
+    Mutates `pages` in place; returns the funnel dict, or None on failure / no data
+    so the build degrades gracefully instead of crashing."""
+    rows = _hogql(env, TRY_COHORT_Q)
+    if not rows or not rows[0]:
+        return None
+    try:
+        landed, generated, hit_wall, signed = [int(x) for x in rows[0]]
+    except (ValueError, TypeError):
+        return None
+    if landed <= 0:
+        return None
+    # Defensive monotonic clamp: fragmentation could in principle push a downstream
+    # step above its parent; keep the displayed funnel sane (no-op on healthy data).
+    generated = min(generated, landed)
+    hit_wall = min(hit_wall, generated)
+    signed = min(signed, landed)
+    corrected = {
+        "path": "/try", "visitors": landed, "engagers": generated, "signups": signed,
+        "engagePct": round(generated / landed * 100, 1),
+        "signupPct": round(signed / landed * 100, 1),
+        "isLanding": True, "measure": "tbs-cohort",
+        "note": ("measured by the tbs_* cohort (entry = tbs_page_viewed) reach, not "
+                 "first-pageview pathname; signups are a floor (anon->identified split "
+                 "may hide a few). ClickUp 86ba2wp4t."),
+    }
+    row = next((p for p in pages if p.get("path") == "/try"), None)
+    if row:
+        row.update(corrected)
+    else:
+        pages.append(corrected)
+    log(f"try-correction: /try true funnel {landed} land -> {generated} generate -> "
+        f"{hit_wall} wall -> {signed} signup ({corrected['signupPct']}% view->signup)")
+    return {"landed": landed, "generated": generated, "hitWall": hit_wall, "signed": signed}
+
 
 def fetch_landing_pages(env):
     """Live per-landing-page bounce + signup conversion from PostHog. None on
@@ -737,6 +805,9 @@ def fetch_landing_pages(env):
             "signupPct": round(signups / visitors * 100, 1) if visitors else 0,
             "isLanding": path not in _NON_LANDING,
         })
+    # Correct the /try row to its true tbs_* cohort BEFORE the insight is computed,
+    # so the CRO read never quotes the pathname-attribution artifact.
+    try_funnel = _correct_try_row(env, pages)
     # Read the leak: among real-volume marketing landing pages (>= 20 visitors),
     # call out the homepage and the best/worst landing-page conversion. The
     # worst/best contrast only uses pages that actually drive signup (>= 1 signup)
@@ -761,9 +832,9 @@ def fetch_landing_pages(env):
                             f"the ad, is the leak — a clean CRO test")
         insight = ". ".join(bits) + ("." if bits else "")
     log(f"PostHog landing pages: {len(pages)} entry page(s) read")
-    return {"pages": pages, "insight": insight, "window": "60d",
+    return {"pages": pages, "insight": insight, "window": "60d", "tryFunnel": try_funnel,
             "updated": datetime.now(timezone.utc).strftime("%B %-d, %Y"),
-            "source": "PostHog · live HogQL (first-pageview pathname)"}
+            "source": "PostHog · live HogQL (first-pageview pathname; /try via tbs_* cohort)"}
 
 
 # ------------------------------------------------------------------ history --
@@ -1121,33 +1192,13 @@ def fetch_signup_experiment(env, base):
     return out
 
 
-# The /try value-first funnel uses its OWN event taxonomy (tbs_* = "try before
-# signup"), NOT the homepage's cta_clicked. Measuring /try with the homepage funnel
-# undercounts it, so read the tbs_* steps explicitly for /try entrants.
-TRY_FUNNEL_Q = """
-SELECT
-  count(DISTINCT person_id) AS landed,
-  count(DISTINCT if(event IN ('tbs_category_selected','tbs_sample_selected','tbs_garment_added','tbs_scene_selected'), person_id, NULL)) AS customized,
-  count(DISTINCT if(event = 'tbs_generate_clicked', person_id, NULL)) AS generated,
-  count(DISTINCT if(event = 'tbs_signup_wall_shown', person_id, NULL)) AS hit_wall,
-  count(DISTINCT if(event = 'signup_completed', person_id, NULL)) AS signed
-FROM events
-WHERE timestamp >= now() - INTERVAL 60 DAY
-  AND person_id IN (
-    SELECT person_id FROM (
-      SELECT person_id, argMinIf(properties.$pathname, timestamp, event = '$pageview') AS entry
-      FROM events WHERE timestamp >= now() - INTERVAL 60 DAY AND event = '$pageview'
-      GROUP BY person_id
-    ) WHERE entry = '/try'
-  )
-""".strip()
-
-
 def fetch_try_experiment(env, base, landing):
     """OS-tracked read on the /try (value-first) vs homepage paid landing A/B.
-    This is a Meta-level landing split, NOT a PostHog experiment, so it never shows
-    in the experiments API; we measure it from the live per-page signup rate + the
-    /try value-first (tbs_*) funnel. Returns base enriched, or base on failure."""
+    A Meta-level landing split, NOT a PostHog experiment, so it never shows in the
+    experiments API. /try is measured by its true tbs_* cohort (see _correct_try_row,
+    applied inside fetch_landing_pages), which corrects the earlier first-pageview-
+    pathname undercount. Reads the already-corrected /try row + funnel from `landing`;
+    runs no query of its own. Returns base enriched, or base unchanged on no data."""
     out = dict(base)
     pages = {p.get("path"): p for p in ((landing or {}).get("pages") or [])}
     home, tryp = pages.get("/"), pages.get("/try")
@@ -1155,25 +1206,21 @@ def fetch_try_experiment(env, base, landing):
     if home:
         cmp_bits.append(f"Homepage {home.get('signupPct')}% signup ({home.get('signups')}/{home.get('visitors')})")
     if tryp:
-        cmp_bits.append(f"/try {tryp.get('signupPct')}% ({tryp.get('signups')}/{tryp.get('visitors')})")
+        cmp_bits.append(f"/try {tryp.get('signupPct')}% ({tryp.get('signups')}/{tryp.get('visitors')}, tbs_* cohort)")
     funnel_bit = ""
-    rows = _hogql(env, TRY_FUNNEL_Q)
-    if rows and rows[0]:
-        try:
-            landed, customized, generated, hit_wall, signed = [int(x) for x in rows[0]]
-            funnel_bit = (f" /try value-first funnel: {landed} land -> {customized} customize -> "
-                          f"{generated} generate -> {hit_wall} hit the signup wall -> {signed} signup.")
-            out["tryFunnel"] = {"landed": landed, "customized": customized, "generated": generated,
-                                "hitWall": hit_wall, "signed": signed}
-        except (ValueError, TypeError):
-            pass
-    caveat = (" Caveats: /try engagement fires as tbs_* events, not cta_clicked, so the Funnel tab's "
-              "engage step understates /try; and anonymous->identified signup attribution (magic-link) "
-              "may undercount /try signups (ClickUp 86ba2wp4t). Thin sample, directional only.")
+    fn = (landing or {}).get("tryFunnel")
+    if fn:
+        out["tryFunnel"] = fn
+        funnel_bit = (f" /try value-first funnel: {fn['landed']} land -> {fn['generated']} generate -> "
+                      f"{fn['hitWall']} hit the signup wall -> {fn['signed']} signup.")
+    caveat = (" Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier "
+              "first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain "
+              "a floor: anonymous->identified magic-link stitching can split a signer off the cohort "
+              "(ClickUp 86ba2wp4t). Thin sample, directional only.")
     out["signal"] = (" vs ".join(cmp_bits) + ("." if cmp_bits else "") + funnel_bit + caveat).strip()
     if home and tryp and isinstance(home.get("signupPct"), (int, float)) and isinstance(tryp.get("signupPct"), (int, float)):
         out["status"] = "Running, /try ahead (thin)" if tryp["signupPct"] >= home["signupPct"] else "Running, /try behind (thin)"
-    log(f"try-experiment: home {home.get('signupPct') if home else '?'}% vs /try {tryp.get('signupPct') if tryp else '?'}%")
+    log(f"try-experiment: home {home.get('signupPct') if home else '?'}% vs /try {tryp.get('signupPct') if tryp else '?'}% (tbs cohort)")
     return out
 
 
