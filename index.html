@@ -1003,7 +1003,13 @@
             h('div',{style:'color:#c9a96e;font-size:11.5px;margin-top:3px'},'focus / emphasis'))),
         h('div',{style:'height:1px;margin:18px 0 6px;background:linear-gradient(to right,transparent,rgba(255,255,255,.10),transparent)'}),
         h('div',{style:'color:#555;font-size:11px;text-align:center'},'divider · gradient-to-r'));
+      const logo=h('div',{class:'bgv-stage',style:'display:flex;align-items:center;gap:30px;flex-wrap:wrap'},
+        h('img',{src:'assets/ablo-logo.png',alt:'Ablo Studio logo',style:'height:36px;width:auto;display:block'}),
+        h('div',{style:'border-left:1px solid rgba(255,255,255,.1);padding-left:30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap'},
+          h('img',{src:'assets/ablo-logo.png',alt:'',style:'height:18px;width:auto;opacity:.85'}),
+          h('div',{style:'color:#777;font-size:11px;line-height:1.5'}, 'ABLO mark + STUDIO', h('br'), 'reversed, on near-black · header size ~20px')));
       return frag(
+        blocktitle('Logo'), logo,
         blocktitle('Palette'), swatches,
         blocktitle('Type & accent'), specimen,
         blocktitle('Components'), comps,
