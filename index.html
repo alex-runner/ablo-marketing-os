@@ -389,6 +389,10 @@
     .fdoc.missing { opacity:.65; }
     .fdoc.missing > summary { cursor:default; }
     .fdoc-body .wl { color:var(--accent-dim); }
+    .srcbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--text2); text-decoration:none; padding:8px 14px; margin:0 0 22px; border:1px solid var(--line); border-radius:var(--full); background:var(--bg2); width:fit-content; max-width:100%; }
+    .srcbar:hover { border-color:var(--accent-dim); color:var(--text); }
+    .srcbar-ico svg { width:14px; height:14px; stroke:var(--accent); display:block; }
+    .srcbar-edit { color:var(--muted); }
   </style>
 </head>
 <body>
@@ -1443,12 +1447,26 @@
 
     const view=document.getElementById('view');
     const crumb=document.getElementById('crumb');
+    // Provenance — the legacy structured Strategy/Brand tabs still render from
+    // content.json, but their canonical EDIT source is now the foundation doc.
+    // Show a slim link so the two can't silently drift (edit the markdown, not the view).
+    const FOUND_SRC={overview:'company-overview',goals:'goals',gtm:'gtm',icp:'icp',positioning:'positioning',competition:'competition',battlecard:'battle-card',messaging:'messaging',voice:'voice',content:'content-strategy'};
+    function provenanceBar(id){
+      const key=FOUND_SRC[id]; if(!key) return null;
+      const st=L.strategy||{}; const d=(st.docs||[]).find(x=>x.key===key); if(!d) return null;
+      const SL=st.statusLabels||{}; const STn=st.statusTone||{};
+      return h('a',{href:'#foundation',class:'srcbar'},
+        h('span',{class:'srcbar-ico',html:svg(I.book)}),
+        h('span',{}, 'Canonical source · Foundation → '+d.title),
+        chip(SL[d.status]||d.status, STn[d.status]||'muted'),
+        h('span',{class:'srcbar-edit'}, 'edit the markdown, not this view'));
+    }
     function render(id){
       if(!S[id]) id='overview';
       view.innerHTML='';
       const node=S[id]();
       // stagger child blocks
-      const wrap=h('div',{}); wrap.append(node);
+      const wrap=h('div',{}); const pb=provenanceBar(id); if(pb) wrap.append(pb); wrap.append(node);
       [...wrap.children].forEach((c,i)=>{ c.classList.add('reveal'); c.style.animationDelay=(i*55)+'ms'; });
       view.append(wrap);
       crumb.textContent=LABELS[id]||'Marketing OS';
