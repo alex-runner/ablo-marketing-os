@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T19:04:55.850802+00:00"
+    "updatedISO": "2026-06-05T20:56:57.927600+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,8 +51,8 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 85 of 222 opens finish (~38%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 34). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
-      "Close the try-on activation gap. 102 entered the studio, 54 generated a model (47% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
+      "Fix the signup-modal drop. Only 86 of 225 opens finish (~38%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 35). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
+      "Close the try-on activation gap. 103 entered the studio, 54 generated a model (48% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
     ]
@@ -2248,7 +2248,7 @@ window.ABLO_OS = {
           "verdict": "done",
           "doneSignal": true,
           "evidence": [
-            "experiment: modal completion 33.3% -> 36.7% (+3.3 pts)",
+            "experiment: modal completion 33.3% -> 36.6% (+3.3 pts)",
             "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is done"
           ],
           "disagree": false,
@@ -2344,11 +2344,11 @@ window.ABLO_OS = {
         },
         {
           "k": "Signup → activation · goal ≥ 50%",
-          "v": "46%"
+          "v": "45%"
         },
         {
           "k": "CPL · goal ≤ $20",
-          "v": "$4.91"
+          "v": "$6.85"
         }
       ],
       "rule": "Every item below earns its place by moving one of these. The agent ranks by goal-impact: anything that does not ladder up to a KPI does not belong in the queue."
@@ -2714,26 +2714,26 @@ window.ABLO_OS = {
       },
       {
         "label": "Lifetime signups",
-        "value": "85",
+        "value": "86",
         "sub": "all-time, all sources",
         "tone": "default"
       },
       {
         "label": "Blended CAC",
-        "value": "$13.47",
+        "value": "$13.61",
         "sub": "all paid ÷ all signups · target ≤ $20",
         "tone": "default"
       },
       {
         "label": "Activation",
-        "value": "~46%",
+        "value": "~45%",
         "sub": "signup → try-on · target ≥ 50%",
         "tone": "default"
       },
       {
         "label": "Total ad spend",
-        "value": "$1,145",
-        "sub": "Meta ~$695 + LinkedIn $450",
+        "value": "$1,170",
+        "sub": "Meta ~$720 + LinkedIn $450",
         "tone": "default"
       },
       {
@@ -2762,10 +2762,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 37% (55/150). Change: +3 pts.",
+        "signal": "Modal completion before May 27: 33% (22/66). After: 37% (56/153). Change: +3 pts.",
         "delta": 3.3,
         "before": 33.3,
-        "after": 36.7,
+        "after": 36.6,
         "shipped": true
       },
       {
@@ -2776,9 +2776,9 @@ window.ABLO_OS = {
         "metric": "visitor → signup, per entry page",
         "started": "in progress (ClickUp 86ba9n6my)",
         "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-        "signal": "Homepage 7.6% signup (44/580) vs /try 5.3% (6/113, tbs_* cohort). /try value-first funnel: 113 land -> 30 generate -> 29 hit the signup wall -> 6 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
+        "signal": "Homepage 7.6% signup (44/581) vs /try 5.2% (6/115, tbs_* cohort). /try value-first funnel: 115 land -> 30 generate -> 29 hit the signup wall -> 6 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
         "tryFunnel": {
-          "landed": 113,
+          "landed": 115,
           "generated": 30,
           "hitWall": 29,
           "signed": 6
@@ -2786,37 +2786,37 @@ window.ABLO_OS = {
       }
     ],
     "meta": {
-      "spend": "$63.84",
+      "spend": "$89.11",
       "signups": 13,
-      "cpl": "$4.91",
+      "cpl": "$6.85",
       "status": "Live",
-      "asOf": "Jun 4, 2026",
+      "asOf": "Jun 5, 2026",
       "deliveryFlag": "",
-      "funnelHeadline": "Acquisition stays healthy (64 signups, $4.31 CPL) but the new try-before-signup builder is now visibly funneling traffic into the broken magic-link auth, signup abandonment hit a window-high 32 today against only 7 completions.",
+      "funnelHeadline": "Signups keep climbing week-over-week (45 → 68) but the magic-link auth leak is still the biggest fixable hole, 67 requested a link, only 6 finished, and the new try-before-signup wall is feeding straight into it.",
       "funnelSuggestions": [
         {
           "step": "Signed up",
           "severity": "high",
           "title": "Magic-link is the signup leak, make Google the default path",
-          "evidence": "192 opened the modal, only 64 finished (33%). The smoking gun: 66 people requested a magic link but only 6 completed a login (9%). Desktop converts worse than mobile (18/66 = 27% vs 47/125 = 38%)."
+          "evidence": "208 opened the modal, only 68 finished (33%). The smoking gun: 67 people requested a magic link but only 6 completed a login (9%). Desktop converts worse than mobile (19/71 = 27% vs 50/136 = 37%)."
         },
         {
           "step": "Signed up",
           "severity": "high",
-          "title": "The new pre-signup builder is feeding the auth leak, abandonment is at a window high",
-          "evidence": "tbs_signup_wall_shown reached 23 people today (24 had clicked Generate). Same day, signup_modal_opened set a series high (39) but signup_abandoned also set its high (32) with only 7 completions, an 18% completion rate vs the 33% all-window average."
+          "title": "The pre-signup builder is feeding the auth leak, abandonment hit a window high",
+          "evidence": "tbs_signup_wall_shown reached 29 people (30 had clicked Generate). On 6/4 signup_modal_opened set a series high (41) but signup_abandoned also set its high (34) with only 7 completions; daily signups have since slid 8 (6/3) → 7 (6/4) → 4 (6/5)."
         },
         {
           "step": "Tried the product",
           "severity": "high",
           "title": "Half of studio visitors never generate their first model",
-          "evidence": "78 entered the studio but only 39 generated a model (50%) and 25 reached try-on, generation is the activation cliff. seed_model_selected is still too new to credit (first seen Jun 2; 35 events / 7 people)."
+          "evidence": "82 entered the studio but only 41 generated a model (50%) and 28 reached try-on, generation is the activation cliff. seed_model_selected is still too new to credit (first seen Jun 2; 44 events / 9 people)."
         },
         {
           "step": "Tried the product",
           "severity": "medium",
           "title": "Rage-clicks keep clustering on /studio",
-          "evidence": "15 people rage-clicked /studio 37 times, ~19% of the 78 who entered, and by far the largest cluster (next is /pricing at 3). It spiked at 14 on launch day, never cleared, and ticked back to 8 on Jun 3 and 4 on Jun 4."
+          "evidence": "19 people rage-clicked /studio 42 times, ~23% of the 82 who entered, and by far the largest cluster (next is /pricing at 3). It spiked on launch day, never cleared, and ticked back up to 8 on Jun 3 and 6 on Jun 5."
         }
       ]
     },
@@ -2845,10 +2845,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 293,
-            "d30": 968,
-            "d90": 968,
-            "all": 968
+            "d7": 296,
+            "d30": 973,
+            "d90": 973,
+            "all": 973
           }
         },
         {
@@ -2857,10 +2857,10 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 58,
-            "d30": 212,
-            "d90": 212,
-            "all": 212
+            "d7": 60,
+            "d30": 215,
+            "d90": 215,
+            "all": 215
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2870,10 +2870,10 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 84,
-            "d30": 222,
-            "d90": 222,
-            "all": 222
+            "d7": 87,
+            "d30": 225,
+            "d90": 225,
+            "all": 225
           }
         },
         {
@@ -2882,10 +2882,10 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 26,
-            "d30": 85,
-            "d90": 85,
-            "all": 85
+            "d7": 27,
+            "d30": 86,
+            "d90": 86,
+            "all": 86
           },
           "benchmark": "8.5% land→signup (target 5%)"
         },
@@ -2896,9 +2896,9 @@ window.ABLO_OS = {
           "group": "Activate",
           "counts": {
             "d7": 36,
-            "d30": 102,
-            "d90": 102,
-            "all": 102
+            "d30": 103,
+            "d90": 103,
+            "all": 103
           }
         },
         {
@@ -2980,22 +2980,22 @@ window.ABLO_OS = {
       "spine": {
         "label": "Activation spine",
         "note": "Same user, of everyone who signed up (since launch). Strictly monotonic, this is the cleanest drop story.",
-        "denominator": 85,
+        "denominator": 86,
         "steps": [
           {
             "label": "Signed up",
-            "count": 85,
+            "count": 86,
             "pct": 100
           },
           {
             "label": "Entered studio",
-            "count": 85,
+            "count": 86,
             "pct": 100
           },
           {
             "label": "Generated a model",
             "count": 54,
-            "pct": 64
+            "pct": 63
           },
           {
             "label": "Imported a product",
@@ -3005,7 +3005,7 @@ window.ABLO_OS = {
           {
             "label": "Tried on (aha)",
             "count": 39,
-            "pct": 46,
+            "pct": 45,
             "aha": true
           },
           {
@@ -3083,8 +3083,8 @@ window.ABLO_OS = {
             {
               "name": "Welcome Email",
               "timing": "On signup (Day 0)",
-              "recipients": 76,
-              "open": 96.1,
+              "recipients": 78,
+              "open": 96.2,
               "click": 2.6,
               "conv": 0,
               "unsub": 1
@@ -3194,15 +3194,15 @@ window.ABLO_OS = {
           "signups": 60,
           "tryons": 32,
           "checkouts": 8,
-          "signupShare": 71
+          "signupShare": 70
         },
         {
           "channel": "Meta Ads",
-          "users": 573,
-          "signups": 25,
+          "users": 579,
+          "signups": 26,
           "tryons": 9,
           "checkouts": 0,
-          "signupShare": 29
+          "signupShare": 30
         },
         {
           "channel": "LinkedIn",
@@ -3229,7 +3229,7 @@ window.ABLO_OS = {
           "signupShare": 0
         }
       ],
-      "insight": "71% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
+      "insight": "70% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
       "updated": "June 5, 2026",
       "source": "PostHog UTM · live"
     },
@@ -3237,7 +3237,7 @@ window.ABLO_OS = {
       "pages": [
         {
           "path": "/",
-          "visitors": 580,
+          "visitors": 581,
           "engagers": 134,
           "signups": 44,
           "engagePct": 23.1,
@@ -3246,20 +3246,20 @@ window.ABLO_OS = {
         },
         {
           "path": "/toddler",
-          "visitors": 152,
-          "engagers": 28,
-          "signups": 3,
-          "engagePct": 18.4,
-          "signupPct": 2.0,
+          "visitors": 154,
+          "engagers": 30,
+          "signups": 4,
+          "engagePct": 19.5,
+          "signupPct": 2.6,
           "isLanding": true
         },
         {
           "path": "/try",
-          "visitors": 113,
+          "visitors": 115,
           "engagers": 30,
           "signups": 6,
-          "engagePct": 26.5,
-          "signupPct": 5.3,
+          "engagePct": 26.1,
+          "signupPct": 5.2,
           "isLanding": true,
           "measure": "tbs-cohort",
           "note": "measured by the tbs_* cohort (entry = tbs_page_viewed) reach, not first-pageview pathname; signups are a floor (anon->identified split may hide a few). ClickUp 86ba2wp4t."
@@ -3284,11 +3284,11 @@ window.ABLO_OS = {
         },
         {
           "path": "/try-kids",
-          "visitors": 23,
+          "visitors": 25,
           "engagers": 2,
           "signups": 1,
-          "engagePct": 8.7,
-          "signupPct": 4.3,
+          "engagePct": 8.0,
+          "signupPct": 4.0,
           "isLanding": true
         },
         {
@@ -3310,10 +3310,10 @@ window.ABLO_OS = {
           "isLanding": true
         }
       ],
-      "insight": "Homepage takes 580 visitors but only 23.1% click any CTA and 7.6% sign up. /toddler converts 2.0% to signup vs / at 7.6%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "insight": "Homepage takes 581 visitors but only 23.1% click any CTA and 7.6% sign up. /toddler converts 2.6% to signup vs / at 7.6%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
       "tryFunnel": {
-        "landed": 113,
+        "landed": 115,
         "generated": 30,
         "hitWall": 29,
         "signed": 6
@@ -3446,7 +3446,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223658,
+      "followers": 223656,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3684,25 +3684,25 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-05",
-          "landed": 46,
-          "engaged": 11,
-          "modal": 15,
-          "signups": 5,
+          "landed": 51,
+          "engaged": 14,
+          "modal": 18,
+          "signups": 6,
           "models": 2,
           "imports": 3,
           "tryons": 3,
           "downloads": 1,
           "checkouts": 0,
-          "spend_lifetime": 63.84,
-          "cpl": 4.91,
+          "spend_lifetime": 89.11,
+          "cpl": 6.85,
           "signups_meta": 13,
           "email_open": 97.5,
           "email_click": 2.5,
           "email_recipients": 80,
           "paying_customers": 0,
-          "ig_followers": 223658,
-          "activation_rate": 64,
-          "aha_rate": 46,
+          "ig_followers": 223656,
+          "activation_rate": 63,
+          "aha_rate": 45,
           "payment_rate": 8,
           "home_engage_pct": 23.1,
           "home_signup_pct": 7.6
@@ -3920,8 +3920,8 @@ window.ABLO_OS = {
         {
           "key": "tbs_*",
           "dimension": "events",
-          "where": "PostHog, 113 users/30d (13 events)",
-          "volume": 113,
+          "where": "PostHog, 115 users/30d (13 events)",
+          "volume": 115,
           "cluster": true,
           "action": "Investigate the tbs_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
@@ -3929,8 +3929,8 @@ window.ABLO_OS = {
         {
           "key": "onboarding_*",
           "dimension": "events",
-          "where": "PostHog, 11 users/30d (4 events)",
-          "volume": 11,
+          "where": "PostHog, 12 users/30d (4 events)",
+          "volume": 12,
           "cluster": true,
           "action": "Investigate the onboarding_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
@@ -4284,11 +4284,11 @@ window.ABLO_OS = {
           "osSection": null,
           "feeds": "Not yet a tab · visual identity, color, type, logo usage",
           "file": "26-brand-guide.md",
-          "status": "stub",
+          "status": "complete",
           "updated": "2026-06-05",
           "owner": "Alejo",
-          "body": "# Brand Guide\n\n> **Stub.** The verbal identity is well-defined (see [[voice]] and [[messaging]]); the **visual** identity has never been codified in this layer.\n\n## What goes here (to write)\n\n- **Color** — primary, accent, neutrals, with hex values and usage rules.\n- **Typography** — display and body typefaces, weights, the editorial hierarchy.\n- **Logo** — the mark, clear space, sizing, do/don't.\n- **Imagery** — the photo-led, editorial direction (SSENSE / Off-White references from [[voice]]); how AI output is presented; the before/after and \"shot in minutes\" conventions.\n- **Layout / motion** — the sparse, considered grid language; any motion principles for the launch film and ads.\n\n## How to populate\n\nIf a Figma file or brand PDF exists, link it and codify from it. The launch film and the live site are the current de-facto visual reference — extract the system from them. Until then, [[voice]] carries the brand and this stays a stub.",
-          "wordCount": 154
+          "body": "# Brand Guide\n\nThe visual identity, codified from the product's own design system (`ablo-tech/apps/web`). The source of truth is `apps/web/src/styles/globals.css` (`@theme` tokens) and the `components/ui/*` primitives. The verbal identity lives in [[voice]] and [[messaging]]; this is the visual layer. The Marketing OS dashboard intentionally renders in this same system.\n\n**One-line feel:** Editorial, dark, calm, premium. Near-black canvas, one warm gold accent used sparingly, Inter set tight, pill-shaped controls, hairline borders, photography does the talking.\n\n## Color\n\nThe full token set (`@theme` in `globals.css`). These are the canonical names; in Tailwind they are `bg-bg-primary`, `text-accent`, etc.\n\n| Token | Hex | Use |\n|-------|-----|-----|\n| `bg-primary` | `#0c0c0c` | Page background (near-black) |\n| `bg-secondary` | `#151515` | Cards, panels |\n| `bg-tertiary` | `#1a1a1a` | Inputs, select menus |\n| `bg-elevated` | `#222222` | Raised surfaces, popovers |\n| `border` | `#2a2a2a` | Default border |\n| `border-hover` | `#3a3a3a` | Border on hover |\n| `text-primary` | `#fafafa` | Primary text (off-white, not pure white) |\n| `text-secondary` | `#999999` | Body, secondary text |\n| `text-muted` | `#555555` | Captions, disabled, fine print |\n| **`accent`** | **`#e8d5a3`** | **The brand gold. Emphasis, the second headline line, badges, checkmarks** |\n| `accent-hover` | `#f0e0b5` | Accent hover (lighter gold) |\n| `accent-dim` | `#c9a96e` | Muted gold (sub-accents, secondary marks) |\n| `success` | `#4ade80` | Positive states only |\n| `error` | `#f87171` | Errors only |\n\n**Rules:**\n- **One accent.** Gold (`#e8d5a3`) is the only brand color. It carries emphasis on a near-black canvas and must stay rare. If everything is gold, nothing is.\n- **Off-white, not white.** Primary text is `#fafafa`; pure `#fff` appears only on the white primary button.\n- **Borders are hairlines.** Most real borders are translucent white at very low alpha (`white/[0.04]` to `white/[0.10]`), not the solid `#2a2a2a`, so they read as a whisper of an edge on dark.\n- **Dark only.** There is no light mode. The brand is a dark brand. (Meta `theme-color` is `#0a0a0a`; the canonical surface token is `#0c0c0c`.)\n\n## Typography\n\n**Inter** is the typeface, full stop. Loaded weights: 300, 400, 500, 600, 700. System-ui fallback.\n\n| Role | Spec |\n|------|------|\n| Hero display | `clamp(2.75rem, 9vw, 5rem)`, `font-bold` (700), `leading-[0.9]`, `tracking-[-0.04em]` |\n| Section heading | `text-3xl`–`text-5xl`, `font-bold`, `tracking-[-0.03em]` |\n| Subheading | `text-lg`–`text-xl`, `font-semibold`, `tracking-[-0.01em]` |\n| Body | `text-base`/`text-[17px]`, `leading-relaxed`, `text-secondary` |\n| Small / meta | `text-sm`, `text-xs` |\n| Eyebrow / label | `text-[10px]`, `font-semibold`, `uppercase`, `tracking-[0.15em]`, in accent |\n\n**Rules:**\n- **Tight display, airy body.** Headlines are bold with negative tracking and sub-1.0 line-height. Body text is relaxed and secondary-colored. The contrast is the editorial signature.\n- **The two-tone headline is the signature move.** A white line plus a gold line or word: \"Start free.\" (white) + \"Scale per drop.\" (accent). Gold is `text-accent`, a flat color, not a gradient.\n- **Eyebrows are gold uppercase micro-labels** with wide letter-spacing, often inside a faint accent pill.\n- **Weights in play:** medium (500) for UI, semibold (600) for emphasis, bold (700) for headings. No light weights in the UI.\n\n> **Cleanup flag:** Playfair Display is loaded in `index.html` but used nowhere (the `font-display` token points to Inter, and no component references it). Either adopt it deliberately as an editorial display serif, or drop the Google Fonts request. Right now the system is Inter-only.\n\n## Shape, spacing, elevation\n\n- **Radius is round and pill-forward.** Usage, in order: `rounded-full` (every button, badge, pill, toggle — by far the most common), `rounded-2xl` (cards), `rounded-xl`, `rounded-3xl` (hero/feature panels), `rounded-lg`. Almost nothing is sharp-cornered.\n- **Elevation is by tint, not shadow.** Surfaces step up through the bg tokens (`primary → secondary → tertiary → elevated`) and faint white overlays, not drop shadows. Glass surfaces add `backdrop-blur-sm` over `white/[0.03]`.\n- **Dividers are faded gradients:** a 1px line, `bg-gradient-to-r from-transparent via-white/[0.06] to-transparent`, not a solid rule.\n\n## Components (canonical primitives)\n\n**Button** (`Button.tsx`) — always `rounded-full`, `font-medium`, `transition-all`, `active:scale-[0.98]`, `disabled:opacity-40`.\n- **Primary:** white fill, dark text (`bg-text-primary text-bg-primary`), hover to pure white. The loudest action.\n- **Secondary:** faint white overlay `bg-white/[0.06]` + `border-white/[0.08]`.\n- **Ghost:** `text-secondary`, lifts to primary text + faint bg on hover.\n- **Sizes:** sm (`text-xs`, `px-3.5 py-1.5`), md (`text-[13px]`, `px-5 py-2.5`), lg (`text-sm`, `px-7 py-3`).\n\n**Card** (`Card.tsx`) — `rounded-2xl`, `overflow-hidden`. Default `bg-bg-secondary` + `border-white/[0.04]`; glass variant `bg-white/[0.03]` + `border-white/[0.06]` + `backdrop-blur-sm`. Hover lifts border to `white/[0.10]`.\n\n**Badge** (e.g. \"Most Popular\") — `rounded-full`, `bg-accent text-bg-primary` (gold fill, dark text), `text-[9px]`, `font-bold`, `uppercase`, `tracking-[0.12em]`. The one place gold becomes a fill instead of text.\n\n**Accent pill / feature card** — `border-accent/20` over `bg-gradient-to-br from-accent/[0.07] via-white/[0.02] to-transparent`: the way to highlight a \"chosen\" card (e.g. the popular pricing tier) without a hard color block.\n\n**Inputs** (`Input.tsx`, `Select.tsx`) — `bg-bg-tertiary`, dark; autofill is force-repainted dark (the `:-webkit-autofill` inset-shadow fix) so the browser's pale-yellow never breaks the theme.\n\n**Iconography** — `lucide-react`, thin line icons, sized `w-4 h-4` / `w-5 h-5`, usually in accent or secondary. Matches the lucide-style icon set in the Marketing OS.\n\n## Logo\n\n- **Wordmark:** `ABLO` mark + `STUDIO` lockup. Asset `apps/web/public/ablo-logo.png`, rendered small in-header at `h-5` (~20px), auto width.\n- **Favicon:** `/ablo.ico`. OG/social image: `og-image-1200.jpg` (1200px, `summary_large_image`).\n- **To codify (the remaining logo gap):** clear-space rule, minimum size, the mono/reversed variants, and the relationship to the parent Ablo.ai mark. The PNG is in use but there is no SVG master or usage spec yet. Get the source file from design and document it.\n\n## Imagery\n\n- **Photography is the hero.** The product output (on-model imagery) is the visual. Hero images are preloaded WebP (`hero-4.webp`), full-bleed, with a dark gradient scrim (`bg-gradient-to-t from-bg-primary`) so text stays legible over them.\n- **Treatment:** editorial, premium, real fashion. The before/after and \"shot in minutes\" framings from [[messaging]] are the recurring image conventions.\n- **Reference brands** (from [[voice]]): SSENSE, Off-White for editorial fashion-tech; Arc'teryx for confident sparseness; Linear for in-product clarity. Avoid: generic SaaS landing pages, stock imagery, AI-slop aesthetics.\n\n## Motion\n\nRestrained. Buttons `active:scale-[0.98]` and `transition-all`; skeletons use a `shimmer` keyframe; a `halo-ping` accent pulse for emphasis moments. Nothing bouncy or attention-seeking. Calm confidence in motion too.\n\n## Open items\n\n- **Logo spec** — clear space, min size, variants, SVG master (see Logo above).\n- **Playfair** — adopt deliberately or remove the font load (see Typography flag).\n- **No light mode** by design; note it so no one assumes one exists.\n- **Source of truth** — this guide mirrors the product code. When the design tokens change in `ablo-tech/apps/web/src/styles/globals.css`, update this doc (or, better, have the OS read the tokens directly someday).",
+          "wordCount": 1090
         },
         {
           "key": "tech-stack",
@@ -4308,15 +4308,14 @@ window.ABLO_OS = {
       "summary": {
         "total": 20,
         "present": 20,
-        "complete": 15,
+        "complete": 16,
         "draft": 1,
-        "stub": 4,
+        "stub": 3,
         "missing": 0,
-        "pct": 75,
+        "pct": 80,
         "gaps": [
           "channel-strategy",
           "lifecycle",
-          "brand-guide",
           "tech-stack"
         ]
       }
