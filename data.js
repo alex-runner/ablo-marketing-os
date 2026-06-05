@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T01:05:34.765378+00:00"
+    "updatedISO": "2026-06-05T01:07:34.537549+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2138,7 +2138,7 @@ window.ABLO_OS = {
         "sev": "high",
         "title": "Win the homepage + paid landing pages (CRO)",
         "owner": "Marketing / Product",
-        "status": "Confirmed #1 leak by volume: ~78% of homepage visitors leave before any click. Paid split now read: homepage / = 7.4% signup (42/568), /try = 1.5% (1/68), /try-kids 0/13. Recommend routing paid to the homepage and pausing /try spend until it is fixed or powered (escalated to Alejo). The /try tbs_* flow (91 users, 13 events) stays unmodeled pending a kill/fix call.",
+        "status": "Homepage / converts 7.4% (42/568, solid). MEASUREMENT FIX SHIPPED: /try is now measured by its tbs_* cohort reach, not first-pageview pathname. True /try = 91 viewed -> 25 generate -> 24 signup-wall -> 4 signed = 4.4% view->signup (the old 1.5% was an attribution artifact). /try trails the homepage but is not dead; the real cliff is the signup wall (24 -> 4 = 17%, the same magic-link friction as #4). Fix that shared friction first, then re-judge /try. HOLD any 'route paid off /try' call.",
         "targets": "land → engage · land → signup",
         "body": "The homepage (/) takes 540 visitors yet only 22% click any CTA and 6.7% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever, not the ad: /toddler converts 2.2% to signup while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check on / and the worst paid landing page (who / what / why-better / comparator; product type is a vertical solution for fashion brands), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM so the lift is measurable. Lifting land→signup from 6.7% to 9% is ~35% more signups at zero added spend, which lowers blended CAC across every downstream step.",
         "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
@@ -2156,7 +2156,7 @@ window.ABLO_OS = {
           "evidence": [
             "ClickUp: “Propose polish of Upload Studio landing page copy” is Closed"
           ],
-          "disagree": true,
+          "disagree": false,
           "clickup": {
             "name": "Propose polish of Upload Studio landing page copy",
             "status": "Closed",
@@ -3446,7 +3446,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223672,
+      "followers": 223671,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3700,7 +3700,7 @@ window.ABLO_OS = {
           "email_click": 2.5,
           "email_recipients": 80,
           "paying_customers": 0,
-          "ig_followers": 223672,
+          "ig_followers": 223671,
           "activation_rate": 65,
           "aha_rate": 46,
           "payment_rate": 9,
