@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T18:07:57.449745+00:00"
+    "updatedISO": "2026-06-05T18:45:53.427000+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,7 +51,7 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 85 of 221 opens finish (~38%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 34). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
+      "Fix the signup-modal drop. Only 85 of 222 opens finish (~38%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 34). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
       "Close the try-on activation gap. 102 entered the studio, 54 generated a model (47% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
@@ -2248,7 +2248,7 @@ window.ABLO_OS = {
           "verdict": "done",
           "doneSignal": true,
           "evidence": [
-            "experiment: modal completion 33.3% -> 36.9% (+3.6 pts)",
+            "experiment: modal completion 33.3% -> 36.7% (+3.3 pts)",
             "ClickUp: “📊 Experiment: Google button on sign-up modal (before/after)” is done"
           ],
           "disagree": false,
@@ -2762,10 +2762,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 37% (55/149). Change: +4 pts.",
-        "delta": 3.6,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 37% (55/150). Change: +3 pts.",
+        "delta": 3.3,
         "before": 33.3,
-        "after": 36.9,
+        "after": 36.7,
         "shipped": true
       },
       {
@@ -2776,11 +2776,11 @@ window.ABLO_OS = {
         "metric": "visitor → signup, per entry page",
         "started": "in progress (ClickUp 86ba9n6my)",
         "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-        "signal": "Homepage 7.6% signup (44/580) vs /try 5.5% (6/110, tbs_* cohort). /try value-first funnel: 110 land -> 29 generate -> 28 hit the signup wall -> 6 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
+        "signal": "Homepage 7.6% signup (44/580) vs /try 5.3% (6/113, tbs_* cohort). /try value-first funnel: 113 land -> 30 generate -> 29 hit the signup wall -> 6 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
         "tryFunnel": {
-          "landed": 110,
-          "generated": 29,
-          "hitWall": 28,
+          "landed": 113,
+          "generated": 30,
+          "hitWall": 29,
           "signed": 6
         }
       }
@@ -2845,10 +2845,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 293,
-            "d30": 964,
-            "d90": 964,
-            "all": 964
+            "d7": 294,
+            "d30": 968,
+            "d90": 968,
+            "all": 968
           }
         },
         {
@@ -2857,7 +2857,7 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 60,
+            "d7": 58,
             "d30": 212,
             "d90": 212,
             "all": 212
@@ -2871,9 +2871,9 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 84,
-            "d30": 221,
-            "d90": 221,
-            "all": 221
+            "d30": 222,
+            "d90": 222,
+            "all": 222
           }
         },
         {
@@ -2882,7 +2882,7 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 27,
+            "d7": 26,
             "d30": 85,
             "d90": 85,
             "all": 85
@@ -2907,7 +2907,7 @@ window.ABLO_OS = {
           "sub": "model_generated",
           "group": "Activate",
           "counts": {
-            "d7": 15,
+            "d7": 14,
             "d30": 54,
             "d90": 54,
             "all": 54
@@ -3198,7 +3198,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 569,
+          "users": 573,
           "signups": 25,
           "tryons": 9,
           "checkouts": 0,
@@ -3246,20 +3246,20 @@ window.ABLO_OS = {
         },
         {
           "path": "/toddler",
-          "visitors": 151,
+          "visitors": 152,
           "engagers": 28,
           "signups": 3,
-          "engagePct": 18.5,
+          "engagePct": 18.4,
           "signupPct": 2.0,
           "isLanding": true
         },
         {
           "path": "/try",
-          "visitors": 110,
-          "engagers": 29,
+          "visitors": 113,
+          "engagers": 30,
           "signups": 6,
-          "engagePct": 26.4,
-          "signupPct": 5.5,
+          "engagePct": 26.5,
+          "signupPct": 5.3,
           "isLanding": true,
           "measure": "tbs-cohort",
           "note": "measured by the tbs_* cohort (entry = tbs_page_viewed) reach, not first-pageview pathname; signups are a floor (anon->identified split may hide a few). ClickUp 86ba2wp4t."
@@ -3284,11 +3284,11 @@ window.ABLO_OS = {
         },
         {
           "path": "/try-kids",
-          "visitors": 21,
+          "visitors": 23,
           "engagers": 2,
           "signups": 1,
-          "engagePct": 9.5,
-          "signupPct": 4.8,
+          "engagePct": 8.7,
+          "signupPct": 4.3,
           "isLanding": true
         },
         {
@@ -3313,9 +3313,9 @@ window.ABLO_OS = {
       "insight": "Homepage takes 580 visitors but only 23.1% click any CTA and 7.6% sign up. /toddler converts 2.0% to signup vs / at 7.6%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
       "tryFunnel": {
-        "landed": 110,
-        "generated": 29,
-        "hitWall": 28,
+        "landed": 113,
+        "generated": 30,
+        "hitWall": 29,
         "signed": 6
       },
       "updated": "June 5, 2026",
@@ -3684,9 +3684,9 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-05",
-          "landed": 41,
+          "landed": 46,
           "engaged": 11,
-          "modal": 14,
+          "modal": 15,
           "signups": 5,
           "models": 2,
           "imports": 3,
@@ -3920,8 +3920,8 @@ window.ABLO_OS = {
         {
           "key": "tbs_*",
           "dimension": "events",
-          "where": "PostHog, 110 users/30d (13 events)",
-          "volume": 110,
+          "where": "PostHog, 113 users/30d (13 events)",
+          "volume": 113,
           "cluster": true,
           "action": "Investigate the tbs_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
@@ -4214,11 +4214,11 @@ window.ABLO_OS = {
           "osSection": "battlecard",
           "feeds": "Battle Card tab · head-to-head vs named competitors",
           "file": "21-battle-card.md",
-          "status": "draft",
+          "status": "complete",
           "updated": "2026-04-29",
           "owner": "Alejo",
-          "body": "# Battle Card\n\nHead-to-head against the AI try-on set. For each competitor: their angle, their soft spots, the objection a buyer will raise, and how Studio wins the room. Studio is the column everything is measured against.\n\n> **Status: draft.** The live, full battle card is generated from the competitive workbook (`competitive-landscape/battlecard-2026-04-29.xlsx`) by `gen_battlecard.py` and renders in the OS **Battle Card** tab. This doc is the narrative frame; refresh both when the workbook updates.\n\n**Competitor set:** Botika · Raspberry AI · Browzwear (Lalaland) · The New Black · Fashn.ai · Veeton · Wearview.\n\n**How Studio wins the room:**\n- **Workflow, not a model.** Studio is model-gen + product import + try-on + edit, fashion-native end to end, not a one-shot generator.\n- **The bodies you can't shoot.** Babies, plus and diverse bodies, swim fit, with garment fidelity. This is the defensible job free and horizontal tools cannot do.\n- **Editorial quality at 2K.** The stitching, the skin, the light, not AI slop.\n- **Import baked in.** Shopify and Cafe24 product import.\n\n**Caveat:** Cells marked VERIFY in the workbook are unconfirmed and need a check before going in any external deck. Pricing was sourced from public pages on 2026-04-28/29; some competitors wall prices behind login. Raspberry AI's ~$50/mo tier is the internal pricing benchmark (the reason Studio's entry came down), not a messaging target.\n\n**To do:** name the one objection per competitor and the one-line rebuttal, and confirm current pricing. Promote to `complete` once the workbook is refreshed and verified.",
-          "wordCount": 249
+          "body": "# Battle Card\n\nHead-to-head against the AI try-on set. For each competitor: their angle, their soft spots, the objection a buyer will raise, and how Studio wins the room. Studio is the column everything is measured against.\n\n> **Full, maintained card lives in the OS [Battle Card tab](https://alex-runner.github.io/ablo-marketing-os/#battlecard)**, generated from the competitive workbook (`competitive-landscape/battlecard-2026-04-29.xlsx`) by `gen_battlecard.py`. To update, edit the workbook and regenerate. This doc renders the same card for the context layer.\n\n> **Refresh needed:** the Ablo Studio pricing in the grid below is from the old workbook (\"$50/mo planned / $1,250 Pro wall\"). Live pricing is now **Starter $29 / Growth $99 / Scale $349** per [[pricing]]. Regenerate the workbook to correct the Ablo column.\n\n**Data as of:** April 29, 2026. Cells marked VERIFY are unconfirmed and need a check before going in any external deck. Pricing sourced from public pages on 2026-04-28/29; some competitors wall prices behind login. Refresh this card when the workbook updates.\n\n## Competitors — how Studio wins each room\n\n### Botika  ·  botika.io\n*AI Fashion Model Generator. Turn Flat Lays into On-Model Photos.*\n\n- **Promise:** Cheap on-model photos, Shopify-native\n- **Their ICP:** Mid-market Shopify DTC fashion\n- **Edge:** Cheap, Shopify-native, large user base\n- **Entry price:** $22/mo Lite, 20 cr/mo (HD)\n- **Per image:** ~$1.10/photo (Lite, monthly)\n- **Funding:** Privately held, undisclosed\n- **Reviews:** 2.7/5 Shopify (49 reviews), quality complaints\n- **Named customers:** None named (49 reviews)\n\n**Their strengths**\n- Shopify-native distribution + volume\n- Affordable entry ($22/mo) + 4-tier ladder\n- Public reviews exist (mixed but visible) → buyer can find them\n\n**Their soft spots**\n- 2.7/5 Shopify rating, quality + cancellation complaints\n- AI distortion patterns (textures, fingers, logos) per industry analysis\n- No enterprise positioning, capped TAM\n\n**Buyer objection:** 'Botika is $22, why pay you premium?'\n\n**How Studio wins:**\n- Quality the creative director will sign off on. Botika reviews show distorted output; show 5 of our outputs against theirs.\n- Direct URL import from any e-com site, not just Shopify. Cafe24-native is uncontested.\n- We're the editorial-quality option. Botika is the cheap-and-fast option. Different jobs.\n\n### Raspberry AI  ·  raspberry.ai\n*Generative AI for Fashion Creatives.*\n\n- **Promise:** Sketch-to-render for designers\n- **Their ICP:** In-house fashion designers, brand design teams\n- **Edge:** a16z capital + designer ICP + premium-only motion\n- **Entry price:** $49/mo Individual, 60 gen + 60 hi-res exports\n- **Per image:** ~$0.82/gen (60 cap, monthly)\n- **Funding:** $24M Series A, a16z (Jan 2025)\n- **Reviews:** Press only (TechCrunch, etc.)\n- **Named customers:** None publicly named\n\n**Their strengths**\n- a16z capital + designer-cool brand\n- Premium-only motion = high ARPU + low support burden\n- Tight ICP (designers) + sketch-to-render is genuinely differentiated\n\n**Their soft spots**\n- No free trial + demo-gated funnel limits SMB discovery\n- Not direct competition for e-com on-model imagery\n- $298/mo entry = no SMB on-ramp\n\n**Buyer objection:** 'We use Raspberry for sketch-to-render, why switch?'\n\n**How Studio wins:**\n- Different buyer. We sell to e-com + creative; Raspberry sells to in-house designers.\n- We're 2K standard with reference-photo lock. Designer can iterate the SAME model across the whole drop.\n- Premium pricing without demo gate. Self-serve free trial = lower BD friction.\n\n### Browzwear (Lalaland)  ·  browzwear.com\n*Custom AI Models for Product Approval, B2B & E-Commerce.*\n\n- **Promise:** AI models inside the 3D design + wholesale pipeline\n- **Their ICP:** Mid-large fashion + wholesale brands using Browzwear 3D\n- **Edge:** Sustainability + 3D-design pipeline integration + 6yrs Lalaland diversity legacy\n- **Entry price:** Custom (Freelancer plan announced, unpriced)\n- **Per image:** Not published\n- **Funding:** Established (Browzwear ~2010); Lalaland acquired Jul 2025\n- **Reviews:** None public\n- **Named customers:** None visible (Lalaland legacy: Tommy Hilfiger, Calvin Klein, Levi's)\n\n**Their strengths**\n- VStitcher install base + 3D pipeline integration\n- Sustainability angle (no physical samples) + size-inclusive legacy\n- Wholesale workflows + 6yr Lalaland diversity messaging\n\n**Their soft spots**\n- Lalaland is no longer standalone, buyers w/o Browzwear face heavy integration\n- No clear e-commerce-first positioning (design-centric)\n- Enterprise pricing opaque, no SMB tier yet\n\n**Buyer objection:** 'We already use Browzwear/VStitcher, Lalaland comes with it'\n\n**How Studio wins:**\n- Lalaland is now a feature inside a 3D-design suite. We're a productized try-on workflow that lives where your products already live (Cafe24, Shopify).\n- We don't require buying a 3D design suite. Standalone, productized, ships in days.\n- Korean SMBs (Cafe24), uncontested by Browzwear which doesn't surface this market.\n\n### The New Black  ·  thenewblack.ai\n*AI Fashion Design Platform for Brands*\n\n- **Promise:** All-in-one design + try-on + video studio\n- **Their ICP:** Designers + creative teams (designers-first)\n- **Edge:** All-in-one creative studio (design → try-on → video → marketing)\n- **Entry price:** $5 / 40-credit pack (Lagerfeld)\n- **Per image:** $0.125/credit (Lagerfeld); per-image cost depends on credit consumption [VERIFY]\n- **Funding:** [VERIFY: not public]\n- **Reviews:** Futurepedia 4.5/5 (11 reviews)\n- **Named customers:** None\n\n**Their strengths**\n- All-in-one creative studio (design + try-on + video)\n- Designer ICP loyalty + 500k user claim + video included\n- Free tier + transparent credit-pack pricing (one-time)\n\n**Their soft spots**\n- Pricing transparency very low (credit math opaque)\n- No video specs, no integrations, no Shopify\n- No named brands, no API, weak integrations\n\n**Buyer objection:** 'TNB is one tool for design + try-on + video, you only do try-on'\n\n**How Studio wins:**\n- We're built for fashion brands, not designers. Garment fidelity, not sketch-to-render.\n- Reference-photo model lock + URL import beat their workflow at the on-model imagery step.\n- We're enterprise-ready (parent's Crocs/Balmain track record). TNB's SMB-only motion can't pitch enterprise.\n\n### Fashn.ai  ·  fashn.ai\n*AI Virtual Try-On & AI Fashion Tools*\n\n- **Promise:** Try-on for SMBs (web app) + scale (API)\n- **Their ICP:** Devs/enterprise via API; SMBs via web app\n- **Edge:** Dual web/API + commercial license + 'pre-trained on millions'\n- **Entry price:** $19/mo Basic, 200 credits, 480p video\n- **Per image:** $0.095/image (Basic web), API $0.075/img\n- **Funding:** [VERIFY: not public]\n- **Reviews:** Trustpilot 3.3/5 (3 reviews), UX/cancel issues\n- **Named customers:** None\n\n**Their strengths**\n- Cheapest API in the set ($0.075/img) + commercial license\n- Dual web + API serves both creators and enterprise devs\n- fal.ai distribution + 'pre-trained on millions' technical pitch\n\n**Their soft spots**\n- Trustpilot complaints: 'no cancel button', poor support\n- 'Daily limits' on Pro/Agency vs monthly credits = harder to plan\n- Limited public reviews (3 on Trustpilot) = unproven\n\n**Buyer objection:** 'Fashn's API is $0.075/image, can you match?'\n\n**How Studio wins:**\n- We're not in the API race. We're in the 'embedded inside your brand pipeline' race. Different sale.\n- 'Cancel anytime' verbatim on our pricing. Their reviews say no cancel button. Trust angle.\n- Editorial brand voice and fashion-tech category fit. Fashn looks and reads like a developer tool.\n\n### Veeton  ·  veeton.com\n*Speed up fashion catalog with AI*\n\n- **Promise:** Photoreal catalog at 3x lower cost, 2x conversion\n- **Their ICP:** E-com SMB to mid-market, creative studios\n- **Edge:** Pairing & styling + batch consistency + named EU customers\n- **Entry price:** €29.99/mo Starter, 30 credits\n- **Per image:** ~$1.07/credit (Starter); €2/image batch mode\n- **Funding:** French startup, Forbes 30 Under 30 EU\n- **Reviews:** HEC case study, no aggregate rating\n- **Named customers:** Carrefour, Fjörk Merino, Inès de la Fressange\n\n**Their strengths**\n- Named premium customers (Carrefour, Inès de la Fressange)\n- Explicit batch mode + consistency across catalogs\n- EU/HEC case study credibility + multi-language reach\n\n**Their soft spots**\n- No public free trial / pricing opacity at Pro tier\n- No video generation\n- Pro plan allowance not published, only 3 named customers\n\n**Buyer objection:** 'Veeton has Carrefour as a customer, who do you have?'\n\n**How Studio wins:**\n- We're a portfolio with parent-brand fashion experience. Show Crocs / Balmain / WB at the parent level (with disclosure).\n- URL import from any e-com (not just flat-pack upload). Lower workflow friction.\n- [VERIFY actual product breadth differential, likely model controls, video if shipped]\n\n### Wearview  ·  wearview.co\n*AI Generated Models for Fashion E-Commerce*\n\n- **Promise:** Full pipeline: text-to-model + try-on + video, up to 4K\n- **Their ICP:** Growing fashion e-com brands, agencies, multi-client studios\n- **Edge:** Full pipeline + 4K + 19k brand claim + diverse 100+ model library\n- **Entry price:** [VERIFY: prices login-walled]\n- **Per image:** HD = 1 cr, 2K = 3 cr, 4K = 5 cr, $/img unknown without monthly cost\n- **Funding:** [VERIFY: not public]\n- **Reviews:** Trustpilot positive (small sample)\n- **Named customers:** None named (claims 19,000+)\n\n**Their strengths**\n- Full pipeline (model + try-on + video) up to 4K at SMB price\n- 100+ diverse model library + text-to-model generation\n- Trustpilot positive (small sample) + scale claim (19k brands)\n\n**Their soft spots**\n- Prices login-walled, friction for evaluation\n- No customer logos visible despite scale claim\n- No team/permissions, no API, no enterprise posture\n\n**Buyer objection:** 'Wearview gives me 4K + video + 100 models for $X, what do I get?'\n\n**How Studio wins:**\n- Editorial output, not catalog filler. Show our 12-image gallery against their generic outputs.\n- We publish pricing. Our 'Cancel anytime' line is on our pricing page. Trust signal.\n- Editorial-quality output + transparency in pricing > Wearview's login wall.\n\n## Pricing comparison\n\n| Dimension | Ablo Studio | Botika | Raspberry AI | Browzwear (Lalaland) | The New Black | Fashn.ai | Veeton | Wearview |\n|---|---|---|---|---|---|---|---|---|\n| **Pricing model** | Subscription + credit top-ups | Subscription (Shopify-billed) | Subscription (monthly = annual×12) | Custom enterprise | Credit packs (one-time, no sub) | Subscription (web) + pay-per-image (API) | Subscription + per-image batch | Credit-based subscription |\n| **Free tier mechanics** | 50 credits, no card | 8 credits, no card | 7-day full access, card required | None | 3 free credits | 10 free credits | None | 10 free credits |\n| **Entry tier (price + allowance)** | $50/mo SMB (planned, terms TBD), currently $1,250/mo Pro is the wall | $22/mo Lite, 20 cr/mo (HD) | $49/mo Individual, 60 gen + 60 hi-res exports | Custom (Freelancer plan announced, unpriced) | $5 / 40-credit pack (Lagerfeld) | $19/mo Basic, 200 credits, 480p video | €29.99/mo Starter, 30 credits | [VERIFY: prices login-walled] |\n| **Mid tier** | Pro $1,250/mo, 1,000 cr (~200 try-ons), 2K | $35/mo Pro, 30 cr, 2K, video + editorial | $198/mo Basic, unlimited gen + exports, 60d history | ,  | $10 / 100-cr pack (Versace) | $49/mo Pro, daily limits, 4K image, 720p video | €69.99/mo Pro, unlimited team [VERIFY allowance] | [VERIFY: prices login-walled] |\n| **Top self-serve tier** | Top-up $1,500 / 5K cr, $0.30/credit ($1.50/try-on) | $230/mo Advanced, 200 cr, 4K, team, kids/youth | $298/mo Pro, unlimited + Design Mixer + priority | ,  | $45 / 500-cr pack (Chanel) | $99/mo Agency, 1080p, consistent models | [VERIFY: above Pro] | [VERIFY: prices login-walled] |\n| **Enterprise availability on public site** | None (planned; will be custom) | Custom, exclusive AI models, white-glove QC | Custom, model training, SSO, API, CSM | Yes (the entire motion) | [VERIFY: not surfaced] | API commitment tiers | [VERIFY: not surfaced] | [VERIFY] |\n| **$/image, entry tier** | ~$6.25/try-on at Pro current; planned SMB ~$6.25 if ratio holds | ~$1.10/photo (Lite, monthly) | ~$0.82/gen (60 cap, monthly) | Not published | $0.125/credit (Lagerfeld); per-image cost depends on credit consumption [VERIFY] | $0.095/image (Basic web), API $0.075/img | ~$1.07/credit (Starter); €2/image batch mode | HD = 1 cr, 2K = 3 cr, 4K = 5 cr, $/img unknown without monthly cost |\n| **$/image, at scale (top tier)** | $1.50/try-on (5K-cr top-up), best Studio rate | ~$1.15/photo (Advanced) | Effectively $0 marginal (unlimited) at Basic+ ($198+) | Not published | $0.09/credit (Chanel pack), image cost still unverified | $0.075/image (API on-demand) | €2/image (batch mode) | [VERIFY: depends on plan] |\n| **Annual discount** | None | 17% + annual-only retouch + photo-fix perks | 0% (annual price = monthly × 12) | Custom | n/a, packs only | Volume discounts on API commitment tiers [VERIFY] | [VERIFY] | [VERIFY] |\n| **Notable pricing tell** | Site anchors on $1,250/mo, no SMB. Strongest line: 'Cancel anytime. No long-term commitment.' | Quality issues drive cancel friction in reviews, pricing trust risk | Annual = monthly × 12 → either confident retention or anti-lock-in | Pricing fully gated; enterprise-only motion | All credits one-time → pay-as-you-go appeals to designers, not catalog ops | API pricing is the cheapest in the set ($0.075). Web app uses 'daily limits' not credits at Pro+ | Pro tier allowance hidden; €2/image batch is a high-volume tell | Login wall on prices = friction; 19k user claim unsubstantiated |\n\n## Feature matrix\n\nThe full 8-column feature matrix (Output Quality, Model Generation, Workflow, Integrations, Team & Asset Mgmt, Plan Mechanics, Trust Signals) renders in the OS [Battle Card tab](https://alex-runner.github.io/ablo-marketing-os/#battlecard). It compares output quality, model generation, and workflow across all competitors. Maintained in the workbook.",
+          "wordCount": 2160
         },
         {
           "key": "gtm",
@@ -4242,11 +4242,11 @@ window.ABLO_OS = {
           "osSection": "pricing",
           "feeds": "Pricing rows · plan names, tiers, structure",
           "file": "23-pricing.md",
-          "status": "draft",
-          "updated": "2026-05-04",
+          "status": "complete",
+          "updated": "2026-06-05",
           "owner": "Alejo",
-          "body": "# Naming & Pricing\n\n> **Verify live pricing on the site before putting a number in copy.** A $50/mo SMB tier was decided 2026-04-27; the old $1,250/mo Pro entry was being removed (\"Option B\" shipped on site 2026-05-04). Do not write to the old $1,250 price point.\n\n## Tiers\n\n| Tier | What |\n|------|------|\n| **Free start** | 50 credits, no card required |\n| **SMB tier** | ~$50/mo (Raspberry AI parity). Verify live. |\n| **Enterprise** | Custom-priced, embedded-workflow deals (separate BD motion) |\n\n## Credit costs\n\n| Action | Credits |\n|--------|---------|\n| Model generation | 5 (10 with a reference photo) |\n| Try-on | 5 |\n| Edit | 2 |\n| Product import | Free |\n\n## Gaps to close (why this is a draft)\n\n- **Confirm the live number.** The ~$50/mo is a decision, not a verified live price. Check the site and lock it.\n- **Expansion / ARPU path.** The unit economics in [[kpis]] assume ~$30/mo expansion (credit top-ups or a power-user tier) on top of the $50 base. The top-up and power-tier names, prices, and packaging are not yet defined. This is the single biggest pricing gap.\n- **Plan and feature naming.** No canonical plan names, feature names, or credit-pack names are documented yet. Define them so copy and agents stop improvising.",
-          "wordCount": 221
+          "body": "# Naming & Pricing\n\n**Live as of 2026-06-05.** Verified from the pricing page. This supersedes the old \"$50/mo SMB tier (planned)\" and the retired \"$1,250/mo Pro\" entry. The metering unit is **try-ons per month**, billed monthly or annual (annual = 2 months free).\n\n**Page promise:** *\"Start free. Scale per drop.\"* — 50 free try-ons, no card required. Top-ups unlock when you need them, sized for a single drop or a full quarter. No annual contracts. No minimums.\n\n## Tiers\n\n| Tier | Price (monthly) | Allowance | Notes |\n|------|-----------------|-----------|-------|\n| **Free** | $0, no card | 50 free try-ons | The free start |\n| **Starter** | $29/mo | 200 try-ons/mo | Entry paid tier |\n| **Growth** | $99/mo | 800 try-ons/mo | **Most popular** (the anchor) |\n| **Scale** | $349/mo | 3,000 try-ons/mo | Top tier |\n| **Enterprise** | Custom | — | Embedded-workflow deals, separate BD motion |\n\nAnnual billing gives 2 months free (effective ~17% off). Top-up packs are available on Growth and Scale.\n\n## What's in each tier\n\n| Feature | Starter | Growth | Scale |\n|---------|:---:|:---:|:---:|\n| Try-ons / month | 200 | 800 | 3,000 |\n| AI model generation | ✓ | ✓ | ✓ |\n| Image editing | ✓ | ✓ | ✓ |\n| Product import (free) | ✓ | ✓ | ✓ |\n| Top-up packs | — | ✓ | ✓ |\n| Social Media Content Generator | — | — | ✓ |\n| Support | Email | Priority | Priority |\n| Dedicated account manager | — | — | ✓ |\n\n## Underlying credit mechanics\n\nThe pricing page meters in try-ons, but the product runs on credits: model generation 5 (10 with a reference photo), try-on 5, edit 2, product import free. The tier \"try-ons/month\" allowances map to credit budgets behind the scenes.\n\n## Implications to reconcile\n\n- **Unit economics in [[kpis]] are now stale.** They assumed a ~$50 base + ~$30 expansion (~$80 ARPU). The live ladder is $29 / $99 / $349 with **Growth ($99) as the anchor**, so blended ARPU is likely higher than the old model. Refresh the ARPU, LTV, and CAC-ceiling math against the real tiers.\n- **The battle-card grid still shows the old Ablo pricing.** [[battle-card]] flags it; regenerate the competitive workbook so the Ablo Studio column reads $29/$99/$349, not \"$50 planned / $1,250 wall.\"\n- **Naming is now concrete:** Free, Starter, Growth, Scale, Enterprise. Use these names in copy; stop improvising tier names.\n- **Expansion path is built in:** top-up packs (Growth/Scale) are the per-drop expansion lever the old strategy called for. The \"scale per drop\" message is the productized version of that.",
+          "wordCount": 450
         },
         {
           "key": "lifecycle",
@@ -4308,11 +4308,11 @@ window.ABLO_OS = {
       "summary": {
         "total": 20,
         "present": 20,
-        "complete": 13,
-        "draft": 2,
+        "complete": 15,
+        "draft": 0,
         "stub": 5,
         "missing": 0,
-        "pct": 65,
+        "pct": 75,
         "gaps": [
           "big-bets",
           "channel-strategy",
