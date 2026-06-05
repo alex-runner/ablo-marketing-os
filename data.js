@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T16:37:32.025670+00:00"
+    "updatedISO": "2026-06-05T18:07:57.449745+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2776,7 +2776,7 @@ window.ABLO_OS = {
         "metric": "visitor → signup, per entry page",
         "started": "in progress (ClickUp 86ba9n6my)",
         "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-        "signal": "Homepage 7.6% signup (44/579) vs /try 5.5% (6/110, tbs_* cohort). /try value-first funnel: 110 land -> 29 generate -> 28 hit the signup wall -> 6 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
+        "signal": "Homepage 7.6% signup (44/580) vs /try 5.5% (6/110, tbs_* cohort). /try value-first funnel: 110 land -> 29 generate -> 28 hit the signup wall -> 6 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
         "tryFunnel": {
           "landed": 110,
           "generated": 29,
@@ -2845,10 +2845,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 295,
-            "d30": 963,
-            "d90": 963,
-            "all": 963
+            "d7": 293,
+            "d30": 964,
+            "d90": 964,
+            "all": 964
           }
         },
         {
@@ -3112,40 +3112,40 @@ window.ABLO_OS = {
       ],
       "prepared": [
         {
-          "name": "[Ablo Lifecycle] Activate A1 — one-sentence nudge",
-          "group": "Activate series",
-          "maps": "signup → model gap",
-          "updated": "May 30"
-        },
-        {
-          "name": "[Ablo Lifecycle] Activate A2 — kill the blank page",
-          "group": "Activate series",
-          "maps": "signup → model gap",
-          "updated": "May 30"
-        },
-        {
-          "name": "[Ablo Lifecycle] Activate A3 — value reframe",
-          "group": "Activate series",
-          "maps": "signup → model gap",
-          "updated": "May 30"
-        },
-        {
           "name": "[Ablo Lifecycle] AHA B1 — the missing half",
           "group": "AHA series",
           "maps": "model → try-on gap",
-          "updated": "May 30"
+          "updated": "May 30, 2026"
         },
         {
           "name": "[Ablo Lifecycle] AHA B2 — show the outcome",
           "group": "AHA series",
           "maps": "model → try-on gap",
-          "updated": "May 30"
+          "updated": "May 30, 2026"
         },
         {
           "name": "[Ablo Lifecycle] AHA B3 — last nudge + offer help",
           "group": "AHA series",
           "maps": "model → try-on gap",
-          "updated": "May 30"
+          "updated": "May 30, 2026"
+        },
+        {
+          "name": "[Ablo Lifecycle] Activate A1 — one-sentence nudge",
+          "group": "Activate series",
+          "maps": "signup → model gap",
+          "updated": "May 30, 2026"
+        },
+        {
+          "name": "[Ablo Lifecycle] Activate A2 — kill the blank page",
+          "group": "Activate series",
+          "maps": "signup → model gap",
+          "updated": "May 30, 2026"
+        },
+        {
+          "name": "[Ablo Lifecycle] Activate A3 — value reframe",
+          "group": "Activate series",
+          "maps": "signup → model gap",
+          "updated": "May 30, 2026"
         }
       ],
       "draftFlows": [
@@ -3198,7 +3198,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 568,
+          "users": 569,
           "signups": 25,
           "tryons": 9,
           "checkouts": 0,
@@ -3237,7 +3237,7 @@ window.ABLO_OS = {
       "pages": [
         {
           "path": "/",
-          "visitors": 579,
+          "visitors": 580,
           "engagers": 134,
           "signups": 44,
           "engagePct": 23.1,
@@ -3310,7 +3310,7 @@ window.ABLO_OS = {
           "isLanding": true
         }
       ],
-      "insight": "Homepage takes 579 visitors but only 23.1% click any CTA and 7.6% sign up. /toddler converts 2.0% to signup vs / at 7.6%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "insight": "Homepage takes 580 visitors but only 23.1% click any CTA and 7.6% sign up. /toddler converts 2.0% to signup vs / at 7.6%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
       "tryFunnel": {
         "landed": 110,
@@ -3326,10 +3326,10 @@ window.ABLO_OS = {
       "updated": "June 5, 2026",
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
-        "done": 25,
+        "done": 27,
         "in progress": 6,
         "Closed": 19,
-        "to do": 26,
+        "to do": 28,
         "review": 4
       },
       "open": [
@@ -3388,6 +3388,24 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
+          "name": "Clean up inert retired-seed data in defaultModels.ts",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86baagxxp",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Verify Studio framing-guard prompt ships on next server deploy",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86baagxx5",
+          "due": "",
+          "assignee": "Alejo Escrivá"
+        },
+        {
           "name": "Experiment: Ablo Studio \"Day Mode\" (light theme) A/B test",
           "status": "to do",
           "color": "#87909e",
@@ -3422,27 +3440,9 @@ window.ABLO_OS = {
           "url": "https://app.clickup.com/t/86ba9mpba",
           "due": "",
           "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Wire marketing-os Phase 2 into the unattended daily job",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9kmk0",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
-          "name": "Fix the Kids /toddler + /plus-size pixel undercount",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86ba9kmjg",
-          "due": "",
-          "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 80
+      "total": 84
     },
     "instagram": {
       "username": "ablo.ai",
@@ -3684,7 +3684,7 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-05",
-          "landed": 40,
+          "landed": 41,
           "engaged": 11,
           "modal": 14,
           "signups": 5,
@@ -3952,6 +3952,22 @@ window.ABLO_OS = {
           "cluster": true,
           "action": "Investigate the seed_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
+        },
+        {
+          "key": "86baagxx5",
+          "dimension": "clickup",
+          "where": "ClickUp Ablo Studio · “Verify Studio framing-guard prompt ships on next server depl” [to do]",
+          "volume": null,
+          "action": "Marketing work the OS surfaces nowhere; wire a Command Center item or dismiss",
+          "status": "escalated"
+        },
+        {
+          "key": "86baagxxp",
+          "dimension": "clickup",
+          "where": "ClickUp Ablo Studio · “Clean up inert retired-seed data in defaultModels.ts” [to do]",
+          "volume": null,
+          "action": "Marketing work the OS surfaces nowhere; wire a Command Center item or dismiss",
+          "status": "escalated"
         }
       ],
       "stale": [
@@ -3963,9 +3979,347 @@ window.ABLO_OS = {
       ],
       "autowired": [],
       "summary": {
-        "blind": 4,
+        "blind": 6,
         "autowired": 0,
         "stale": 1
+      }
+    },
+    "strategy": {
+      "updated": "2026-06-05",
+      "source": "Brain/projects/ablo/Ablo Studio/marketing-strategy/foundation/",
+      "mounted": true,
+      "groups": [
+        {
+          "key": "foundation",
+          "title": "Foundation",
+          "lede": "Who we are, who we are for, and why we win. Everything else ladders to these. (MKT1 strategy inputs.)"
+        },
+        {
+          "key": "plan",
+          "title": "Plan",
+          "lede": "Where marketing should focus and what we are betting on. The bridge from strategy to tactics."
+        },
+        {
+          "key": "operating",
+          "title": "Operating context",
+          "lede": "The reference layer agents and humans pull from to execute: competitive frame, GTM, pricing, lifecycle, brand, stack."
+        }
+      ],
+      "statusLabels": {
+        "complete": "Complete",
+        "draft": "Draft",
+        "stub": "Stub",
+        "missing": "Missing"
+      },
+      "statusTone": {
+        "complete": "success",
+        "draft": "accent",
+        "stub": "warn",
+        "missing": "error"
+      },
+      "statusOrder": [
+        "complete",
+        "draft",
+        "stub",
+        "missing"
+      ],
+      "docs": [
+        {
+          "key": "company-overview",
+          "title": "Company Overview",
+          "group": "foundation",
+          "mkt1": "company_overview",
+          "osSection": "overview",
+          "feeds": "Overview tab · the elevator and what-it-is",
+          "file": "01-company-overview.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Company Overview\n\n- **What it is:** Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. Three steps: create model → import product (URL) → generate try-on/edit.\n- **Category:** Fashion AI / on-model imagery / virtual try-on.\n- **Stage:** Pre-revenue. Small runway. End-of-June goal: first paying customer.\n- **Team:** Deniz (co-CEO, product owner), Won (co-CEO, vision/investors), Alejo (marketing), Jason (dev), Michael (partnerships/BD). Never route marketing-tool work to Jason.\n- **Business model:** Self-serve subscription + credit packs. Entry tier ~$50/mo per the 2026-04-27 decision (**VERIFY live pricing** — see gap in `../README.md`). Enterprise embedded = custom-priced, separate BD motion, not in scope here.\n- **GTM motion:** Self-serve / product-led, fueled by founder-led LinkedIn + paid (Meta), wedge-first. North-star: **liquid revenue via self-serve** — first paying customers + a repeatable acquisition channel.\n- **High-level audience:** Founders/owners of small US fashion brands (see ICPs).\n- **Ecosystem:** Shopify + Cafe24 product import baked in.\n- **Market category / competitive frame:** competes against (1) the photoshoot budget / status quo, (2) horizontal image AI (Midjourney, PhotoRoom, Pimeli), (3) vertical AI try-on tools (Raspberry AI, Botika, Lalaland, Fashn). Detail in `../competitive-landscape/`.\n- **Parent credibility:** Ablo has worked with Crocs/Balmain-class brands at the parent level. Caveat: those brands have not used Studio; it is not Studio proof.",
+          "wordCount": 222
+        },
+        {
+          "key": "positioning",
+          "title": "Positioning",
+          "group": "foundation",
+          "mkt1": "positioning",
+          "osSection": "positioning",
+          "feeds": "Positioning tab · the New-Way statement and quad",
+          "file": "02-positioning.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Positioning\n\n**Product Type:** **New Way** — Studio replaces the fashion photoshoot and the cobbled-together free-AI stack, not one incumbent tool. The buyer's \"old way\" is an expensive shoot ($5K-50K, weeks) or gluing together free/horizontal AI (PhotoRoom, Pimeli, Midjourney). This matches the live brand voice: *\"Fashion shoots, reinvented\" / \"Fashion photo shoots are over.\"* Secondary frame: a Vertical Solution vs horizontal image AI. *(Changed from Vertical Solution on 2026-06-02 to match the launch film + live creative; revertible if Alejo prefers the tool-vs-tool frame.)*\n\n| Question | Today | In ~1 year |\n|---|---|---|\n| **Who is it for?** | Founders/owners of small US fashion brands (kids, swim, size-inclusive) refreshing imagery every drop | + in-house marketers at growing DTC fashion brands; + EU |\n| **What is it?** | Self-serve AI on-model imagery built for fashion: create models, import your catalog, dress and shoot | The on-model imagery layer for any fashion brand's drop workflow |\n| **Comparing to?** | The photoshoot ($5K-50K, weeks) + the cobbled free/horizontal-AI stack (PhotoRoom, Pimeli, Midjourney) | + vertical AI try-on incumbents (Raspberry, Botika) as the category matures |\n| **Why better?** | Editorial quality (the stitching, the skin, the light), fashion-native, including the bodies you can't easily shoot (babies, plus/diverse, swim fit), in minutes. Your drop, your story, your way. | + brand-guidelines-as-context (your model, your aesthetic, every drop) + IP-clean output |\n\n**The differentiator within \"AI imagery\":** free tools (PhotoRoom, Pimeli, ~$5/mo) already own background removal and flat lays. Studio must not wedge there. The defensible job is the **believable, editorial-quality on-model shot of a body the brand cannot easily or cheaply photograph.** Every message leads from that.\n\n**Proof points (today):** the output itself; the launch film (\"Fashion shoots, reinvented,\" `../campaigns/2026-05-signup-launch/launch-video-script-2026-05-07.md`); 50 free credits, no card. **To earn:** a named brand story, aggregate stats (shoots replaced, cost saved).\n\n**Voice (from the launch film — use verbatim where it fits):** \"Create your models. Import your catalog. Dress and shoot.\" · \"Look at the stitching. The skin. The light. Editorial quality.\" · \"Your drop. Your story. Your way.\"",
+          "wordCount": 345
+        },
+        {
+          "key": "icp",
+          "title": "ICP & Segments",
+          "group": "foundation",
+          "mkt1": "icp_prioritization",
+          "osSection": "icp",
+          "feeds": "ICP & Segments tab · buyer and category wedges by maturity",
+          "file": "03-icp.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# ICP & Segments\n\n**One buyer, several category wedges.** The discovery campaign (LinkedIn) and Meta waves agree: the buyer is a **founder/owner/CEO of a small (2-50 employee, mostly 2-10) US fashion brand in Retail Apparel & Fashion or Apparel Manufacturing.** Segments below differ by *product category*, which is what changes the creative, the demo, and the pain.\n\n> **Honest maturity:** nothing is **Core** yet. Ablo Studio is pre-revenue, so no segment has proven repeatable paid success. Maturity below reflects *engagement + activation evidence*, not revenue. The price-ask test (`../segments/icp.md` §5) is what promotes a segment to Core.\n\n| Role | Company Type | Description | Maturity | Time today |\n|------|-------------|-------------|----------|-----------|\n| Founder / Owner | Small (2-20 emp) US **kids & babywear** DTC brand | Can't cheaply/repeatedly shoot babies; product turns over by season + size. Best Meta funnel, cheapest signups, activated brand (Agenzia Kids). | **2 — Scaling (lead)** | ~40% |\n| Founder / Owner | Small US **swimwear & size-inclusive women's** brand | Most expensive shoot to cast (many diverse/plus bodies, fit, SKU-heavy). Best Meta CTR, activated brand (Water Vixen Swim). | **2 — Scaling / 3 — Testing** | ~30% |\n| Founder / Owner | Small US **independent / contemporary women's** brand | The broad wedge inside the firmographic ICP; general fashion signal. | **3 — Testing** | ~15% |\n| Founder / Owner | Small US **menswear** brand | Men's fashion (the Meta ad set labeled \"streetwear & menswear\" was the men's campaign, not streetwear specifically). Weakest Meta pull: lowest CTR, fewest signups. | **4 — Future (watch)** | ~5% |\n| Creative Director / Agency / Photo studio | Design & advertising services serving fashion | B2B2B: one studio serves many brands. Showed up on LinkedIn (Design/Advertising Services) at lower intent. Different motion. | **4 — Future (test later)** | 0% |\n| Head of Innovation / Ecom | $50M+ fashion brands & IP licensors | The enterprise prize. Separate named-account BD motion (Michael), anchored on IP-clean / Warner Bros product. **Out of self-serve scope.** | (BD-owned) | 0% |\n\n**Geo:** US-first and decisively (LinkedIn US CTR 12.2% vs 3.9-5.5% EU). EU is a secondary test, not a current priority. Full firmographic/demographic segmentation + per-segment profiles: `../segments/`.",
+          "wordCount": 375
+        },
+        {
+          "key": "advantages",
+          "title": "Marketing Advantages",
+          "group": "foundation",
+          "mkt1": "marketing_advantages",
+          "osSection": null,
+          "feeds": "Not yet a tab · the structural edges every Big Bet should accelerate",
+          "file": "04-advantages.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Marketing Advantages\n\n**Overall take:** Ablo Studio's real edge is a **fashion-specific wedge that free/horizontal tools can't copy** (on-model bodies you can't shoot), expressed through a **fast, visual free trial**, and fed by **the product's own output as endless proof**. The biggest miss is that there is **no proven, stable-CAC acquisition channel yet** — the discovery campaign found the audience, not a repeatable engine. That is the gap the plan layer must close.\n\n| # | Advantage | Strength today | Potential | Priority |\n|---|-----------|---------------|-----------|----------|\n| 1 | **Fashion \"bodies you can't shoot\" wedge** — on-model imagery for babies/plus/swim that horizontal AI and free tools cannot do, with garment fidelity | Medium | High | **High** |\n| 2 | **Fast, visual free-trial AHA** — 50 credits, no card, a campaign-ready image in minutes; visual and shareable | Medium (funnel leaks) | High | **High** |\n| 3 | **Product-output-as-fuel** — every generation is shareable proof (before/after, shot-in-minutes, per-category demos) = infinite, cheap, credible content | Low | High | **High** |\n| 4 | **Founder-led distribution** — Deniz + Won LinkedIn posts drove the discovery campaign; founder voice works for this buyer | Low-Med | Medium | Medium |\n\n**Where they compound:** the wedge (1) is what makes the free-trial AHA (2) land (\"it actually did my babies / plus bodies / swim fit\"), and that output becomes the fuel (3); founder distribution (4) seeds the loop. Founder post → wedge-specific demo → free-trial AHA → user output as more fuel.\n\n**Context, not self-serve growth levers (don't build self-serve campaigns on these):**\n- **Parent-brand credibility (Crocs/Balmain-class):** parent-level only, can't be cited as Studio proof; opens enterprise doors, not self-serve ones.\n- **IP-clean / infringement-scored output:** strong for enterprise/licensing, low relevance to a small brand shooting its own products.\n\n**Advantages we might be missing / to pressure-test:** channel mastery with viable CAC (not yet — top priority to find); proprietary usage data surfaced as content (benchmarks: shoots replaced, cost saved); a community of small fashion founders.",
+          "wordCount": 337
+        },
+        {
+          "key": "perceptions",
+          "title": "Perceptions",
+          "group": "foundation",
+          "mkt1": "perceptions",
+          "osSection": "messaging",
+          "feeds": "Messaging tab · the beliefs content should drive",
+          "file": "05-perceptions.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Perceptions\n\n*Beliefs we want the audience to repeat back. Most content should ladder to #1 and #2. The launch film already voices #2 + #3 (\"Fashion photo shoots are over\" / \"your drop, your story, your way\") and #4 (\"the stitching, the skin, the light\").*\n\n| # | Perception (audience POV) | Type | Status |\n|---|---|---|---|\n| 1 | \"Ablo Studio gives me campaign-ready, on-model photos of my products in minutes — including shots I could never get myself (my kids' line, every body type, swim fit).\" | Product insight | Emerging |\n| 2 | \"AI imagery is now good enough that a small fashion brand can look like a big one. The photoshoot is becoming optional.\" | Market insight | Emerging |\n| 3 | \"I can ship a drop's imagery on schedule without a photographer, a studio, or model casting.\" | Audience insight | Brand-new |\n| 4 | \"It keeps my garments, fit, and brand intact. It's not AI slop.\" | Product / differentiator | Brand-new |\n| 5 | \"This is built by people who actually work with fashion brands, not a generic image-AI toy.\" | Company insight | Brand-new |",
+          "wordCount": 198
+        },
+        {
+          "key": "messaging",
+          "title": "Messaging",
+          "group": "foundation",
+          "mkt1": null,
+          "osSection": "messaging",
+          "feeds": "Messaging tab · taglines, verbatim lines, homepage architecture",
+          "file": "06-messaging.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Messaging\n\n## Perceptions\n\nBeliefs we want the audience to repeat back. Most content should ladder to #1 and #2.\n\n| # | Perception | Type | Status | Lead? |\n|---|------------|------|--------|-------|\n| 1 | Ablo Studio gives me campaign-ready, on-model photos of my products in minutes, including shots I could never get myself (my kids' line, every body type, swim fit). | Product insight | Emerging | Yes |\n| 2 | AI imagery is now good enough that a small fashion brand can look like a big one. The photoshoot is becoming optional. | Market insight | Emerging | Yes |\n| 3 | I can ship a drop's imagery on schedule without a photographer, a studio, or model casting. | Audience insight | Brand-new | No |\n| 4 | It keeps my garments, fit, and brand intact. It is not AI slop. | Differentiator | Brand-new | No |\n| 5 | This is built by people who actually work with fashion brands, not a generic image-AI toy. | Company insight | Brand-new | No |\n\n## Taglines\n\n| Line | Where |\n|------|-------|\n| no more boring shoots | Homepage hero |\n| Fashion shoots, reinvented. | Launch film |\n| Fashion photo shoots are over. | Launch film |\n| No photographers. No studios. No hassle. | Homepage close |\n\n## Verbatim lines\n\n- Create your models. Import your catalog. Dress and shoot.\n- Look at the stitching. The skin. The light. Editorial quality.\n- Your drop. Your story. Your way.\n\n## Homepage architecture\n\n| Section | Content |\n|---------|---------|\n| Hero | \"no more boring shoots\" + \"Generate AI models, dress them in your products, and create campaign-ready imagery in minutes.\" |\n| Three steps | Create Model · Import Any Product · Campaign-Ready Results |\n| Feature tags | Ethnicity · Hair Style · Body Type · 12 Poses · 2K Resolution · AI Edit · Download |\n| Close | \"No photographers. No studios. No hassle.\" |\n\n## Gaps\n\n- Why Studio exists: no founding-thesis copy on the site.\n- Who it is for: \"fashion brands\" is too generic; the wedge needs surface area.\n- Proof: no customer logos, case studies, or aggregate stats yet.\n- Comparison clarity: no side-by-side against the photoshoot budget or generic AI.",
+          "wordCount": 386
+        },
+        {
+          "key": "voice",
+          "title": "Brand Voice & Tone",
+          "group": "foundation",
+          "mkt1": "voice_tone_style",
+          "osSection": "voice",
+          "feeds": "Brand Voice tab · how Ablo Studio writes and speaks",
+          "file": "07-voice.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Brand Voice & Tone\n\n## Direction\n\nEditorial, calm, premium, proof-forward. Keep the editorial design language, add explanatory copy and proof on pricing and conversion surfaces. Lead with the result, not the process.\n\n## Anchor words\n\n- Editorial\n- Campaign-ready\n- Fashion-tech\n- Calm confidence\n- Photo-led\n- Sparse\n- Considered\n\n## Anti words\n\n- Productivity-tool vibe\n- Generic SaaS\n- Hype\n- Exclamation points\n- AI buzzword stack (revolutionary, game-changing, unleash)\n- Startup-bro casualness\n\n## Reference: yes\n\n| Brand | For |\n|-------|-----|\n| SSENSE | Editorial fashion-tech |\n| Off-White | Editorial fashion-tech |\n| Linear | Clarity inside the product |\n| Arc'teryx | Confident, sparse, technical-but-cool |\n\n## Reference: no\n\n- Notion\n- Webflow\n- Zapier\n- Generic B2B SaaS landing pages\n\n## Rules\n\n| Rule | Detail |\n|------|--------|\n| Never use em dashes. | Use commas, periods, parentheses, or restructure. |\n| Do not expand acronyms. | ICP, DTC, OKRs, CAC stay as acronyms. |\n| Lead with the result, not the process. | The campaign-ready image first, the steps second. |\n| When in doubt, cut a sentence. | Sparse beats complete. |\n| No AI hype words. | No revolutionary, game-changing, unleash, or exclamation points. |\n\n## Two surfaces\n\n| Surface | Guidance |\n|---------|----------|\n| Top of funnel & brand | Editorial, sparse, photo-led, confident. Let the image carry it. |\n| In-product, pricing, comparison, FAQ | Clearer, more explanatory, proof-forward. Still designed and quiet, but with more words. |\n\n## Do / Don't\n\n| Do | Don't |\n|----|-------|\n| Fashion shoots, reinvented. | Revolutionizing fashion photography with AI! |\n| Campaign-ready imagery in minutes. | Unleash game-changing visuals at the speed of thought. |\n| Look at the stitching. The skin. The light. | Our cutting-edge AI delivers stunning, photorealistic results. |\n| Every body type without booking 8 models. | Diversity and inclusion, powered by next-gen AI. |\n\n## Agent prompt\n\nYou are writing for Ablo Studio, self-serve AI on-model imagery for fashion brands. Voice: editorial, calm, premium, proof-forward. Think SSENSE, Off-White, Linear, Arc'teryx. Lead with the result, not the process. Sparse beats complete; when in doubt, cut a sentence. Hard rules: never use em dashes (use commas, periods, parentheses, or restructure); keep acronyms as acronyms (ICP, DTC, CAC); no exclamation points; no AI hype words (revolutionary, game-changing, unleash); no generic-SaaS or startup-bro tone. Lead every message from the one wedge: campaign-ready, on-model photos of bodies a brand cannot easily or cheaply shoot (babies, plus and diverse bodies, swim fit) in minutes, not background removal (free tools own that). Audience: founder / owner of a small US fashion brand (kids, swim, size-inclusive). Proof we can use today: the output itself, the launch film, 50 free credits no card. Do not claim Crocs or Balmain as Studio customers (parent-level only). Do not write to the old $1,250 price.",
+          "wordCount": 479
+        },
+        {
+          "key": "revenue-levers",
+          "title": "Revenue Levers",
+          "group": "plan",
+          "mkt1": "revenue_levers",
+          "osSection": "goals",
+          "feeds": "Goals tab · the stack-ranked levers marketing pulls",
+          "file": "10-revenue-levers.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Revenue Levers\n\n*v0.1, 2026-06-02. Inputs: paid budget = **$200/week** (confirmed; live campaign reconciled to $28.50/day — Kids $16 + women's/swim $12.50 active, size-inclusive + menswear paused to keep the two funded ad sets above Meta's learning floor); revenue/customer target = modeled below. Big Bets + Channel still to build.*\n\nStack-ranked (MKT1's 4 levers). Do #1 and #2 together: #1 without #2 burns money; #2 without #1 has nothing to convert.\n\n1. **Grow top-of-funnel with the core audience** (lead) — more qualified signups from the Kids + Swim/size-inclusive wedge via a repeatable paid channel. We have an ICP and creative that resonate; we lack volume + a stable-CAC engine.\n2. **Increase conversion: signup → activation → paid** (co-lead) — fix the 98% signup-modal drop + the try-on activation gap. This moves CAC more than any budget change, and it is non-spend.\n3. **Increase customer value (ARPU)** — credit top-ups / a power-user tier so heavy-drop brands expand past the $50 base. Required for the unit economics below to clear.\n4. **Efficiency** — concentrate budget on converting segments (done: 90% on Kids + women's). Lowest-priority lever now.",
+          "wordCount": 186
+        },
+        {
+          "key": "big-bets",
+          "title": "Big Bet Campaigns",
+          "group": "plan",
+          "mkt1": "big_bets",
+          "osSection": null,
+          "feeds": "Not yet a tab · the 1-3 campaigns tying ICP x advantage x perception x channel",
+          "file": "11-big-bets.md",
+          "status": "stub",
+          "updated": "2026-06-05",
+          "owner": "Alejo",
+          "body": "# Big Bet Campaigns\n\n> **Stub — this is the most important open piece of the plan layer.** Pending since the v0.1 strategy (2026-06-02).\n\nA Big Bet is one of **1 to 3 campaigns** that combine an ICP, a marketing advantage, a perception, and a channel into a concentrated effort everything else ladders to. They are the bridge from strategy to tactics: every campaign, experiment, and content piece should accelerate a Big Bet.\n\n## What goes here\n\nEach Big Bet should name:\n- **ICP** — which segment (lead with Kids, co-lead Swim & size-inclusive — see [[icp]]).\n- **Advantage it accelerates** — usually the \"bodies you can't shoot\" wedge or the fast visual free trial (see [[advantages]]).\n- **Perception it drives** — which belief from [[perceptions]] it makes the buyer repeat.\n- **Channel** — the engine that carries it (the open question, see [[channel-strategy]]).\n- **Offer + creative hook** — the one thing the bet says.\n- **Success metric + time box** — what proves it worked, by when.\n\n## Candidate seeds (not yet committed)\n\n- **\"The shoot you couldn't book\"** — Kids/babywear wedge × the bodies-you-can't-shoot advantage × perception #1, on paid social. The cheapest, healthiest funnel.\n- **\"Editorial, not slop\"** — Swim & size-inclusive × garment-fidelity differentiator × perception #4, founder-led + paid.\n\n## Why it's still a stub\n\nThe blocker is upstream: there is no proven stable-CAC channel yet (see [[advantages]] and [[channel-strategy]]), and the signup→activation→paid funnel leaks badly. A Big Bet built on a broken funnel just wastes the bet. Sequence: fix the funnel and find one repeatable channel, then commit 1-2 Big Bets.",
+          "wordCount": 268
+        },
+        {
+          "key": "goals",
+          "title": "KPO Goals",
+          "group": "plan",
+          "mkt1": "kpo_goals",
+          "osSection": "goals",
+          "feeds": "Goals & OKRs tab · the north star, the brag, and the goals",
+          "file": "12-goals.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# KPO Goals\n\n*v0.1. North-star: liquid revenue via self-serve. Targets are deliberately modest — at $200/wk this is a validation budget, not a growth budget.*\n\n- **The brag (KPI):** first **5 paying self-serve customers** at a **validated CAC < $300** and **ARPU ≥ $50/mo**, within ~6–8 weeks. Converts the ICP from hypothesis to proven.\n- **KPI:** signup → paid ≥ 8% (or learn the real number and reset this model).\n- **Project (the #1 blocker):** fix the signup-modal 98% drop + try-on activation gap. Product-owned (Deniz/Jason), but it gates every paid dollar — more traffic into a broken modal just wastes spend.\n- **Project:** run the price-ask test (5 Kids founders + 5 swim/size-inclusive) → real ARPU + WTP → promote a segment to Core.\n- **Ops:** identify one repeatable acquisition channel with stable CAC (the autopilot + this budget are the test rig).",
+          "wordCount": 144
+        },
+        {
+          "key": "kpis",
+          "title": "KPIs & Metrics",
+          "group": "plan",
+          "mkt1": null,
+          "osSection": "goals",
+          "feeds": "Goals tab + Funnel · metric definitions and targets",
+          "file": "13-kpis.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# KPIs & Metrics\n\n*v0.1 model, 2026-06-02. Pre-revenue, so signup→paid is a TARGET, not observed. Refine the moment the first paid customers land.*\n\n**Funnel (definition + target):**\n\n| Stage | Definition | Current | Target |\n|---|---|---|---|\n| Cost per signup (CPL) | paid spend ÷ signups | ~$20 (wave) | ≤ $20 |\n| Signup → activation | reached try-on | ~53% (16/30) | ≥ 50% |\n| Activation → paid | bought a plan | unknown (0 paid) | the make-or-break # |\n| **Signup → paid (overall)** | — | unknown | **≥ 8%** |\n\n**Unit economics (the per-customer target Alejo asked for):**\n- **Target ARPU ≈ $80/mo** = $50 base tier + ~$30 avg expansion (credit top-ups / power tier). Annual ≈ $960. *If pricing stays flat $50/mo with no expansion, the economics get tight — push top-ups.*\n- **LTV ≈ $670** = $80/mo × ~70% gross margin × ~12-mo retention.\n- **CAC: target $200, ceiling $300** per paying customer → LTV:CAC ≈ 2.2–3.4x, payback ≈ 4–5 months.\n- **Required signup→paid ≥ 8%** at $20 CPL to hold CAC ≤ $250.\n\n**Volume at $200/wk (~$870/mo):** ~43 signups/mo → at 8% ≈ 3–4 paying customers/mo → ~$280 new MRR/mo. Small by design. The lever that decides viability here is **conversion + ARPU, not spend** — and the most dangerous unknown is signup→paid, which the funnel fix + price-ask test resolve.",
+          "wordCount": 233
+        },
+        {
+          "key": "channel-strategy",
+          "title": "Channel Strategy",
+          "group": "plan",
+          "mkt1": "channel_strategy",
+          "osSection": "channels",
+          "feeds": "Channels tab · which growth engines we invest in and why",
+          "file": "14-channel-strategy.md",
+          "status": "stub",
+          "updated": "2026-06-05",
+          "owner": "Alejo",
+          "body": "# Channel Strategy\n\n> **Stub.** Pending since the v0.1 strategy (2026-06-02). The live **Channels** tab shows attribution data; this doc is the *strategic* layer (which engines we deliberately invest in and why) and is not written yet.\n\nThe job: score the growth engines for Ablo Studio and pick the 1-2 to invest in, based on the strategy drivers — not out of thin air. Use the MKT1 6-growth-engines lens and the [[icp]], [[advantages]], and [[gtm]] inputs.\n\n## What we know from the data (not yet a strategy)\n\n- **Founder-led LinkedIn** seeded the discovery campaign and works for this buyer (Deniz + Won posts). US CTR 12.2% vs 3.9-5.5% EU.\n- **Paid social (Meta)** is the current test rig: $200/week, concentrated on Kids + women's/swim. It found the audience but **has not yet found a stable CAC** — that is the central open question.\n- **Direct / untagged** is ~73% of signups, which means attribution is murky and a real channel mix isn't proven.\n\n## What goes here (to write)\n\n- Score each of the 6 growth engines (content/SEO, paid, social/community, partnerships, sales, product-led) for startup-fit.\n- Name the 1-2 engines we commit to and the maturity of each.\n- The CAC target per channel and the kill/scale rule.\n- How each engine feeds the [[big-bets]].\n\n## Why it's a stub\n\nThis is gated on the same blocker as Big Bets: until paid social (or another engine) shows a repeatable, stable CAC, \"channel strategy\" is a hypothesis. The autopilot + the $200/week budget are the experiment that resolves it.",
+          "wordCount": 258
+        },
+        {
+          "key": "competition",
+          "title": "Competition",
+          "group": "operating",
+          "mkt1": null,
+          "osSection": "competition",
+          "feeds": "Competition tab · the budget categories we displace",
+          "file": "20-competition.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Competition\n\nStudio is positioned against budget categories, not feature-comparison competitors.\n\n## The set\n\n### The photoshoot & budget\n\n- **What:** Editorial agencies, photographers, studios, model agencies. The full $5K to $50K shoot.\n- **Pitch:** No photographers. No studios. No hassle. Replace the shoot budget, not augment it. Speed and refresh frequency are the wedge.\n- **Win (where they win):** Hero campaigns, physical garment quality, or licensing concerns that demand real models.\n\n### Horizontal / generic image AI\n\n- **What:** Midjourney, PhotoRoom, Pimeli, ChatGPT image, Flux. General tools fashion brands hack into a try-on workflow.\n- **Pitch:** Studio is a workflow, not a model. Fashion-specific: garment fidelity, fabric texture, body proportions, 2K on-model output, multiple poses, URL product import. Free tools own background removal; do not wedge there.\n- **Win (where they win):** Creative latitude beyond fashion, or a team comfortable wrangling prompts. PhotoRoom wins the commoditized flat-lay / background job at about $5/mo.\n\n### Vertical AI try-on\n\n- **What:** Raspberry AI, Botika, Lalaland, Fashn, Vmodel. Direct feature competitors in AI virtual try-on.\n- **Pitch:** Aware of, not currently messaged against. Raspberry's $50/mo tier is the internal pricing benchmark (the reason Studio's entry came down), not a messaging target.\n- **Win (where they win):** As the category matures, these become the named comparison. Today they are an internal benchmark.\n\n## Differentiation\n\n- Premium editorial output quality at 2K.\n- A fashion-specific workflow (model gen + product import + try-on + edit), not a one-shot tool.\n- Cafe24 and Shopify import baked in.\n- Parent-brand credibility lends enterprise trust, even without public Studio reference customers yet.",
+          "wordCount": 265
+        },
+        {
+          "key": "battle-card",
+          "title": "Battle Card",
+          "group": "operating",
+          "mkt1": null,
+          "osSection": "battlecard",
+          "feeds": "Battle Card tab · head-to-head vs named competitors",
+          "file": "21-battle-card.md",
+          "status": "draft",
+          "updated": "2026-04-29",
+          "owner": "Alejo",
+          "body": "# Battle Card\n\nHead-to-head against the AI try-on set. For each competitor: their angle, their soft spots, the objection a buyer will raise, and how Studio wins the room. Studio is the column everything is measured against.\n\n> **Status: draft.** The live, full battle card is generated from the competitive workbook (`competitive-landscape/battlecard-2026-04-29.xlsx`) by `gen_battlecard.py` and renders in the OS **Battle Card** tab. This doc is the narrative frame; refresh both when the workbook updates.\n\n**Competitor set:** Botika · Raspberry AI · Browzwear (Lalaland) · The New Black · Fashn.ai · Veeton · Wearview.\n\n**How Studio wins the room:**\n- **Workflow, not a model.** Studio is model-gen + product import + try-on + edit, fashion-native end to end, not a one-shot generator.\n- **The bodies you can't shoot.** Babies, plus and diverse bodies, swim fit, with garment fidelity. This is the defensible job free and horizontal tools cannot do.\n- **Editorial quality at 2K.** The stitching, the skin, the light, not AI slop.\n- **Import baked in.** Shopify and Cafe24 product import.\n\n**Caveat:** Cells marked VERIFY in the workbook are unconfirmed and need a check before going in any external deck. Pricing was sourced from public pages on 2026-04-28/29; some competitors wall prices behind login. Raspberry AI's ~$50/mo tier is the internal pricing benchmark (the reason Studio's entry came down), not a messaging target.\n\n**To do:** name the one objection per competitor and the one-line rebuttal, and confirm current pricing. Promote to `complete` once the workbook is refreshed and verified.",
+          "wordCount": 249
+        },
+        {
+          "key": "gtm",
+          "title": "GTM Strategy",
+          "group": "operating",
+          "mkt1": null,
+          "osSection": "gtm",
+          "feeds": "GTM Strategy tab · how we win, the motion and wedge",
+          "file": "22-gtm.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# GTM Strategy\n\nThe bridge between goals and tactics, built on Emily Kramer's MKT1 framework. Goals say where we are going. This says how we win. The execution tabs (campaigns, experiments, content, lifecycle) are the how-we-do-it.\n\n## Motion\n\nSelf-serve, product-led, wedge-first. Founder-led LinkedIn plus paid social seed a fast, visual free trial for a tightly-defined buyer (founders of small US fashion brands), led by the one job free tools cannot do: the believable on-model shot of bodies you cannot cheaply photograph. The enterprise / embedded motion runs separately, owned by Michael, and is out of scope here.\n\n## Stack\n\n| Layer | What | Where |\n|-------|------|-------|\n| 1. Goals | First paying customers, CAC < $300, signup→paid ≥ 8%. North-star: liquid revenue via self-serve. | Goals & OKRs |\n| 2. GTM strategy | The wedge (who + the one job), the marketing advantages we exploit, the perceptions we drive, and the 1 to 3 Big Bets that combine them. This tab. | GTM Strategy |\n| 3. Tactics | The campaigns, experiments, content fuel, and lifecycle flows that execute the Big Bets. Ranked daily in the Command Center. | Campaigns · Experiments · Content · Lifecycle · Command Center |\n\n## Wedge\n\nWedge marketing (MKT1): win a specific niche before expanding. Lead with Kids & babywear (the cheapest, healthiest funnel, the hardest body to shoot), co-lead Swim & size-inclusive (best attention, most acute pain). Tailor the creative, demo, and landing to the wedge. Do not market the pitch deck; market one niche first. Full tiers in ICP & Segments.\n\n## Advantages\n\n| # | Name | Category | Strength | Potential | Moat |\n|---|------|----------|----------|-----------|------|\n| 1 | \"Bodies you can't shoot\" wedge | Product | Medium | High | Free/horizontal tools cannot do it |\n| 2 | Fast, visual free-trial AHA | Product | Medium (funnel leaks) | High | Partial, others have trials |\n| 3 | Product output as endless proof | Fuel | Low (untapped) | High | Unique to our output quality |\n| 4 | Founder-led distribution | Engine | Low-Med | Medium | No, but fits this buyer |\n\n## Big Bets\n\n### Win the wedge (Kids + Swim)\n\n- **Priority:** High\n- **ICP:** Founders of small US Kids & babywear (lead) + Swim / size-inclusive (co-lead) brands\n- **Perception:** P1, campaign-ready on-model photos in minutes, including the bodies I can't shoot\n- **Advantage:** The wedge + product-output-as-fuel\n- **Channel:** Founder LinkedIn + Meta/IG (paid + organic)\n- **Fuel:** Before/after, shot-in-minutes, per-segment demos (F3, F4, F7)\n- **Success:** Stable-CAC signups and activations from Kids/Swim that feed the price-ask test\n- **Rationale:** The only repeatable signal we have: across two waves, Kids was the cheapest, healthiest funnel and Swim the best CTR. Chosen over menswear (weakest paid pull) and over broad horizontal positioning (free tools own background removal). Confidence: medium, based on engagement, not yet revenue.\n\n### Prove willingness to pay\n\n- **Priority:** High\n- **ICP:** Activated Kids/Swim founders\n- **Perception:** P3, I can ship a drop without a photographer, studio, or casting\n- **Advantage:** Fast visual free-trial AHA\n- **Channel:** In-product + lifecycle email + 1:1 founder outreach\n- **Fuel:** AHA nudge flow + the price-ask interview guide\n- **Success:** First 5 paying customers, ARPU ≥ $50, signup→paid ≥ 8% (the brag)\n- **Rationale:** Free signups tell us nothing about revenue, and the brag is unmeasurable without a paid signal. Run as co-lead with Bet 1, because MKT1 revenue-lever logic says do lever 1 (TOF) and lever 2 (conversion) together: TOF without conversion just burns budget. Confidence: high that it is necessary; the open question is the price.\n\n### Build the credibility flywheel\n\n- **Priority:** Medium\n- **ICP:** The broad small-fashion-founder market (+ enterprise halo)\n- **Perception:** P2 the photoshoot is becoming optional, + P5 built by fashion people\n- **Advantage:** Fuel advantage (unique POV + data) + founder distribution\n- **Channel:** SEO / owned + Founder LinkedIn + outreach\n- **Fuel:** The State of On-Model Imagery report (F1), comparison (F6), build-in-public (F10), calculator (F9)\n- **Success:** A linkable, cited asset that drives inbound and lowers CAC over time\n- **Rationale:** The product's own output is our cheapest, most credible fuel and founder LinkedIn is the proven engine. Lower priority because it compounds slowly and does not directly convert the first 5 customers; it de-risks CAC over time. Confidence: medium.\n\n## Channel note\n\nChannel strategy uses MKT1's five growth engines (Inbound, Outbound, Product Virality, Events, Ecosystem). For Ablo today: Founder LinkedIn is the primary engine, Meta/IG is the demand engine, SEO/owned is the compounding bet, lifecycle is activation. Full scorecard and status in the Channels tab.\n\n## Framework note\n\nMethod: MKT1's seven strategy exercises (company overview, ICP prioritization, marketing advantages, perceptions, positioning, revenue levers, big bets). The first six live across Overview, ICP, Positioning, Messaging, and Goals. This tab is exercise 7, the Big Bets, where strategy becomes coordinated action.\n\n## Coherence\n\nCoherence rule (audited weekly): every initiative must ladder UP. Goal → revenue lever → Big Bet → initiative/experiment → fuel. A tactic that does not ladder to a Big Bet is a Random Act of Marketing (MKT1) and gets cut or re-scoped. A Big Bet with weak rationale, or a goal no Big Bet serves, is flagged for review.",
+          "wordCount": 881
+        },
+        {
+          "key": "pricing",
+          "title": "Naming & Pricing",
+          "group": "operating",
+          "mkt1": "naming_pricing",
+          "osSection": "pricing",
+          "feeds": "Pricing rows · plan names, tiers, structure",
+          "file": "23-pricing.md",
+          "status": "draft",
+          "updated": "2026-05-04",
+          "owner": "Alejo",
+          "body": "# Naming & Pricing\n\n> **Verify live pricing on the site before putting a number in copy.** A $50/mo SMB tier was decided 2026-04-27; the old $1,250/mo Pro entry was being removed (\"Option B\" shipped on site 2026-05-04). Do not write to the old $1,250 price point.\n\n## Tiers\n\n| Tier | What |\n|------|------|\n| **Free start** | 50 credits, no card required |\n| **SMB tier** | ~$50/mo (Raspberry AI parity). Verify live. |\n| **Enterprise** | Custom-priced, embedded-workflow deals (separate BD motion) |\n\n## Credit costs\n\n| Action | Credits |\n|--------|---------|\n| Model generation | 5 (10 with a reference photo) |\n| Try-on | 5 |\n| Edit | 2 |\n| Product import | Free |\n\n## Gaps to close (why this is a draft)\n\n- **Confirm the live number.** The ~$50/mo is a decision, not a verified live price. Check the site and lock it.\n- **Expansion / ARPU path.** The unit economics in [[kpis]] assume ~$30/mo expansion (credit top-ups or a power-user tier) on top of the $50 base. The top-up and power-tier names, prices, and packaging are not yet defined. This is the single biggest pricing gap.\n- **Plan and feature naming.** No canonical plan names, feature names, or credit-pack names are documented yet. Define them so copy and agents stop improvising.",
+          "wordCount": 221
+        },
+        {
+          "key": "lifecycle",
+          "title": "Lifecycle & Stages",
+          "group": "operating",
+          "mkt1": "lifecycle_stages",
+          "osSection": "lifecycleCurated",
+          "feeds": "Lifecycle tab · funnel and account stages, flow map",
+          "file": "24-lifecycle.md",
+          "status": "stub",
+          "updated": "2026-06-05",
+          "owner": "Alejo",
+          "body": "# Lifecycle & Stages\n\n> **Stub.** The live **Lifecycle** tab renders the Klaviyo flow data; the `lifecycle/` folder holds operational notes. This doc is the *strategic* stage model (how a contact and an account move through the funnel) and is not formally written yet.\n\n## What goes here (to write)\n\n- **Contact / person stages** — not just \"lead.\" Define the journey: visitor → signup → activated (reached try-on, the aha) → paying → expanded. Map each to the product event that marks it (see the funnel definitions in the OS).\n- **Product-usage stages (PLG)** — since Studio is product-led: onboarded, first model generated, first try-on, first download, habitual.\n- **Account stages** — pre- and post-pipeline stages for the (separate) enterprise BD motion, kept distinct from self-serve.\n- **The flow map** — which lifecycle email/in-product nudge fires at each stage, and which transitions currently have no flow (the gaps).\n\n## What we know now\n\n- One live Klaviyo flow: \"Ablo Studio — Onboarding.\" Klaviyo also receives product events (Model Generated, Try-on Completed, Checkout Started) as metrics, so behavioral triggers are possible but mostly unbuilt.\n- The biggest lifecycle gap is the signup → activation drop and the unwired post-signup nudges. See the Command Center and [[kpis]].\n\n## Why it's a stub\n\nThe stage model has been implied by the funnel but never written down as the canonical lifecycle reference. Writing it makes the \"which transition has no flow\" gaps explicit and fundable.",
+          "wordCount": 242
+        },
+        {
+          "key": "content-strategy",
+          "title": "Content Strategy",
+          "group": "operating",
+          "mkt1": null,
+          "osSection": "content",
+          "feeds": "Content Strategy tab · the fuel engine and recipe",
+          "file": "25-content-strategy.md",
+          "status": "complete",
+          "updated": "2026-06-02",
+          "owner": "Alejo",
+          "body": "# Content Strategy\n\n## Status\n\nDeliberately a stub. The 90-day plan was BD-led and narrow: no social audience building, no founder content engine, no blog. A full content strategy may be premature by design. This holds the plan for when content goes in scope.\n\n## Engine\n\nThe product's own output is the strongest content: before/after, \"shot in minutes,\" per-segment model demos. Every generation is shareable proof, which makes content infinite, cheap, and credible.\n\n## Recipe\n\nThe repeatable engine: with the MVC, the per-segment profiles, and the voice rules in this OS, an AI can draft on-brand ads, posts, and emails from a one-line brief. Awareness hook (the pain) → consideration (the bodies-you-cannot-shoot wedge + proof) → conversion (free 50 credits, the activation moment).\n\n## Channels\n\n- Meta / IG works for Kids and Swim.\n- LinkedIn founder posts were the Wave 1 / 2 vehicle.\n- Menswear underperformed on paid.\n- The decision still open: which one channel + audience to pour budget into.\n\n## To fill\n\n- Goal: what is content for (demand gen for the self-serve wedge, proof for enterprise, SEO, founder-led distribution).\n- Audience x stage: the message at each funnel stage, per lead segment.\n- Formats + cadence: what we can actually produce.\n- Document the prompt / recipe here once the on-brand drafting loop is proven.\n\n## Fuel\n\nFuel (Emily Kramer, MKT1): the assets that power distribution. Every piece ladders to a messaging pillar, a segment, and the goal (first paying customers). The product's own output is the cheapest, most credible fuel we have.\n\n### Engines\n\n| Engine | Role | Note |\n|--------|------|------|\n| Founder-led LinkedIn | Primary | Deniz + Won posts drove the discovery campaign. Best fit for this buyer. Carries POV + research + build-in-public. |\n| Meta / Instagram (paid + organic) | Demand | Works for Kids and Swim. Carries product proof: before/after, shot-in-minutes, per-segment demos. |\n| SEO / owned | Compounding | The research report, the cost calculator, and the comparison posts are linkable and rank over time. |\n| Lifecycle email (Klaviyo) | Activation | Carries proof and the AHA nudge to signups. Wire the prepared flows first. |\n\n### Fuel backlog\n\n| ID | Title | Type | Pillar | ICP | Format | Channel | Status |\n|----|-------|------|--------|-----|--------|---------|--------|\n| F1 | The State of On-Model Imagery 2026 | Original research | P2 photoshoot becoming optional | All segments | Data report + landing page + LinkedIn carousel | SEO + Founder LinkedIn + outreach | flagship idea |\n| F2 | The photoshoot is becoming optional | Founder POV | P2 | Founders | LinkedIn long post + blog | Founder LinkedIn | idea |\n| F3 | I shot an entire kids' drop in 20 minutes | Product proof | P1 campaign-ready in minutes + P3 ship without a shoot | Kids & babywear (lead) | Before/after reel + carousel | Meta/IG + LinkedIn | idea |\n| F4 | Every body, every size, no casting | Product proof | P1 bodies you can't shoot + P4 not AI slop | Swim & size-inclusive (co-lead) | One product on many bodies, video | Meta/IG | idea |\n| F5 | AI on-model vs the $5K photoshoot: a real cost breakdown | Educational | P2 | Founders | Blog + LinkedIn | SEO + LinkedIn | idea |\n| F6 | Background removal is not on-model: where free tools stop | Educational POV | Differentiator (the wedge) | Founders | LinkedIn + blog | LinkedIn + SEO | idea |\n| F7 | On-model in minutes: live teardown series | Product proof series | P1 | Rotating by segment | Recurring carousel/video | LinkedIn + IG | idea |\n| F8 | How [Water Vixen Swim / Agenzia Kids] ships a drop without a photographer | Customer story | P1 + P5 built by fashion people | Swim / Kids | Case study + quote | All engines | blocked on customer |\n| F9 | Photoshoot cost calculator | Interactive tool | P2 | Founders | Free embedded calculator | SEO + social | idea |\n| F10 | Build-in-public: what the data taught us about small fashion brands | Founder POV | P5 | Founders | LinkedIn thread | Founder LinkedIn | idea |\n\n#### Why (per fuel piece)\n\n- **F1:** Original data is the most linkable, credible fuel. Survey small fashion brands: shoot spend, lead times, AI adoption %, the hardest body to cast. Becomes the flagship asset everything else cites. Seed it from a poll of the signup list.\n- **F2:** Names the shift and the wedge (the bodies you could never afford to shoot). Founder voice is the proven engine for this buyer.\n- **F3:** The lead segment's exact pain: you cannot cheaply shoot babies. Shows the result first.\n- **F4:** The most acute, most expensive shoot in fashion. Lead with garment fidelity to pre-empt the AI-slop objection.\n- **F5:** Honest cost + time comparison, including where real shoots still win. Pairs with the calculator (F9).\n- **F6:** Reframes against the ~$5 free-tool floor (the PhotoRoom lesson). Teaches the market that the defensible job is the believable on-model shot.\n- **F7:** Pick a real small brand's product page, show the AI on-model result. Endless, cheap, repeatable fuel straight from product output.\n- **F8:** The proof we most need to earn: a named, permissioned Studio customer. Blocked until a brand says yes.\n- **F9:** Input drops, SKUs, models, get estimated shoot cost vs Ablo. Lead-gen + linkable + a reason to share.\n- **F10:** Share what the OS surfaces (the bodies brands can't shoot, the funnel learnings). Builds the credibility that we are fashion people, not a generic image-AI toy.\n\n## Calendar note\n\nThe Content Calendar tab schedules from this fuel backlog. Near-term pieces are seeded there; the backlog is the source of ideas.",
+          "wordCount": 984
+        },
+        {
+          "key": "brand-guide",
+          "title": "Brand Guide",
+          "group": "operating",
+          "mkt1": "brand_guide",
+          "osSection": null,
+          "feeds": "Not yet a tab · visual identity, color, type, logo usage",
+          "file": "26-brand-guide.md",
+          "status": "stub",
+          "updated": "2026-06-05",
+          "owner": "Alejo",
+          "body": "# Brand Guide\n\n> **Stub.** The verbal identity is well-defined (see [[voice]] and [[messaging]]); the **visual** identity has never been codified in this layer.\n\n## What goes here (to write)\n\n- **Color** — primary, accent, neutrals, with hex values and usage rules.\n- **Typography** — display and body typefaces, weights, the editorial hierarchy.\n- **Logo** — the mark, clear space, sizing, do/don't.\n- **Imagery** — the photo-led, editorial direction (SSENSE / Off-White references from [[voice]]); how AI output is presented; the before/after and \"shot in minutes\" conventions.\n- **Layout / motion** — the sparse, considered grid language; any motion principles for the launch film and ads.\n\n## How to populate\n\nIf a Figma file or brand PDF exists, link it and codify from it. The launch film and the live site are the current de-facto visual reference — extract the system from them. Until then, [[voice]] carries the brand and this stays a stub.",
+          "wordCount": 154
+        },
+        {
+          "key": "tech-stack",
+          "title": "Tech Stack & DRIs",
+          "group": "operating",
+          "mkt1": "tech_stack_dris",
+          "osSection": null,
+          "feeds": "Not yet a tab · the marketing tools and who owns what",
+          "file": "27-tech-stack.md",
+          "status": "stub",
+          "updated": "2026-06-05",
+          "owner": "Alejo",
+          "body": "# Tech Stack & DRIs\n\n> **Stub.** The tools are in use and wired into the Marketing OS, but they have never been documented as a single reference with owners. Writing this prevents agents and humans from guessing what's possible.\n\n## What goes here (to write)\n\nA table of the marketing stack: tool, what it's used for, who owns it (DRI), and the account/workspace it lives in.\n\n## Known stack (from the OS data sources — to confirm and complete)\n\n| Tool | Used for | DRI |\n|------|----------|-----|\n| PostHog | Product analytics, funnel, experiments, UTM attribution | Alejo |\n| Meta Ads | Paid social acquisition (via the ads autopilot) | Alejo |\n| Klaviyo | Lifecycle email + product-event metrics | Alejo |\n| ClickUp | Task source of truth (Ablo Studio list) | Alejo |\n| Instagram (@ablo.ai) | Organic social | (confirm) |\n| LinkedIn | Founder-led distribution + paid | Deniz / Won / Alejo |\n| HubSpot | Contact properties (ablo_*) | (confirm) |\n\n## To complete\n\n- Confirm each DRI and fill the blanks.\n- Add the tools not surfaced by the OS (design, scheduling, any CRM, the website/CMS).\n- Note key IDs/accounts and where credentials live, without pasting secrets here.\n- Team ownership: Deniz (product), Won (vision/investors), Alejo (marketing), Jason (dev — never route marketing-tool work to Jason), Michael (partnerships/BD).",
+          "wordCount": 229
+        }
+      ],
+      "summary": {
+        "total": 20,
+        "present": 20,
+        "complete": 13,
+        "draft": 2,
+        "stub": 5,
+        "missing": 0,
+        "pct": 65,
+        "gaps": [
+          "big-bets",
+          "channel-strategy",
+          "lifecycle",
+          "brand-guide",
+          "tech-stack"
+        ]
       }
     },
     "refreshedSources": {

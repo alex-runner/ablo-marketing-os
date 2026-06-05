@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "updated": "2026-06-05",
+  "source": "Brain/projects/ablo/Ablo Studio/marketing-strategy/foundation/",
+  "note": "Canonical expected set of foundation documents for Ablo Studio's marketing context layer. The source of truth is the markdown files in `source` (Obsidian/Brain); build.py reads them and embeds body + status into live.strategy. This registry defines WHAT a complete foundation looks like (so a doc that does not exist yet shows as a gap). Each doc's own frontmatter `status` is the live truth; `missing` means no file exists for a registry entry.",
+  "statusOrder": ["complete", "draft", "stub", "missing"],
+  "statusLabels": {
+    "complete": "Complete",
+    "draft": "Draft",
+    "stub": "Stub",
+    "missing": "Missing"
+  },
+  "statusTone": {
+    "complete": "success",
+    "draft": "accent",
+    "stub": "warn",
+    "missing": "error"
+  },
+  "groups": [
+    {
+      "key": "foundation",
+      "title": "Foundation",
+      "lede": "Who we are, who we are for, and why we win. Everything else ladders to these. (MKT1 strategy inputs.)"
+    },
+    {
+      "key": "plan",
+      "title": "Plan",
+      "lede": "Where marketing should focus and what we are betting on. The bridge from strategy to tactics."
+    },
+    {
+      "key": "operating",
+      "title": "Operating context",
+      "lede": "The reference layer agents and humans pull from to execute: competitive frame, GTM, pricing, lifecycle, brand, stack."
+    }
+  ],
+  "docs": [
+    { "key": "company-overview", "file": "01-company-overview.md", "title": "Company Overview", "group": "foundation", "mkt1": "company_overview", "osSection": "overview", "feeds": "Overview tab · the elevator and what-it-is" },
+    { "key": "positioning", "file": "02-positioning.md", "title": "Positioning", "group": "foundation", "mkt1": "positioning", "osSection": "positioning", "feeds": "Positioning tab · the New-Way statement and quad" },
+    { "key": "icp", "file": "03-icp.md", "title": "ICP & Segments", "group": "foundation", "mkt1": "icp_prioritization", "osSection": "icp", "feeds": "ICP & Segments tab · buyer and category wedges by maturity" },
+    { "key": "advantages", "file": "04-advantages.md", "title": "Marketing Advantages", "group": "foundation", "mkt1": "marketing_advantages", "osSection": null, "feeds": "Not yet a tab · the structural edges every Big Bet should accelerate" },
+    { "key": "perceptions", "file": "05-perceptions.md", "title": "Perceptions", "group": "foundation", "mkt1": "perceptions", "osSection": "messaging", "feeds": "Messaging tab · the beliefs content should drive" },
+    { "key": "messaging", "file": "06-messaging.md", "title": "Messaging", "group": "foundation", "mkt1": null, "osSection": "messaging", "feeds": "Messaging tab · taglines, verbatim lines, homepage architecture" },
+    { "key": "voice", "file": "07-voice.md", "title": "Brand Voice & Tone", "group": "foundation", "mkt1": "voice_tone_style", "osSection": "voice", "feeds": "Brand Voice tab · how Ablo Studio writes and speaks" },
+
+    { "key": "revenue-levers", "file": "10-revenue-levers.md", "title": "Revenue Levers", "group": "plan", "mkt1": "revenue_levers", "osSection": "goals", "feeds": "Goals tab · the stack-ranked levers marketing pulls" },
+    { "key": "big-bets", "file": "11-big-bets.md", "title": "Big Bet Campaigns", "group": "plan", "mkt1": "big_bets", "osSection": null, "feeds": "Not yet a tab · the 1-3 campaigns tying ICP x advantage x perception x channel" },
+    { "key": "goals", "file": "12-goals.md", "title": "KPO Goals", "group": "plan", "mkt1": "kpo_goals", "osSection": "goals", "feeds": "Goals & OKRs tab · the north star, the brag, and the goals" },
+    { "key": "kpis", "file": "13-kpis.md", "title": "KPIs & Metrics", "group": "plan", "mkt1": null, "osSection": "goals", "feeds": "Goals tab + Funnel · metric definitions and targets" },
+    { "key": "channel-strategy", "file": "14-channel-strategy.md", "title": "Channel Strategy", "group": "plan", "mkt1": "channel_strategy", "osSection": "channels", "feeds": "Channels tab · which growth engines we invest in and why" },
+
+    { "key": "competition", "file": "20-competition.md", "title": "Competition", "group": "operating", "mkt1": null, "osSection": "competition", "feeds": "Competition tab · the budget categories we displace" },
+    { "key": "battle-card", "file": "21-battle-card.md", "title": "Battle Card", "group": "operating", "mkt1": null, "osSection": "battlecard", "feeds": "Battle Card tab · head-to-head vs named competitors" },
+    { "key": "gtm", "file": "22-gtm.md", "title": "GTM Strategy", "group": "operating", "mkt1": null, "osSection": "gtm", "feeds": "GTM Strategy tab · how we win, the motion and wedge" },
+    { "key": "pricing", "file": "23-pricing.md", "title": "Naming & Pricing", "group": "operating", "mkt1": "naming_pricing", "osSection": "pricing", "feeds": "Pricing rows · plan names, tiers, structure" },
+    { "key": "lifecycle", "file": "24-lifecycle.md", "title": "Lifecycle & Stages", "group": "operating", "mkt1": "lifecycle_stages", "osSection": "lifecycleCurated", "feeds": "Lifecycle tab · funnel and account stages, flow map" },
+    { "key": "content-strategy", "file": "25-content-strategy.md", "title": "Content Strategy", "group": "operating", "mkt1": null, "osSection": "content", "feeds": "Content Strategy tab · the fuel engine and recipe" },
+    { "key": "brand-guide", "file": "26-brand-guide.md", "title": "Brand Guide", "group": "operating", "mkt1": "brand_guide", "osSection": null, "feeds": "Not yet a tab · visual identity, color, type, logo usage" },
+    { "key": "tech-stack", "file": "27-tech-stack.md", "title": "Tech Stack & DRIs", "group": "operating", "mkt1": "tech_stack_dris", "osSection": null, "feeds": "Not yet a tab · the marketing tools and who owns what" }
+  ]
+}
