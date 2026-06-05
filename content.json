@@ -1509,7 +1509,7 @@
         {
           "dim": "Entry tier (price + allowance)",
           "values": [
-            "$50/mo SMB (planned, terms TBD), currently $1,250/mo Pro is the wall",
+            "Free: 50 try-ons no card. Starter $29/mo 200 try-ons. Growth $99/mo 800 try-ons (most popular). Scale $349/mo 3,000 try-ons.",
             "$22/mo Lite, 20 cr/mo (HD)",
             "$49/mo Individual, 60 gen + 60 hi-res exports",
             "Custom (Freelancer plan announced, unpriced)",
@@ -1522,7 +1522,7 @@
         {
           "dim": "Mid tier",
           "values": [
-            "Pro $1,250/mo, 1,000 cr (~200 try-ons), 2K",
+            "Growth $99/mo, 800 try-ons/mo. Annual $990/yr ($83/mo effective, 2 months free).",
             "$35/mo Pro, 30 cr, 2K, video + editorial",
             "$198/mo Basic, unlimited gen + exports, 60d history",
             ", ",
@@ -1535,7 +1535,7 @@
         {
           "dim": "Top self-serve tier",
           "values": [
-            "Top-up $1,500 / 5K cr, $0.30/credit ($1.50/try-on)",
+            "Scale $349/mo, 3,000 try-ons/mo. Annual $3,490/yr ($291/mo effective).",
             "$230/mo Advanced, 200 cr, 4K, team, kids/youth",
             "$298/mo Pro, unlimited + Design Mixer + priority",
             ", ",
@@ -1548,7 +1548,7 @@
         {
           "dim": "Enterprise availability on public site",
           "values": [
-            "None (planned; will be custom)",
+            "Custom pricing, separate BD motion (not self-serve).",
             "Custom, exclusive AI models, white-glove QC",
             "Custom, model training, SSO, API, CSM",
             "Yes (the entire motion)",
@@ -1561,7 +1561,7 @@
         {
           "dim": "$/image, entry tier",
           "values": [
-            "~$6.25/try-on at Pro current; planned SMB ~$6.25 if ratio holds",
+            "~$0.145/try-on at Starter ($29 / 200 try-ons). ~$0.124/try-on at Growth ($99 / 800 try-ons).",
             "~$1.10/photo (Lite, monthly)",
             "~$0.82/gen (60 cap, monthly)",
             "Not published",
@@ -1574,7 +1574,7 @@
         {
           "dim": "$/image, at scale (top tier)",
           "values": [
-            "$1.50/try-on (5K-cr top-up), best Studio rate",
+            "~$0.116/try-on at Scale ($349 / 3,000 try-ons). Top-up packs available on Growth+.",
             "~$1.15/photo (Advanced)",
             "Effectively $0 marginal (unlimited) at Basic+ ($198+)",
             "Not published",
@@ -1587,7 +1587,7 @@
         {
           "dim": "Annual discount",
           "values": [
-            "None",
+            "2 months free. Monthly x10 = annual price. Starter $290/yr, Growth $990/yr, Scale $3,490/yr.",
             "17% + annual-only retouch + photo-fix perks",
             "0% (annual price = monthly × 12)",
             "Custom",
@@ -1600,7 +1600,7 @@
         {
           "dim": "Notable pricing tell",
           "values": [
-            "Site anchors on $1,250/mo, no SMB. Strongest line: 'Cancel anytime. No long-term commitment.'",
+            "Growth ($99) is anchored as most popular. Entry-level pivot away from $1,250 Pro to self-serve SMB ladder. No card for free trial.",
             "Quality issues drive cancel friction in reviews, pricing trust risk",
             "Annual = monthly × 12 → either confident retention or anti-lock-in",
             "Pricing fully gated; enterprise-only motion",

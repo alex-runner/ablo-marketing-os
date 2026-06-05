@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 5, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-05T18:47:36.893174+00:00"
+    "updatedISO": "2026-06-05T19:04:55.850802+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -1512,7 +1512,7 @@ window.ABLO_OS = {
         {
           "dim": "Entry tier (price + allowance)",
           "values": [
-            "$50/mo SMB (planned, terms TBD), currently $1,250/mo Pro is the wall",
+            "Free: 50 try-ons no card. Starter $29/mo 200 try-ons. Growth $99/mo 800 try-ons (most popular). Scale $349/mo 3,000 try-ons.",
             "$22/mo Lite, 20 cr/mo (HD)",
             "$49/mo Individual, 60 gen + 60 hi-res exports",
             "Custom (Freelancer plan announced, unpriced)",
@@ -1525,7 +1525,7 @@ window.ABLO_OS = {
         {
           "dim": "Mid tier",
           "values": [
-            "Pro $1,250/mo, 1,000 cr (~200 try-ons), 2K",
+            "Growth $99/mo, 800 try-ons/mo. Annual $990/yr ($83/mo effective, 2 months free).",
             "$35/mo Pro, 30 cr, 2K, video + editorial",
             "$198/mo Basic, unlimited gen + exports, 60d history",
             ", ",
@@ -1538,7 +1538,7 @@ window.ABLO_OS = {
         {
           "dim": "Top self-serve tier",
           "values": [
-            "Top-up $1,500 / 5K cr, $0.30/credit ($1.50/try-on)",
+            "Scale $349/mo, 3,000 try-ons/mo. Annual $3,490/yr ($291/mo effective).",
             "$230/mo Advanced, 200 cr, 4K, team, kids/youth",
             "$298/mo Pro, unlimited + Design Mixer + priority",
             ", ",
@@ -1551,7 +1551,7 @@ window.ABLO_OS = {
         {
           "dim": "Enterprise availability on public site",
           "values": [
-            "None (planned; will be custom)",
+            "Custom pricing, separate BD motion (not self-serve).",
             "Custom, exclusive AI models, white-glove QC",
             "Custom, model training, SSO, API, CSM",
             "Yes (the entire motion)",
@@ -1564,7 +1564,7 @@ window.ABLO_OS = {
         {
           "dim": "$/image, entry tier",
           "values": [
-            "~$6.25/try-on at Pro current; planned SMB ~$6.25 if ratio holds",
+            "~$0.145/try-on at Starter ($29 / 200 try-ons). ~$0.124/try-on at Growth ($99 / 800 try-ons).",
             "~$1.10/photo (Lite, monthly)",
             "~$0.82/gen (60 cap, monthly)",
             "Not published",
@@ -1577,7 +1577,7 @@ window.ABLO_OS = {
         {
           "dim": "$/image, at scale (top tier)",
           "values": [
-            "$1.50/try-on (5K-cr top-up), best Studio rate",
+            "~$0.116/try-on at Scale ($349 / 3,000 try-ons). Top-up packs available on Growth+.",
             "~$1.15/photo (Advanced)",
             "Effectively $0 marginal (unlimited) at Basic+ ($198+)",
             "Not published",
@@ -1590,7 +1590,7 @@ window.ABLO_OS = {
         {
           "dim": "Annual discount",
           "values": [
-            "None",
+            "2 months free. Monthly x10 = annual price. Starter $290/yr, Growth $990/yr, Scale $3,490/yr.",
             "17% + annual-only retouch + photo-fix perks",
             "0% (annual price = monthly × 12)",
             "Custom",
@@ -1603,7 +1603,7 @@ window.ABLO_OS = {
         {
           "dim": "Notable pricing tell",
           "values": [
-            "Site anchors on $1,250/mo, no SMB. Strongest line: 'Cancel anytime. No long-term commitment.'",
+            "Growth ($99) is anchored as most popular. Entry-level pivot away from $1,250 Pro to self-serve SMB ladder. No card for free trial.",
             "Quality issues drive cancel friction in reviews, pricing trust risk",
             "Annual = monthly × 12 → either confident retention or anti-lock-in",
             "Pricing fully gated; enterprise-only motion",
@@ -2845,7 +2845,7 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 294,
+            "d7": 293,
             "d30": 968,
             "d90": 968,
             "all": 968
@@ -4144,11 +4144,11 @@ window.ABLO_OS = {
           "osSection": null,
           "feeds": "Not yet a tab · the 1-3 campaigns tying ICP x advantage x perception x channel",
           "file": "11-big-bets.md",
-          "status": "stub",
+          "status": "draft",
           "updated": "2026-06-05",
           "owner": "Alejo",
-          "body": "# Big Bet Campaigns\n\n> **Stub — this is the most important open piece of the plan layer.** Pending since the v0.1 strategy (2026-06-02).\n\nA Big Bet is one of **1 to 3 campaigns** that combine an ICP, a marketing advantage, a perception, and a channel into a concentrated effort everything else ladders to. They are the bridge from strategy to tactics: every campaign, experiment, and content piece should accelerate a Big Bet.\n\n## What goes here\n\nEach Big Bet should name:\n- **ICP** — which segment (lead with Kids, co-lead Swim & size-inclusive — see [[icp]]).\n- **Advantage it accelerates** — usually the \"bodies you can't shoot\" wedge or the fast visual free trial (see [[advantages]]).\n- **Perception it drives** — which belief from [[perceptions]] it makes the buyer repeat.\n- **Channel** — the engine that carries it (the open question, see [[channel-strategy]]).\n- **Offer + creative hook** — the one thing the bet says.\n- **Success metric + time box** — what proves it worked, by when.\n\n## Candidate seeds (not yet committed)\n\n- **\"The shoot you couldn't book\"** — Kids/babywear wedge × the bodies-you-can't-shoot advantage × perception #1, on paid social. The cheapest, healthiest funnel.\n- **\"Editorial, not slop\"** — Swim & size-inclusive × garment-fidelity differentiator × perception #4, founder-led + paid.\n\n## Why it's still a stub\n\nThe blocker is upstream: there is no proven stable-CAC channel yet (see [[advantages]] and [[channel-strategy]]), and the signup→activation→paid funnel leaks badly. A Big Bet built on a broken funnel just wastes the bet. Sequence: fix the funnel and find one repeatable channel, then commit 1-2 Big Bets.",
-          "wordCount": 268
+          "body": "# Big Bet Campaigns\n\nA Big Bet is one of 1 to 3 campaigns that combine an ICP, a marketing advantage, a perception, and a channel into a concentrated effort. Everything else ladders to them: every paid creative, experiment, content piece, and lifecycle flow should accelerate at least one bet.\n\n> **Status: draft.** The inputs are complete (ICP, advantages, perceptions, revenue levers all locked). The bets below are grounded in those inputs but not yet tested or committed. Promote to `complete` once Alejo decides which to run and sets a time box.\n\n## The two candidate bets\n\n### Bet 1 — \"The shoot you couldn't book\"\n\n**What it is:** A focused campaign for Kids and babywear founders on paid social (Meta), leading with the one job free tools can't do: the believable on-model shot of babies and toddlers at season-refresh scale. The hook is not \"AI imagery\" but \"you can't hire a baby model every drop.\"\n\n- **ICP:** Kids + babywear founder/owner (tier 2 lead — cheapest signups, best funnel health, hardest body to shoot)\n- **Advantage:** The \"bodies you can't shoot\" wedge × the fast visual free trial (50 try-ons, no card)\n- **Perception to drive:** #1 — \"Campaign-ready on-model photos in minutes, including shots I could never get myself\"\n- **Channel:** Paid Meta (the existing test rig). Creative: before/after, side-by-side, \"shot in 8 minutes\" format\n- **Offer:** 50 free try-ons, no card. One click from ad to a Kids model try-on\n- **Success metric:** signup→activation ≥ 50% from this cohort at CPL ≤ $20, and at least 2 paying customers from the Kids segment within 6 weeks\n- **Why now:** Kids is already the cheapest, healthiest funnel (strongest Meta CTR + activation). This is doubling down on the proven wedge, not a new experiment\n\n### Bet 2 — \"Every drop, on every body\"\n\n**What it is:** Swim and size-inclusive campaign targeting founders who shoot the hardest bodies — diverse fit models, plus-size, swimwear — where photoshoots are most expensive and most difficult to cast. Runs alongside Bet 1 or as the co-lead.\n\n- **ICP:** Swim and size-inclusive women's founder/owner (tier 2 co-lead — best Meta CTR, highest acute pain)\n- **Advantage:** \"Bodies you can't shoot\" wedge (strongest for this segment) × editorial quality (\"it keeps my garments and fit intact\")\n- **Perception to drive:** #3 — \"I can ship a drop's imagery on schedule without a photographer or casting\" + #1\n- **Channel:** Paid Meta. Creative: specific to the pain (\"every body type, every size, no casting call\")\n- **Offer:** Same free trial. Demo shows swim/plus bodies specifically\n- **Success metric:** 2 paying customers from this segment within 6 weeks at CPL ≤ $20\n- **Why now:** The swim/size-inclusive ad set has the best CTR in the Meta data. The pain is acute and the use case is visually demonstrable\n\n## What's gating commitment\n\nBoth bets are ready to run creatively. The two things that gate calling them \"committed\":\n\n1. **Funnel fix first.** Signup→activation is at 46%, below the 50% target, and the magic-link modal has a known 98% drop. More traffic into a broken funnel wastes the bet. Deniz/Jason own the fix. Once activation clears 50%, both bets are greenlit.\n2. **Price-ask test.** Until we know what Kids and Swim founders will actually pay, we don't know if Growth ($99) is realistic for them or if they land on Starter ($29). The economics of Bet 1 and 2 depend on the ARPU answer. 5 interviews per segment resolves this.\n\n## What a third bet would be (when the above are proven)\n\nOnce Bet 1 and 2 have paying customers and a stable CAC, the third bet is **founder-led LinkedIn** (Deniz + Won) seeding the editorial angle at scale — not an acquisition channel, but a credibility layer that makes paid work harder. That bet needs proof from Bet 1 and 2 first.",
+          "wordCount": 645
         },
         {
           "key": "goals",
@@ -4175,8 +4175,8 @@ window.ABLO_OS = {
           "status": "complete",
           "updated": "2026-06-02",
           "owner": "Alejo",
-          "body": "# KPIs & Metrics\n\n*v0.1 model, 2026-06-02. Pre-revenue, so signup→paid is a TARGET, not observed. Refine the moment the first paid customers land.*\n\n**Funnel (definition + target):**\n\n| Stage | Definition | Current | Target |\n|---|---|---|---|\n| Cost per signup (CPL) | paid spend ÷ signups | ~$20 (wave) | ≤ $20 |\n| Signup → activation | reached try-on | ~53% (16/30) | ≥ 50% |\n| Activation → paid | bought a plan | unknown (0 paid) | the make-or-break # |\n| **Signup → paid (overall)** | — | unknown | **≥ 8%** |\n\n**Unit economics (the per-customer target Alejo asked for):**\n- **Target ARPU ≈ $80/mo** = $50 base tier + ~$30 avg expansion (credit top-ups / power tier). Annual ≈ $960. *If pricing stays flat $50/mo with no expansion, the economics get tight — push top-ups.*\n- **LTV ≈ $670** = $80/mo × ~70% gross margin × ~12-mo retention.\n- **CAC: target $200, ceiling $300** per paying customer → LTV:CAC ≈ 2.2–3.4x, payback ≈ 4–5 months.\n- **Required signup→paid ≥ 8%** at $20 CPL to hold CAC ≤ $250.\n\n**Volume at $200/wk (~$870/mo):** ~43 signups/mo → at 8% ≈ 3–4 paying customers/mo → ~$280 new MRR/mo. Small by design. The lever that decides viability here is **conversion + ARPU, not spend** — and the most dangerous unknown is signup→paid, which the funnel fix + price-ask test resolve.",
-          "wordCount": 233
+          "body": "# KPIs & Metrics\n\n*v0.2, updated 2026-06-05 with live pricing. Pre-revenue, so signup→paid is a TARGET, not observed. Refine the moment the first paid customers land.*\n\n**Funnel (definition + target):**\n\n| Stage | Definition | Current | Target |\n|---|---|---|---|\n| Cost per signup (CPL) | paid spend ÷ signups | ~$20 (wave) | ≤ $20 |\n| Signup → activation | reached try-on | ~46% (live, below 50% target) | ≥ 50% |\n| Activation → paid | bought a plan | unknown (0 confirmed paid) | the make-or-break # |\n| **Signup → paid (overall)** | — | unknown | **≥ 8%** |\n\n**Unit economics — updated to live pricing (2026-06-05):**\n\nLive ladder: Starter $29/mo (200 try-ons), Growth $99/mo (800, most popular), Scale $349/mo (3,000). Annual = 10 months paid, 2 free ($24/$83/$291 effective). Top-up packs on Growth+.\n\n| Scenario | ARPU/mo | LTV (70% margin, 12mo) | CAC ceiling (≤3x LTV) | LTV:CAC at $250 CAC |\n|---|---|---|---|---|\n| All land on Starter | $29 | $243 | $81 | 1.0x — too thin |\n| Mix Starter + Growth | ~$65 | ~$546 | $182 | 2.2x |\n| Anchor = Growth | $99 | $831 | $277 | 3.3x |\n| Annual Growth | $83 | $697 | $232 | 2.8x |\n\n- **Working assumption: Growth ($99) is the ARPU target.** It is the most popular tier and the one the pricing page anchors on. Starter ($29) is an on-ramp, not the destination.\n- **LTV at Growth anchor: ~$830.** CAC ceiling to hit 3x: ~$275. The old $300 ceiling still holds.\n- **Required signup→paid ≥ 8%** at $20 CPL → CAC ~$250 → LTV:CAC ~3.3x at Growth. Math still works, but only if most converters land on Growth, not Starter.\n- **The Starter risk:** if most paying customers stay on $29, LTV:CAC at $250 CAC is ~1x. Conversion matters less than which plan they convert to. The price-ask test should surface willingness to pay for Growth, not just any plan.\n- **Expansion path is top-up packs** (Growth+Scale), not an undefined \"power tier.\" The \"Scale per drop\" message is the built-in upsell.\n\n**Volume at $200/wk (~$870/mo):** ~43 signups/mo → at 8% ≈ 3–4 paying/mo. At Growth ARPU: ~$300-400 new MRR/mo. At Starter: ~$90-116. The ARPU mix, not just the conversion rate, decides whether this budget is viable.",
+          "wordCount": 391
         },
         {
           "key": "channel-strategy",
@@ -4309,12 +4309,11 @@ window.ABLO_OS = {
         "total": 20,
         "present": 20,
         "complete": 15,
-        "draft": 0,
-        "stub": 5,
+        "draft": 1,
+        "stub": 4,
         "missing": 0,
         "pct": 75,
         "gaps": [
-          "big-bets",
           "channel-strategy",
           "lifecycle",
           "brand-guide",
