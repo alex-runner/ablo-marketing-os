@@ -90,25 +90,46 @@ live sources  ─┘
 Edit `content.json`, then run `python3 build.py` and refresh the page. No build tools,
 no dependencies (stdlib Python only). The daily job will also pick up your edits.
 
-## The daily refresh
+## The daily run (what actually produces the commits)
 
-`refresh.sh` runs `build.py`, then commits and pushes so GitHub Pages redeploys.
-It is scheduled by launchd **daily at 09:00** via
-`~/Library/LaunchAgents/com.alejo.ablo-marketing-os.weekly.plist` (the file is named
-`weekly` for historical reasons but its `StartCalendarInterval` has no `Weekday` key,
-so it fires every day). Each daily run re-pulls the live data and re-runs the queue
-reconciler, so a stale Command Center status is caught within a day, not a week.
+Two launchd agents fire every morning. **This is the single source of truth for
+"when does it run / when did it last run."** Check the logs under `~/.local/log/`,
+*not* the repo's stale `.refresh.log` (see note below).
+
+| # | LaunchAgent | Entrypoint | Schedule | What it does | Commit it makes | Real log |
+|---|-------------|-----------|----------|--------------|-----------------|----------|
+| 1 | `com.alejo.ablo-marketing-os.weekly` | `~/.local/bin/ablo-marketing-os-refresh.sh` | **daily 09:00** | deterministic data pull: `build.py` regenerates `data.js` + `history.jsonl`, stages tracked files only, commits, pushes `origin main` | `chore: daily data refresh <date>` | `~/.local/log/ablo-marketing-os.log` |
+| 2 | `com.alejo.ablo-marketing-os-agent` | `~/.local/bin/ablo-marketing-os-agent.sh` | **Mon–Fri 09:20** | the LLM "brain": headless `claude -p` (sonnet) in an isolated worktree, re-ranks `content.json` + appends `state/lessons.jsonl`. `PUSH_MODE=live` deploys to `main` **only if** the QA self-check + secret-scan + build all pass; otherwise it pushes the proposal to branch `agent/daily` | `chore: autonomous marketing routine <date>` (only on a live deploy) | `~/.local/log/ablo-marketing-os-agent.log` |
+
+> The launchd entrypoints live in `~/.local/bin/` (not the repo) on purpose: macOS
+> TCC blocks a launchd job from executing a script inside `~/Documents` and from
+> letting `git` discover the repo via CWD. The scripts work around this by staying
+> outside `~/Documents` and pointing `git` at the repo with `--git-dir/--work-tree`.
+> The repo keeps `refresh.sh` for **manual** runs from a Terminal (which has
+> Documents access), and it must be kept in sync with the `~/.local/bin` copy.
+
+A third commit shape, `chore: daily marketing routine <date>`, is **not** a cron —
+it is the interactive `skill/marketing-os-refresh` skill run by hand in a Claude
+Code session. If you see that message, a human (Alejo) ran the playbook, not launchd.
 
 ```bash
-# run it now
+# run the data refresh now (manual, from a Terminal)
 ./refresh.sh
-# check / load / unload the schedule
+# run the brain now (manual): live deploy, skip the freshness gate
+PUSH_MODE=live AGENT_SKIP_FRESHNESS=1 ~/.local/bin/ablo-marketing-os-agent.sh
+# check / load / unload either schedule (swap the label)
 launchctl list | grep ablo-marketing-os
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.alejo.ablo-marketing-os.weekly.plist
 launchctl bootout  gui/$(id -u) ~/Library/LaunchAgents/com.alejo.ablo-marketing-os.weekly.plist
 ```
 
-Logs: `.refresh.log` (build + git output).
+> **Note on `.refresh.log`:** the repo-local `.refresh.log` (and `.launchd.*.log`)
+> are **retired**. They stopped updating on 2026-06-02 when the launchd entrypoint
+> moved to `~/.local/bin/` during the migration off the `alejoras` GitHub account —
+> which is why their last lines still show pushes to `alejoras`. The live logs are
+> the two `~/.local/log/` files in the table above. (Agent `#1`'s plist label still
+> says `weekly` for historical reasons; its `StartCalendarInterval` has no `Weekday`
+> key, so it fires daily.)
 
 ## Live PostHog experiments
 
