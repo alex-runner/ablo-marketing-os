@@ -479,16 +479,27 @@ def fetch_lifecycle(env, base):
                              "click": round(s.get("click_rate", 0) * 100, 1),
                              "conv": round(s.get("conversion_rate", 0) * 100, 1),
                              "unsub": int(s.get("unsubscribes", 0))})
-            if msgs:
-                # carry timing + read from curated message order where possible
-                curated_msgs = next((x["messages"] for x in base.get("liveFlows", [])
-                                     if x.get("id") == lf["id"]), [])
-                for i, m in enumerate(msgs):
-                    if i < len(curated_msgs):
-                        m["timing"] = curated_msgs[i].get("timing", "—")
+            # Curated message structure is authoritative (it reflects the intended
+            # A/B/C stages). Overlay live per-message stats by name match, so a flow
+            # that was just relaunched shows the right emails, not stale historical
+            # sends (e.g. the repurposed Activate flow's old onboarding messages).
+            curated_msgs = next((x.get("messages", []) for x in base.get("liveFlows", [])
+                                 if x.get("id") == lf["id"]), [])
+            lf["read"] = next((x.get("read", "") for x in base.get("liveFlows", [])
+                               if x.get("id") == lf["id"]), lf.get("read", ""))
+            if curated_msgs:
+                merged = []
+                for cm in curated_msgs:
+                    e = dict(cm)
+                    tok = cm.get("name", "").split("·")[0].strip().lower()
+                    live_m = next((m for m in msgs if tok and tok in m.get("name", "").lower()), None)
+                    if live_m:
+                        for k in ("recipients", "open", "click", "conv", "unsub"):
+                            e[k] = live_m.get(k, 0)
+                    merged.append(e)
+                lf["messages"] = merged
+            elif msgs:
                 lf["messages"] = msgs
-                lf["read"] = next((x.get("read", "") for x in base.get("liveFlows", [])
-                                   if x.get("id") == lf["id"]), "")
             if agg:
                 s = agg[0].get("statistics", {})
                 lf["agg"] = {"recipients": int(s.get("recipients", 0)),
@@ -503,35 +514,17 @@ def fetch_lifecycle(env, base):
             if cm:
                 lf["messages"], lf["read"], lf["agg"] = cm.get("messages", []), cm.get("read", ""), cm.get("agg", {})
 
-    # Prepared (built, unwired) lifecycle templates.
-    prepared = []
-    try:
-        tpls = _klaviyo(key, "templates/?fields%5Btemplate%5D=name,updated&page%5Bsize%5D=10").get("data", [])
-        for t in tpls:
-            a = t.get("attributes", {})
-            nm = a.get("name", "")
-            if nm.startswith("[Ablo Lifecycle]"):
-                grp = "Activate series" if "Activate" in nm else "AHA series" if "AHA" in nm else "Lifecycle"
-                maps = "signup → model gap" if grp == "Activate series" else "model → try-on gap" if grp == "AHA series" else ""
-                prepared.append({"name": nm, "group": grp, "maps": maps,
-                                 "updated": _short_date(a.get("updated", ""))})
-    except Exception as e:
-        log(f"Klaviyo templates failed ({e})")
-
     if live_ablo:
         life["liveFlows"] = live_ablo
-    # Only let live override the curated prepared list when it is at least as
-    # complete (the templates endpoint paginates without sort, so a short page
-    # can under-count). Curated stays authoritative otherwise.
-    if len(prepared) >= len(base.get("prepared", [])):
-        life["prepared"] = prepared
+    # The A/B/C emails are now wired into the live flows, so the "built but unwired"
+    # (prepared) concept is obsolete; leave it as the curated block has it (empty).
     if draft_ablo:
         life["draftFlows"] = draft_ablo
     if other:
         life["otherProduct"] = sorted(set(other))
     life["source"] = "Klaviyo · live API"
     life["updated"] = datetime.now(timezone.utc).strftime("%B %-d, %Y")
-    log(f"Klaviyo: {len(live_ablo)} live flow(s), {len(prepared)} prepared template(s)")
+    log(f"Klaviyo: {len(live_ablo)} live flow(s) (A/B/C wired)")
     return life
 
 

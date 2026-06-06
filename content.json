@@ -1862,83 +1862,101 @@
     ]
   },
   "lifecycleCurated": {
-    "updated": "June 3, 2026",
-    "source": "Klaviyo · cached snapshot",
-    "note": "Klaviyo already receives the product events as metrics (Model Generated, Try-on Completed, Checkout Started), so behavioral triggers are possible today. Only the Added-to-List onboarding flow is live; the behavioral flows that would fix the funnel are unbuilt even though the emails exist.",
+    "updated": "2026-06-06",
+    "source": "live",
+    "note": "The behavioral lifecycle system is live: three flows triggered by the real product events. Activate (signup→model), AHA (model→try-on), and Convert (try-on→paid) each gate on the next milestone and hand the user to the next stage the moment they hit it.",
     "liveFlows": [
       {
-        "flow": "Ablo Studio — Onboarding",
+        "flow": "1 · Activate",
         "id": "TG3ii9",
         "trigger": "Added to List",
-        "since": "May 19, 2026",
         "status": "live",
-        "agg": {
-          "recipients": 80,
-          "open": 97.5,
-          "click": 2.5,
-          "conv": 19,
-          "convUniques": 11,
-          "convLabel": "Try-on completed"
-        },
         "messages": [
           {
-            "name": "Welcome Email",
-            "timing": "On signup (Day 0)",
-            "recipients": 53,
-            "open": 96.2,
-            "click": 3.8,
-            "conv": 17.0,
-            "unsub": 1
+            "name": "Welcome",
+            "timing": "Day 0"
           },
           {
-            "name": "Follow up",
-            "timing": "After a delay (verify in Klaviyo)",
-            "recipients": 26,
-            "open": 100.0,
-            "click": 0.0,
-            "conv": 7.7,
-            "unsub": 0
+            "name": "A1 · one-sentence nudge",
+            "timing": "Day 1"
+          },
+          {
+            "name": "A2 · kill the blank page",
+            "timing": "Day 3"
+          },
+          {
+            "name": "A3 · value reframe",
+            "timing": "Day 6"
           }
         ],
-        "read": "Elite open rates (96-100%) but near-zero clicks (2.5%). The emails get seen and do not pull anyone back into the product. Add one clear, single CTA per email tied to the next funnel step."
+        "read": "Targets the signup→model leak (~37% never generate a model). Flow filter: Model Generated = 0; exits the instant they make one (→ AHA)."
+      },
+      {
+        "flow": "2 · AHA",
+        "id": "TBsbE5",
+        "trigger": "Model Generated",
+        "status": "live",
+        "messages": [
+          {
+            "name": "B1 · the missing half",
+            "timing": "Day 1"
+          },
+          {
+            "name": "B2 · show the outcome",
+            "timing": "Day 3"
+          },
+          {
+            "name": "B3 · last nudge",
+            "timing": "Day 6"
+          }
+        ],
+        "read": "Targets the model→try-on leak. Flow filter: Tryon Completed = 0; exits on first try-on (→ Convert)."
+      },
+      {
+        "flow": "3 · Convert",
+        "id": "YnqMAH",
+        "trigger": "Try-on Completed",
+        "status": "live",
+        "messages": [
+          {
+            "name": "C1 · reinforce the AHA",
+            "timing": "+2h"
+          },
+          {
+            "name": "C2 · the wedge",
+            "timing": "Day 2"
+          },
+          {
+            "name": "C3 · quality proof",
+            "timing": "Day 4"
+          },
+          {
+            "name": "C4 · the paid ask",
+            "timing": "Day 7"
+          },
+          {
+            "name": "C5 · objection + 1:1",
+            "timing": "Day 11"
+          }
+        ],
+        "read": "The make-or-break: try-on→paid (the 45%→8% cliff). Needs a real paid-exit; until a Subscription Started event is instrumented it relies on a manual Paying-customers suppression segment."
       }
     ],
-    "prepared": [
+    "prepared": [],
+    "opportunities": [
       {
-        "name": "[Ablo Lifecycle] Activate A1 — one-sentence nudge",
-        "group": "Activate series",
-        "maps": "signup → model gap",
-        "updated": "May 30"
+        "title": "Instrument a paid event (Subscription Started)",
+        "trigger": "dev: Jason",
+        "exit": "—",
+        "use": "Give Convert a real paid-exit so it stops emailing customers who already bought, and finally produce the activation→paid number.",
+        "impact": "Unblocks the Convert exit + the missing conversion metric"
       },
       {
-        "name": "[Ablo Lifecycle] Activate A2 — kill the blank page",
-        "group": "Activate series",
-        "maps": "signup → model gap",
-        "updated": "May 30"
-      },
-      {
-        "name": "[Ablo Lifecycle] Activate A3 — value reframe",
-        "group": "Activate series",
-        "maps": "signup → model gap",
-        "updated": "May 30"
-      },
-      {
-        "name": "[Ablo Lifecycle] AHA B1 — the missing half",
-        "group": "AHA series",
-        "maps": "model → try-on gap",
-        "updated": "May 30"
-      },
-      {
-        "name": "[Ablo Lifecycle] AHA B2 — show the outcome",
-        "group": "AHA series",
-        "maps": "model → try-on gap",
-        "updated": "May 30"
-      },
-      {
-        "name": "[Ablo Lifecycle] AHA B3 — last nudge + offer help",
-        "group": "AHA series",
-        "maps": "model → try-on gap",
-        "updated": "May 30"
+        "title": "Segment-personalize the Convert wedge (C2)",
+        "trigger": "vertical property",
+        "exit": "—",
+        "use": "Tailor C2 to Kids vs Swim/size-inclusive once the vertical profile property is populated.",
+        "impact": "Sharper relevance on the make-or-break sequence"
       }
     ],
     "draftFlows": [
@@ -1954,29 +1972,6 @@
       "New Launchpad Subs - Nano Creators",
       "Christmas Popup Flow",
       "Essential Flow Recommendation (×3, unconfigured)"
-    ],
-    "opportunities": [
-      {
-        "title": "Activate the 'generated a model, never tried on' segment",
-        "trigger": "Model Generated metric",
-        "exit": "Try-on Completed",
-        "use": "Wire the AHA B1-B3 templates into a 3-step flow.",
-        "impact": "Targets the model → try-on drop. The emails already exist."
-      },
-      {
-        "title": "Rescue the 'signed up, never generated' segment",
-        "trigger": "Added to List, no Model Generated in 24h",
-        "exit": "Model Generated",
-        "use": "Wire the Activate A1-A3 templates.",
-        "impact": "Targets the 33% activation gap, the biggest post-signup leak."
-      },
-      {
-        "title": "Convert the 'tried on, never checked out' segment",
-        "trigger": "Try-on Completed",
-        "exit": "Checkout Started",
-        "use": "New value / upgrade email at the aha moment.",
-        "impact": "Targets the 77% who reach the aha but never start payment."
-      }
     ]
   },
   "channels": {
