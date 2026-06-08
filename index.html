@@ -456,6 +456,7 @@
 
     // ---- icons (lucide-style) ----
     const I = {
+      pie:'M12 2v10l8.66 5A10 10 0 1 0 12 2z',
       home:'M3 11l9-8 9 8M5 10v10h14V10',
       target:'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0',
       users:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8a4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
@@ -872,6 +873,32 @@
           ]})))):null,
         (lc.otherProduct&&lc.otherProduct.length)? frag(blocktitle('Other products (not Ablo Studio)'),
           h('div',{class:'chips'}, lc.otherProduct.map(x=>chip(x,'muted')))):null
+      );
+    };
+
+    S.audience = ()=>{ const a=(L.audience)||D.audienceCurated||{}; const live=(L.refreshedSources||{}).audience;
+      const dims=a.dimensions||[];
+      const dimCard = d => { const max=Math.max(1, ...(d.bars||[]).map(b=>b.pct||0));
+        return card({children:[
+          h('h3',{style:'margin:0 0 14px;font-size:14px'}, d.title,
+            h('span',{class:'small',style:'color:var(--muted);font-weight:400'}, ' · n='+(d.basis||a.n||0))),
+          h('div',{style:'display:flex;flex-direction:column;gap:10px'}, (d.bars||[]).map(b=>
+            h('div',{style:'display:flex;align-items:center;gap:10px'},
+              h('div',{style:'width:104px;font-size:12.5px;color:var(--text);text-transform:capitalize'}, (b.label||'').replace(/_/g,' ')),
+              h('div',{style:'flex:1;height:8px;border-radius:9px;background:var(--glass);overflow:hidden'},
+                h('div',{style:'height:100%;width:'+(((b.pct||0)/max)*100).toFixed(0)+'%;background:var(--accent-dim);border-radius:9px'})),
+              h('div',{style:'min-width:62px;text-align:right;font-size:12.5px'},
+                h('b',{},(b.pct||0)+'%'), h('span',{style:'color:var(--muted)'}, ' ('+(b.count||0)+')')))))
+        ]}); };
+      return frag(
+        sectionHead('Audience','Who is actually signing up', a.intro),
+        h('div',{class:'freshness'},
+          h('span',{class:'pill'}, h('span',{class:'dot '+(live?'live':'cached')}), (a.source||(live?'HubSpot · live':'HubSpot · seeded snapshot'))),
+          a.asOf? h('span',{},'As of '+a.asOf+' · n='+(a.n||0)):null),
+        a.note? h('p',{class:'small',style:'margin:-6px 0 16px;color:var(--muted)'}, a.note):null,
+        h('div',{class:'grid g3'}, dims.map(dimCard)),
+        (a.reads&&a.reads.length)? frag(blocktitle('What the data says'),
+          card({cls:'flat',children:[bullets(a.reads)]})):null
       );
     };
 
@@ -1477,6 +1504,7 @@
       ]},
       {group:'Growth', items:[
         {id:'funnel',label:'Funnel',icon:I.funnel},
+        {id:'audience',label:'Audience',icon:I.pie},
         {id:'lifecycle',label:'Lifecycle',icon:I.mail},
         {id:'channels',label:'Channels',icon:I.layers},
         {id:'calendar',label:'Content Calendar',icon:I.calendar},

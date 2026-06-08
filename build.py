@@ -578,6 +578,92 @@ def fetch_clickup(env):
             "all": [{"name": r["name"], "status": r["status"], "type": r["type"], "url": r["url"]} for r in rows]}
 
 
+# --------------------------------------------------------------- Audience ----
+# Self-reported onboarding answers synced to HubSpot as ablo_* contact props
+# (see ablo-tech lead.routes.ts). The OS reads them back as an aggregate so
+# "who is signing up" is a live picture, not a one-off pull.
+HUBSPOT_API = "https://api.hubapi.com"
+# Canonical buckets so "women"/"womenswear" and "toddler"/"baby" don't fragment.
+_SEG_MAP = {"women": "womenswear", "men": "menswear", "toddler": "kids_baby", "baby": "kids_baby"}
+_AUDIENCE_DIMS = [
+    ("ablo_segment", "segment", "Model type created", _SEG_MAP),
+    ("ablo_product_category", "category", "What they sell", {}),
+    ("ablo_preferred_style", "style", "Output style they want", {}),
+]
+
+
+def fetch_audience(env, curated):
+    """Live aggregate of Studio onboarding answers from HubSpot (ablo_* props),
+    overlaid on the curated seed. Returns the curated block (with its seeded
+    snapshot) when the token is missing or read-scoped out — so the tab always
+    renders and silently upgrades to live once the CRM token gets read scope.
+
+    The current ablo-studio-server token is write-only; a 403 here is expected
+    until crm.objects.contacts.read is added. We log and fall back, never break.
+    """
+    token = env.get("HUBSPOT_TOKEN")
+    if not token:
+        return curated
+
+    props = [d[0] for d in _AUDIENCE_DIMS] + ["email"]
+    results, after, pages = [], None, 0
+    try:
+        while pages < 20:  # safety cap: 20 * 100 = 2000 contacts
+            body = {
+                "filterGroups": [{"filters": [
+                    {"propertyName": "ablo_source", "operator": "EQ", "value": "ablo_studio_onboarding"}]}],
+                "properties": props, "limit": 100,
+            }
+            if after:
+                body["after"] = after
+            data = json.dumps(body).encode()
+            req = urllib.request.Request(
+                f"{HUBSPOT_API}/crm/v3/objects/contacts/search", data=data, method="POST",
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                page = json.loads(r.read().decode())
+            results.extend(page.get("results", []))
+            after = (((page.get("paging") or {}).get("next") or {}).get("after"))
+            pages += 1
+            if not after:
+                break
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as e:
+        log(f"HubSpot audience fetch failed ({e}) — using seeded snapshot")
+        return curated
+
+    # Drop internal test accounts so the picture is real users only.
+    recs = [r for r in results if "@spacerunners.com" not in (r.get("properties", {}).get("email") or "")]
+    n = len(recs)
+    if n == 0:
+        log("HubSpot audience: 0 real contacts — using seeded snapshot")
+        return curated
+
+    dims = []
+    for prop, key, title, norm in _AUDIENCE_DIMS:
+        counts = {}
+        for r in recs:
+            v = (r.get("properties", {}).get(prop) or "").strip()
+            if not v:
+                continue
+            for part in v.split(","):
+                part = norm.get(part.strip(), part.strip())
+                if part:
+                    counts[part] = counts.get(part, 0) + 1
+        bars = [{"label": k, "count": c, "pct": round(100 * c / n)}
+                for k, c in sorted(counts.items(), key=lambda x: -x[1])]
+        dims.append({"key": key, "title": title, "basis": n, "bars": bars})
+
+    out = dict(curated)  # keep curated intro/reads/note; overwrite the live numbers
+    out.update({
+        "source": "HubSpot · live",
+        "n": n,
+        "asOf": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "dimensions": dims,
+    })
+    log(f"HubSpot audience: {n} contacts across {len(dims)} dimensions")
+    return out
+
+
 # -------------------------------------------------------------- Instagram ----
 IG_ACCOUNT = "17841404306089983"  # @ablo.ai business account
 
@@ -1853,6 +1939,11 @@ def build():
     instagram = fetch_instagram(env)
     paying = fetch_paying(env)
 
+    # Audience: who is signing up, from their onboarding answers (HubSpot ablo_*).
+    # Falls back to the curated seeded snapshot when the CRM token can't read yet.
+    audience = fetch_audience(env, content.get("audienceCurated", {}))
+    audience_live = audience.get("source", "").startswith("HubSpot · live")
+
     # Daily time-series — snapshot today and rewrite history.jsonl.
     history = snapshot_history(env, funnel, meta_live, lifecycle, instagram, paying=paying, landing=landing_live)
 
@@ -1956,6 +2047,10 @@ def build():
         {"key": "clickup",   "label": "ClickUp",   "state": _health(bool(env.get("CLICKUP_TOKEN_ABLO")), clickup is not None)},
         {"key": "instagram", "label": "Instagram", "state": _health(bool(env.get("META_ADS_TOKEN")), instagram is not None)},
         {"key": "linkedin",  "label": "LinkedIn",  "state": _health(bool(env.get("LINKEDIN_ADS_TOKEN")), linkedin_live is not None)},
+        # HubSpot is "off" (calm grey) until a read actually lands — the current
+        # token is write-only, so a failed read is a known scope gap, not an
+        # outage. Flips to live once crm.objects.contacts.read is granted.
+        {"key": "hubspot",   "label": "HubSpot",   "state": _health(audience_live, audience_live)},
     ]
     for _s in source_health:
         _s["detail"] = _HDETAIL[_s["state"]]
@@ -1965,6 +2060,7 @@ def build():
         "meta": meta_live,
         "funnel": funnel,
         "lifecycle": lifecycle,
+        "audience": audience,
         "channels": channels_live,
         "landingPages": landing_live,
         "clickup": clickup,
@@ -1982,6 +2078,7 @@ def build():
             "landingPages": landing_live is not None,
             "clickup": clickup is not None,
             "instagram": instagram is not None,
+            "audience": audience_live,
             "history": history.get("phLive", False),
         },
         "sourceHealth": source_health,

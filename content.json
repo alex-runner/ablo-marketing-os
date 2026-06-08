@@ -2633,5 +2633,96 @@
       }
     ],
     "consume": "For structured data, read data.js (window.ABLO_OS) at the site root: every section is a key, live data sits under .live. The Brand Voice tab carries a copy-paste voice card built for content agents."
+  },
+  "audienceCurated": {
+    "intro": "Who is actually signing up, from what they tell us during onboarding. Self-reported, so it is intent and identity, not behavior. Auto-upgrades to a live HubSpot pull once the CRM token gets read scope.",
+    "source": "HubSpot · seeded snapshot",
+    "n": 30,
+    "asOf": "2026-06-08",
+    "note": "Self-reported during Studio onboarding (category, model type, display style). Multi-select fields sum past 100%.",
+    "dimensions": [
+      {
+        "key": "segment",
+        "title": "Model type created",
+        "basis": 30,
+        "bars": [
+          {
+            "label": "womenswear",
+            "count": 26,
+            "pct": 87
+          },
+          {
+            "label": "kids_baby",
+            "count": 5,
+            "pct": 17
+          },
+          {
+            "label": "menswear",
+            "count": 2,
+            "pct": 7
+          }
+        ]
+      },
+      {
+        "key": "category",
+        "title": "What they sell",
+        "basis": 30,
+        "bars": [
+          {
+            "label": "clothing",
+            "count": 25,
+            "pct": 83
+          },
+          {
+            "label": "jewelry",
+            "count": 6,
+            "pct": 20
+          },
+          {
+            "label": "footwear",
+            "count": 5,
+            "pct": 17
+          },
+          {
+            "label": "bags_accessories",
+            "count": 3,
+            "pct": 10
+          }
+        ]
+      },
+      {
+        "key": "style",
+        "title": "Output style they want",
+        "basis": 30,
+        "bars": [
+          {
+            "label": "on_model",
+            "count": 22,
+            "pct": 73
+          },
+          {
+            "label": "still_life",
+            "count": 6,
+            "pct": 20
+          },
+          {
+            "label": "flatlay",
+            "count": 5,
+            "pct": 17
+          },
+          {
+            "label": "ghost",
+            "count": 1,
+            "pct": 3
+          }
+        ]
+      }
+    ],
+    "reads": [
+      "Womenswear is the dominant wedge: 87% of signups create a women's model. Menswear is a rounding error (7%).",
+      "Kids & baby is a real second segment at 17% - enough to justify the /try-kids variant already shipped.",
+      "Almost everyone sells clothing (83%); footwear, jewelry and accessories show up only as secondary categories.",
+      "On-model is what they come for (73%) - the core value prop. Still-life and flatlay are meaningful secondary asks (~20% each)."
+    ]
   }
 }
