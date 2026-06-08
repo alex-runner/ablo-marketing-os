@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 8, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-08T16:00:43.328825+00:00"
+    "updatedISO": "2026-06-08T16:01:26.809908+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -3196,7 +3196,12 @@ window.ABLO_OS = {
           "messages": [
             {
               "name": "Welcome",
-              "timing": "Day 0"
+              "timing": "Day 0",
+              "recipients": 103,
+              "open": 95.1,
+              "click": 2.9,
+              "conv": 0,
+              "unsub": 1
             },
             {
               "name": "A1 · one-sentence nudge",
@@ -3512,7 +3517,7 @@ window.ABLO_OS = {
         "done": 27,
         "in progress": 6,
         "Closed": 19,
-        "to do": 29,
+        "to do": 28,
         "review": 4
       },
       "open": [
@@ -3571,15 +3576,6 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         },
         {
-          "name": "Connect the Agentic Marketing team to MarketingOS",
-          "status": "to do",
-          "color": "#87909e",
-          "type": "open",
-          "url": "https://app.clickup.com/t/86babeemg",
-          "due": "",
-          "assignee": "Alejo Escrivá"
-        },
-        {
           "name": "Clean up inert retired-seed data in defaultModels.ts",
           "status": "to do",
           "color": "#87909e",
@@ -3623,9 +3619,18 @@ window.ABLO_OS = {
           "url": "https://app.clickup.com/t/86ba9nfny",
           "due": "",
           "assignee": "Alejo Escrivá"
+        },
+        {
+          "name": "Fix Klaviyo welcome-email link tracking + UTMs",
+          "status": "to do",
+          "color": "#87909e",
+          "type": "open",
+          "url": "https://app.clickup.com/t/86ba9mpba",
+          "due": "",
+          "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 85
+      "total": 84
     },
     "instagram": {
       "username": "ablo.ai",
@@ -4217,14 +4222,6 @@ window.ABLO_OS = {
           "volume": null,
           "action": "Marketing work the OS surfaces nowhere; wire a Command Center item or dismiss",
           "status": "escalated"
-        },
-        {
-          "key": "86babeemg",
-          "dimension": "clickup",
-          "where": "ClickUp Ablo Studio · “Connect the Agentic Marketing team to MarketingOS” [to do]",
-          "volume": null,
-          "action": "Marketing work the OS surfaces nowhere; wire a Command Center item or dismiss",
-          "status": "escalated"
         }
       ],
       "stale": [
@@ -4236,7 +4233,7 @@ window.ABLO_OS = {
       ],
       "autowired": [],
       "summary": {
-        "blind": 7,
+        "blind": 6,
         "autowired": 0,
         "stale": 1
       }
