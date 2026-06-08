@@ -2062,7 +2062,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 5, 2026",
+    "updated": "June 8, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2070,9 +2070,9 @@
         "sev": "high",
         "title": "Run the price-ask test",
         "owner": "Alejo",
-        "status": "Not started. 25 days to end-June goal. Most urgent business action.",
+        "status": "Not started. 22 days to end-June goal. The only path to a first paying customer that Marketing controls.",
         "targets": "first paying customer · willingness to pay",
-        "body": "With 25 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "body": "With 22 days to the end-June goal and signup→paid still unmeasured, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does. Start with Agenzia Kids and Water Vixen Swim.",
         "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
       },
       {
@@ -2080,46 +2080,39 @@
         "sev": "high",
         "title": "Verify purchase_completed actually fires",
         "owner": "Product / Data",
-        "status": "8 checkout starters confirmed (8% of signups). 0 paid verified. Potentially live revenue we cannot see.",
+        "status": "8 checkout starters (7.3% of 110 signups). 0 paid confirmed. No new checkout starters since Jun 5.",
         "targets": "checkout → paid",
-        "body": "8 people started checkout (8% of signups, at the ≥8% target) but 0 purchases are confirmed because no success event fires in PostHog. With 25 days to the end-June goal, we cannot afford to discover this event is broken on the first real sale. Run a sandbox purchase to confirm purchase_completed reaches PostHog end-to-end. If any of the 8 converted, we already have paying customers we do not know about.",
+        "body": "8 users started checkout but no purchase_completed event fires in PostHog. With 22 days to end-June, we cannot afford to discover the event is broken on the first real sale. Run a sandbox purchase to confirm end-to-end. If any of the 8 completed, there are paying customers the OS cannot see.",
         "ladder": "Measurement · unblocks signup-to-paid (the make-or-break KPI)"
       },
       {
         "rank": "3",
         "sev": "high",
-        "title": "Remove magic-link from signup modal",
+        "title": "Fix TBS garment-builder: 79% view-to-Generate drop on /try",
         "owner": "Product",
-        "status": "ESCALATED. Modal completion dropped to 37% all-window (from 44% peak) and hit a new low of 23% on Jun 4 (9/39). The /try builder now funnels paid traffic into the magic-link wall, amplifying the leak. Most urgent conversion fix buildable today.",
-        "targets": "open → signup",
-        "body": "Google-primary lifted completion from 33% to a 44% peak, but the all-window post-May-27 rate has normalized to 37% and the /try value-first builder is making it worse: Jun 4 saw 39 modal opens with only 9 completions (23%), a new low. Email still out-clicks Google (64 vs 59 clicks) and magic-link completes at only 7% (4 of 58 requesters log in). Removing the modal magic-link option eliminates the dominant failure path at the source. The signup modal should be Google-only; keep password recovery below the fold for returning users.",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%"
+        "status": "NEW LEAK (launched Jun 4). 173 TBS viewers, only 37 Generate clicks in 3 days: 79% drop. Signup abandonment spiked to 34 modal opens on Jun 4 (day high). Paid traffic routing to /try is losing 4 in 5 users before they see the product.",
+        "targets": "/try signup rate above 10% · TBS generate rate",
+        "body": "The /try value-first flow is the best-converting paid landing (10.0% signup, 21/211) but the new TBS garment-builder launched Jun 4 with a crippling funnel: 173 viewed, 78 picked a category, 64 added a garment, 44 picked a sample, only 37 clicked Generate (79% loss). The flow has too many sequential steps before the payoff. Simplify TBS: either collapse to two steps or add a visible fast-track to generate. Fix before Wave 3 (planned Jun 18) or route paid away from /try until resolved. UTM-tagged post-fix cohort is the clean measure of lift.",
+        "ladder": "Lever 1/2 · Convert the visit → /try signup rate, paid CAC"
       },
       {
         "rank": "4",
         "sev": "high",
-        "title": "Wire the prepared lifecycle emails",
-        "owner": "Marketing",
-        "status": "Unwired. Activate A1-A3 and AHA B1-B3 exist in Klaviyo, no behavioral flow live. Post-AHA conversion flow in ClickUp (86ba70be6, in progress).",
-        "targets": "signup → model · model → try-on · try-on → checkout",
-        "body": "Three unwired flows target the three biggest post-signup gaps. (1) Activate A1-A3: trigger on Added-to-List with no Model Generated in 24h, targets the 36% who never generate a model. (2) AHA B1-B3: trigger on Model Generated with no Try-on Completed in 24h, targets the model-to-try-on drop. (3) Post-AHA conversion (ClickUp 86ba70be6, in progress): trigger on Try-on Completed with no Checkout Started in 48h, targets the 82% who reach the aha but never start payment. All three triggers are live Klaviyo metrics. Zero new copy for (1) and (2).",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
-        "verify": {
-          "clickup": [
-            "Klaviyo flow",
-            "email flows"
-          ],
-          "doneWhen": "clickup"
-        }
+        "title": "Remove magic-link from signup modal",
+        "owner": "Product",
+        "status": "ESCALATED. All-window modal completion: 41.7% (110/264). Magic-link path completes at 12% (8/67 requesters). Structural fix still not shipped.",
+        "targets": "open → signup",
+        "body": "The Google-primary shift lifted modal completion from 33.3% to 41.7% (all-window, since May 27). But 67 modal openers still choose magic-link and only 8 complete (12% finish rate). The remaining lever is removal: a Google-only modal eliminates the dominant failure path. Target: signup completion ≥ 50%. Due date for PRED-2026-06-04-remove-magic-link is Jun 18.",
+        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%"
       },
       {
         "rank": "5",
         "sev": "high",
-        "title": "Close the activation gap",
+        "title": "Close the activation gap and the rage-click cluster",
         "owner": "Product",
-        "status": "BELOW TARGET. Signup→try-on (aha) = 46% vs target 50%. Signup→model = 64% (was 69%). Coachmarks experiment (PH-374260) running, low sample, not conclusive.",
-        "targets": "signup → try-on · aha ≥ 50%",
-        "body": "Activation (signup→try-on) has slipped below the 50% target: 39 of 85 signups (46%) reach the aha. Signup→model is 64% (54/85), down from the 69% baseline when the coachmarks experiment launched. The coachmarks A/B (PH-374260) is live but needs more traffic to conclude. Rage-click cluster on /studio persists. Pull session replays on non-activators to find the stall point while the experiment collects sample.",
+        "status": "DETERIORATING. Signup→model: 59% (65/110), down from 64% on Jun 5 and 69% at baseline. Signup→try-on (aha): 44% (48/110) vs 50% target. Rage-clicks on /studio rising: 6 Jun 5, 7 Jun 6, 8 Jun 7 (highest since launch). Coachmarks A/B (PH-374260) live, underpowered.",
+        "targets": "signup → model · signup → try-on · aha ≥ 50%",
+        "body": "Activation is going the wrong direction. Signup→model fell from 64% to 59% and the rage-click cluster on /studio is now 25 unique rage-clickers, 57 total clicks, trending up. The coachmarks A/B needs more sample before calling; do not conclude under ~200 per variant. Pull session replays on non-activators to find the rage-click source. The TBS fix (rank 3) may also lift activation indirectly by removing pre-generate friction.",
         "ladder": "Lever 2 · Activation → signup-to-activation ≥ 50%",
         "verify": {
           "clickup": [
@@ -2131,12 +2124,32 @@
       },
       {
         "rank": "6",
+        "sev": "high",
+        "title": "Instrument Subscription Started event to close the Convert loop",
+        "owner": "Product / Data",
+        "status": "All three lifecycle flows now live: Activate (TG3ii9, May 19), AHA (TBsbE5, Jun 5), Convert (YnqMAH, Jun 6). Convert has no paid-exit event; it will email users who already purchased. Wire before the first real sale.",
+        "targets": "Convert flow paid-exit · signup-to-paid measurement",
+        "body": "The lifecycle stack is fully wired. Activate has 103 Welcome recipients at 95.1% open rate. AHA (B1-B3) launched Jun 5 with first 2 recipients. Convert (C1-C5) launched Jun 6; C4 (priced ask, Day 7) fires around Jun 13 for aha-reachers who triggered since launch. The missing piece: Subscription Started event (dev: Jason). Without it, Convert cannot suppress paying users and the OS cannot produce a true signup→paid number. Wire before the first paying customer completes checkout.",
+        "ladder": "Measurement + Lever 2 · make-or-break KPI"
+      },
+      {
+        "rank": "7",
         "sev": "med",
-        "title": "Win the homepage + paid landing pages (CRO)",
+        "title": "Fix product URL importer (76% failure rate)",
+        "owner": "Product",
+        "status": "NEW LEAK. 13 of 17 product URL submissions fail (76%). Blocks the import → try-on path for users bringing their own catalog.",
+        "targets": "product_imported · import → try-on",
+        "body": "The product URL importer fails for 13 of 17 attempts. Users who want to dress a specific garment from their store cannot complete the workflow. This blocks the most intent-rich activation path: import a SKU, dress the model, see the result. Fix scrape reliability (Shopify CDN and dynamic product pages are common culprits) before Wave 3 paid campaign (Jun 18).",
+        "ladder": "Lever 2 · Activation → import→try-on → aha"
+      },
+      {
+        "rank": "8",
+        "sev": "med",
+        "title": "Win the homepage and paid landing pages (CRO)",
         "owner": "Marketing / Product",
-        "status": "Homepage / converts 7.6% (44/579). /try 5.5% (6/109, tbs* cohort). /toddler 2.0% vs /plus-size 6.8%. CRO gap clear, hero variant not yet built. Blocked on Product to ship the A/B variant.",
+        "status": "/ converts 8.2% (52/636). /try 10.0% (21/211, tbs cohort). /toddler 2.9% (5/174). /try-kids 10.0% (5/50). A/B hero variant not yet built. Blocked on Product.",
         "targets": "land → engage · land → signup",
-        "body": "The homepage (/) takes 579 visitors yet only 23.1% click any CTA and 7.6% sign up, the largest drop in the funnel by raw volume. Proof the page is the lever: /toddler converts 2.0% while /plus-size converts 6.8% on comparable paid intent. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM. Lifting land→signup from 7.6% to 9% is ~18% more signups at zero added spend.",
+        "body": "Homepage (/) takes 636 visitors; only 23.7% click any CTA and 8.2% sign up. Proof the page is the lever: /toddler converts 2.9% while /plus-size converts 6.8% on comparable paid intent. /try and /try-kids both convert at 10.0% with the value-first flow. Before Wave 3 (Jun 18), build and A/B a sharpened /toddler hero that leads from the bodies-you-cannot-shoot wedge. Tag each variant with a UTM for a clean read. Note: 57% of all signups come from Direct/untagged; tag the next LinkedIn founder post (Jun 11, Won) to see if founder-post conversions are being misattributed.",
         "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
         "verify": {
           "clickup": [
@@ -2148,37 +2161,48 @@
         }
       },
       {
-        "rank": "7",
+        "rank": "9",
         "sev": "med",
         "title": "Stop the value-capture leak",
         "owner": "Product / Marketing",
-        "status": "8 of 39 try-on users export. 20.5% capture rate (up from 17%).",
-        "targets": "try-on → download (20.5%)",
-        "body": "Only 8 of 39 users who reach the aha export a result. Add a download / share prompt the instant the try-on renders, so the value leaves the app. Lower-stage than activation, so it ranks below the gap that gates it.",
+        "status": "10 of 48 try-on users export a result. 20.8% capture rate (up marginally from 20.5%).",
+        "targets": "try-on → download (20.8%)",
+        "body": "Only 10 of 48 aha-reachers download a result. A post-try-on download or share prompt at the moment the image renders would lift this rate. Lower-stage than activation, so it ranks below the gaps that gate it.",
         "ladder": "Lever 2/3 · Activation-to-paid + ARPU"
       },
       {
-        "rank": "8",
+        "rank": "10",
         "sev": "med",
         "title": "Keep Meta delivery healthy, fix the Kids pixel",
         "owner": "Autopilot / Alejo",
-        "status": "Delivery live. CPL $4.91 on current flight (improving, was $6.09 Jun 3). Pixel fix still open.",
+        "status": "Delivery live. CPL $7.70 on current flight (up from $4.91 Jun 5; spend $153.91, 20 signups). Kids pixel still under-fires on /toddler.",
         "targets": "top of funnel",
-        "body": "Current flight CPL is $4.91 (down from $6.09 on Jun 3) on $63.84 spend with 13 Meta signups. Kids pixel still under-fires on /toddler and /plus-size, making Kids conversions look worse than they are. Fix the pixel so the autopilot can concentrate budget accurately on Kids and Swim.",
+        "body": "Current flight CPL is $7.70 (up from $4.91 on Jun 5) on $153.91 spend with 20 Meta signups. Still under the $20 target. Kids pixel under-fires on /toddler and /plus-size, making Kids conversions look worse than they are. Fix the pixel before Wave 3 (Jun 18) so the autopilot can concentrate budget on Kids and Swim.",
         "ladder": "Lever 1 · Grow top-of-funnel → CPL ≤ $20",
         "verify": {
           "signal": "metaDeliveryLive"
         }
       },
       {
-        "rank": "9",
+        "rank": "11",
+        "sev": "done",
+        "title": "Wire the lifecycle email flows (Activate, AHA, Convert)",
+        "owner": "Marketing",
+        "status": "Shipped. Activate (TG3ii9) live May 19: 103 Welcome recipients, 95.1% open, 2.9% click. AHA (TBsbE5) live Jun 5. Convert (YnqMAH) live Jun 6. Remaining gap: Subscription Started event (see rank 6).",
+        "done": true,
+        "targets": "signup → model · model → try-on · try-on → checkout",
+        "body": "All three behavioral flows are live. The lifecycle stack targets every post-signup gap in sequence: Activate (signup→model), AHA (model→try-on), Convert (try-on→paid). The remaining open work is the Subscription Started instrumentation (rank 6) and the C2 segment personalization (Kids vs Swim).",
+        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%"
+      },
+      {
+        "rank": "12",
         "sev": "done",
         "title": "Fix the signup-modal leak",
         "owner": "Product",
-        "status": "Shipped. Modal completion 33% → 44% peak, normalized to 37% all-window (+4pp sustained). Residual magic-link leak escalated in rank 3.",
+        "status": "Shipped. Modal completion 33.3% → 41.7% all-window (+8.4pp sustained). Google is the primary option. Residual magic-link leak escalated in rank 4.",
         "done": true,
         "targets": "open → signup",
-        "body": "Google one-click is now the primary full-width button, email demoted. Completion rose from 33% to a 44% peak; the all-window post-May-27 rate has settled at 37% (+4pp sustained). The original 44% peak was a 10-day window artifact. Residual magic-link leak escalated in rank 3.",
+        "body": "Google one-click is now the primary full-width button; email/password removed. All-window completion rose from 33.3% to 41.7% (before/after May 27). The original 44% peak was a 10-day window artifact; the steady-state lift is +8.4pp. Residual magic-link completion at 12% (8/67) is the remaining lever, escalated in rank 4.",
         "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
         "verify": {
           "signal": "signupModalShipped",
