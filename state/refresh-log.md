@@ -42,3 +42,5 @@ Newest entries on top.
 ## 2026-06-04 (fix shipped: /try measurement)
 - Implemented the /try measurement fix in build.py: new _correct_try_row() re-measures /try by its tbs_* cohort reach (per-event distinct, not intersected on the entry person-set, which fragmentation was collapsing to generate=5). landingPages /try now reads 91 viewed -> 25 generate -> 24 wall -> 4 signed = 4.4% (was a fake 1.5%); homepage unchanged at 7.4%.
 - Hardened: monotonic clamp on the funnel, graceful degrade if the tbs_ pull fails, dropped the noisy 'customize' union step. Lesson LES-2026-06-04-anon-funnel-reach recorded. ClickUp 86ba2wp4t resolved by this change.
+
+- [2026-06-08] Ad ops: repointed Kids paid ad (120248623833700414) /toddler -> /try-kids via twin creative 1313242573665691 (same adset/budget). Kids = top-spend segment on the worse page (2.9% vs 10%). PENDING_REVIEW at change time. Caveat: lp_test UTMs now on this traffic. Revert: creative 2450333338727221.

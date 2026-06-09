@@ -575,12 +575,14 @@
     "tryExperiment": {
       "id": "OS-TRY-VS-HOME",
       "name": "Paid landing A/B: /try (value-first) vs homepage",
-      "status": "Running, measuring",
+      "status": "Concluded -- value-first wins, rolled out as default",
       "flag": "Meta landing split (not a PostHog A/B)",
       "metric": "visitor → signup, per entry page",
       "started": "in progress (ClickUp 86ba9n6my)",
       "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-      "signal": "Live comparison computes on each refresh."
+      "signal": "Concluded -- see conclusion. Value-first pages are now the paid default.",
+      "concluded": true,
+      "conclusion": "Concluded 2026-06-08: /try 10% vs homepage 8.2% signup, /try-kids 10% vs /toddler 2.9%. Directional (thin samples) but consistent across every comparison. Decision: stop waiting for significance at this traffic level, make the value-first pages the default for all paid, repoint kids off /toddler. A/B retired so attention moves down-funnel to the binding constraint (signup->paid, 0 paying customers), not more top-of-funnel optimization."
     },
     "policy": "Focus beats volume. Run no more than 2 to 3 experiments at once, one primary test per funnel stage. With traffic this low, more concurrent tests dilute the signal and slow every conclusion. Ship the winner, then start the next."
   },
