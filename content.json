@@ -2064,7 +2064,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 9, 2026",
+    "updated": "June 10, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2072,128 +2072,102 @@
         "sev": "high",
         "title": "Run the price-ask test",
         "owner": "Alejo",
-        "status": "Not started. 21 days to end-June goal. Most urgent business action.",
+        "status": "Not started. 20 days to end-June goal. Most urgent business action.",
         "targets": "first paying customer · willingness to pay",
-        "body": "With 21 days to the end-June goal and signup to paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "body": "With 20 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
         "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
       },
       {
         "rank": "2",
         "sev": "high",
-        "title": "Verify purchase_completed actually fires",
-        "owner": "Product / Data",
-        "status": "9 checkout starters confirmed (7% of 121 signups). 0 paid verified. Potentially live revenue we cannot see.",
-        "targets": "checkout → paid",
-        "body": "9 people started checkout but 0 purchases are confirmed because no success event fires in PostHog. With 21 days to the end-June goal, we cannot afford to discover this event is broken on the first real sale. Run a sandbox purchase to confirm purchase_completed reaches PostHog end-to-end. If any of the 9 converted, we already have paying customers we do not know about.",
-        "ladder": "Measurement · unblocks signup-to-paid (the make-or-break KPI)"
+        "title": "Make paid conversion visible (purchase_completed + Subscription Started)",
+        "owner": "Alejo + Jason",
+        "status": "10 lifetime checkout starters, 0 purchases visible. purchase_completed: 0 users in 30d, unverified. Klaviyo Convert flow live with no paid-exit event.",
+        "targets": "signup→paid ≥ 8% (measurable at all)",
+        "body": "Two blind events gate everything: purchase_completed (PostHog) has never fired on a real purchase, so a sale could already have happened invisibly. Verify via the sandbox test purchase (ClickUp 86ba9kmj6) and cross-check Stripe for the 10 checkout starters. Separately the live Convert flow needs a Subscription Started exit event (Jason) or it keeps emailing buyers and signup→paid stays unreadable.",
+        "ladder": "KPI · signup→paid ≥ 8%, you cannot improve a number you cannot see"
       },
       {
         "rank": "3",
         "sev": "high",
-        "title": "Fix the /try category-selection drop",
-        "owner": "Product",
-        "status": "New. 60% of paid visitors bounce before selecting a category (101 of 251 tbs page views proceed). /try is now the default paid landing after OS-TRY-VS-HOME concluded Jun 8. This is the active top-of-funnel bottleneck.",
-        "targets": "tbs page view → category → signup",
-        "body": "Since value-first launched Jun 4, 251 people viewed the /try page and only 101 (40%) picked a category. That is the single largest drop in the now-default paid funnel. After category selection the funnel holds (84 added a garment, 48 generated, 47 hit the signup wall, 27 signed = 57% wall to signup). The entire loss is at step one. Fix: larger tap targets, a one-line descriptor per category, or a pre-selected default. A 15pp category-selection lift translates to roughly 9 more signups per 251 visitors at current downstream rates.",
-        "ladder": "Lever 1/2 · Top-of-funnel → /try signup rate, lower blended CPL"
+        "title": "Close the aha→paid leak (post-try-on prompt)",
+        "owner": "Alejo (proposal) + Jason (build)",
+        "status": "54 lifetime aha users → 10 checkouts → 0 visible purchases. Pricing reach 11 lifetime (spine: 9 of 125 signups). Downloads 18.5% lifetime (10/54), 22.7% last-7d.",
+        "targets": "tryon→checkout · downloads",
+        "body": "The biggest funnel leak by leverage: users hit the aha moment and meet no upgrade or download prompt at the moment of value. Proposal for Jason (build blocked on him, near-term win-prob low; Alejo writes the proposal today): a post-try-on prompt offering download + upgrade. If tryon→checkout does not rise within ~2 weeks of shipping, exposure was not the constraint and the blocker is price. Absorbs the old value-capture item.",
+        "ladder": "KPI · signup→paid ≥ 8% · revenue lever 1"
       },
       {
         "rank": "4",
         "sev": "high",
         "title": "Close the activation gap",
-        "owner": "Product",
-        "status": "BELOW TARGET. Signup to aha (try-on) = 43% (52/121) vs target 50%. Signup to model = 57% (69/121). Coachmarks experiment (PH-374260) running, low sample. Rage-click cluster on /studio easing (1 on Jun 9, down from 7-8/day) but not gone.",
-        "targets": "signup → try-on · aha ≥ 50%",
-        "body": "Activation has slipped below target: 52 of 121 signups (43%) reach the aha. Model-generation is 57% (69/121). The coachmarks A/B (PH-374260) is live but needs more traffic to conclude. The rage-click cluster on /studio has eased but has recurred daily for two weeks. Pull session replays on non-activators to find the stall point while the experiment collects sample.",
-        "ladder": "Lever 2 · Activation → signup-to-activation ≥ 50%",
-        "verify": {
-          "clickup": [
-            "coachmarks",
-            "onboarding"
-          ],
-          "doneWhen": "clickup"
-        }
+        "owner": "Alejo",
+        "status": "BELOW TARGET. Signup→model 40.7% last-7d (daily-sum method; d7-reach method reads 44.8%) vs 69% on Jun 3. Likely paid-mix dilution.",
+        "targets": "activation_rate · target 50%+",
+        "body": "Before treating the slide as a product regression, split last-7d activation by UTM channel: if Direct also fell it is a product issue, otherwise it is channel mix and the fix is paid-audience quality, not onboarding. Adjacent evidence for the mix hypothesis (different metric and window, suggestive only): lifetime signup→try-on is 32% for the Meta cohort vs 57% for Direct. Coachmarks (PH-374260) ended in PostHog Jun 9, inconclusive (32/41 exposures, live read, not yet persisted), flag serving the variant at 100%. Activate flow live since May 19. PRED-2026-06-03-activate-flow due Jun 24.",
+        "ladder": "Project · activation gates every paid dollar"
       },
       {
         "rank": "5",
         "sev": "med",
-        "title": "Homepage CRO (organic)",
-        "owner": "Marketing / Product",
-        "status": "Homepage / converts 8.5% (56/655). /try (paid default) converts 10.5% (27/256). /toddler 3.9% (7/178). /try-kids 9.9% (7/71). Paid landing optimization shifts to tbs UX (rank 3). Hero work targets organic traffic.",
-        "targets": "land → engage · land → signup (organic)",
-        "body": "With /try now the default paid landing (OS-TRY-VS-HOME concluded Jun 8), homepage CRO focuses on the organic segment. The homepage takes 655 visitors at 8.5% signup; /toddler at 3.9% remains the worst paid-kids performer. Run the MKT1 positioning check on the homepage hero and A/B a sharper variant leading from the bodies-you-cannot-shoot wedge. Tag with UTM for a clean read. Lifting 8.5% to 10% is roughly 18% more organic signups at zero spend.",
-        "ladder": "Lever 1/2 · Convert the visit → land-to-signup, lower blended CAC",
-        "verify": {
-          "clickup": [
-            "homepage",
-            "hero CRO"
-          ],
-          "doneWhen": "clickup"
-        }
+        "title": "Keep Meta delivery healthy, fix the Kids pixel",
+        "owner": "Alejo",
+        "status": "Flight CPL $8.61 (24 signups, $206.71), under target. Last-24h CPL ~$23.6 (Δspend $23.64 on 1 signup), weekly trend rising 4.74→8.61.",
+        "targets": "CPL < $20 · delivery on converting segments",
+        "body": "Spend is concentrated on Kids+Swim by design: the size-inclusive and menswear ad sets were deliberately paused Jun 2 to keep the funded sets above Meta's learning floor. The Kids /toddler pixel under-fires (qualitative per data.js; ad-set-level counts are not persisted, so treat live-read figures as unaudited), so Meta optimizes partially blind on the top segment. Quality flag: paid drives 45% of signups but 1 of 10 checkouts; Direct drives 9.",
+        "ladder": "Ops · repeatable acquisition channel with stable CAC"
       },
       {
         "rank": "6",
         "sev": "med",
-        "title": "Stop the value-capture leak",
-        "owner": "Product / Marketing",
-        "status": "10 of 52 try-on users export. 19.2% capture rate.",
-        "targets": "try-on → download (19.2%)",
-        "body": "Only 10 of 52 users who reach the aha export a result. Add a download and share prompt the instant the try-on renders, so the value leaves the app. Lower-stage than activation, so it ranks below the gap that gates it.",
-        "ladder": "Lever 2/3 · Activation-to-paid + ARPU"
+        "title": "Fix the /try category-selection drop",
+        "owner": "Alejo + Product",
+        "status": "60% of /try paid visitors bounce before selecting a category (Jun-9 read: 101 of 251 progressed). Downstream holds (57% wall→signup).",
+        "targets": "/try view→signup (tbs cohort)",
+        "body": "Since value-first launched Jun 4, 251 people viewed the /try page and only 101 (40%) picked a category. That is the single largest drop in the now-default paid funnel. After category selection the funnel holds (84 added a garment, 48 generated, 47 hit the signup wall, 27 signed = 57% wall to signup). The entire loss is at step one. Fix: larger tap targets, a one-line descriptor per category, or a pre-selected default. A 15pp category-selection lift translates to roughly 9 more signups per 251 visitors at current downstream rates.",
+        "ladder": "Revenue lever 1 · /try is the paid default, this is its biggest on-page leak. PRED-2026-06-09-tbs-category-fix due Jun 23 (moot if unshipped)."
       },
       {
         "rank": "7",
         "sev": "med",
-        "title": "Keep Meta delivery healthy, fix the Kids pixel",
-        "owner": "Autopilot / Alejo",
-        "status": "Delivery live. CPL $7.96 on current flight ($183.07 spend, 23 Meta signups). Well below $20 target. Kids pixel fix still open.",
-        "targets": "top of funnel",
-        "body": "Current CPL is $7.96 on $183.07 spend with 23 Meta signups this flight, healthy and well below the $20 target. Kids pixel still under-fires on /toddler, making Kids conversions look worse than they are. Fix the pixel so the autopilot can concentrate budget accurately on Kids and Swim when the next flight scales.",
-        "ladder": "Lever 1 · Grow top-of-funnel → CPL ≤ $20",
-        "verify": {
-          "signal": "metaDeliveryLive"
-        }
+        "title": "Win the homepage + paid landing pages (CRO)",
+        "owner": "Alejo + Product",
+        "status": "/try leads the paid split on live data: 9.9% (28/282, tbs cohort) vs home 8.8% (59/668). /try-kids 8.6% vs /toddler 3.9%. Kids paid repointed /toddler→/try-kids Jun 8.",
+        "targets": "home_signup_pct · paid landing view→signup",
+        "body": "OS-TRY-VS-HOME retired. Value-first is the defensible paid default (no evidence it is worse) but NOT a powered win: conversions are not significant and the two arms are measured under different attribution methods. Spend testing energy down-funnel. Next lever is the homepage hero variant, still blocked on Product. PRED-2026-06-04-homepage-cro due Jul 19.",
+        "ladder": "Revenue lever 1 · more qualified signups from core segments"
       },
       {
         "rank": "8",
-        "sev": "done",
-        "title": "Wire the prepared lifecycle emails",
-        "owner": "Marketing",
-        "status": "Shipped. All three behavioral flows live: Activate (May 19), AHA (Jun 5, 3 recipients), Convert (Jun 6). Next: instrument Subscription Started so Convert has a real paid-exit and the activation to paid number becomes visible.",
-        "done": true,
-        "targets": "signup → model · model → try-on · try-on → checkout",
-        "body": "All three lifecycle flows are wired. Activate (A1-A3) targets the signup to model gap. AHA (B1-B3) targets model to try-on. Convert (C1-C5) is the make-or-break try-on to paid sequence. The remaining gap: Convert needs a Subscription Started paid-exit event to stop emailing customers who already bought and to make the activation to paid rate finally visible.",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%"
+        "sev": "med",
+        "title": "Hold the signup-modal gains",
+        "owner": "Alejo",
+        "status": "Improving. Modal completion 43.5% last-7d (back from the 23% Jun-4 low). magic_link_requested at 0/day since removal.",
+        "targets": "signup_completion_rate",
+        "body": "Google-primary + magic-link removal are holding (+10pts vs the 33% baseline). Watch only, no new test on this surface until PRED-2026-06-04-remove-magic-link scores on Jun 18.",
+        "ladder": "Project · signup-modal drop was the #1 blocker, now mid-recovery"
       },
       {
         "rank": "9",
         "sev": "done",
-        "title": "Remove magic-link from signup modal",
-        "owner": "Product",
-        "status": "Shipped (monitoring). magic_link_requested = 0 for 5 straight days (Jun 5-9). Modal completion Jun 8: 76% (13/17). Lifetime all-window: 38% (101/267). PRED-2026-06-04-remove-magic-link resolves Jun 18.",
         "done": true,
-        "targets": "open → signup",
-        "body": "Magic-link is no longer being requested (zero for five days). Recent daily modal completion has recovered strongly: Jun 8 = 76%, Jun 6 = 58%. Lifetime all-window is still 38%, lagged by the earlier magic-link era. The prediction resolves Jun 18. If the 14-day post-removal window clears 50%, it is a hit.",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%"
+        "title": "Wire the prepared lifecycle emails",
+        "owner": "Alejo",
+        "status": "Resolved. All 3 flows live: Activate (May 19), AHA (Jun 5), Convert (Jun 6). Residual gap (Convert paid-exit) folded into rank 2.",
+        "targets": "lifecycle coverage",
+        "body": "Activate A1-A3, AHA B1-B3 and Convert C1-C5 are live behavioral flows in Klaviyo. Early volume tiny (B1: 5 recipients, 20% open). The remaining work is instrumentation, not wiring.",
+        "ladder": "Revenue lever 2 · convert signups already in the funnel"
       },
       {
         "rank": "10",
         "sev": "done",
-        "title": "Fix the signup-modal leak (Google primary)",
-        "owner": "Product",
-        "status": "Shipped. Modal completion 33% to 44% peak, normalized to 37% all-window (+4pp sustained). Residual magic-link leak addressed in rank 9 (now done).",
         "done": true,
-        "targets": "open → signup",
-        "body": "Google one-click is the primary full-width button, email demoted. Completion rose from 33% to a 44% peak; the all-window post-May-27 rate settled at 37% (+4pp sustained). The original 44% peak was a 10-day window artifact.",
-        "ladder": "Lever 2 · Conversion → signup-to-paid ≥ 8%",
-        "verify": {
-          "signal": "signupModalShipped",
-          "clickup": [
-            "Google button",
-            "sign-up modal"
-          ],
-          "doneWhen": "signal"
-        }
+        "title": "Fix the signup-modal leak",
+        "owner": "Alejo",
+        "status": "Shipped. Modal completion 33% → 44% peak, 43.5% current last-7d. Magic-link removal holding at 0 requests/day.",
+        "targets": "signup_completion_rate",
+        "body": "Google-primary signup shipped and held. Follow-through tracked in rank 7.",
+        "ladder": "Project · was the #1 blocker"
       }
     ],
     "loop": "Two layers keep this queue honest. Every build, a deterministic reconciler cross-checks each item against the live signals it already pulled (experiment results, the autopilot's delivery status, and matching ClickUp tasks) and flags any card whose hand-written status disagrees with reality, so stale priorities surface immediately. On top of that, the marketing-os-refresh reasoning pass re-ranks the queue by KPI impact and rewrites the items. Ranking is still human-owned; the reconciler is the always-on guardrail between reasoning passes.",
@@ -2276,15 +2250,15 @@
         },
         {
           "k": "Signup → paid",
-          "v": "unknown (0 paid confirmed)"
+          "v": "≥ 8%"
         },
         {
-          "k": "Signup → activation · goal ≥ 50%",
-          "v": "43% (52/121)"
+          "k": "Signup → activation",
+          "v": "≥ 50%"
         },
         {
-          "k": "CPL · goal ≤ $20",
-          "v": "$7.96"
+          "k": "CPL",
+          "v": "≤ $20"
         }
       ],
       "rule": "Every item below earns its place by moving one of these. The agent ranks by goal-impact: anything that does not ladder up to a KPI does not belong in the queue."
