@@ -525,13 +525,13 @@
     "liveFallback": [
       {
         "name": "Studio onboarding coachmarks",
-        "status": "Running",
+        "status": "Concluded - inconclusive",
         "flag": "studio-onboarding-coachmarks",
         "hypothesis": "Tests whether showing the first-run coachmarks (the guided tips on the create-model screen: describe, refine selectors, generate, ready-made model) increases the share of users who generate a model. control = no coachmarks; test = coachmarks shown. 50/50 split, 100% rollout. Exposure fires when a user reaches the create-model step.",
         "metric": "model_generated",
         "started": "May 30, 2026",
         "url": "https://us.posthog.com/project/419152/experiments/374260",
-        "signal": "Collecting data. Exposures are low (single digits) while paid delivery is paused, so results are not yet conclusive.",
+        "signal": "Ended Jun 9 in PostHog (status: Complete per data.js live.experiments). Exposures below the ~200/variant power floor; no winner called. Flag now serving test variant at 100% rollout. With current traffic, prefer ship-and-measure before/after over PostHog A/B splits.",
         "id": "PH-374260"
       }
     ],
@@ -2102,7 +2102,7 @@
         "sev": "high",
         "title": "Close the activation gap",
         "owner": "Alejo",
-        "status": "BELOW TARGET. Signup→model 40.7% last-7d (daily-sum method; d7-reach method reads 44.8%) vs 69% on Jun 3. Likely paid-mix dilution.",
+        "status": "BELOW TARGET. Signup→tryon (full activation) 43% (54/125 spine). Signup→model 57% spine (71/125), down from 69% Jun-3; paid-mix dilution confirmed. Rage-clicks on /studio easing: 7-8/day Jun 6-7, down to 1/day Jun 9-10. Cohorted last-7d model rate ~40-45%. Coachmarks PH-374260 concluded Jun 9 inconclusive, flag at 100%. PRED-2026-06-03-activate-flow due Jun 24.",
         "targets": "activation_rate · target 50%+",
         "body": "Before treating the slide as a product regression, split last-7d activation by UTM channel: if Direct also fell it is a product issue, otherwise it is channel mix and the fix is paid-audience quality, not onboarding. Adjacent evidence for the mix hypothesis (different metric and window, suggestive only): lifetime signup→try-on is 32% for the Meta cohort vs 57% for Direct. Coachmarks (PH-374260) ended in PostHog Jun 9, inconclusive (32/41 exposures, live read, not yet persisted), flag serving the variant at 100%. Activate flow live since May 19. PRED-2026-06-03-activate-flow due Jun 24.",
         "ladder": "Project · activation gates every paid dollar"
@@ -2122,9 +2122,9 @@
         "sev": "med",
         "title": "Fix the /try category-selection drop",
         "owner": "Alejo + Product",
-        "status": "60% of /try paid visitors bounce before selecting a category (Jun-9 read: 101 of 251 progressed). Downstream holds (57% wall→signup).",
+        "status": "61% of /try paid visitors bounce before selecting a category (Jun-10 live: 107 of 272 progressed, 39%). Downstream holds (~60% wall→signup).",
         "targets": "/try view→signup (tbs cohort)",
-        "body": "Since value-first launched Jun 4, 251 people viewed the /try page and only 101 (40%) picked a category. That is the single largest drop in the now-default paid funnel. After category selection the funnel holds (84 added a garment, 48 generated, 47 hit the signup wall, 27 signed = 57% wall to signup). The entire loss is at step one. Fix: larger tap targets, a one-line descriptor per category, or a pre-selected default. A 15pp category-selection lift translates to roughly 9 more signups per 251 visitors at current downstream rates.",
+        "body": "Since value-first launched Jun 4, 272 people viewed the /try page and only 107 (39%) picked a category. That is the single largest drop in the now-default paid funnel. After category selection the funnel holds (85 added a garment, 48 generated, 47 hit the signup wall, ~28 signed = ~60% wall to signup). The entire loss is at step one. Fix: larger tap targets, a one-line descriptor per category, or a pre-selected default. A 15pp category-selection lift translates to roughly 10 more signups per 272 visitors at current downstream rates.",
         "ladder": "Revenue lever 1 · /try is the paid default, this is its biggest on-page leak. PRED-2026-06-09-tbs-category-fix due Jun 23 (moot if unshipped)."
       },
       {
