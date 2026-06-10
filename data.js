@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 10, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-10T15:31:39.037878+00:00"
+    "updatedISO": "2026-06-10T16:00:43.342346+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,7 +51,7 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 125 of 290 opens finish (~43%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 67). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
+      "Fix the signup-modal drop. Only 125 of 291 opens finish (~43%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 67). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
       "Close the try-on activation gap. 140 entered the studio, 71 generated a model (49% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
@@ -2766,10 +2766,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 44% (95/218). Change: +10 pts.",
-        "delta": 10.2,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 43% (95/219). Change: +10 pts.",
+        "delta": 10.0,
         "before": 33.3,
-        "after": 43.6,
+        "after": 43.4,
         "shipped": true
       },
       {
@@ -2780,7 +2780,7 @@ window.ABLO_OS = {
         "metric": "visitor → signup, per entry page",
         "started": "in progress (ClickUp 86ba9n6my)",
         "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-        "signal": "Homepage 8.8% signup (59/668) vs /try 9.9% (28/282, tbs_* cohort). /try value-first funnel: 282 land -> 49 generate -> 48 hit the signup wall -> 28 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
+        "signal": "Homepage 8.8% signup (59/669) vs /try 9.9% (28/282, tbs_* cohort). /try value-first funnel: 282 land -> 49 generate -> 48 hit the signup wall -> 28 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
         "concluded": true,
         "conclusion": "Concluded 2026-06-08: /try 10% vs homepage 8.2% signup, /try-kids 10% vs /toddler 2.9%. Directional (thin samples) but consistent across every comparison. Decision: stop waiting for significance at this traffic level, make the value-first pages the default for all paid, repoint kids off /toddler. A/B retired so attention moves down-funnel to the binding constraint (signup->paid, 0 paying customers), not more top-of-funnel optimization.",
         "tryFunnel": {
@@ -2851,10 +2851,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 496,
-            "d30": 1247,
-            "d90": 1247,
-            "all": 1247
+            "d7": 495,
+            "d30": 1248,
+            "d90": 1248,
+            "all": 1248
           }
         },
         {
@@ -2864,9 +2864,9 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 95,
-            "d30": 267,
-            "d90": 267,
-            "all": 267
+            "d30": 268,
+            "d90": 268,
+            "all": 268
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2876,10 +2876,10 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 133,
-            "d30": 290,
-            "d90": 290,
-            "all": 290
+            "d7": 134,
+            "d30": 291,
+            "d90": 291,
+            "all": 291
           }
         },
         {
@@ -2901,7 +2901,7 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 65,
+            "d7": 64,
             "d30": 140,
             "d90": 140,
             "all": 140
@@ -2913,7 +2913,7 @@ window.ABLO_OS = {
           "sub": "model_generated",
           "group": "Activate",
           "counts": {
-            "d7": 26,
+            "d7": 25,
             "d30": 71,
             "d90": 71,
             "all": 71
@@ -3116,12 +3116,7 @@ window.ABLO_OS = {
           "messages": [
             {
               "name": "Welcome",
-              "timing": "Day 0",
-              "recipients": 118,
-              "open": 94.1,
-              "click": 2.5,
-              "conv": 0,
-              "unsub": 1
+              "timing": "Day 0"
             },
             {
               "name": "A1 · one-sentence nudge",
@@ -3129,12 +3124,7 @@ window.ABLO_OS = {
             },
             {
               "name": "A2 · kill the blank page",
-              "timing": "Day 3",
-              "recipients": 13,
-              "open": 7.7,
-              "click": 0.0,
-              "conv": 0,
-              "unsub": 0
+              "timing": "Day 3"
             },
             {
               "name": "A3 · value reframe",
@@ -3311,7 +3301,7 @@ window.ABLO_OS = {
         },
         {
           "channel": "Meta Ads",
-          "users": 828,
+          "users": 829,
           "signups": 56,
           "tryons": 18,
           "checkouts": 1,
@@ -3350,10 +3340,10 @@ window.ABLO_OS = {
       "pages": [
         {
           "path": "/",
-          "visitors": 668,
-          "engagers": 165,
+          "visitors": 669,
+          "engagers": 166,
           "signups": 59,
-          "engagePct": 24.7,
+          "engagePct": 24.8,
           "signupPct": 8.8,
           "isLanding": true
         },
@@ -3423,7 +3413,7 @@ window.ABLO_OS = {
           "isLanding": true
         }
       ],
-      "insight": "Homepage takes 668 visitors but only 24.7% click any CTA and 8.8% sign up. /toddler converts 3.9% to signup vs /try at 9.9%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "insight": "Homepage takes 669 visitors but only 24.8% click any CTA and 8.8% sign up. /toddler converts 3.9% to signup vs /try at 9.9%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
       "tryFunnel": {
         "landed": 282,
@@ -3559,7 +3549,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223574,
+      "followers": 223563,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3910,9 +3900,9 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-10",
-          "landed": 32,
-          "engaged": 6,
-          "modal": 6,
+          "landed": 34,
+          "engaged": 7,
+          "modal": 7,
           "signups": 3,
           "models": 2,
           "imports": 1,
@@ -3923,11 +3913,11 @@ window.ABLO_OS = {
           "cpl": 8.61,
           "signups_meta": 24,
           "paying_customers": 0,
-          "ig_followers": 223574,
+          "ig_followers": 223563,
           "activation_rate": 57,
           "aha_rate": 43,
           "payment_rate": 7,
-          "home_engage_pct": 24.7,
+          "home_engage_pct": 24.8,
           "home_signup_pct": 8.8
         }
       ],
