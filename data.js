@@ -12,9 +12,9 @@ window.ABLO_OS = {
     "ownerBD": "Michael Scarpellini, Head of Partnerships (enterprise / out of self-serve scope)",
     "northStar": "Liquid revenue via self-serve. First paying customers plus a repeatable acquisition channel with stable CAC.",
     "endOfJuneGoal": "First paying customer.",
-    "updated": "June 10, 2026",
+    "updated": "June 11, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-10T16:00:43.342346+00:00"
+    "updatedISO": "2026-06-11T16:01:07.100618+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -51,8 +51,8 @@ window.ABLO_OS = {
       }
     ],
     "currentFocus": [
-      "Fix the signup-modal drop. Only 125 of 291 opens finish (~43%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 67). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
-      "Close the try-on activation gap. 140 entered the studio, 71 generated a model (49% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
+      "Fix the signup-modal drop. Only 134 of 306 opens finish (~44%). Google is the primary one-click CTA (since May 27) and now leads recent signups. Email is the demoted secondary option, yet still the top method overall (49 vs Google's 75). Keep it; don't drop email. The real leak is modal completion, not the auth method.",
+      "Close the try-on activation gap. 148 entered the studio, 73 generated a model (51% never do). Find the broken or slow control before the first generate. Free-tier credit rebalance shipped to give new users two full generations.",
       "Run the price-ask test. Manually onboard 5 kids founders and 5 swim / size-inclusive founders, watch them hit try-on, then ask what they would pay. Free signups tell us almost nothing about revenue.",
       "Find one repeatable acquisition channel with stable CAC. The autopilot plus a $200/week validation budget is the test rig."
     ]
@@ -2067,7 +2067,7 @@ window.ABLO_OS = {
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 10, 2026",
+    "updated": "June 11, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2261,7 +2261,7 @@ window.ABLO_OS = {
         },
         {
           "k": "CPL · goal ≤ $20",
-          "v": "$8.61"
+          "v": "$8.12"
         }
       ],
       "rule": "Every item below earns its place by moving one of these. The agent ranks by goal-impact: anything that does not ladder up to a KPI does not belong in the queue."
@@ -2718,13 +2718,13 @@ window.ABLO_OS = {
       },
       {
         "label": "Lifetime signups",
-        "value": "125",
+        "value": "134",
         "sub": "all-time, all sources",
         "tone": "default"
       },
       {
         "label": "Blended CAC",
-        "value": "$10.30",
+        "value": "$9.77",
         "sub": "all paid ÷ all signups · target ≤ $20",
         "tone": "default"
       },
@@ -2736,8 +2736,8 @@ window.ABLO_OS = {
       },
       {
         "label": "Total ad spend",
-        "value": "$1,288",
-        "sub": "Meta ~$838 + LinkedIn $450",
+        "value": "$1,309",
+        "sub": "Meta ~$859 + LinkedIn $450",
         "tone": "default"
       },
       {
@@ -2766,10 +2766,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 43% (95/219). Change: +10 pts.",
-        "delta": 10.0,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 44% (104/234). Change: +11 pts.",
+        "delta": 11.1,
         "before": 33.3,
-        "after": 43.4,
+        "after": 44.4,
         "shipped": true
       },
       {
@@ -2780,54 +2780,54 @@ window.ABLO_OS = {
         "metric": "visitor → signup, per entry page",
         "started": "in progress (ClickUp 86ba9n6my)",
         "hypothesis": "Letting paid visitors generate a shot BEFORE signup (/try, value-first) should lift visitor→signup vs the homepage's signup-first wall. Control = homepage URL, variant = /try, identical ad set otherwise. This is a Meta-level landing split, so it has no PostHog experiment object; the OS measures it live from per-landing-page signup rate plus the /try value-first (tbs_*) funnel.",
-        "signal": "Homepage 8.8% signup (59/669) vs /try 9.9% (28/282, tbs_* cohort). /try value-first funnel: 282 land -> 49 generate -> 48 hit the signup wall -> 28 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
+        "signal": "Homepage 9.3% signup (64/689) vs /try 10.5% (34/325, tbs_* cohort). /try value-first funnel: 325 land -> 56 generate -> 55 hit the signup wall -> 34 signup. Note: /try is measured by its tbs_* cohort (true entry signal), correcting the earlier first-pageview-pathname undercount (the old 1.5% was an attribution artifact). Signups remain a floor: anonymous->identified magic-link stitching can split a signer off the cohort (ClickUp 86ba2wp4t). Thin sample, directional only.",
         "concluded": true,
         "conclusion": "Concluded 2026-06-08: /try 10% vs homepage 8.2% signup, /try-kids 10% vs /toddler 2.9%. Directional (thin samples) but consistent across every comparison. Decision: stop waiting for significance at this traffic level, make the value-first pages the default for all paid, repoint kids off /toddler. A/B retired so attention moves down-funnel to the binding constraint (signup->paid, 0 paying customers), not more top-of-funnel optimization.",
         "tryFunnel": {
-          "landed": 282,
-          "generated": 49,
-          "hitWall": 48,
-          "signed": 28
+          "landed": 325,
+          "generated": 56,
+          "hitWall": 55,
+          "signed": 34
         }
       }
     ],
     "meta": {
-      "spend": "$206.71",
-      "signups": 24,
-      "cpl": "$8.61",
+      "spend": "$227.45",
+      "signups": 28,
+      "cpl": "$8.12",
       "status": "Live",
-      "asOf": "Jun 10, 2026",
+      "asOf": "Jun 11, 2026",
       "deliveryFlag": "",
-      "funnelHeadline": "Funnel stays healthy (CTR 3.5%, signup 9.5%, activation 64%, all above benchmark) and the top lever is unchanged: the 'try before signup' page still loses ~61% before anyone picks a category, the single largest drop in the funnel.",
+      "funnelHeadline": "Funnel holds above benchmark (landed→signup 9.9%, activation 64%); top lever is unchanged, the try-before-signup page still loses ~62% before anyone picks a category, and the signup-modal leak stays healed, with desktop the only segment still lagging.",
       "funnelSuggestions": [
         {
           "step": "Tried the product",
           "severity": "high",
-          "title": "The 'try before signup' page loses ~61% before anyone picks a category",
-          "evidence": "Since this flow launched Jun 4: 272 people viewed the tbs page, only 107 selected a category (39%), the single largest drop in the whole funnel (~165 leave before doing anything). After that it holds: 85 added a garment, 48 clicked generate, 47 hit the signup wall. The leak is entirely at step one."
+          "title": "Try-before-signup loses ~62% at step one, before the garment picker",
+          "evidence": "Since TBS launched Jun 4: 312 viewed the page → only 119 selected a category (38%, the biggest single drop) → 95 added a garment → 53 clicked generate → 52 hit the signup wall. All TBS events are the same age (first_seen 2026-06-04), so the in-funnel ratios are trustworthy."
         },
         {
           "step": "Tried the product",
           "severity": "high",
-          "title": "Rage-clicks keep landing on /studio right before the aha moment",
-          "evidence": "30 people rage-clicked 62 times on /studio, ~25% of the 118 who entered the studio, and by far the most-rageclicked surface (next is /pricing at 3). It is easing (Jun 6-7 ran 7-8/day, Jun 9-10 down to 1/day) but has recurred almost daily for three weeks, so it is not a launch-week artifact."
+          "title": "Rage-clicks on /studio persist right before the aha moment",
+          "evidence": "32 people rage-clicked 64 times on /studio (~25% of the 127 who entered the studio), by far the most-rageclicked surface (next is /pricing at 3). Not decaying: Jun 6: 7, Jun 7: 8, Jun 8: 4, Jun 10: 4, recurring almost daily for three weeks, so not a launch-week artifact."
         },
         {
           "step": "Signed up",
           "severity": "medium",
-          "title": "Signup-modal leak is mostly healed; the remaining gap is desktop",
-          "evidence": "Lifetime modal completion is 38.5% (104 of 270), but the round-trip leak is plugged: magic_link_requested has been 0 for 6 straight days (Jun 5-10), down from 14/day at launch, and only 8 of 67 requesters ever completed login (12%). The lagging segment is now desktop at 32.5% (27 of 83) vs mobile 41% (77 of 186)."
+          "title": "Signup-modal leak is healed; the remaining gap is desktop",
+          "evidence": "Lifetime modal completion is 40% (114 of 288), and the round-trip leak is plugged: magic_link_requested has been 0 for 6 straight days (Jun 5-11), down from 14/day at launch, and only 10 of 67 requesters ever completed login. The lagging segment is desktop at 34% (30 of 88) vs mobile 41% (82 of 198). The '×' close button was the 3rd-most-clicked target site-wide (112 clicks)."
         },
         {
           "step": "Tried the product",
           "severity": "low",
           "title": "URL-import failures are historical, not a live wall, deprioritise",
-          "evidence": "The 14-of-21 lifetime failure rate is dominated by the May-20 launch-day spike (24 failures that day alone). Recent days are quiet: Jun 8 = 0, Jun 9 = 1, Jun 10 = 0, and product_imported reached 39 people. Live volume is too thin to treat as a current bottleneck."
+          "evidence": "The 15-of-22 lifetime failure rate is dominated by the May-20 launch-day spike (24 failures that day alone). Recent days are quiet: Jun 8 = 0, Jun 9 = 1, Jun 10 = 0, Jun 11 = 1, and product_imported reached 42 people. Live volume is too thin to treat as a current bottleneck."
         }
       ]
     },
     "funnel": {
-      "updated": "June 10, 2026",
+      "updated": "June 11, 2026",
       "source": "PostHog · live HogQL",
       "windows": [
         "d7",
@@ -2851,10 +2851,10 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 495,
-            "d30": 1248,
-            "d90": 1248,
-            "all": 1248
+            "d7": 444,
+            "d30": 1300,
+            "d90": 1307,
+            "all": 1307
           }
         },
         {
@@ -2863,10 +2863,10 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 95,
-            "d30": 268,
-            "d90": 268,
-            "all": 268
+            "d7": 86,
+            "d30": 274,
+            "d90": 278,
+            "all": 278
           },
           "benchmark": "1 in 5 visitors engage"
         },
@@ -2876,10 +2876,10 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 134,
-            "d30": 291,
-            "d90": 291,
-            "all": 291
+            "d7": 106,
+            "d30": 304,
+            "d90": 306,
+            "all": 306
           }
         },
         {
@@ -2888,10 +2888,10 @@ window.ABLO_OS = {
           "sub": "signup_completed",
           "group": "Acquire",
           "counts": {
-            "d7": 58,
-            "d30": 125,
-            "d90": 125,
-            "all": 125
+            "d7": 56,
+            "d30": 134,
+            "d90": 134,
+            "all": 134
           },
           "benchmark": "8.5% land→signup (target 5%)"
         },
@@ -2901,10 +2901,10 @@ window.ABLO_OS = {
           "sub": "studio_entered",
           "group": "Activate",
           "counts": {
-            "d7": 64,
-            "d30": 140,
-            "d90": 140,
-            "all": 140
+            "d7": 63,
+            "d30": 147,
+            "d90": 148,
+            "all": 148
           }
         },
         {
@@ -2913,10 +2913,10 @@ window.ABLO_OS = {
           "sub": "model_generated",
           "group": "Activate",
           "counts": {
-            "d7": 25,
-            "d30": 71,
-            "d90": 71,
-            "all": 71
+            "d7": 23,
+            "d30": 72,
+            "d90": 73,
+            "all": 73
           },
           "benchmark": "67% signup→model (target 50%)"
         },
@@ -2927,9 +2927,9 @@ window.ABLO_OS = {
           "group": "Activate",
           "counts": {
             "d7": 21,
-            "d30": 53,
-            "d90": 53,
-            "all": 53
+            "d30": 57,
+            "d90": 57,
+            "all": 57
           }
         },
         {
@@ -2938,10 +2938,10 @@ window.ABLO_OS = {
           "sub": "tryon_completed",
           "group": "Aha",
           "counts": {
-            "d7": 22,
-            "d30": 54,
-            "d90": 54,
-            "all": 54
+            "d7": 23,
+            "d30": 57,
+            "d90": 58,
+            "all": 58
           },
           "aha": true
         },
@@ -2952,9 +2952,9 @@ window.ABLO_OS = {
           "group": "Value",
           "counts": {
             "d7": 5,
-            "d30": 10,
-            "d90": 10,
-            "all": 10
+            "d30": 12,
+            "d90": 12,
+            "all": 12
           }
         },
         {
@@ -2986,38 +2986,38 @@ window.ABLO_OS = {
       "spine": {
         "label": "Activation spine",
         "note": "Same user, of everyone who signed up (since launch). Strictly monotonic, this is the cleanest drop story.",
-        "denominator": 125,
+        "denominator": 134,
         "steps": [
           {
             "label": "Signed up",
-            "count": 125,
+            "count": 134,
             "pct": 100
           },
           {
             "label": "Entered studio",
-            "count": 123,
+            "count": 131,
             "pct": 98
           },
           {
             "label": "Generated a model",
-            "count": 71,
-            "pct": 57
+            "count": 73,
+            "pct": 54
           },
           {
             "label": "Imported a product",
-            "count": 53,
-            "pct": 42
+            "count": 57,
+            "pct": 43
           },
           {
             "label": "Tried on (aha)",
-            "count": 54,
+            "count": 58,
             "pct": 43,
             "aha": true
           },
           {
             "label": "Downloaded result",
-            "count": 10,
-            "pct": 8
+            "count": 12,
+            "pct": 9
           },
           {
             "label": "Clicked pricing",
@@ -3075,7 +3075,7 @@ window.ABLO_OS = {
       ]
     },
     "lifecycle": {
-      "updated": "June 10, 2026",
+      "updated": "June 11, 2026",
       "source": "Klaviyo · live API",
       "note": "The behavioral lifecycle system is live: three flows triggered by the real product events. Activate (signup→model), AHA (model→try-on), and Convert (try-on→paid) each gate on the next milestone and hand the user to the next stage the moment they hit it.",
       "liveFlows": [
@@ -3089,15 +3089,20 @@ window.ABLO_OS = {
             {
               "name": "B1 · the missing half",
               "timing": "Day 1",
-              "recipients": 5,
-              "open": 20.0,
+              "recipients": 6,
+              "open": 33.3,
               "click": 0.0,
               "conv": 0,
               "unsub": 0
             },
             {
               "name": "B2 · show the outcome",
-              "timing": "Day 3"
+              "timing": "Day 3",
+              "recipients": 2,
+              "open": 0.0,
+              "click": 0.0,
+              "conv": 0,
+              "unsub": 0
             },
             {
               "name": "B3 · last nudge",
@@ -3201,83 +3206,83 @@ window.ABLO_OS = {
     "audience": {
       "intro": "Who is actually signing up, from what they tell us during onboarding. Self-reported, so it is intent and identity, not behavior. Auto-upgrades to a live HubSpot pull once the CRM token gets read scope.",
       "source": "HubSpot · live",
-      "n": 42,
-      "asOf": "2026-06-10",
+      "n": 47,
+      "asOf": "2026-06-11",
       "note": "Self-reported during Studio onboarding (category, model type, display style). Multi-select fields sum past 100%.",
       "dimensions": [
         {
           "key": "segment",
           "title": "Model type created",
-          "basis": 42,
+          "basis": 47,
           "bars": [
             {
               "label": "womenswear",
-              "count": 35,
-              "pct": 83
+              "count": 40,
+              "pct": 85
             },
             {
               "label": "kids_baby",
               "count": 9,
-              "pct": 21
+              "pct": 19
             },
             {
               "label": "menswear",
               "count": 5,
-              "pct": 12
+              "pct": 11
             }
           ]
         },
         {
           "key": "category",
           "title": "What they sell",
-          "basis": 42,
+          "basis": 47,
           "bars": [
             {
               "label": "clothing",
-              "count": 37,
-              "pct": 88
+              "count": 41,
+              "pct": 87
             },
             {
               "label": "bags_accessories",
-              "count": 7,
+              "count": 8,
               "pct": 17
             },
             {
               "label": "jewelry",
               "count": 6,
-              "pct": 14
+              "pct": 13
             },
             {
               "label": "footwear",
               "count": 5,
-              "pct": 12
+              "pct": 11
             }
           ]
         },
         {
           "key": "style",
           "title": "Output style they want",
-          "basis": 42,
+          "basis": 47,
           "bars": [
             {
               "label": "on_model",
-              "count": 33,
-              "pct": 79
+              "count": 38,
+              "pct": 81
             },
             {
               "label": "still_life",
               "count": 9,
-              "pct": 21
+              "pct": 19
             },
             {
               "label": "flatlay",
               "count": 8,
-              "pct": 19
+              "pct": 17
             },
             {
               "label": "ghost",
               "count": 4,
-              "pct": 10
+              "pct": 9
             }
           ]
         }
@@ -3293,27 +3298,27 @@ window.ABLO_OS = {
       "attribution": [
         {
           "channel": "Direct / untagged",
-          "users": 582,
-          "signups": 65,
-          "tryons": 37,
+          "users": 590,
+          "signups": 66,
+          "tryons": 39,
           "checkouts": 9,
-          "signupShare": 52
+          "signupShare": 49
         },
         {
           "channel": "Meta Ads",
-          "users": 829,
-          "signups": 56,
-          "tryons": 18,
+          "users": 879,
+          "signups": 63,
+          "tryons": 19,
           "checkouts": 1,
-          "signupShare": 45
+          "signupShare": 47
         },
         {
           "channel": "Instagram (organic)",
-          "users": 40,
-          "signups": 4,
-          "tryons": 3,
+          "users": 45,
+          "signups": 5,
+          "tryons": 4,
           "checkouts": 0,
-          "signupShare": 3
+          "signupShare": 4
         },
         {
           "channel": "LinkedIn",
@@ -3325,35 +3330,35 @@ window.ABLO_OS = {
         },
         {
           "channel": "Email",
-          "users": 2,
+          "users": 4,
           "signups": 0,
           "tryons": 1,
           "checkouts": 0,
           "signupShare": 0
         }
       ],
-      "insight": "52% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
-      "updated": "June 10, 2026",
+      "insight": "49% of signups come from Direct / untagged — acquisition is dominated by untagged / organic traffic, not paid. Tag founder posts and referral links with UTMs to see what is really working, and weigh whether paid is earning its share.",
+      "updated": "June 11, 2026",
       "source": "PostHog UTM · live"
     },
     "landingPages": {
       "pages": [
         {
           "path": "/",
-          "visitors": 669,
-          "engagers": 166,
-          "signups": 59,
-          "engagePct": 24.8,
-          "signupPct": 8.8,
+          "visitors": 689,
+          "engagers": 174,
+          "signups": 64,
+          "engagePct": 25.3,
+          "signupPct": 9.3,
           "isLanding": true
         },
         {
           "path": "/try",
-          "visitors": 282,
-          "engagers": 49,
-          "signups": 28,
-          "engagePct": 17.4,
-          "signupPct": 9.9,
+          "visitors": 325,
+          "engagers": 56,
+          "signups": 34,
+          "engagePct": 17.2,
+          "signupPct": 10.5,
           "isLanding": true,
           "measure": "tbs-cohort",
           "note": "measured by the tbs_* cohort (entry = tbs_page_viewed) reach, not first-pageview pathname; signups are a floor (anon->identified split may hide a few). ClickUp 86ba2wp4t."
@@ -3369,11 +3374,11 @@ window.ABLO_OS = {
         },
         {
           "path": "/try-kids",
-          "visitors": 81,
-          "engagers": 6,
-          "signups": 7,
+          "visitors": 95,
+          "engagers": 7,
+          "signups": 8,
           "engagePct": 7.4,
-          "signupPct": 8.6,
+          "signupPct": 8.4,
           "isLanding": true
         },
         {
@@ -3405,7 +3410,7 @@ window.ABLO_OS = {
         },
         {
           "path": "/pricing",
-          "visitors": 7,
+          "visitors": 8,
           "engagers": 0,
           "signups": 0,
           "engagePct": 0.0,
@@ -3413,26 +3418,26 @@ window.ABLO_OS = {
           "isLanding": true
         }
       ],
-      "insight": "Homepage takes 669 visitors but only 24.8% click any CTA and 8.8% sign up. /toddler converts 3.9% to signup vs /try at 9.9%, so the landing page, not the ad, is the leak — a clean CRO test.",
+      "insight": "Homepage takes 689 visitors but only 25.3% click any CTA and 9.3% sign up. /toddler converts 3.9% to signup vs /try at 10.5%, so the landing page, not the ad, is the leak — a clean CRO test.",
       "window": "60d",
       "tryFunnel": {
-        "landed": 282,
-        "generated": 49,
-        "hitWall": 48,
-        "signed": 28
+        "landed": 325,
+        "generated": 56,
+        "hitWall": 55,
+        "signed": 34
       },
-      "updated": "June 10, 2026",
+      "updated": "June 11, 2026",
       "source": "PostHog · live HogQL (first-pageview pathname; /try via tbs_* cohort)"
     },
     "clickup": {
       "source": "ClickUp · live",
-      "updated": "June 10, 2026",
+      "updated": "June 11, 2026",
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
         "Closed": 46,
         "to do": 22,
+        "done": 11,
         "in progress": 6,
-        "done": 10,
         "review": 5
       },
       "open": [
@@ -3545,11 +3550,11 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 89
+      "total": 90
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223563,
+      "followers": 223541,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -3900,28 +3905,50 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-06-10",
-          "landed": 34,
-          "engaged": 7,
-          "modal": 7,
-          "signups": 3,
-          "models": 2,
-          "imports": 1,
-          "tryons": 1,
+          "landed": 62,
+          "engaged": 14,
+          "modal": 14,
+          "signups": 8,
+          "models": 4,
+          "imports": 3,
+          "tryons": 3,
           "downloads": 0,
           "checkouts": 1,
           "spend_lifetime": 206.71,
           "cpl": 8.61,
           "signups_meta": 24,
+          "aha_rate": 43,
+          "activation_rate": 57,
+          "payment_rate": 7,
           "paying_customers": 0,
           "ig_followers": 223563,
-          "activation_rate": 57,
-          "aha_rate": 43,
-          "payment_rate": 7,
           "home_engage_pct": 24.8,
           "home_signup_pct": 8.8
+        },
+        {
+          "date": "2026-06-11",
+          "landed": 44,
+          "engaged": 9,
+          "modal": 11,
+          "signups": 4,
+          "models": 2,
+          "imports": 3,
+          "tryons": 3,
+          "downloads": 2,
+          "checkouts": 0,
+          "spend_lifetime": 227.45,
+          "cpl": 8.12,
+          "signups_meta": 28,
+          "paying_customers": 0,
+          "ig_followers": 223541,
+          "activation_rate": 54,
+          "aha_rate": 43,
+          "payment_rate": 7,
+          "home_engage_pct": 25.3,
+          "home_signup_pct": 9.3
         }
       ],
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "phLive": true
     },
     "learning": {
@@ -4178,13 +4205,13 @@ window.ABLO_OS = {
       }
     },
     "coverage": {
-      "updated": "2026-06-10",
+      "updated": "2026-06-11",
       "blindSpots": [
         {
           "key": "tbs_*",
           "dimension": "events",
-          "where": "PostHog, 282 users/30d (13 events)",
-          "volume": 282,
+          "where": "PostHog, 325 users/30d (13 events)",
+          "volume": 325,
           "cluster": true,
           "action": "Investigate the tbs_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
@@ -4192,35 +4219,35 @@ window.ABLO_OS = {
         {
           "key": "onboarding_*",
           "dimension": "events",
-          "where": "PostHog, 51 users/30d (4 events)",
-          "volume": 51,
+          "where": "PostHog, 59 users/30d (4 events)",
+          "volume": 59,
           "cluster": true,
           "action": "Investigate the onboarding_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
         },
         {
-          "key": "seed_*",
-          "dimension": "events",
-          "where": "PostHog, 29 users/30d (1 events)",
-          "volume": 29,
-          "cluster": true,
-          "action": "Investigate the seed_* flow; map a funnel stage or dismiss it to the registry with a reason",
-          "status": "escalated"
-        },
-        {
           "key": "pricing_*",
           "dimension": "events",
-          "where": "PostHog, 28 users/30d (2 events)",
-          "volume": 28,
+          "where": "PostHog, 33 users/30d (2 events)",
+          "volume": 33,
           "cluster": true,
           "action": "Investigate the pricing_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
         },
         {
+          "key": "seed_*",
+          "dimension": "events",
+          "where": "PostHog, 32 users/30d (1 events)",
+          "volume": 32,
+          "cluster": true,
+          "action": "Investigate the seed_* flow; map a funnel stage or dismiss it to the registry with a reason",
+          "status": "escalated"
+        },
+        {
           "key": "code_*",
           "dimension": "events",
-          "where": "PostHog, 10 users/30d (2 events)",
-          "volume": 10,
+          "where": "PostHog, 12 users/30d (2 events)",
+          "volume": 12,
           "cluster": true,
           "action": "Investigate the code_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
