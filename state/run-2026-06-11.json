@@ -1,0 +1,31 @@
+{
+ "date": "2026-06-11",
+ "steps_done": [
+  "build",
+  "orient",
+  "read-agents x4",
+  "synthesis",
+  "qa: 2 skeptics (numbers + calls), verdict: revise, corrections applied",
+  "cc-updates: ranks 2/4/5/8 bodies updated",
+  "ledger: 5 lessons appended",
+  "roadmap: UTM activation diagnostic added",
+  "refresh-log: appended",
+  "build (second pass)",
+  "commit"
+ ],
+ "corrections_applied": [
+  "Kids spend: $16/day (not $12, Swim is the $12.50 set)",
+  "7d CPL: $7.71 spend/signups method (not $11.06, which used paid-attributed signups only)",
+  "Swim CPL $0.51: removed as unverifiable from persisted sources",
+  "PRED-2026-06-04-remove-magic-link: d7 completion 52.8% EXCEEDS 50% target (was cited as 44.7% which is a frozen cohort snapshot)",
+  "Kids pixel PageViews: cited as unaudited live-read, not persisted fact"
+ ],
+ "flags_for_alejo": [
+  "URGENT (24h): Verify Kids pixel fires on /try-kids in Meta Pixel Helper. If not, revert creative to /toddler (revert: 2450333338727221).",
+  "URGENT (2d): Run UTM split in PostHog to diagnose activation decline (54% spine vs 69% baseline) -- Direct vs Paid cohort activation rate.",
+  "PRED-2026-06-03-activate-flow: directional miss trajectory (below baseline, not just below target). Watch closely.",
+  "PRED-2026-06-04-remove-magic-link: d7 52.8% already exceeds 50% target -- likely HIT when scored Jun 18.",
+  "Price-ask test: 19 days to end-June. Most direct path to first paying customer. Still not started."
+ ],
+ "notes": "No Meta/Klaviyo/PostHog writes executed this run. All changes are to content.json, state files, and data.js (via build.py rebuild)."
+}

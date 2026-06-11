@@ -34,3 +34,11 @@ Surfaces occupied: **/studio**. Free surfaces: homepage/landing pages, email/lif
 _Moved here with the winner + one-line conclusion + linked `PRED-...` once resolved._
 
 - OS-SIGNUP-GOOGLE (signup-modal, Google-primary): **winner**, completion 33%→42% (44% peak), held. PRED-2026-05-20-google-signup resolved hit (+11pp). Lesson LES-2026-05-31-friction.
+
+## Added 2026-06-11
+
+### Activation UTM diagnostic (new — pre-ranked above download/share prompt)
+**Action:** Split last-7d signups by utm_source (Direct vs Paid) and compare activation rate per cohort in PostHog. This is a **diagnostic**, not an A/B — no experiment needed. Run via HogQL in PostHog within 2 days.
+**Purpose:** Confirm whether the 15pp activation decline (69%→54%) is channel mix-shift (TBS/Paid cohort lower intent) or a product regression. The fix is different in each case: traffic-quality if mix, product if regression.
+**No PRED yet:** No persisted metric for channel-split activation rate in history.jsonl. Add a split key once the query runs and confirm the result. Then log the prediction.
+**Escalate:** Not a build task — Alejo runs the HogQL query. Results inform whether rank 4 (activation gap) needs a product fix or a traffic-quality fix.

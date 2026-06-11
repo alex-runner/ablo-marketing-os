@@ -2064,7 +2064,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 10, 2026",
+    "updated": "June 11, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2082,7 +2082,7 @@
         "sev": "high",
         "title": "Make paid conversion visible (purchase_completed + Subscription Started)",
         "owner": "Alejo + Jason",
-        "status": "10 lifetime checkout starters, 0 purchases visible. purchase_completed: 0 users in 30d, unverified. Klaviyo Convert flow live with no paid-exit event.",
+        "status": "10 lifetime checkout starters, 0 purchases visible. purchase_completed: 0 users in 30d, unverified. AHA flow (B1) live: 7 recipients, 28.6% open rate — early signal that lifecycle emails at the aha moment are landing. Convert flow live but still missing the Subscription Started exit event (Jason owns). PRED-2026-06-05-post-aha-email: payment_rate at 7 (below 8 baseline, due Jun 26).",
         "targets": "signup→paid ≥ 8% (measurable at all)",
         "body": "Two blind events gate everything: purchase_completed (PostHog) has never fired on a real purchase, so a sale could already have happened invisibly. Verify via the sandbox test purchase (ClickUp 86ba9kmj6) and cross-check Stripe for the 10 checkout starters. Separately the live Convert flow needs a Subscription Started exit event (Jason) or it keeps emailing buyers and signup→paid stays unreadable.",
         "ladder": "KPI · signup→paid ≥ 8%, you cannot improve a number you cannot see"
@@ -2102,9 +2102,9 @@
         "sev": "high",
         "title": "Close the activation gap",
         "owner": "Alejo",
-        "status": "BELOW TARGET. Signup→model 40.7% last-7d (daily-sum method; d7-reach method reads 44.8%) vs 69% on Jun 3. Likely paid-mix dilution.",
+        "status": "BELOW TARGET. Activation spine 43% all-time (58/135 signups→tryon). d7 signup→model 41.1% (-12pp vs d30). PRED-2026-06-03-activate-flow (due Jun 24): current 54% rolling metric is BELOW baseline of 69 -- directional miss trajectory, not just below target. Root cause unconfirmed: mix-shift hypothesis (TBS visitors have lower pre-signup intent) vs product regression both possible. UTM split required to diagnose before acting.",
         "targets": "activation_rate · target 50%+",
-        "body": "Before treating the slide as a product regression, split last-7d activation by UTM channel: if Direct also fell it is a product issue, otherwise it is channel mix and the fix is paid-audience quality, not onboarding. Adjacent evidence for the mix hypothesis (different metric and window, suggestive only): lifetime signup→try-on is 32% for the Meta cohort vs 57% for Direct. Coachmarks (PH-374260) ended in PostHog Jun 9, inconclusive (32/41 exposures, live read, not yet persisted), flag serving the variant at 100%. Activate flow live since May 19. PRED-2026-06-03-activate-flow due Jun 24.",
+        "body": "The activation rate (43% all-time spine, 54% rolling history.jsonl) has slid 15pp below the 69% baseline. QA flag: this is a directional miss on PRED-2026-06-03-activate-flow, not noise. The most plausible hypothesis is channel mix-shift: TBS visitors (who partially explored pre-signup) have lower studio intent than Direct signups. Confirm via UTM split -- split last-7d signups by utm_source and compare activation rate for Direct vs Paid. If Direct also shows a decline, it is a product regression requiring product intervention. If only Paid shows it, the fix is traffic quality. Do NOT demote this below the category-selection fix -- activation is an upstream gate; a 43% activation rate means 57% of signups never reach the paywall.",
         "ladder": "Project · activation gates every paid dollar"
       },
       {
@@ -2112,9 +2112,9 @@
         "sev": "med",
         "title": "Keep Meta delivery healthy, fix the Kids pixel",
         "owner": "Alejo",
-        "status": "Flight CPL $8.61 (24 signups, $206.71), under target. Last-24h CPL ~$23.6 (Δspend $23.64 on 1 signup), weekly trend rising 4.74→8.61.",
+        "status": "Kids pixel: UNAUDITED live-read (not in persisted data) flags 0 PageViews per click on /try-kids post-Jun-8 creative swap. Kids daily budget ~$16. Autopilot flagged TRACKING_ISSUE on Kids adset. Swim: best-converting segment, CPL well under target. 7d blended CPL $7.71 (spend/signups, history.jsonl method), under target.",
         "targets": "CPL < $20 · delivery on converting segments",
-        "body": "Spend is concentrated on Kids+Swim by design: the size-inclusive and menswear ad sets were deliberately paused Jun 2 to keep the funded sets above Meta's learning floor. The Kids /toddler pixel under-fires (qualitative per data.js; ad-set-level counts are not persisted, so treat live-read figures as unaudited), so Meta optimizes partially blind on the top segment. Quality flag: paid drives 45% of signups but 1 of 10 checkouts; Direct drives 9.",
+        "body": "The Jun-8 creative swap routed Kids paid traffic from /toddler to /try-kids. An unaudited live-read (not yet in history.jsonl or data.js) suggests the pixel may not be firing on /try-kids -- no PageViews despite clicks. Action: verify pixel fires on /try-kids in Meta Pixel Helper within 24h. If not firing, revert Kids creative to /toddler (revert: creative 2450333338727221 per Jun-8 change log). CAVEAT: the PageView count is sourced from a live Meta dashboard read in the campaigns agent, not from a persisted record. Escalate to verify before acting on the budget. Swim remains the best-converting segment; no action needed there. Size-inclusive and Menswear remain deliberately paused.",
         "ladder": "Ops · repeatable acquisition channel with stable CAC"
       },
       {
@@ -2142,9 +2142,9 @@
         "sev": "med",
         "title": "Hold the signup-modal gains",
         "owner": "Alejo",
-        "status": "Improving. Modal completion 43.5% last-7d (back from the 23% Jun-4 low). magic_link_requested at 0/day since removal.",
+        "status": "On track. d7 modal completion 52.8% (56/106 intent→signup), exceeds the 50% target. PRED-2026-06-04-remove-magic-link (due Jun 18, 7 days): d7 at 52.8% already clears the 50% predicted value -- likely HIT when scored. magic_link_requested at 0/day since removal. Watch only.",
         "targets": "signup_completion_rate",
-        "body": "Google-primary + magic-link removal are holding (+10pts vs the 33% baseline). Watch only, no new test on this surface until PRED-2026-06-04-remove-magic-link scores on Jun 18.",
+        "body": "Google-primary + magic-link removal continue to hold. d7 modal completion 52.8% exceeds the 50% prediction target -- this is the first likely hit since the Google-primary prediction resolved. NOTE: the frozen OS-SIGNUP-GOOGLE 'after' field (44.7%) is a May-27 cohort snapshot, not the live d7 rate -- do not use 44.7% as the current metric. Score PRED-2026-06-04-remove-magic-link against the live intent→signup d7 rate on Jun 18.",
         "ladder": "Project · signup-modal drop was the #1 blocker, now mid-recovery"
       },
       {

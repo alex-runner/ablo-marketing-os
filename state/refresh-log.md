@@ -52,3 +52,12 @@ Newest entries on top.
 - Held by QA: PRED-2026-06-10-try-paid-default (flight-cumulative cpl violates LES-2026-06-04-qa-rolling-metric, rollout premise overstated, autopilot confound). Re-log once a clean per-cohort metric exists in history.jsonl.
 - QA (2 skeptics, both "revise", revisions applied): stale Jun-8 figures replaced with live (try-kids 8.6 vs toddler 3.9), denominator splices fixed (pricing 11 lifetime not 9/54), unverifiable ad-set claims removed, try-value-first lesson downgraded to low. 4 qa lessons written. REPEAT CATCH of LES-2026-06-04-qa-figures (hand-carried numbers): queue SKILL.md hardening in the monthly audit.
 - Proposes next: Alejo starts the price-ask test (20 days); run the sandbox purchase + Stripe cross-check (CC 2); write the post-tryon prompt proposal for Jason (CC 3); UTM activation split (CC 4).
+
+## 2026-06-11 — daily run
+
+- **Moved:** Modal completion d7 at 52.8% (56/106) -- EXCEEDS the 50% PRED-2026-06-04-remove-magic-link target. Likely HIT when scored Jun 18. AHA flow early signal: 7 recipients, 28.6% open rate.
+- **Flagged:** PRED-2026-06-03-activate-flow is a directional miss -- activation 54% rolling spine is BELOW the 69% baseline (not just below 75% target). UTM split needed to diagnose: mix-shift vs product regression. Added to roadmap as a diagnostic.
+- **Flagged:** Kids pixel likely not firing on /try-kids post-Jun-8 creative swap (unaudited live-read, not persisted). $16/day Kids spend potentially running blind. Needs 24h verification via Meta Pixel Helper.
+- **CC updates:** Rank 4 body rewritten with directional-miss flag and UTM split urgency. Rank 5 status updated with pixel caveat. Rank 8 status updated with 52.8% d7 figure and likely-hit note for PRED.
+- **QA (2 skeptics): revise.** 3 figure corrections applied (Kids spend $16 not $12; 7d CPL $7.71 not $11.06; Swim CPL $0.51 removed as unverifiable). PRED magic-link correction: d7 rate exceeds target (was cited as below). Rank order upheld after review (activation stays rank 4, /try category stays rank 6). 5 qa lessons written.
+- **Proposes next:** (1) Alejo: start the price-ask test (19 days to end-June); (2) run UTM split in PostHog to diagnose activation decline (2-day action); (3) verify Kids pixel on /try-kids via Meta Pixel Helper within 24h; (4) Jason: Subscription Started exit event for Convert flow + purchase_completed verification.
