@@ -61,3 +61,12 @@ Newest entries on top.
 - **CC updates:** Rank 4 body rewritten with directional-miss flag and UTM split urgency. Rank 5 status updated with pixel caveat. Rank 8 status updated with 52.8% d7 figure and likely-hit note for PRED.
 - **QA (2 skeptics): revise.** 3 figure corrections applied (Kids spend $16 not $12; 7d CPL $7.71 not $11.06; Swim CPL $0.51 removed as unverifiable). PRED magic-link correction: d7 rate exceeds target (was cited as below). Rank order upheld after review (activation stays rank 4, /try category stays rank 6). 5 qa lessons written.
 - **Proposes next:** (1) Alejo: start the price-ask test (19 days to end-June); (2) run UTM split in PostHog to diagnose activation decline (2-day action); (3) verify Kids pixel on /try-kids via Meta Pixel Helper within 24h; (4) Jason: Subscription Started exit event for Convert flow + purchase_completed verification.
+
+## 2026-06-11 — autonomous fix session (post-routine)
+- Investigated the 3 "needs attention" items directly in code + PostHog. Two were NOT bugs:
+  - **Kids pixel:** /try-kids tracks fine — PostHog recorded 122 paid pageviews/101 people in 14d. Meta "0 PageViews" is ad-block asymmetry, not a code bug. CANCELLED the "revert creative" action. Real fix = server-side CAPI (Jason, de-prioritised).
+  - **Activation decline:** CONFIRMED mix-shift via PostHog activation-by-channel (paid 44% vs direct 66%, 30d; paid share rose 50→73%). Not a product regression. Fix = traffic quality + the live Activate flow.
+  - **purchase_completed:** wiring verified correct end-to-end (success_url → AccountPage track, keyed to user.id). 0 fires ≈ 0 real purchases; confirm in Stripe. Robustness fix = server-side webhook capture (Jason).
+- Wrote state/diagnostics-2026-06-11.md (full evidence). Updated CC ranks 2/4/5. 3 diagnosis lessons appended.
+- ClickUp: commented diagnosis on 86ba9kmjg (pixel) and 86ba9kmj6 (purchase verify).
+- Net: 3 fire-drills de-escalated to their true scope. Remaining real work all needs a person: price-ask test (Alejo), CAPI + server-side purchase event + Convert paid-exit (Jason), paid targeting tightening (Alejo).

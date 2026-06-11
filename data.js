@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 11, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-11T18:00:52.525781+00:00"
+    "updatedISO": "2026-06-11T18:20:28.963047+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2085,9 +2085,9 @@ window.ABLO_OS = {
         "sev": "high",
         "title": "Make paid conversion visible (purchase_completed + Subscription Started)",
         "owner": "Alejo + Jason",
-        "status": "10 lifetime checkout starters, 0 purchases visible. purchase_completed: 0 users in 30d, unverified. AHA flow (B1) live: 7 recipients, 28.6% open rate — early signal that lifecycle emails at the aha moment are landing. Convert flow live but still missing the Subscription Started exit event (Jason owns). PRED-2026-06-05-post-aha-email: payment_rate at 7 (below 8 baseline, due Jun 26).",
+        "status": "DIAGNOSED 2026-06-11: purchase_completed wiring is CORRECT end-to-end (Stripe success_url=/account?success=true → AccountPage fires the event, keyed to the funnel person). 0 fires ≈ 0 real completed purchases (10 started, 0 paid), not a tracking bug. CONFIRM in Stripe dashboard. AHA flow early signal: 7 recipients, 28.6% open.",
         "targets": "signup→paid ≥ 8% (measurable at all)",
-        "body": "Two blind events gate everything: purchase_completed (PostHog) has never fired on a real purchase, so a sale could already have happened invisibly. Verify via the sandbox test purchase (ClickUp 86ba9kmj6) and cross-check Stripe for the 10 checkout starters. Separately the live Convert flow needs a Subscription Started exit event (Jason) or it keeps emailing buyers and signup→paid stays unreadable.",
+        "body": "Verified the full path: stripe.routes.ts sets success_url → Stripe redirects → AccountPage.tsx:44-52 fires track('purchase_completed') once, keyed to user.id (the same id PostHog identifies the funnel person by). So the event would fire on a real purchase. It hasn't because no checkout has completed payment — confirm by checking Stripe for completed payments among the 10 checkout starters. Robustness gap (Jason, escalate): the event is client-side and ad-blockable; the bulletproof fix is firing it server-side from the existing checkout.session.completed webhook (has userId), but there is no server PostHog client yet. Separately the Convert flow still needs a Subscription Started exit event (Jason). See state/diagnostics-2026-06-11.md.",
         "ladder": "KPI · signup→paid ≥ 8%, you cannot improve a number you cannot see"
       },
       {
@@ -2105,9 +2105,9 @@ window.ABLO_OS = {
         "sev": "high",
         "title": "Close the activation gap",
         "owner": "Alejo",
-        "status": "BELOW TARGET. Activation spine 43% all-time (58/135 signups→tryon). d7 signup→model 41.1% (-12pp vs d30). PRED-2026-06-03-activate-flow (due Jun 24): current 54% rolling metric is BELOW baseline of 69 -- directional miss trajectory, not just below target. Root cause unconfirmed: mix-shift hypothesis (TBS visitors have lower pre-signup intent) vs product regression both possible. UTM split required to diagnose before acting.",
+        "status": "DIAGNOSED 2026-06-11: confirmed mix-shift, NOT a product regression. PostHog activation-by-channel: meta/paid 44% vs direct 66% (30d, signup→model). Paid's share of signups rose 50%→73% (30d→7d), dragging the blend down. Direct still activates 48-66% so the product step is intact.",
         "targets": "activation_rate · target 50%+",
-        "body": "The activation rate (43% all-time spine, 54% rolling history.jsonl) has slid 15pp below the 69% baseline. QA flag: this is a directional miss on PRED-2026-06-03-activate-flow, not noise. The most plausible hypothesis is channel mix-shift: TBS visitors (who partially explored pre-signup) have lower studio intent than Direct signups. Confirm via UTM split -- split last-7d signups by utm_source and compare activation rate for Direct vs Paid. If Direct also shows a decline, it is a product regression requiring product intervention. If only Paid shows it, the fix is traffic quality. Do NOT demote this below the category-selection fix -- activation is an upstream gate; a 43% activation rate means 57% of signups never reach the paywall.",
+        "body": "RESOLVED as a diagnosis: the 15pp activation 'decline' is channel mix-shift plus short-window recency lag, not a broken funnel. Paid traffic structurally activates ~22pp lower than Direct (44% vs 66%, 30d); as paid scales it drags the blended rate down. The fix is traffic quality, not onboarding: (1) tighten paid targeting toward higher-intent clicks, (2) lean on the already-live Activate flow (24h no-model nudge, PRED-2026-06-03-activate-flow) which targets exactly these paid non-activators. Do NOT open a product-regression investigation. See state/diagnostics-2026-06-11.md.",
         "ladder": "Project · activation gates every paid dollar"
       },
       {
@@ -2115,9 +2115,9 @@ window.ABLO_OS = {
         "sev": "med",
         "title": "Keep Meta delivery healthy, fix the Kids pixel",
         "owner": "Alejo",
-        "status": "Kids pixel: UNAUDITED live-read (not in persisted data) flags 0 PageViews per click on /try-kids post-Jun-8 creative swap. Kids daily budget ~$16. Autopilot flagged TRACKING_ISSUE on Kids adset. Swim: best-converting segment, CPL well under target. 7d blended CPL $7.71 (spend/signups, history.jsonl method), under target.",
+        "status": "DIAGNOSED 2026-06-11: Kids '/try-kids 0 PageViews' is a Meta-side reporting artifact (ad-block asymmetry), NOT a code bug. PostHog independently recorded 122 paid pageviews/101 people on /try-kids in 14d. Page loads + tracks fine. Swim remains best-converting; 7d blended CPL $7.71, under target.",
         "targets": "CPL < $20 · delivery on converting segments",
-        "body": "The Jun-8 creative swap routed Kids paid traffic from /toddler to /try-kids. An unaudited live-read (not yet in history.jsonl or data.js) suggests the pixel may not be firing on /try-kids -- no PageViews despite clicks. Action: verify pixel fires on /try-kids in Meta Pixel Helper within 24h. If not firing, revert Kids creative to /toddler (revert: creative 2450333338727221 per Jun-8 change log). CAVEAT: the PageView count is sourced from a live Meta dashboard read in the campaigns agent, not from a persisted record. Escalate to verify before acting on the budget. Swim remains the best-converting segment; no action needed there. Size-inclusive and Menswear remain deliberately paused.",
+        "body": "Investigated in code + PostHog. /try-kids is a normal SPA route, the Vercel rewrite serves index.html, the base Meta pixel fires on every load, no consent gate — all correct. Meta under-counts because fbevents.js is ad-blocked more than PostHog. CANCELLED: the 'revert creative to /toddler' action (identical architecture, would not help). Real fix is a server-side Meta Conversions API event from the existing meta.service.ts (Jason build, de-prioritised — the under-count is cosmetic on $16/day). Size-inclusive + Menswear remain deliberately paused. See state/diagnostics-2026-06-11.md.",
         "ladder": "Ops · repeatable acquisition channel with stable CAC"
       },
       {
@@ -2877,7 +2877,7 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 106,
-            "d30": 305,
+            "d30": 304,
             "d90": 307,
             "all": 307
           }
@@ -2889,7 +2889,7 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 56,
-            "d30": 135,
+            "d30": 133,
             "d90": 135,
             "all": 135
           },
@@ -2914,7 +2914,7 @@ window.ABLO_OS = {
           "group": "Activate",
           "counts": {
             "d7": 23,
-            "d30": 72,
+            "d30": 71,
             "d90": 73,
             "all": 73
           },
@@ -2927,7 +2927,7 @@ window.ABLO_OS = {
           "group": "Activate",
           "counts": {
             "d7": 21,
-            "d30": 57,
+            "d30": 56,
             "d90": 57,
             "all": 57
           }
@@ -3121,12 +3121,7 @@ window.ABLO_OS = {
           "messages": [
             {
               "name": "Welcome",
-              "timing": "Day 0",
-              "recipients": 128,
-              "open": 89.1,
-              "click": 3.1,
-              "conv": 0,
-              "unsub": 1
+              "timing": "Day 0"
             },
             {
               "name": "A1 · one-sentence nudge",
@@ -3134,21 +3129,11 @@ window.ABLO_OS = {
             },
             {
               "name": "A2 · kill the blank page",
-              "timing": "Day 3",
-              "recipients": 20,
-              "open": 10.0,
-              "click": 5.0,
-              "conv": 0,
-              "unsub": 0
+              "timing": "Day 3"
             },
             {
               "name": "A3 · value reframe",
-              "timing": "Day 6",
-              "recipients": 2,
-              "open": 0.0,
-              "click": 0.0,
-              "conv": 0,
-              "unsub": 0
+              "timing": "Day 6"
             }
           ],
           "read": "Targets the signup→model leak (~37% never generate a model). Flow filter: Model Generated = 0; exits the instant they make one (→ AHA).",
@@ -4039,6 +4024,49 @@ window.ABLO_OS = {
         },
         {
           "type": "lesson",
+          "id": "LES-2026-06-11-kids-pixel-not-a-bug",
+          "date": "2026-06-11",
+          "lesson": "The Kids '/try-kids 0 PageViews' alarm is a Meta-side reporting artifact (ad-block asymmetry), NOT a code bug: PostHog independently recorded 122 paid pageviews / 101 people on /try-kids in 14d. SPA rewrite + base pixel + no consent gate all verified correct. Reverting to /toddler would not help (identical architecture). Real fix is server-side Meta CAPI, a Jason build.",
+          "evidence": "PostHog $pageview on /try-kids: 135/106 (14d), 122 utm_source=meta; vercel.json /(.*)→index.html; index.html:31-32 base pixel.",
+          "confidence": "high",
+          "tags": [
+            "paid",
+            "meta",
+            "pixel",
+            "tracking",
+            "diagnosis"
+          ]
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-06-11-activation-mixshift-confirmed",
+          "date": "2026-06-11",
+          "lesson": "The activation decline is CONFIRMED mix-shift, not a product regression: paid activates 44% vs direct 66% (30d, signup→model_generated), and paid's share of signups rose from 50% (30d) to 73% (7d), dragging the blend down. Direct still activates 48-66% so the product step is intact. Fix is traffic quality + the live Activate flow, not emergency product work.",
+          "evidence": "PostHog activation-by-channel 2026-06-11: meta/paid 44.0%(50) vs direct 66.0%(47) 30d; paid share 50→73% across 30d→7d windows.",
+          "confidence": "high",
+          "tags": [
+            "funnel",
+            "activation",
+            "paid",
+            "diagnosis"
+          ]
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-06-11-purchase-wiring-ok",
+          "date": "2026-06-11",
+          "lesson": "purchase_completed wiring is correct end-to-end (Stripe success_url=/account?success=true → AccountPage fires track, keyed to user.id matching the funnel person). 0 fires ≈ 0 real completed purchases (10 started, 0 paid), not a tracking bug; confirm in Stripe. Robustness gap: client-side fire is ad-blockable; bulletproof fix is server-side capture from the existing checkout.session.completed webhook (no server PostHog client yet, so a Jason build).",
+          "evidence": "stripe.routes.ts:74, stripe.service.ts:109/139, AccountPage.tsx:44-52, analytics.ts:27; no posthog-node in apps/server.",
+          "confidence": "high",
+          "tags": [
+            "funnel",
+            "payment",
+            "tracking",
+            "diagnosis"
+          ]
+        },
+        {
+          "type": "lesson",
           "id": "LES-2026-06-10-try-value-first",
           "date": "2026-06-10",
           "lesson": "Routing paid to value-first /try pages is a defensible default but NOT a measured win: /try 9.9% (28/282, tbs cohort) vs home 8.8% (59/668, first-pageview method) is statistical noise, /try-kids 8.6% vs /toddler 3.9% is under-powered, and the arms use different attribution methods. No evidence value-first is worse; default to it and spend testing energy down-funnel.",
@@ -4091,45 +4119,6 @@ window.ABLO_OS = {
             "numbers"
           ],
           "source_pred": null
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-10-qa-pred-metric-compliance",
-          "date": "2026-06-10",
-          "lesson": "Citing a QA lesson in a prediction rationale while keeping the metric it forbids is acknowledgment-without-compliance: reject any prediction bound to a flight-cumulative or rolling aggregate when the action shipped mid-window; hold the bet until a clean cohort metric exists.",
-          "evidence": "QA calls lens 2026-06-10 refuted PRED-try-paid-default (flight-cumulative cpl, autopilot confound, rollout premise overstated); prediction held, not logged.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "predictions"
-          ],
-          "source_pred": null
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-10-qa-run-provenance",
-          "date": "2026-06-10",
-          "lesson": "Persist what you act on and what you cite: empty run logs made the coachmarks 100%-flag and the paid-default rollout unauditable, and live-read ad-set figures (imps/PV, 24h CPL) were unverifiable; record executed actions in run-*.json and either persist live-read figures or do not cite them.",
-          "evidence": "QA boundary lens 2026-06-10: run-2026-06-08/10.json effectively empty; $24.42 not derivable (history gives $23.64); /toddler 800/10/0 in no persisted source.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "process"
-          ],
-          "source_pred": null
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-09-qa-metric-key",
-          "date": "2026-06-09",
-          "lesson": "signup_completion_rate is reserved for modal-open to signup (modal completion %, range 33-50); landing-page view-to-signup rates belong under home_signup_pct or a page-specific key like try_signup_pct. Mixing them makes predictions unscorable without reading the scoring note.",
-          "evidence": "QA check on PRED-2026-06-09-tbs-category-fix: baseline 10.5 is the /try view->signup rate, not a modal rate; prior predictions using signup_completion_rate had baselines of 33-42 (modal completion range). Revised metric to home_signup_pct as the nearest correct key.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "predictions",
-            "measurement"
-          ]
         }
       ],
       "openPredictions": [
@@ -4178,6 +4167,21 @@ window.ABLO_OS = {
         },
         {
           "type": "prediction",
+          "id": "PRED-2026-06-10-price-ask-checkout",
+          "date": "2026-06-10",
+          "action": "Run price-ask test: manually onboard 5 Kids and 5 Swim founders this week, walk each to try-on, ask for card; combined with Convert C4 paid-ask emails reaching first-wave aha users around Jun 13",
+          "linked": "CC-rank-1",
+          "metric": "payment_rate",
+          "baseline": 10,
+          "predicted": 13,
+          "horizon_days": 15,
+          "due": "2026-06-25",
+          "rationale": "Two parallel mechanisms: (1) 10 founders hand-walked to try-on, conservative 30% checkout rate = 3 new starters; (2) Convert C4 fires for aha users in the flow since Jun 6, adding further intent. Combined: 10 to 13. Distinct from PRED-2026-06-05-post-aha-email (baseline 8, email-only, current count already at 10). Moot if price-ask test not started by Jun 17.",
+          "scoring": "checkout_started reach >= 13 by Jun 25; moot if price-ask test not started by Jun 17",
+          "status": "open"
+        },
+        {
+          "type": "prediction",
           "id": "PRED-2026-06-05-post-aha-email",
           "date": "2026-06-05",
           "action": "Wire post-AHA conversion email flow in Klaviyo (trigger: Try-on Completed, no Checkout Started in 48h) to lift checkout starts",
@@ -4214,10 +4218,10 @@ window.ABLO_OS = {
         "hitRate": 1.0
       },
       "counts": {
-        "lessons": 21,
-        "predictions": 6,
+        "lessons": 25,
+        "predictions": 7,
         "resolved": 1,
-        "open": 5
+        "open": 6
       }
     },
     "coverage": {
