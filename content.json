@@ -2074,7 +2074,7 @@
         "owner": "Alejo",
         "status": "Not started. 20 days to end-June goal. Most urgent business action.",
         "targets": "first paying customer · willingness to pay",
-        "body": "With 20 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does.",
+        "body": "With 20 days to the end-June goal and signup→paid still unmeasurable, manual sales is the surest path to the first paying customer. Onboard 5 kids and 5 swim founders by hand, walk them to try-on, then ask what they would pay. Free signups tell us almost nothing about revenue, a card does. Channel data reinforces this: Direct/organic converts to checkout at 13.4% vs Meta at 1.4% (9 of 10 all-time checkouts are Direct), so the surest first sale comes from hand-walking high-intent Direct/LinkedIn contacts, not cold Meta volume.",
         "ladder": "The brag · first paying customer, ARPU ≥ $50, validate willingness to pay"
       },
       {
@@ -2094,7 +2094,7 @@
         "owner": "Alejo",
         "status": "ACUTE / ESCALATE. $0 spend and 0 impressions across all 4 segments for 3+ days (Jun 13-15). The $8.33 CPL on the dashboard is a frozen lifetime average (241.52/29), not a live read. Budget is correctly weighted (Kids $15, swim $10, size-incl $12, menswear $5) but nothing is delivering.",
         "targets": "paid delivery live · CPL < $20",
-        "body": "Paid acquisition has been off for 3+ days while the end-June first-customer clock runs. 0 impressions on every segment points to an account-level pause, billing/budget exhaustion, or ads in review, not under-delivery. Needs Alejo: check the Meta ad account (billing + ad-set status) and relight delivery. This is a money/budget action, so it is escalated, not auto-fired. The earlier Kids /try-kids 'pixel' alarm was confirmed a Meta-reporting artifact (ad-block asymmetry), not a code bug, do not re-chase it. Once live, hold budget on Kids+Swim.",
+        "body": "Paid acquisition has been off for 3+ days while the end-June first-customer clock runs. 0 impressions on every segment points to an account-level pause, billing/budget exhaustion, or ads in review, not under-delivery. Needs Alejo: check the Meta ad account (billing + ad-set status) and relight delivery. This is a money/budget action, so it is escalated, not auto-fired. The earlier Kids /try-kids 'pixel' alarm was confirmed a Meta-reporting artifact (ad-block asymmetry), not a code bug, do not re-chase it. Once live, hold budget on Kids+Swim. Caveat on urgency: Meta traffic converts at just 1.4% to checkout vs 13.4% for Direct, so relighting restores volume + learning, it is not the fastest path to the first paying customer (that is the price-ask). Still fix it, the calendar is burning with zero acquisition.",
         "ladder": "Ops · a repeatable acquisition channel needs to actually be running"
       },
       {
