@@ -70,3 +70,12 @@ Newest entries on top.
 - Wrote state/diagnostics-2026-06-11.md (full evidence). Updated CC ranks 2/4/5. 3 diagnosis lessons appended.
 - ClickUp: commented diagnosis on 86ba9kmjg (pixel) and 86ba9kmj6 (purchase verify).
 - Net: 3 fire-drills de-escalated to their true scope. Remaining real work all needs a person: price-ask test (Alejo), CAPI + server-side purchase event + Convert paid-exit (Jason), paid targeting tightening (Alejo).
+
+## 2026-06-15 — Monday run (daily + weekly coherence audit)
+- **NEW headline: Meta ads are DARK.** $0 spend + 0 impressions on all 4 segments for 3+ days (Jun 13-15); the $8.33 CPL is a frozen lifetime average, not live. Added high-sev CC rank 3 "Relight Meta delivery", ESCALATED to Alejo (money action, not auto-fired). LES-2026-06-15-meta-dark.
+- Re-ranked: 1 price-ask, 2 purchase-visibility, 3 relight-Meta (NEW), 4 aha→paid (+ NEW AHA-CTA rework: opens 33-36% but 0 clicks), 5 activation gap, 6 /try category, 7 CRO, 8 modal-hold.
+- Activation slide 57→52 reframed per QA: confounded by channel mix-shift; the Jun-12 create-a-model overhaul has no clean before/after and is too thin to read — impact UNMEASURABLE, not failed. Queued an OS-CREATE-MODEL binding on the roadmap.
+- Predictions: 0 due, 0 resolved. PRED-2026-06-04-remove-magic-link (due Jun 18) flagged likely-miss (completion stuck ~44%, not climbing to 50) — resolve Jun 18, not early. No new prediction logged (thin calibration n=1; no clean before-window). Price-ask is the clean bet to log WHEN it ships.
+- QA (2 skeptics): numbers=revise (caught 41/43 metric mislabel + payment_rate 10→6/checkout-window errors, both corrected); calls=valid logic but read the wrong workspace (MCP graph, not data.js) — boundary upheld (escalate Meta relight). 5 qa lessons written, incl. a process fix to pin QA sources to the files.
+- Weekly coherence: the 3 most direct paths to the end-June goal are all stalled — price-ask not started, purchase_completed uninstrumented, Meta dark. Top of queue is correct; the issue is execution/escalation, not ranking.
+- Proposes next: Alejo relights Meta + starts price-ask; verify purchase_completed; I rework the AHA CTA + spec the create-model before/after binding.

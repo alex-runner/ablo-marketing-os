@@ -42,3 +42,7 @@ _Moved here with the winner + one-line conclusion + linked `PRED-...` once resol
 **Purpose:** Confirm whether the 15pp activation decline (69%→54%) is channel mix-shift (TBS/Paid cohort lower intent) or a product regression. The fix is different in each case: traffic-quality if mix, product if regression.
 **No PRED yet:** No persisted metric for channel-split activation rate in history.jsonl. Add a split key once the query runs and confirm the result. Then log the prediction.
 **Escalate:** Not a build task — Alejo runs the HogQL query. Results inform whether rank 4 (activation gap) needs a product fix or a traffic-quality fix.
+
+## Added 2026-06-15
+### Bind a before/after on the Jun-12 create-a-model overhaul (coverage gap)
+The Jun-12 Studio overhaul (2-step coachmarks, swipeable models, pose tuning, mobile fixes) shipped with NO measurement binding. Add an OS-CREATE-MODEL before/after on signup→model (activation), split by channel to control for mix-shift, so we can read whether it lifted activation. Until bound, its effect is unidentifiable (see LES-2026-06-15-qa-confound-vs-fail). Ship-and-measure (not an A/B). Owner: Claude to spec the binding; needs a build.py/tracking change.

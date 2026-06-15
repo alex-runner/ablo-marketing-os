@@ -1,0 +1,20 @@
+{
+ "date": "2026-06-15",
+ "steps_done": [
+  "build", "orient",
+  "read-agents x4 (experiments, funnel, campaigns, lifecycle)",
+  "qa: 2 skeptics (numbers=revise, calls=valid-logic/wrong-workspace), corrections applied",
+  "cc-rerank: added high-sev rank 3 'Relight Meta delivery'; reframed activation; corrected payment figs",
+  "ledger: 5 qa lessons appended; 0 predictions due/resolved; no new prediction (thin calibration)",
+  "roadmap: queued OS-CREATE-MODEL before/after binding",
+  "refresh-log appended",
+  "build (2nd pass)", "commit"
+ ],
+ "headline_finding": "Meta ads dark — $0 spend + 0 impressions 3+ days; $8.33 CPL is a frozen lifetime average not live",
+ "escalations_for_alejo": [
+  "URGENT: Meta ad account check + relight delivery (billing/ad-set status). $0 acquisition for 3+ days with ~2 weeks to the end-June goal.",
+  "Start the price-ask test (rank 1, still 'to do').",
+  "Verify purchase_completed fires (rank 2)."
+ ],
+ "notes": "No Meta/Klaviyo/PostHog writes executed. All changes reversible + git-tracked."
+}
