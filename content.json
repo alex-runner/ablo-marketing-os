@@ -2089,13 +2089,13 @@
       },
       {
         "rank": "3",
-        "sev": "high",
-        "title": "Relight Meta delivery — ads are DARK",
+        "sev": "med",
+        "title": "Fix the Marketing OS Meta data feed (stale)",
         "owner": "Alejo",
-        "status": "ACUTE / ESCALATE. $0 spend and 0 impressions across all 4 segments for 3+ days (Jun 13-15). The $8.33 CPL on the dashboard is a frozen lifetime average (241.52/29), not a live read. Budget is correctly weighted (Kids $15, swim $10, size-incl $12, menswear $5) but nothing is delivering.",
-        "targets": "paid delivery live · CPL < $20",
-        "body": "Paid acquisition has been off for 3+ days while the end-June first-customer clock runs. 0 impressions on every segment points to an account-level pause, billing/budget exhaustion, or ads in review, not under-delivery. Needs Alejo: check the Meta ad account (billing + ad-set status) and relight delivery. This is a money/budget action, so it is escalated, not auto-fired. The earlier Kids /try-kids 'pixel' alarm was confirmed a Meta-reporting artifact (ad-block asymmetry), not a code bug, do not re-chase it. Once live, hold budget on Kids+Swim. Caveat on urgency: Meta traffic converts at just 1.4% to checkout vs 13.4% for Direct, so relighting restores volume + learning, it is not the fastest path to the first paying customer (that is the price-ask). Still fix it, the calendar is burning with zero acquisition.",
-        "ladder": "Ops · a repeatable acquisition channel needs to actually be running"
+        "status": "CORRECTED 2026-06-15: Meta is NOT dark. Meta API shows daily spend Jun 8-14 ($17-58/day, ~$277/wk, 27k impressions Jun 14). The OS froze Meta at $241.52/29 signups since Jun 12, which I misread as $0 spend. The bug is our build.py Meta pull going stale, not the ad account.",
+        "targets": "live Meta data in the OS",
+        "body": "build.py's Meta integration stopped updating around Jun 12 and carried the last value forward, so the dashboard CPL ($8.33) and spend ($241.52) are frozen, not live. Fix the Meta pull (token/refresh or API path) so spend, impressions, and per-segment data are current again. Until fixed, do NOT trust the OS's Meta figures, read them from Meta Ads Manager / the Meta API directly. Real delivery is healthy.",
+        "ladder": "Measurement integrity, a stale feed produced a false 'ads dark' alarm"
       },
       {
         "rank": "4",
