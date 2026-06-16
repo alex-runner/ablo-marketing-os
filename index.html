@@ -791,6 +791,14 @@
         blocktitle('Activation spine · same user, of all signups'),
         h('p',{class:'small',style:'margin:-8px 0 14px'}, sp.note||''),
         h('div',{class:'card spine'}, spineRows),
+        f.postTryon ? frag(
+          blocktitle('After the first try-on · same user, last '+f.postTryon.window),
+          h('p',{class:'small',style:'margin:-8px 0 14px'}, 'Of '+f.postTryon.base+' users who completed a try-on, where they go next. The drop is the money ask: pricing-prompt click-through is just '+f.postTryon.pricingPromptCtr+'%.'),
+          h('div',{class:'card spine'}, f.postTryon.stages.map(s=>h('div',{class:'srow'+(/pricing prompt/i.test(s.label)?' aha':'')+(/checkout/i.test(s.label)?' pay':'')},
+            h('div',{class:'sl'}, s.label),
+            h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
+            h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count))))))
+        ) : null,
         blocktitle('Full happy path · distinct users per milestone'),
         selector,
         barsWrap,

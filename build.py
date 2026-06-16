@@ -253,6 +253,54 @@ FUNNEL_STAGES = [
 ]
 
 
+def _fetch_post_tryon(env):
+    """Same-user bottom-of-funnel (30d): of users who completed a try-on, how
+    many explored more looks, saw/clicked the pricing prompt, downloaded,
+    started checkout, or reached the new photoshoot step. Surfaces the real
+    post-try-on drop, which is the pricing-prompt moment, not try-on abandonment."""
+    q = """
+        SELECT countIf(ty>0) base,
+               countIf(ty>0 AND tyn>1) repeat,
+               countIf(ty>0 AND ppv>0) seen,
+               countIf(ty>0 AND dl>0) downloaded,
+               countIf(ty>0 AND ppc>0) clicked,
+               countIf(ty>0 AND ch>0) checkout,
+               countIf(ty>0 AND ps>0) photoshoot
+        FROM (
+          SELECT person_id,
+            maxIf(1, event='tryon_completed') ty,
+            countIf(event='tryon_completed') tyn,
+            maxIf(1, event='pricing_prompt_viewed') ppv,
+            maxIf(1, event IN ('pricing_prompt_clicked','pricing_plan_clicked')) ppc,
+            maxIf(1, event IN ('result_downloaded','results_downloaded_all','social_pack_downloaded')) dl,
+            maxIf(1, event='checkout_started') ch,
+            maxIf(1, event IN ('photoshoot_started','photoshoot_completed')) ps
+          FROM events WHERE timestamp >= now() - INTERVAL 30 DAY GROUP BY person_id
+        )
+    """.strip()
+    rows = _hogql(env, q)
+    if not rows or not rows[0]:
+        return None
+    base, repeat, seen, downloaded, clicked, checkout, photoshoot = [int(x) for x in rows[0]]
+    if base == 0:
+        return None
+    p = lambda n: round(n / base * 100)
+    return {
+        "window": "30d",
+        "base": base,
+        "pricingPromptCtr": round(clicked / seen * 100) if seen else 0,
+        "stages": [
+            {"label": "Completed a try-on",          "count": base,       "pct": 100},
+            {"label": "Explored 2+ looks",           "count": repeat,     "pct": p(repeat)},
+            {"label": "Saw a pricing prompt",        "count": seen,       "pct": p(seen)},
+            {"label": "Downloaded a result",         "count": downloaded, "pct": p(downloaded)},
+            {"label": "Clicked the pricing prompt",  "count": clicked,    "pct": p(clicked)},
+            {"label": "Started checkout",            "count": checkout,   "pct": p(checkout)},
+            {"label": "Reached the photoshoot step", "count": photoshoot, "pct": p(photoshoot)},
+        ],
+    }
+
+
 def fetch_funnel(env, base):
     """Overlay live per-stage reach (4 windows) + the same-user activation
     spine onto the curated funnel block. Returns the curated base unchanged
@@ -321,6 +369,10 @@ def fetch_funnel(env, base):
                 step["count"] = v[i]
                 step["pct"] = round(v[i] / denom * 100)
         funnel["spine"]["denominator"] = v[0]
+    pt = _fetch_post_tryon(env)
+    if pt:
+        funnel["postTryon"] = pt
+        log(f"post-try-on funnel: base {pt['base']}, pricing-prompt CTR {pt['pricingPromptCtr']}%")
     log(f"PostHog funnel: {len(counts)} stages live")
     return funnel
 

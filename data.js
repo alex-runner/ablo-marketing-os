@@ -12,9 +12,9 @@ window.ABLO_OS = {
     "ownerBD": "Michael Scarpellini, Head of Partnerships (enterprise / out of self-serve scope)",
     "northStar": "Liquid revenue via self-serve. First paying customers plus a repeatable acquisition channel with stable CAC.",
     "endOfJuneGoal": "First paying customer.",
-    "updated": "June 15, 2026",
+    "updated": "June 16, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-15T23:50:59.017492+00:00"
+    "updatedISO": "2026-06-16T01:14:01.074366+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2067,7 +2067,7 @@ window.ABLO_OS = {
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 15, 2026",
+    "updated": "June 16, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2827,7 +2827,7 @@ window.ABLO_OS = {
       ]
     },
     "funnel": {
-      "updated": "June 15, 2026",
+      "updated": "June 16, 2026",
       "source": "PostHog · live HogQL",
       "windows": [
         "d7",
@@ -2851,7 +2851,7 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 320,
+            "d7": 319,
             "d30": 1352,
             "d90": 1456,
             "all": 1456
@@ -2863,7 +2863,7 @@ window.ABLO_OS = {
           "sub": "cta_clicked",
           "group": "Acquire",
           "counts": {
-            "d7": 54,
+            "d7": 53,
             "d30": 283,
             "d90": 297,
             "all": 297
@@ -2876,7 +2876,7 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 78,
+            "d7": 77,
             "d30": 337,
             "d90": 347,
             "all": 347
@@ -3072,10 +3072,52 @@ window.ABLO_OS = {
       "gaps": [
         "No purchase_completed / subscription_started event is instrumented. checkout_started (8 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics yet. Instrument it to close the loop.",
         "studio_entered (80) exceeds signup_completed (64) because the studio is reachable by returning and anonymous sessions. The activation spine corrects for this by counting same-user, signup-anchored."
-      ]
+      ],
+      "postTryon": {
+        "window": "30d",
+        "base": 55,
+        "pricingPromptCtr": 31,
+        "stages": [
+          {
+            "label": "Completed a try-on",
+            "count": 55,
+            "pct": 100
+          },
+          {
+            "label": "Explored 2+ looks",
+            "count": 27,
+            "pct": 49
+          },
+          {
+            "label": "Saw a pricing prompt",
+            "count": 35,
+            "pct": 64
+          },
+          {
+            "label": "Downloaded a result",
+            "count": 14,
+            "pct": 25
+          },
+          {
+            "label": "Clicked the pricing prompt",
+            "count": 11,
+            "pct": 20
+          },
+          {
+            "label": "Started checkout",
+            "count": 6,
+            "pct": 11
+          },
+          {
+            "label": "Reached the photoshoot step",
+            "count": 3,
+            "pct": 5
+          }
+        ]
+      }
     },
     "lifecycle": {
-      "updated": "June 15, 2026",
+      "updated": "June 16, 2026",
       "source": "Klaviyo · live API",
       "note": "The behavioral lifecycle system is live: three flows triggered by the real product events. Activate (signup→model), AHA (model→try-on), and Convert (try-on→paid) each gate on the next milestone and hand the user to the next stage the moment they hit it.",
       "liveFlows": [
@@ -3121,7 +3163,12 @@ window.ABLO_OS = {
           "messages": [
             {
               "name": "Welcome",
-              "timing": "Day 0"
+              "timing": "Day 0",
+              "recipients": 147,
+              "open": 83.7,
+              "click": 2.7,
+              "conv": 0,
+              "unsub": 1
             },
             {
               "name": "A1 · one-sentence nudge",
@@ -3129,11 +3176,21 @@ window.ABLO_OS = {
             },
             {
               "name": "A2 · kill the blank page",
-              "timing": "Day 3"
+              "timing": "Day 3",
+              "recipients": 40,
+              "open": 25.0,
+              "click": 2.5,
+              "conv": 0,
+              "unsub": 2
             },
             {
               "name": "A3 · value reframe",
-              "timing": "Day 6"
+              "timing": "Day 6",
+              "recipients": 26,
+              "open": 15.4,
+              "click": 0.0,
+              "conv": 0,
+              "unsub": 0
             }
           ],
           "read": "Targets the signup→model leak (~37% never generate a model). Flow filter: Model Generated = 0; exits the instant they make one (→ AHA).",
@@ -3207,7 +3264,7 @@ window.ABLO_OS = {
       "intro": "Who is actually signing up, from what they tell us during onboarding. Self-reported, so it is intent and identity, not behavior. Auto-upgrades to a live HubSpot pull once the CRM token gets read scope.",
       "source": "HubSpot · live",
       "n": 63,
-      "asOf": "2026-06-15",
+      "asOf": "2026-06-16",
       "note": "Self-reported during Studio onboarding (category, model type, display style). Multi-select fields sum past 100%.",
       "dimensions": [
         {
@@ -3346,7 +3403,7 @@ window.ABLO_OS = {
         }
       ],
       "insight": "52% of signups come from Meta Ads.",
-      "updated": "June 15, 2026",
+      "updated": "June 16, 2026",
       "source": "PostHog UTM · live"
     },
     "landingPages": {
@@ -3434,17 +3491,17 @@ window.ABLO_OS = {
         "hitWall": 82,
         "signed": 50
       },
-      "updated": "June 15, 2026",
+      "updated": "June 16, 2026",
       "source": "PostHog · live HogQL (first-pageview pathname; /try via tbs_* cohort)"
     },
     "clickup": {
       "source": "ClickUp · live",
-      "updated": "June 15, 2026",
+      "updated": "June 16, 2026",
       "listUrl": "https://app.clickup.com/9003194404/v/li/901415977874",
       "counts": {
         "Closed": 48,
         "to do": 20,
-        "done": 11,
+        "done": 13,
         "in progress": 6,
         "review": 5
       },
@@ -3558,11 +3615,11 @@ window.ABLO_OS = {
           "assignee": "Alejo Escrivá"
         }
       ],
-      "total": 90
+      "total": 92
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223472,
+      "followers": 223471,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -4035,8 +4092,21 @@ window.ABLO_OS = {
           "spend_lifetime": 241.52,
           "cpl": 8.33,
           "signups_meta": 29,
+          "aha_rate": 41,
+          "activation_rate": 52,
+          "payment_rate": 6,
           "paying_customers": 0,
           "ig_followers": 223472,
+          "home_engage_pct": 25.3,
+          "home_signup_pct": 9.6
+        },
+        {
+          "date": "2026-06-16",
+          "spend_lifetime": 241.52,
+          "cpl": 8.33,
+          "signups_meta": 29,
+          "paying_customers": 0,
+          "ig_followers": 223471,
           "activation_rate": 52,
           "aha_rate": 41,
           "payment_rate": 6,
@@ -4044,7 +4114,7 @@ window.ABLO_OS = {
           "home_signup_pct": 9.6
         }
       ],
-      "updated": "2026-06-15",
+      "updated": "2026-06-16",
       "phLive": true
     },
     "learning": {
@@ -4334,7 +4404,7 @@ window.ABLO_OS = {
       }
     },
     "coverage": {
-      "updated": "2026-06-15",
+      "updated": "2026-06-16",
       "blindSpots": [
         {
           "key": "tbs_*",
