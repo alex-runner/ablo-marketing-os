@@ -17,6 +17,11 @@ LOG="$DIR/.refresh.log"
 
 echo "===== refresh $(date '+%Y-%m-%d %H:%M:%S') =====" >> "$LOG"
 
+# Pull-before-push: sync to origin so the commit fast-forwards (the 09:20 agent
+# may have advanced origin/main since the last run). Rebase keeps any local commit.
+git fetch origin main >> "$LOG" 2>&1 && git rebase origin/main >> "$LOG" 2>&1 || \
+  echo "WARN: could not rebase onto origin/main; resolve manually before pushing" >> "$LOG"
+
 python3 build.py >> "$LOG" 2>&1
 if [[ $? -ne 0 ]]; then
   echo "build.py FAILED, leaving last good data.js in place" >> "$LOG"
