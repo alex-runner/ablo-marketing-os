@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 17, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-17T15:27:32.067123+00:00"
+    "updatedISO": "2026-06-17T15:36:53.305760+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2793,31 +2793,31 @@ window.ABLO_OS = {
       "status": "Live",
       "asOf": "Jun 17, 2026",
       "deliveryFlag": "",
-      "funnelHeadline": "PostHog recovered mid-cycle with full 7-day signal; the studio remains the single biggest lever, 152 enter but only 67 generate a model (44%), and it absorbs the heaviest friction with 35 distinct people rage-clicking /studio (74 clicks).",
+      "funnelHeadline": "Signup completion is stuck at 40% even though magic-link requests fell to zero after Jun 4, the inbox round-trip was NOT the leak, so the biggest lever now is diagnosing the in-modal / Google drop on session recordings.",
       "funnelSuggestions": [
         {
-          "step": "Tried the product",
-          "severity": "high",
-          "title": "Studio is where activation leaks and frustration concentrates",
-          "evidence": "152 entered studio → only 67 generated a model (44%) → 54 tried on. /studio is the #1 rageclick surface by a wide margin: 35 distinct people, 74 clicks (next-worst URL has 3)."
-        },
-        {
-          "step": "Tried the product",
-          "severity": "high",
-          "title": "URL product import fails more often than it succeeds",
-          "evidence": "product_import: 24 submitted, 16 failed vs 11 succeeded (failures outnumber successes). 'Paste your product URL' was clicked 100 times."
-        },
-        {
           "step": "Signed up",
-          "severity": "medium",
-          "title": "Signup modal completion stuck at 40%, mobile carries the volume",
-          "evidence": "signup_modal: 346 opened → 140 completed (40.5%). Mobile 242 opened / 97 done (40%) vs Desktop 100 / 39 (39%), no device gap, but mobile is 70% of all opens. Close (×) clicked 134 times (4th-most of any element)."
+          "severity": "high",
+          "title": "Signup still loses 60%, and removing magic-link didn't fix it",
+          "evidence": "347 opened the modal, 140 completed = 40%, essentially flat vs a week ago (281 opened, 110 signed up = 39%). Crucially, magic_link_requested dropped to 0 every day after 2026-06-04, yet the completion rate didn't move, so the inbox round-trip the baseline blamed is not the leak. Mobile 40% vs desktop 39%, so it's the flow, not the layout."
+        },
+        {
+          "step": "Tried the product",
+          "severity": "high",
+          "title": "Rage-clicks on /studio are still happening",
+          "evidence": "35 people rage-clicked /studio 74 times, ~23% of the 152 who entered the studio. The daily series keeps producing spikes (Jun 11: 7, Jun 14: 7) rather than dying off."
         },
         {
           "step": "Tried the product",
           "severity": "medium",
-          "title": "'Surprise me' is being hammered, repeated rerolls signal output dissatisfaction",
-          "evidence": "surprise_me_clicked: 191 events from only 23 people (8.3x/person). 'Surprise me' is the #2 click target overall (208 clicks), behind only 'Start free' (359)."
+          "title": "Over half who enter the studio never generate a single model",
+          "evidence": "152 entered the studio but only 67 generated a model (44%) and 54 completed a try-on. The ~56% who enter and leave without generating is the activation choke right before the aha, and overlaps with the /studio rage-clicks above."
+        },
+        {
+          "step": "Tried the product",
+          "severity": "low",
+          "title": "URL-import failures are a launch-day artifact, not current friction",
+          "evidence": "The 16/24 failure headline is dominated by 2026-05-20, which alone logged 24 scrape failures. Every day in the last week is 0 except a single blip of 4 on Jun 11. The importer is no longer the wall the baseline described."
         }
       ]
     },
@@ -3181,19 +3181,39 @@ window.ABLO_OS = {
           "messages": [
             {
               "name": "C1 · reinforce the AHA",
-              "timing": "+2h"
+              "timing": "+2h",
+              "recipients": 5,
+              "open": 100.0,
+              "click": 20.0,
+              "conv": 0,
+              "unsub": 0
             },
             {
               "name": "C2 · the wedge",
-              "timing": "Day 2"
+              "timing": "Day 2",
+              "recipients": 30,
+              "open": 36.7,
+              "click": 0.0,
+              "conv": 0,
+              "unsub": 1
             },
             {
               "name": "C3 · quality proof",
-              "timing": "Day 4"
+              "timing": "Day 4",
+              "recipients": 20,
+              "open": 30.0,
+              "click": 0.0,
+              "conv": 0,
+              "unsub": 0
             },
             {
               "name": "C4 · the paid ask",
-              "timing": "Day 7"
+              "timing": "Day 7",
+              "recipients": 5,
+              "open": 0.0,
+              "click": 0.0,
+              "conv": 0,
+              "unsub": 0
             },
             {
               "name": "C5 · objection + 1:1",
@@ -3603,7 +3623,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223427,
+      "followers": 223426,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -4121,7 +4141,7 @@ window.ABLO_OS = {
           "cpl": 8.33,
           "signups_meta": 29,
           "paying_customers": 0,
-          "ig_followers": 223427,
+          "ig_followers": 223426,
           "activation_rate": 50,
           "aha_rate": 41,
           "payment_rate": 6,
