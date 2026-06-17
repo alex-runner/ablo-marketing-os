@@ -787,7 +787,7 @@
           h('span',{class:'pill'}, h('span',{class:'dot '+(live?'live':'cached')}), 'PostHog · '+(f.source||(live?'live':'cached'))),
           f.updated? h('span',{},'Updated '+f.updated):null),
         h('div',{class:'callout'}, h('div',{class:'tag'},'The headline'),
-          h('p',{html:'Of <b>'+(sp.denominator||0)+'</b> signups, <b style="color:var(--accent)">'+(aha.pct||0)+'%</b> reach the aha (try-on) but only <b>'+(pay.pct||0)+'%</b> reach checkout, and <b>0</b> purchases are confirmed (no success event fires). The aha is healthy; value-capture and payment are where the money leaks.'})),
+          h('p',{html:'Of <b>'+(sp.denominator||0)+'</b> signups, <b style="color:var(--accent)">'+(aha.pct||0)+'%</b> reach the aha (try-on) but only <b>'+(pay.pct||0)+'%</b> reach checkout, and <b>'+(f.purchases||0)+'</b> purchases have completed. The aha is healthy; value-capture and payment are where the money leaks.'})),
         blocktitle('Activation spine · same user, of all signups'),
         h('p',{class:'small',style:'margin:-8px 0 14px'}, sp.note||''),
         h('div',{class:'card spine'}, spineRows),

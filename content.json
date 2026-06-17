@@ -1774,7 +1774,7 @@
     ],
     "spine": {
       "label": "Activation spine",
-      "note": "Same user, of everyone who signed up (since launch). Strictly monotonic, this is the cleanest drop story.",
+      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. That keeps this a clean, strictly-declining drop to the aha and to checkout.",
       "denominator": 64,
       "steps": [
         {
@@ -1791,11 +1791,6 @@
           "label": "Generated a model",
           "count": 43,
           "pct": 67
-        },
-        {
-          "label": "Imported a product",
-          "count": 29,
-          "pct": 45
         },
         {
           "label": "Tried on (aha)",
@@ -1825,42 +1820,42 @@
       {
         "sev": "high",
         "title": "Top-of-funnel bounce (land → engage)",
-        "rate": "22%",
-        "detail": "Only ~22% of visitors click any CTA, so ~78% leave before doing one thing. This is the single largest drop in the funnel by raw volume. The homepage (/) alone takes 540 visitors and converts 6.7% to signup; the /toddler paid landing converts just 2.2% vs /plus-size at 6.8%, so the page, not the ad, is the leak.",
-        "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with /toddler (worst converter on real paid volume). Tag each variant with a UTM so the lift is readable."
+        "rate": "{{landEngagePct|20}}%",
+        "detail": "Only ~{{landEngagePct|20}}% of visitors click any CTA, so the other ~{{landNoEngagePct|80}}% leave before doing one thing. This is the single largest drop in the funnel by raw volume. Which page leaks most is the live read in 'Where they land' below: the homepage and each paid landing convert at very different rates, so the page, not the ad, is the lever.",
+        "fix": "Treat the homepage and each paid landing page as a CRO surface, not a fixed backdrop. Run the MKT1 homepage-positioning check (who / what / why-better / comparator), then A/B a sharper hero that leads from the bodies-you-cannot-shoot wedge. Start with the worst converter on real paid volume. Tag each variant with a UTM so the lift is readable."
       },
       {
         "sev": "high",
         "title": "Signup-modal leak (open → signup)",
-        "rate": "43%",
-        "detail": "148 open the signup modal, only 64 finish. Email magic-link leaked almost everyone (retired); the in-modal drop is the standing lever.",
+        "rate": "{{modalCompletePct|44}}%",
+        "detail": "{{r_intent|361}} open the signup modal, only {{r_signup|159}} finish. Email magic-link leaked almost everyone (retired); the in-modal drop is the standing lever.",
         "fix": "Google one-click as the primary, full-width button; demote email. Ship mobile-first (71% of opens)."
       },
       {
         "sev": "high",
         "title": "Activation gap (signup → model)",
-        "rate": "67%",
-        "detail": "1 in 3 signups never generate a model. The largest rage-click cluster by far sits on /studio (10 users, 30 clicks).",
+        "rate": "{{signupModelPct|50}}%",
+        "detail": "Only {{signupModelPct|50}}% of signups generate a model, so ~{{noModelPct|50}}% never do. The largest rage-click cluster by far sits on /studio.",
         "fix": "Find the control that looks clickable but stalls before the first Generate. Coachmarks experiment is live."
       },
       {
         "sev": "high",
         "title": "Value-capture leak (try-on → download)",
-        "rate": "17%",
-        "detail": "Only 5 of 30 users who reach the aha export a result. The aha fires but the value never leaves the app.",
+        "rate": "{{tryDownloadPct|23}}%",
+        "detail": "Only {{s_download|15}} of {{s_tryon|65}} users who reach the aha export a result. The aha fires but the value never leaves the app.",
         "fix": "Add a post-try-on download / share prompt the moment the image renders."
       },
       {
         "sev": "high",
         "title": "Payment + measurement (try-on → checkout)",
-        "rate": "23%",
-        "detail": "7 of 30 aha-reachers start checkout, and 0 purchases are confirmed because no success event fires.",
-        "fix": "In-product upgrade prompt at the aha, plus the price-ask test. Instrument purchase_completed."
+        "rate": "{{tryCheckoutPct|15}}%",
+        "detail": "{{s_checkout|10}} of {{s_tryon|65}} aha-reachers start checkout, and {{purchases|0}} purchases have completed: the success event is wired (AccountPage), it just has not fired because no checkout has paid yet.",
+        "fix": "In-product upgrade prompt at the aha, plus the price-ask test. Move purchase_completed server-side so it cannot be ad-blocked."
       }
     ],
     "gaps": [
-      "No purchase_completed / subscription_started event is instrumented. checkout_started (8 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics yet. Instrument it to close the loop.",
-      "studio_entered (80) exceeds signup_completed (64) because the studio is reachable by returning and anonymous sessions. The activation spine corrects for this by counting same-user, signup-anchored."
+      "No paid event has fired yet ({{purchases|0}} purchase_completed to date). checkout_started ({{r_checkout|11}} users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics until a real purchase lands. The event is instrumented (AccountPage success_url); it simply has not fired.",
+      "studio_entered ({{r_studio|172}}) exceeds signup_completed ({{r_signup|159}}) because the studio is reachable by returning and anonymous sessions. The activation spine corrects for this by counting same-user, signup-anchored."
     ]
   },
   "lifecycleCurated": {

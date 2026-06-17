@@ -301,10 +301,68 @@ def _fetch_post_tryon(env):
     }
 
 
+def _bind_funnel_narrative(funnel):
+    """Fill {{token|fallback}} placeholders in the rendered leak narrative (drops +
+    measurement gaps) with the SAME live numbers the bars show, so the story can
+    never drift from the funnel above it (the coherence rule). Every token carries
+    an inline fallback, so the prose still reads sanely if a value is missing."""
+    reach = {s.get("key"): (s.get("counts") or {}).get("all")
+             for s in funnel.get("stages", [])}
+    SPINE_KEYS = ["signup", "studio", "model", "tryon", "download", "pricing", "checkout"]
+    steps = (funnel.get("spine") or {}).get("steps", [])
+    spine = {k: step.get("count") for k, step in zip(SPINE_KEYS, steps)}
+
+    def pct(n, d):
+        return round(100 * n / d) if (n is not None and d) else None
+
+    v = {}
+    for k, n in reach.items():
+        if n is not None:
+            v[f"r_{k}"] = n
+    for k, n in spine.items():
+        if n is not None:
+            v[f"s_{k}"] = n
+    le = pct(reach.get("engage"), reach.get("land"))
+    if le is not None:
+        v["landEngagePct"], v["landNoEngagePct"] = le, 100 - le
+    mc = pct(reach.get("signup"), reach.get("intent"))
+    if mc is not None:
+        v["modalCompletePct"] = mc
+    sm = pct(spine.get("model"), spine.get("signup"))
+    if sm is not None:
+        v["signupModelPct"], v["noModelPct"] = sm, 100 - sm
+    td = pct(spine.get("download"), spine.get("tryon"))
+    if td is not None:
+        v["tryDownloadPct"] = td
+    tc = pct(spine.get("checkout"), spine.get("tryon"))
+    if tc is not None:
+        v["tryCheckoutPct"] = tc
+    v["purchases"] = funnel.get("purchases", 0)
+
+    for d in funnel.get("drops", []):
+        if d.get("detail"):
+            d["detail"] = apply_template_vars(d["detail"], v)
+        if d.get("rate"):
+            d["rate"] = apply_template_vars(d["rate"], v)
+    funnel["gaps"] = [apply_template_vars(g, v) for g in funnel.get("gaps", [])]
+
+
+def _resolve_fallbacks(funnel):
+    """Replace any {{token|fallback}} left in the leak narrative with its literal
+    fallback. Used for the curated block (the render fallback) and whenever no live
+    numbers are available, so the served funnel never contains raw template syntax."""
+    for d in funnel.get("drops", []):
+        for k in ("detail", "rate"):
+            if d.get(k):
+                d[k] = apply_template_vars(d[k], {})
+    funnel["gaps"] = [apply_template_vars(g, {}) for g in funnel.get("gaps", [])]
+    return funnel
+
+
 def fetch_funnel(env, base):
     """Overlay live per-stage reach (4 windows) + the same-user activation
-    spine onto the curated funnel block. Returns the curated base unchanged
-    if PostHog is unreachable."""
+    spine onto the curated funnel block. Returns the curated base (with the
+    narrative resolved to fallback literals) if PostHog is unreachable."""
     all_events = sorted({e for _, evs in FUNNEL_STAGES for e in evs})
     ev_list = ", ".join(f"'{e}'" for e in all_events)
     cases = []
@@ -329,20 +387,24 @@ def fetch_funnel(env, base):
     """.strip()
     rows = _hogql(env, reach_q)
     if not rows:
-        return base
+        return _resolve_fallbacks(base)
 
     counts = {r[0]: {"d7": int(r[1]), "d30": int(r[2]), "d90": int(r[3]), "all": int(r[4])}
               for r in rows if r and r[0]}
 
+    # The activation spine is deliberately the LINEAR path to the aha and to
+    # checkout. Product import is a side-path (Surprise Me lets users try on
+    # without importing), so including it makes the "spine" non-monotonic (try-on
+    # can exceed import). Import stays in the reach view above; the spine omits it
+    # so it reads as a clean, strictly-declining drop story.
     spine_q = """
         SELECT countIf(s>0) a, countIf(s>0 AND en>0) b, countIf(s>0 AND mo>0) c,
-               countIf(s>0 AND im>0) d, countIf(s>0 AND ty>0) e, countIf(s>0 AND dl>0) f,
+               countIf(s>0 AND ty>0) e, countIf(s>0 AND dl>0) f,
                countIf(s>0 AND pr>0) g, countIf(s>0 AND ch>0) h
         FROM (
           SELECT person_id,
             maxIf(1, event='signup_completed') s, maxIf(1, event='studio_entered') en,
             maxIf(1, event='model_generated') mo,
-            maxIf(1, event IN ('product_imported','product_url_submitted')) im,
             maxIf(1, event='tryon_completed') ty,
             maxIf(1, event IN ('result_downloaded','results_downloaded_all')) dl,
             maxIf(1, event='pricing_plan_clicked') pr, maxIf(1, event='checkout_started') ch
@@ -373,7 +435,15 @@ def fetch_funnel(env, base):
     if pt:
         funnel["postTryon"] = pt
         log(f"post-try-on funnel: base {pt['base']}, pricing-prompt CTR {pt['pricingPromptCtr']}%")
-    log(f"PostHog funnel: {len(counts)} stages live")
+
+    # Live paid signal. purchase_completed is instrumented (AccountPage success_url)
+    # but only fires on a real paid checkout, so this is the trustworthy "0 purchases"
+    # the headline shows -- a live read, not a hardcoded claim.
+    pc = _hogql(env, "SELECT count(DISTINCT person_id) FROM events WHERE event='purchase_completed'")
+    funnel["purchases"] = int(pc[0][0]) if pc and pc[0] and pc[0][0] is not None else 0
+
+    _bind_funnel_narrative(funnel)
+    log(f"PostHog funnel: {len(counts)} stages live, {funnel['purchases']} purchase(s)")
     return funnel
 
 
@@ -1963,6 +2033,11 @@ def build():
     # Live product funnel (PostHog) and lifecycle (Klaviyo), overlaid on the
     # curated fallbacks. Each degrades to its curated block on failure.
     funnel = fetch_funnel(env, content.get("funnelCurated", {}))
+    # The curated funnelCurated block is the render fallback (D.funnelCurated) and
+    # is serialized to data.js as-is; strip its {{token|fallback}} placeholders to
+    # literals so the fallback never shows raw template syntax. (No-op on the
+    # PostHog-down path, where fetch_funnel already resolved it.)
+    _resolve_fallbacks(content.get("funnelCurated", {}))
     lifecycle = fetch_lifecycle(env, content.get("lifecycleCurated", {}))
     funnel_live = funnel.get("source", "").startswith("PostHog · live")
     klaviyo_live = lifecycle.get("source", "").startswith("Klaviyo · live")
