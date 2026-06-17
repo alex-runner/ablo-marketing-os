@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 17, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-17T16:37:51.057853+00:00"
+    "updatedISO": "2026-06-17T16:40:25.446359+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -3073,6 +3073,52 @@ window.ABLO_OS = {
         "No paid event has fired yet (0 purchase_completed to date). checkout_started (11 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics until a real purchase lands. The event is instrumented (AccountPage success_url); it simply has not fired.",
         "studio_entered (172) exceeds signup_completed (159) because the studio is reachable by returning and anonymous sessions. The activation spine corrects for this by counting same-user, signup-anchored."
       ],
+      "onboarding": {
+        "window": "14d",
+        "launch": "2026-06-04",
+        "denominator": 91,
+        "skipped": 2,
+        "steps": [
+          {
+            "label": "Signed up",
+            "count": 91,
+            "pct": 100
+          },
+          {
+            "label": "Started onboarding",
+            "count": 81,
+            "pct": 89
+          },
+          {
+            "label": "Q1 · who they make for",
+            "count": 73,
+            "pct": 80
+          },
+          {
+            "label": "Q2 · product types",
+            "count": 66,
+            "pct": 73
+          },
+          {
+            "label": "Q3 · preferred style",
+            "count": 65,
+            "pct": 71
+          },
+          {
+            "label": "Picked a model",
+            "count": 35,
+            "pct": 38
+          },
+          {
+            "label": "Generated a model",
+            "count": 33,
+            "pct": 36,
+            "goal": true
+          }
+        ],
+        "activationBefore": 69,
+        "activationAfter": 35
+      },
       "postTryon": {
         "window": "30d",
         "base": 58,

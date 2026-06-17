@@ -254,6 +254,92 @@ FUNNEL_STAGES = [
 ]
 
 
+def _fetch_onboarding(env):
+    """Same-user signup -> first-model sub-funnel through the post-signup onboarding
+    (3 questions: audience, product types, style), anchored on signups since the
+    onboarding launched. Surfaces WHERE the signup->model activation gap leaks now
+    that onboarding sits in the middle. Also returns a before/after activation rate
+    (signups in the 4 weeks before launch vs since) to quantify the drop."""
+    ld = _hogql(env, "SELECT min(toDate(timestamp)) FROM events WHERE event='onboarding_started'")
+    launch = ld[0][0] if ld and ld[0] and ld[0][0] else None
+    if not launch:
+        return None
+    # Same-user, signups in the onboarding era (last 14d, all post-launch as of now).
+    q = """
+        SELECT countIf(s>0) signed, countIf(s>0 AND ob>0) started,
+               countIf(s>0 AND c1>0) c1, countIf(s>0 AND c2>0) c2, countIf(s>0 AND c3>0) c3,
+               countIf(s>0 AND obc>0) done, countIf(s>0 AND seed>0) seeded,
+               countIf(s>0 AND mo>0) model, countIf(s>0 AND sk>0) skipped
+        FROM (
+          SELECT person_id,
+            maxIf(1, event='signup_completed') s,
+            maxIf(1, event='onboarding_started') ob,
+            maxIf(1, event='onboarding_step_completed' AND properties.step='1') c1,
+            maxIf(1, event='onboarding_step_completed' AND properties.step='2') c2,
+            maxIf(1, event='onboarding_step_completed' AND properties.step='3') c3,
+            maxIf(1, event='onboarding_completed') obc,
+            maxIf(1, event='seed_model_selected') seed,
+            maxIf(1, event='model_generated') mo,
+            maxIf(1, event='onboarding_skipped') sk
+          FROM events WHERE timestamp >= now() - INTERVAL 14 DAY GROUP BY person_id
+        )
+    """.strip()
+    rows = _hogql(env, q)
+    if not rows or not rows[0]:
+        return None
+    v = [int(x) for x in rows[0]]
+    signed = v[0]
+    if signed == 0:
+        return None
+    p = lambda n: round(n / signed * 100)
+    # 'Finished onboarding' (onboarding_completed) is omitted: it equals Q3 within a
+    # rounding (a variant path can complete without firing step-3), and including it
+    # makes the funnel tick up by 1. Q3 IS the end of onboarding here.
+    steps_def = [
+        ("Signed up", v[0]),
+        ("Started onboarding", v[1]),
+        ("Q1 · who they make for", v[2]),
+        ("Q2 · product types", v[3]),
+        ("Q3 · preferred style", v[4]),
+        ("Picked a model", v[6]),
+        ("Generated a model", v[7]),
+    ]
+    steps = [{"label": lab, "count": c, "pct": p(c)} for lab, c in steps_def]
+    steps[-1]["goal"] = True
+
+    # before/after: of signups in the 4 weeks before launch vs since, the % who ever
+    # generated a model. Mature cohorts on the before side; the most recent ~2 days
+    # on the after side are slightly immature, so the real gap is a touch wider.
+    ba = _hogql(env, f"""
+        SELECT countIf(did AND sts <  toDateTime('{launch} 00:00:00')) pre_s,
+               countIf(did AND sts <  toDateTime('{launch} 00:00:00') AND mo>0) pre_m,
+               countIf(did AND sts >= toDateTime('{launch} 00:00:00')) post_s,
+               countIf(did AND sts >= toDateTime('{launch} 00:00:00') AND mo>0) post_m
+        FROM (
+          SELECT person_id, max(event='model_generated') mo,
+                 minIf(timestamp, event='signup_completed') sts,
+                 max(event='signup_completed') did
+          FROM events WHERE event IN ('signup_completed','model_generated')
+            AND timestamp >= now() - INTERVAL 45 DAY GROUP BY person_id
+        )
+    """)
+    before = after = None
+    if ba and ba[0]:
+        ps, pm, qs, qm = [int(x) for x in ba[0]]
+        before = round(pm / ps * 100) if ps else None
+        after = round(qm / qs * 100) if qs else None
+
+    return {
+        "window": "14d",
+        "launch": str(launch),
+        "denominator": signed,
+        "skipped": v[8],
+        "steps": steps,
+        "activationBefore": before,
+        "activationAfter": after,
+    }
+
+
 def _fetch_post_tryon(env):
     """Same-user bottom-of-funnel (30d): of users who completed a try-on, how
     many explored more looks, saw/clicked the pricing prompt, downloaded,
@@ -432,6 +518,12 @@ def fetch_funnel(env, base):
                 step["count"] = v[i]
                 step["pct"] = round(v[i] / denom * 100)
         funnel["spine"]["denominator"] = v[0]
+    ob = _fetch_onboarding(env)
+    if ob:
+        funnel["onboarding"] = ob
+        log(f"onboarding sub-funnel: {ob['denominator']} signups, "
+            f"activation {ob.get('activationBefore')}%->{ob.get('activationAfter')}% (pre/post launch {ob['launch']})")
+
     pt = _fetch_post_tryon(env)
     if pt:
         funnel["postTryon"] = pt

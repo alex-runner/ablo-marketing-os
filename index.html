@@ -781,6 +781,28 @@
         h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
         h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count)))));
 
+      // onboarding sub-funnel (same-user, signup -> first model, post-launch). Auto-
+      // highlights the biggest step-over-step drop so the leak surfaces on its own.
+      const ob=f.onboarding; let obBlock=null;
+      if(ob && (ob.steps||[]).length){
+        const st=ob.steps; let worst={i:0,fall:0,from:'',to:''};
+        for(let i=1;i<st.length;i++){ const pv=st[i-1].count||0,cu=st[i].count||0;
+          const fall=pv?Math.round((pv-cu)/pv*100):0;
+          if(fall>worst.fall) worst={i,fall,from:st[i-1].label,to:st[i].label}; }
+        const obRows=st.map((s,i)=>h('div',{class:'srow'+(s.goal?' aha':'')+(i===worst.i?' pay':'')},
+          h('div',{class:'sl'}, s.label),
+          h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
+          h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count)))));
+        const ba=(ob.activationBefore!=null&&ob.activationAfter!=null)
+          ? '<b>Signup→model fell from '+ob.activationBefore+'% to '+ob.activationAfter+'%</b> after onboarding launched '+ob.launch+'. ' : '';
+        const dn=worst.fall? 'The onboarding screens hold, the cliff is <b style="color:var(--accent)">'+worst.from+' → '+worst.to+'</b> ('+worst.fall+'% fall), the handoff to the first generate, not the questions.' : '';
+        obBlock=frag(
+          blocktitle('Onboarding sub-funnel · same user, signup → first model'),
+          h('div',{class:'callout warn',style:'margin-bottom:12px'}, h('div',{class:'tag'},'The read'), h('p',{html:ba+dn})),
+          h('p',{class:'small',style:'margin:-4px 0 14px'}, 'Of '+ob.denominator+' signups since onboarding launched · last '+ob.window+(ob.skipped?' · '+ob.skipped+' skipped onboarding':'')),
+          h('div',{class:'card spine'}, obRows));
+      }
+
       return frag(
         sectionHead('Funnel','The happy path, and where it leaks', f.note),
         h('div',{class:'freshness'},
@@ -791,6 +813,7 @@
         blocktitle('Activation spine · same user, of all signups'),
         h('p',{class:'small',style:'margin:-8px 0 14px'}, sp.note||''),
         h('div',{class:'card spine'}, spineRows),
+        obBlock,
         f.postTryon ? frag(
           blocktitle('After the first try-on · same user, last '+f.postTryon.window),
           h('p',{class:'small',style:'margin:-8px 0 14px'}, 'Of '+f.postTryon.base+' users who completed a try-on, where they go next. The drop is the money ask: pricing-prompt click-through is just '+f.postTryon.pricingPromptCtr+'%.'),
