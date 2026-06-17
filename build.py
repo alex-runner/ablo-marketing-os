@@ -18,6 +18,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 import urllib.error
 import urllib.parse
@@ -526,16 +527,49 @@ KLAVIYO_REV = "2024-10-15"
 TRYON_METRIC = "T3S8Cw"  # 'Try-on Completed' — the aha, used as flow conversion metric
 
 
-def _klaviyo(key, path, method="GET", body=None):
+def _klaviyo(key, path, method="GET", body=None, _tries=3):
     url = f"https://a.klaviyo.com/api/{path}"
     data = json.dumps(body).encode() if body is not None else None
-    req = urllib.request.Request(url, data=data, method=method, headers={
+    headers = {
         "Authorization": f"Klaviyo-API-Key {key}",
         "revision": KLAVIYO_REV, "accept": "application/json",
         "content-type": "application/json",
-    })
-    with urllib.request.urlopen(req, timeout=45) as r:
-        return json.loads(r.read().decode())
+    }
+    for attempt in range(_tries):
+        req = urllib.request.Request(url, data=data, method=method, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=45) as r:
+                return json.loads(r.read().decode())
+        except urllib.error.HTTPError as e:
+            # Klaviyo rate-limits the heavy reporting endpoints (the flow-values
+            # report has a low burst limit). Back off and retry instead of dropping
+            # a whole flow's stats; honor Retry-After when present, cap the wait.
+            if e.code == 429 and attempt < _tries - 1:
+                wait = min(30, int(e.headers.get("Retry-After", 0) or 0) or (2 ** attempt * 3))
+                log(f"Klaviyo 429 on {path}; retrying in {wait}s")
+                time.sleep(wait)
+                continue
+            raise
+
+
+def _agg_rollup(rows):
+    """Flow total from the per-message rows we actually mapped into the display, so
+    the summary cards always reconcile with the messages shown below them. Klaviyo
+    gives no flow_aggregation when grouping by message, so we build it: sum
+    recipients + conversions and recipient-weight the open/click rates (total opens
+    / total recipients). Returns {} until the flow has real sends. Rows passed in
+    already carry display-shaped fields (open/click as percentages)."""
+    tr = sum(m["recipients"] for m in rows)
+    if tr <= 0:
+        return {}
+    return {
+        "recipients": tr,
+        "open": round(sum(m["open"] / 100 * m["recipients"] for m in rows) / tr * 100, 1),
+        "click": round(sum(m["click"] / 100 * m["recipients"] for m in rows) / tr * 100, 1),
+        "conv": sum(m["conversions"] for m in rows),
+        "convUniques": sum(m["convUniques"] for m in rows),
+        "convLabel": "Try-on completed",
+    }
 
 
 def fetch_lifecycle(env, base):
@@ -575,66 +609,73 @@ def fetch_lifecycle(env, base):
             draft_ablo.append({"name": name, "trigger": a.get("triggerType", ""), "status": "draft",
                                "note": "Built but never turned on."})
 
-    # Per-message performance for each live Ablo flow (best-effort).
+    # Per-message performance for ALL live Ablo flows in ONE report call. Klaviyo
+    # rate-limits the flow-values report hard (low burst limit), so a POST per flow
+    # trips a 429 and a flow drops out blank (the bug that zeroed the summary cards).
+    # Instead pull every flow's rows at once and bucket them by flow_id locally.
+    results_by_flow = {}
+    try:
+        report = _klaviyo(key, "flow-values-reports/", "POST", {
+            "data": {"type": "flow-values-report", "attributes": {
+                "statistics": ["recipients", "open_rate", "click_rate", "conversions", "conversion_uniques", "unsubscribes"],
+                "timeframe": {"key": "last_90_days"},
+                "conversion_metric_id": TRYON_METRIC,
+                "group_by": ["flow_id", "flow_message_id", "flow_message_name"],
+            }}})
+        for r in report.get("data", {}).get("attributes", {}).get("results", []):
+            fid = r.get("groupings", {}).get("flow_id")
+            if fid:
+                results_by_flow.setdefault(fid, []).append(r)
+    except Exception as e:
+        log(f"Klaviyo flow report failed ({e}); keeping curated messages for all flows")
+
     for lf in live_ablo:
-        try:
-            report = _klaviyo(key, "flow-values-reports/", "POST", {
-                "data": {"type": "flow-values-report", "attributes": {
-                    "statistics": ["recipients", "open_rate", "click_rate", "conversions", "conversion_uniques", "unsubscribes"],
-                    "timeframe": {"key": "last_90_days"},
-                    "conversion_metric_id": TRYON_METRIC,
-                    "filter": f"equals(flow_id,\"{lf['id']}\")",
-                    "group_by": ["flow_id", "flow_message_id", "flow_message_name"],
-                }}})
-            results = report.get("data", {}).get("attributes", {}).get("results", [])
-            agg = report.get("data", {}).get("attributes", {}).get("flow_aggregation", [])
-            msgs, seen = [], {}
-            for r in results:
-                g, s = r.get("groupings", {}), r.get("statistics", {})
-                nm = g.get("flow_message_name", "Message")
-                if s.get("recipients", 0) < 2:
-                    continue  # skip stray test variations
-                seen[nm] = seen.get(nm, 0) + 1
-                msgs.append({"name": nm, "timing": "—",
-                             "recipients": int(s.get("recipients", 0)),
-                             "open": round(s.get("open_rate", 0) * 100, 1),
-                             "click": round(s.get("click_rate", 0) * 100, 1),
-                             "conv": round(s.get("conversion_rate", 0) * 100, 1),
-                             "unsub": int(s.get("unsubscribes", 0))})
-            # Curated message structure is authoritative (it reflects the intended
-            # A/B/C stages). Overlay live per-message stats by name match, so a flow
-            # that was just relaunched shows the right emails, not stale historical
-            # sends (e.g. the repurposed Activate flow's old onboarding messages).
-            curated_msgs = next((x.get("messages", []) for x in base.get("liveFlows", [])
-                                 if x.get("id") == lf["id"]), [])
-            lf["read"] = next((x.get("read", "") for x in base.get("liveFlows", [])
-                               if x.get("id") == lf["id"]), lf.get("read", ""))
-            if curated_msgs:
-                merged = []
-                for cm in curated_msgs:
-                    e = dict(cm)
-                    tok = cm.get("name", "").split("·")[0].strip().lower()
-                    live_m = next((m for m in msgs if tok and tok in m.get("name", "").lower()), None)
-                    if live_m:
-                        for k in ("recipients", "open", "click", "conv", "unsub"):
-                            e[k] = live_m.get(k, 0)
-                    merged.append(e)
-                lf["messages"] = merged
-            elif msgs:
-                lf["messages"] = msgs
-            if agg:
-                s = agg[0].get("statistics", {})
-                lf["agg"] = {"recipients": int(s.get("recipients", 0)),
-                             "open": round(s.get("open_rate", 0) * 100, 1),
-                             "click": round(s.get("click_rate", 0) * 100, 1),
-                             "conv": int(s.get("conversions", 0)),
-                             "convUniques": int(s.get("conversion_uniques", 0)),
-                             "convLabel": "Try-on completed"}
-        except Exception as e:
-            log(f"Klaviyo flow report failed for {lf['id']} ({e}); keeping curated messages")
-            cm = next((x for x in base.get("liveFlows", []) if x.get("id") == lf["id"]), None)
-            if cm:
-                lf["messages"], lf["read"], lf["agg"] = cm.get("messages", []), cm.get("read", ""), cm.get("agg", {})
+        results = results_by_flow.get(lf["id"], [])
+        rows = []
+        for r in results:
+            g, s = r.get("groupings", {}), r.get("statistics", {})
+            recip = int(s.get("recipients", 0))
+            if recip < 2:
+                continue  # skip stray test variations
+            rows.append({"name": g.get("flow_message_name", "Message"), "timing": "—",
+                         "recipients": recip,
+                         "open": round(s.get("open_rate", 0) * 100, 1),
+                         "click": round(s.get("click_rate", 0) * 100, 1),
+                         "conv": round(int(s.get("conversions", 0)) / recip * 100, 1),
+                         "conversions": int(s.get("conversions", 0)),
+                         "convUniques": int(s.get("conversion_uniques", 0)),
+                         "unsub": int(s.get("unsubscribes", 0))})
+        # Curated message structure is authoritative (it reflects the intended A/B/C
+        # stages). Overlay live per-message stats by name match, so a relaunched flow
+        # shows the right emails, not stale historical sends. We only overlay rows we
+        # can confidently name-match; an unmatched curated message stays at 0 rather
+        # than guessing (some Klaviyo messages aren't renamed: "Email #3", "Follow up").
+        # The flow aggregate is rolled up from ONLY these matched rows, so the summary
+        # cards always reconcile with the messages shown below. read/agg pre-seeded above.
+        curated_msgs = next((x.get("messages", []) for x in base.get("liveFlows", [])
+                             if x.get("id") == lf["id"]), [])
+        matched = []
+        if curated_msgs:
+            used, merged = set(), []
+            for cm in curated_msgs:
+                e = dict(cm)
+                tok = cm.get("name", "").split("·")[0].strip().lower()
+                idx = next((i for i, m in enumerate(rows)
+                            if i not in used and tok and tok in m["name"].lower()), None)
+                if idx is not None:
+                    used.add(idx)
+                    m = rows[idx]
+                    for k in ("recipients", "open", "click", "conv", "unsub"):
+                        e[k] = m[k]
+                    matched.append(m)
+                merged.append(e)
+            lf["messages"] = merged
+        elif rows:
+            lf["messages"] = rows
+            matched = rows
+        agg = _agg_rollup(matched)
+        if agg:
+            lf["agg"] = agg
 
     if live_ablo:
         life["liveFlows"] = live_ablo
