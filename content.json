@@ -2059,7 +2059,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 18, 2026",
+    "updated": "June 19, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2067,7 +2067,7 @@
         "sev": "high",
         "title": "Personal outreach to 10 checkout starters (moot if not started by Jun 20)",
         "owner": "Alejo",
-        "status": "12 days to goal. PRED-2026-06-17-checkout-outreach (payment_rate 6->8, due Jun 24). Moot if fewer than 5 of 10 contacted before Jun 20 (2 days). All-time checkout reach: 11 (10 spine). 9 Direct, 1 Meta. Direct converts to checkout at 10/73 = 13.7%. 0 purchases completed.",
+        "status": "11 days to goal. PRED-2026-06-17-checkout-outreach (payment_rate 6->8, due Jun 24). Moot if fewer than 5 of 10 contacted before Jun 20 (tomorrow). All-time checkout reach: 11 (10 spine). 9 Direct, 1 Meta. Direct converts to checkout at 10/73 = 13.7%. 0 purchases completed.",
         "targets": "first paying customer · payment_rate",
         "body": "10 people entered Stripe and stopped. They saw pricing, had intent, and did not complete. A personal email from Alejo asking what got in the way is the surest path to the first customer in the next 12 days. Start with the 9 Direct/organic starters, who show 10x better checkout behavior than Meta signups. Even 1 converted plus 2 more new checkout completions brings payment_rate to 8%.",
         "ladder": "The brag · first paying customer"
@@ -2077,17 +2077,17 @@
         "sev": "high",
         "title": "Rework AHA flow B1/B2 CTAs (zero-click, moot Jun 21)",
         "owner": "Alejo",
-        "status": "B1: 12 recipients, 33.3% open, 0 clicks. B2: 10 recipients, 30.0% open, 0 clicks. 22 reads, 0 CTAs. Jun 21 moot per PRED-2026-06-16-aha-cta-rework. 67 all-time aha-reachers -> 11 checkout starts -> 0 purchases. Window closing.",
+        "status": "B1: 12 recipients, 33.3% open, 0 clicks. B2: 11 recipients, 27.3% open, 0 clicks. 23 reads, 0 CTAs. Jun 21 moot per PRED-2026-06-16-aha-cta-rework. 68 all-time aha-reachers -> 11 checkout starts -> 0 purchases. Window closing.",
         "targets": "tryon->checkout · payment_rate",
         "body": "Opens confirm deliverability and intent; 0 clicks means the CTA copy or link is the failure. Fix: rewrite B1 and B2 with a single concrete action line and a direct /studio link ('Your try-on is ready. Start now.', not 'learn more'). The in-product pricing prompt already moves 11/57 aha-reachers (18% CTR, 30d); the email CTA should amplify it. If clicks do not appear after rework, the blocker is price, not exposure, and direct outreach (rank 1) is the fallback. PRED-2026-06-16-aha-cta-rework: payment_rate 6->8, due Jun 30.",
         "ladder": "KPI · signup->paid >= 8%"
       },
       {
-        "rank": "3",
+        "rank": "8",
         "sev": "high",
-        "title": "Fix the Marketing OS Meta data feed (stale, Wave 3 live today)",
+        "title": "Fix the Marketing OS Meta data feed (stale; Wave 3 shows 0 impressions in 24h)",
         "owner": "Alejo",
-        "status": "Feed stale since Jun 12 (spend frozen $241.52/29 signups, CPL $8.33). Wave 3 Kids + Swim launched TODAY Jun 18. Running a new paid flight blind from day one. Real Meta delivery continues (per LES-2026-06-15-meta-dark-RETRACTED).",
+        "status": "Feed stale since Jun 12 (spend frozen $241.52/29 signups, CPL $8.33). Wave 3 launched Jun 18 but live autopilot Jun 19 reports 0 impressions across all 4 segments in 24h. Unclear if Wave 3 is pending review, paused by Meta, or the stale feed is masking real delivery. Verify in Ads Manager before any budget decisions.",
         "targets": "live Meta CPL and per-segment data in the OS",
         "body": "build.py Meta pull stopped updating ~Jun 12 and carries the last value forward. The stale feed produced the false 'ads dark' alarm Jun 15 (retracted via verified Meta API). Wave 3 launched today; without a live feed we cannot see CPL, impressions, or per-segment performance for the new flight. Fix the token/refresh or API path so spend and segment data update daily. Until fixed, read Meta directly from Ads Manager. Do not trust OS Meta metrics.",
         "ladder": "Measurement integrity · Wave 3 analysis unblocked"
@@ -2097,7 +2097,7 @@
         "sev": "high",
         "title": "Fix /try garment→generate 46% drop (NEW Jun 18)",
         "owner": "Alejo + Jason",
-        "status": "NEW today. /try tbs funnel: 510 viewed -> 199 category (39%) -> 169 garment added -> 91 generated (54%). 78 garment-adders never hit Generate (46% drop). Sharpest intent-weighted leak in the paid funnel. Wave 3 adds volume starting today. PRED-2026-06-18-try-generate-gap (view->signup 10.1->12.5, due Jul 2, moot if fix not shipped).",
+        "status": "Jun 19 /try tbs funnel: 540 viewed -> 205 category (38%) -> 177 garment added -> 94 generated (53%). 83 garment-adders never hit Generate (47% drop). Sharpest intent-weighted leak in the paid funnel. Wave 3 adds volume (delivery status unclear, see rank 8). PRED-2026-06-18-try-generate-gap (view->signup 10.1->12.5, due Jul 2, moot if fix not shipped).",
         "targets": "home_signup_pct (via /try tbs cohort view->signup rate)",
         "body": "Users who added a garment have peak intent: they selected a category, picked a model, and draped a product. Losing 46% at the Generate step is the tightest in-flow leak before the signup wall. Likely causes: Generate button not visible after garment is added, unclear loading state, or no next-step prompt. Fix: (1) audit what the screen shows after garment is added; (2) add a loading/progress indicator; (3) add an inline 'Now generate your try-on' CTA. This is distinct from the category-selection drop (rank 9) -- different users, different step, different fix.",
         "ladder": "Revenue lever 1 · /try is the paid default, generate gap is its tightest in-flow leak"
@@ -2107,7 +2107,7 @@
         "sev": "high",
         "title": "Fix value-capture leak (tryon→download, 24%)",
         "owner": "Alejo + Jason",
-        "status": "NEW today. 67 all-time aha-reachers, 16 downloaded (24%). 30d: 61 tryons, 15 downloads (25%). 51 people experienced the aha and never took the result home. No post-render download prompt exists in-product. In-product pricing prompt CTR is 18% (11/57 30d); adding a download prompt at the same moment could lift both.",
+        "status": "68 all-time aha-reachers (spine), 16 downloaded (24%). 30d: 60 tryons, 14 downloaded (23%). 52 people experienced the aha and never took the result home. No post-render download prompt exists in-product. In-product pricing prompt CTR 17% (10/60 30d); adding a download prompt at the same moment could lift both.",
         "targets": "payment_rate (directional) · downloads as proof of value",
         "body": "If a user reaches try-on but does not download, the value never leaves the app. Downloads are a strong checkpoint for purchase intent: 6 of the 11 pricing-prompt clickers (54%) started checkout. A post-render download/share CTA overlay at the moment the try-on image renders could lift downloads from 25% toward 40%+ and pull more users into the checkout funnel. Fix: Jason build, post-tryon overlay with 'Download your result' primary CTA and 'Share with your team' secondary. This is a new item not previously tracked.",
         "ladder": "Revenue lever 2 · aha->paid conversion"
@@ -2115,11 +2115,11 @@
       {
         "rank": "6",
         "sev": "high",
-        "title": "Investigate Convert C4 paid-ask email (0% open, 12 recipients, escalating)",
+        "title": "Fix Convert C4-C3-C2 paid-ask CTAs (opens at 20-35%, 0 clicks across all three)",
         "owner": "Alejo",
-        "status": "C4 (Day 7 paid-ask): 12 recipients (up from 5 Jun 17), 0% open, 0 clicks. C2 (Day 2): 31 recipients, 35.5% open. C3 (Day 4): 20 recipients, 35% open. All other Convert messages open normally. First sends likely ~Jun 13 (Day 7 after Jun 6 launch); 5 days elapsed -- timing artifact less plausible. Verify Klaviyo delivery logs by Jun 20 per LES-2026-06-17-qa-c4-timing.",
-        "targets": "Convert flow C4->paid rate",
-        "body": "The pattern is stark: C1 83%, C2 35.5%, C3 35%, C4 0%. Isolated to the Day 7 paid-ask message. Likely: subject line caught by spam filters (paid-ask subjects are more aggressive), sender domain reputation for this delay tier, or a Klaviyo Day 7 configuration issue. Check: (1) Klaviyo delivery log -- Delivered vs Bounced vs Spam for these 12; (2) subject line against spam triggers; (3) send timestamps vs trigger events.",
+        "status": "C4 (Day 7 paid-ask): 20 recipients, 20.0% open, 0 clicks. C3 (Day 4): 20 recipients, 35.0% open, 0 clicks. C2 (Day 2): 33 recipients, 33.3% open, 0 clicks. C1 (2h): 6 recipients, 83.3% open, 16.7% click. Deliverability is confirmed OK (20% opens on C4). Pattern: C1 clicks, C2-C4 do not. The asks get harder but the CTAs do not get clearer.",
+        "targets": "Convert flow click->checkout rate",
+        "body": "C4 IS being delivered and opened. Spam is not the diagnosis. The problem is that C2, C3, and C4 all have 0 clicks despite 20-35% opens -- meaning recipients read and leave. C1 works (16.7% click) because it is an in-the-moment AHA reinforcement with a clear link. C2-C4 drift toward abstract value props with no concrete next step. Fix: rewrite C2-C4 CTAs as one unmissable action per email ('Open your studio. Your credits are waiting.' + direct /studio link). If clicks still do not appear after rework, the blocker is price objection, not CTA, and direct outreach (rank 1) is the only lever before Jun 30.",
         "ladder": "KPI · signup->paid >= 8% · paid-ask is the final automated touch before sale"
       },
       {
@@ -2133,13 +2133,13 @@
         "ladder": "KPI · cannot improve what you cannot see"
       },
       {
-        "rank": "8",
+        "rank": "3",
         "sev": "high",
-        "title": "Close the activation gap (51%, both PREDs directional miss)",
+        "title": "Close the activation gap (51%) -- root cause pinned to onboarding model-pick",
         "owner": "Alejo + Jason",
-        "status": "activation_rate = 51 (Jun 18, spine: model_generated/signup = 82/162). PRED-2026-06-03-activate-flow (baseline 69, target 75, due Jun 24): 18pp below baseline, will not recover. PRED-2026-06-12-studio-rageclicks (baseline 53, target 58): also directional miss at 51. Rage-clicks: 35 users, 74 events, daily recurrence.",
+        "status": "activation_rate = 51 (Jun 19, spine: 82/162). NEW diagnosis: 63 of 77 recent signups (14d) answered all 3 onboarding questions but only 29 picked a model (38%); 28 of 29 pickers generated (97%). Loss is entirely at model selection, not generation. Parallel: rage-clicks 36 users, 76 events on /studio daily. PRED-2026-06-03-activate-flow (due Jun 24): 18pp below baseline, will not recover. PRED-2026-06-12-studio-rageclicks (due Jun 26): directional miss at 51. PRED-2026-06-19-onboarding-model-filter: activation_rate 51->57, due Jul 3.",
         "targets": "activation_rate >= 50% (at threshold)",
-        "body": "Two parallel blockers: (1) /studio rage-click stall -- a control that looks clickable but stalls before first Generate. 35 users, 74 events, recurring daily. Escalate to Jason with rage-click coordinates and reproduction steps. (2) Channel mix-shift: paid activates lower than direct (LES-2026-06-11-activation-mixshift-confirmed); Wave 3 will add more paid users, potentially suppressing the blended rate further. Do NOT conclude the Jun-12 overhaul failed without a clean UTM-split before/after. Both PREDs will resolve as misses unless the rage-click fix ships before Jun 24/26.",
+        "body": "Two parallel blockers, now with a specific root cause for the primary one. (1) Onboarding model-pick paralysis: the questionnaire collects segment (Q1: who they make for), category (Q2), and style (Q3), but the model gallery shows 50+ options cold. 34 of 63 question-completers bail at model selection. Fix: pre-filter the gallery to ~5-8 models matching Q1 answer -- nearly free for Product, kills the choice-paralysis. PRED-2026-06-19-onboarding-model-filter covers this. (2) /studio rage-click stall: 36 users, 76 events, recurring daily for those who bypass onboarding. Escalate to Jason with rage-click coordinates. Both PREDs resolve as misses unless fixes ship by Jun 24/26.",
         "ladder": "Project · activation gates every paid dollar"
       },
       {
@@ -2157,7 +2157,7 @@
         "sev": "med",
         "title": "Hold signup-modal gains (PRED resolved today as MISS)",
         "owner": "Alejo",
-        "status": "PRED-2026-06-04-remove-magic-link resolved Jun 18 as MISS: d7 completion 28/61 = 45.9%, all-time post-May-27 132/293 = 45.1%, both below 50% target. magic_link_requested = 0 for 14+ days -- removal confirmed and holding. Modal steady-state ~46%; no longer the primary bottleneck. Monitor for regression below 40%.",
+        "status": "PRED-2026-06-04-remove-magic-link resolved Jun 18 as MISS. d7 Jun 19: 21/50 = 42.0% (modal intent/signup). All-time post-May-27: 132/293 = 45.1%. magic_link_requested = 0 confirmed. Modal steady-state ~43-46%; not the primary bottleneck. Monitor for regression below 40%.",
         "targets": "signup_completion_rate",
         "body": "Magic-link removal is complete and holding. The d7 rate (45.9%) is below the PRED target (50%) but 13pp above the pre-May-27 baseline (33%). The ceiling appears to be in-modal OAuth friction rather than the inbox round-trip that drove the original fix (LES-2026-06-18-modal-ceiling). The modal is not the primary bottleneck; activation and aha->paid block more conversions per capita. No further action unless d7 completion drops below 40%.",
         "ladder": "Project · signup-modal drop was the #1 blocker, now partially resolved"
