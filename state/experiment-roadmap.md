@@ -46,3 +46,21 @@ _Moved here with the winner + one-line conclusion + linked `PRED-...` once resol
 ## Added 2026-06-15
 ### Bind a before/after on the Jun-12 create-a-model overhaul (coverage gap)
 The Jun-12 Studio overhaul (2-step coachmarks, swipeable models, pose tuning, mobile fixes) shipped with NO measurement binding. Add an OS-CREATE-MODEL before/after on signup→model (activation), split by channel to control for mix-shift, so we can read whether it lifted activation. Until bound, its effect is unidentifiable (see LES-2026-06-15-qa-confound-vs-fail). Ship-and-measure (not an A/B). Owner: Claude to spec the binding; needs a build.py/tracking change.
+
+## Updated 2026-06-22
+
+**Surfaces now FREE.** PH-374260 (coachmarks) ENDED in PostHog Jun 9, inconclusive — no live A/B occupies /studio or any surface today. All 3 lifecycle flows (Activate, AHA, Convert) are live, so the old rank-1 "Activate flow" queue item is shipped (= CC done). Roadmap re-based on what the data now says.
+
+**No new live experiment launched today.** Reasons: (1) calibration thin (0.33, n=3) — bar is raised, prefer the reversible move; (2) the highest-leverage levers are escalate-gated (live-flow email edits, product changes), not OS-launchable A/Bs; (3) traffic too thin for a powered split. Discipline over a forced launch. Log the PRED when each ships.
+
+**Queue (re-ranked by leverage × win-prob, tempered by calibration):**
+
+| rank | candidate | surface | leak it targets | metric | leverage | win-prob | notes |
+|------|-----------|---------|-----------------|--------|----------|---------|-------|
+| 1 | Convert C2-C5 paid-ask CTA rework (one action line + direct link) | email/lifecycle | tryon→paid (105 read, 0 click) | email_click / payment_rate | high | med | CC rank 2. Closest-to-money lever. Ship-and-measure before/after (thin traffic). Escalate: edits a live flow. PRED LOGGED Jun 22: PRED-2026-06-22-cta-rework (email_click 0->5, due Jul 6, moot if unshipped) -- covers both #1 and #2 CTA reworks. |
+| 2 | AHA B1/B2 CTA rework | email/lifecycle | model→tryon nudge (24 read, 0 click) | email_click | med | med | CC rank 5. Same fix class as #1; batch both copy reworks together. Escalate the live edit. |
+| 3 | Post-render download/share prompt on try-on result | try-on result screen | value-capture (26% download) | downloads | med | med | CC rank 6. Product-owned (Jason). Ship-and-measure OS before/after. |
+| 4 | Onboarding model-gallery pre-filter (5-8 matches) | /studio onboarding | activation model-pick collapse (33% pick) | activation_rate | high | med | CC rank 4. Already a live bet: PRED-2026-06-19-onboarding-model-filter (49→57, due Jul 3). Product-owned. |
+| 5 | Homepage/landing hero rebuild (mkt1-positioning lens, UTM-tagged) | homepage / paid landing | land→engage bounce | home_signup_pct | high | low | CC rank 11. Blocked on Product. PRED-2026-06-04-homepage-cro due Jul 19. |
+
+**Data-integrity blocker (not an experiment, but gates campaign decisions):** the autopilot's Meta 'Lifetime:' line is frozen since ~Jun 12 (CC rank 8). Ads are confirmed healthy via Meta API; the OS just can't see it. Fix = autopilot Meta refresh or a build.py direct-API fallback. Escalate / own as an engineering task.

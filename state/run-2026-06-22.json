@@ -1,0 +1,47 @@
+{
+  "date": "2026-06-22",
+  "started": true,
+  "steps": {
+    "0_orient": "done",
+    "0_resolve": "done \u2014 0 predictions due for review",
+    "1_experiments": "done",
+    "2_funnel": "done",
+    "3_campaigns": "done",
+    "4_lifecycle": "done",
+    "5_measurement": "done",
+    "6_rerank": "done",
+    "7_roadmap": "done",
+    "7.5_qa": "done \u2014 revise, all catches fixed",
+    "8_publish": "in_progress"
+  },
+  "agent_returns": {
+    "experiments": "Only PH-374260 coachmarks (ENDED Jun 9 inconclusive per roadmap, agent saw stale 'Complete'); badly under-powered. Both shipped before/afters held: signup-modal 33->45%, /try value-first 10% vs home 8.2%. measurement_ok except purchase_completed=0 (expected). 0 due to score.",
+    "funnel": "Biggest leak = signup->model activation 49% (spine 85/173). Onboarding 14d: 79% finish Q3 but only 33% pick model, 32% generate -> collapse at model-pick. activationBefore 69->after 35 is confounded by paid mix-shift. 0 purchase_completed across all 35 days. /try category+garment leaks NOT in today's data.js (homepage spine only).",
+    "campaigns": "Meta feed STALE/frozen at $241.52/29/$8.33 since ~Jun 12; OS falsely says 'ads paused'. Live Meta API: 30d ~$1334, 7d ~$287, yesterday $42.43, Swim best $7.80 CPL/4.34% CTR, Kids funded (pixel-suppressed). feed_fresh=false. Autopilot files fresh (Jun 22 00:15) but Lifetime line frozen -> bug in autopilot Meta pull, not build.py. Ad account polluted with unrelated 'AI adset' campaigns.",
+    "lifecycle": "Top gap = Convert flow CTA. C1(+2h n7) 71% open/14% click works; C2-C5 20-35% opens, 0 clicks across 105 recipients -> CTA failure (not timing, real opens). AHA B1/B2 also 0 clicks (n=24). Convert lacks Subscription Started paid-exit (Jason)."
+  },
+  "scoreboard": {
+    "resolved_today": 0,
+    "new_predictions": 1,
+    "calibration": {
+      "hitRate": 0.33,
+      "n": 3
+    }
+  },
+  "writes": [
+    "run-file",
+    "content.json commandCenter",
+    "lessons.jsonl (+1 pred, +3 qa lessons)",
+    "experiment-roadmap.md",
+    "refresh-log.md"
+  ],
+  "qa": {
+    "verdict": "revise->fixed",
+    "catches": [
+      "/try numbers were current not stale (fixed ranks 7&9)",
+      "Convert lever was unbet (logged PRED)",
+      "checkout=10 upheld vs disputed 7"
+    ],
+    "boundary": "pass"
+  }
+}
