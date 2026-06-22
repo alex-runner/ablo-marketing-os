@@ -2134,16 +2134,6 @@
       },
       {
         "rank": "8",
-        "sev": "high",
-        "title": "Fix the stale Meta feed (autopilot Lifetime frozen since ~Jun 12; ads are healthy)",
-        "owner": "Alejo",
-        "status": "Ads are HEALTHY, contrary to the OS feed. Verified via Meta API Jun 22: 30d spend ~$1,334, 7d ~$287, yesterday $42.43; Swim best at $7.80 CPL / 4.34% CTR; Kids funded (conversions pixel-suppressed, trust CTR 2.27%). OS feed FROZEN at $241.52 / 29 signups / $8.33 CPL since ~Jun 12: the autopilot writes fresh files (LATEST.md Jun 22 00:15) but its 'Lifetime:' line never updates. Bug is in the autopilot's Meta pull, not build.py's parser. Do NOT raise a 'spend stopped' alarm (retracted twice). Also: ad account polluted with unrelated 'AI adset' campaigns dragging blended CTR. Fix: make the autopilot refresh lifetime spend, or add a build.py direct-API fallback. Escalate.",
-        "targets": "live Meta CPL and per-segment data in the OS",
-        "body": "build.py Meta pull stopped updating ~Jun 12 and carries the last value forward. The stale feed produced the false 'ads dark' alarm Jun 15 (retracted via verified Meta API). Wave 3 launched today; without a live feed we cannot see CPL, impressions, or per-segment performance for the new flight. Fix the token/refresh or API path so spend and segment data update daily. Until fixed, read Meta directly from Ads Manager. Do not trust OS Meta metrics.",
-        "ladder": "Measurement integrity · Wave 3 analysis unblocked"
-      },
-      {
-        "rank": "9",
         "sev": "med",
         "title": "Fix the /try category-selection drop (37% pass-through)",
         "owner": "Alejo + Product",
@@ -2153,7 +2143,7 @@
         "ladder": "Revenue lever 1 · /try category is the first drop in the paid funnel"
       },
       {
-        "rank": "10",
+        "rank": "9",
         "sev": "med",
         "title": "Hold signup-modal gains (resolved Jun 18 as MISS)",
         "owner": "Alejo",
@@ -2163,7 +2153,7 @@
         "ladder": "Project · signup-modal drop was the #1 blocker, now partially resolved"
       },
       {
-        "rank": "11",
+        "rank": "10",
         "sev": "med",
         "title": "Win the homepage + paid landing pages (CRO)",
         "owner": "Alejo + Product",
@@ -2171,6 +2161,17 @@
         "targets": "home_signup_pct · paid landing view->signup",
         "body": "OS-TRY-VS-HOME retired. Homepage and /try are statistically tied at ~10%. Value-first is the paid default but not a powered win (different attribution methods). Spend testing energy down-funnel. Next lever: homepage hero variant (blocked on Product). Scoring: hero_v2 vs hero_v1 UTM-cohort signup rate, post-ship >=14d.",
         "ladder": "Revenue lever 1 · more qualified signups from core segments"
+      },
+      {
+        "rank": "11",
+        "sev": "done",
+        "title": "Fix the stale Meta feed (RESOLVED Jun 22 -- autopilot now aggregates all Ablo campaigns)",
+        "owner": "Claude (shipped)",
+        "status": "Resolved. Root cause: the autopilot's Meta pull was hardcoded to a single CAMPAIGN_ID (the Jun-2 relaunch, $241.52/29), while real spend had moved to two other Ablo campaigns (the paused May-20 original $512, and the Jun-3 LP-test $460, ACTIVE). Fix (lib/meta.py + run_cycle.py): the lifetime report now paginates all campaigns, name-matches 'Ablo' (excludes the 200+ unrelated 'AI .' junk campaigns sharing the account), and sums via date_preset=maximum. The campaign the autopilot ACTS on is unchanged (no budget/status touched). LATEST.md + the OS feed now read $1,332.89 lifetime / 111 signups / $12.01 CPL. CPL still well under the $300 ceiling.",
+        "targets": "live Meta CPL and per-segment data in the OS",
+        "body": "build.py Meta pull stopped updating ~Jun 12 and carries the last value forward. The stale feed produced the false 'ads dark' alarm Jun 15 (retracted via verified Meta API). Wave 3 launched today; without a live feed we cannot see CPL, impressions, or per-segment performance for the new flight. Fix the token/refresh or API path so spend and segment data update daily. Until fixed, read Meta directly from Ads Manager. Do not trust OS Meta metrics.",
+        "ladder": "Measurement integrity · Wave 3 analysis unblocked",
+        "done": true
       },
       {
         "rank": "12",
