@@ -238,6 +238,95 @@ def _hogql(env, query):
         return None
 
 
+# --- Post-flow feedback (result_feedback) -------------------------------------
+# Qualitative feedback captured by the in-app prompt that fires right after a
+# try-on result renders (apps/web ResultFeedbackPrompt -> PostHog
+# `result_feedback`). Labels mirror the app's i18n so the dashboard reads the
+# same words the user saw.
+FEEDBACK_WINDOW_DAYS = 30
+
+# (key, label, chip tone) in fixed sentiment order: best -> worst.
+FEEDBACK_SENTIMENTS = [
+    ("positive", "Love it", "success"),
+    ("neutral", "It's okay", "muted"),
+    ("negative", "Not what I hoped", "warn"),
+]
+
+FEEDBACK_REASON_LABELS = {
+    "realistic": "Looks realistic",
+    "accurate": "Accurate to my product",
+    "goodEnough": "Good enough to use",
+    "betterThanExpected": "Better than expected",
+    "closeButNotQuite": "Close, but not quite",
+    "notAccurate": "Not accurate to my product",
+    "modelBrandFit": "Model doesn't fit my brand",
+    "justExploring": "Just exploring",
+    "productMismatch": "Doesn't match my product",
+    "fitWrong": "Fit or drape looks wrong",
+    "modelWrong": "Model isn't right",
+    "looksAi": "Looks AI-generated",
+    "lowQuality": "Image quality too low",
+}
+
+
+def fetch_result_feedback(env):
+    """Post-try-on feedback (PostHog `result_feedback`): sentiment split + ranked
+    reason chips + recent verbatim notes over a 30-day window.
+
+    Returns None when PostHog cannot be read (card falls back to 'not
+    connected'). Returns a zero-total block when connected but no submissions
+    yet, so the card can say 'connected, waiting for data' rather than vanish."""
+    if not env.get("POSTHOG_PERSONAL_API_KEY"):
+        return None
+    w = FEEDBACK_WINDOW_DAYS
+    base = (f"FROM events WHERE event='result_feedback' "
+            f"AND timestamp > now() - INTERVAL {w} DAY")
+
+    sent_rows = _hogql(env, f"SELECT properties.sentiment AS s, count() AS n {base} GROUP BY s")
+    if sent_rows is None:
+        return None  # pull failed -> let the card show 'not connected', not zeros
+    counts = {str(r[0]): int(r[1]) for r in sent_rows if r and r[0] is not None}
+    total = sum(counts.values())
+    sentiment = [
+        {"key": k, "label": lbl, "tone": tone, "n": counts.get(k, 0),
+         "pct": round(counts.get(k, 0) / total * 100) if total else 0}
+        for k, lbl, tone in FEEDBACK_SENTIMENTS
+    ]
+
+    reason_rows = _hogql(env, (
+        "SELECT arrayJoin(JSONExtract(ifNull(properties.reasons, '[]'), 'Array(String)')) AS r, "
+        f"count() AS n {base} GROUP BY r ORDER BY n DESC LIMIT 100"
+    )) or []
+    reasons = [
+        {"key": str(r[0]), "label": FEEDBACK_REASON_LABELS.get(str(r[0]), str(r[0])), "n": int(r[1])}
+        for r in reason_rows if r and r[0]
+    ]
+
+    sent_label = {k: lbl for k, lbl, _ in FEEDBACK_SENTIMENTS}
+    sent_tone = {k: t for k, _, t in FEEDBACK_SENTIMENTS}
+    note_rows = _hogql(env, (
+        "SELECT toString(properties.note) AS note, properties.sentiment AS s, "
+        f"toString(toDate(timestamp)) AS d {base} "
+        "AND ifNull(toString(properties.note), '') != '' ORDER BY timestamp DESC LIMIT 15"
+    )) or []
+    notes = [
+        {"text": str(r[0]), "sentiment": str(r[1]),
+         "sentimentLabel": sent_label.get(str(r[1]), str(r[1])),
+         "tone": sent_tone.get(str(r[1]), "default"), "date": str(r[2])}
+        for r in note_rows if r and r[0]
+    ]
+
+    log(f"PostHog: result_feedback {total} submission(s) in {w}d, {len(notes)} note(s)")
+    return {
+        "source": "PostHog · live HogQL",
+        "windowDays": w,
+        "total": total,
+        "sentiment": sentiment,
+        "reasons": reasons,
+        "notes": notes,
+    }
+
+
 # Canonical happy-path stage -> events. Keys MUST match funnelCurated stages.
 FUNNEL_STAGES = [
     ("land",     ["$pageview"]),
@@ -2194,6 +2283,10 @@ def build():
     if tx:
         experiments = list(experiments) + [fetch_try_experiment(env, tx, landing_live)]
 
+    # Post-try-on qualitative feedback (PostHog result_feedback): sentiment +
+    # ranked reasons + verbatim notes. None when PostHog can't be read.
+    feedback = fetch_result_feedback(env)
+
     # ClickUp task feed (source of truth for action items) + IG organic stats.
     clickup = fetch_clickup(env)
     instagram = fetch_instagram(env)
@@ -2323,6 +2416,7 @@ def build():
         "audience": audience,
         "channels": channels_live,
         "landingPages": landing_live,
+        "feedback": feedback,
         "clickup": clickup,
         "instagram": instagram,
         "history": history,
@@ -2336,6 +2430,7 @@ def build():
             "klaviyo": klaviyo_live,
             "channels": channels_live is not None,
             "landingPages": landing_live is not None,
+            "feedback": feedback is not None,
             "clickup": clickup is not None,
             "instagram": instagram is not None,
             "audience": audience_live,
