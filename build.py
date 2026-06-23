@@ -279,8 +279,11 @@ def fetch_result_feedback(env):
     if not env.get("POSTHOG_PERSONAL_API_KEY"):
         return None
     w = FEEDBACK_WINDOW_DAYS
+    # Exclude internal/test submissions (our own team) so the voice-of-customer
+    # read is real customers only. Anonymous users (no email) are kept.
     base = (f"FROM events WHERE event='result_feedback' "
-            f"AND timestamp > now() - INTERVAL {w} DAY")
+            f"AND timestamp > now() - INTERVAL {w} DAY "
+            f"AND ifNull(person.properties.email, '') NOT ILIKE '%@spacerunners.com%'")
 
     sent_rows = _hogql(env, f"SELECT properties.sentiment AS s, count() AS n {base} GROUP BY s")
     if sent_rows is None:
