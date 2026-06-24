@@ -64,3 +64,8 @@ The Jun-12 Studio overhaul (2-step coachmarks, swipeable models, pose tuning, mo
 | 5 | Homepage/landing hero rebuild (mkt1-positioning lens, UTM-tagged) | homepage / paid landing | land→engage bounce | home_signup_pct | high | low | CC rank 11. Blocked on Product. PRED-2026-06-04-homepage-cro due Jul 19. |
 
 **Data-integrity blocker (not an experiment, but gates campaign decisions):** the autopilot's Meta 'Lifetime:' line is frozen since ~Jun 12 (CC rank 8). Ads are confirmed healthy via Meta API; the OS just can't see it. Fix = autopilot Meta refresh or a build.py direct-API fallback. Escalate / own as an engineering task.
+
+## Updated 2026-06-24
+- **3 predictions resolved, all MISS** (activate-flow 69->50, tbs-category-fix 10.4 unshipped, checkout-outreach 6->5 not executed). Calibration now ~0.17 (n=6). 2 of 3 missed because the action never shipped, not because the hypothesis was wrong (LES-2026-06-24-escalate-gated-calibration).
+- **No new experiment launched, no new prediction opened.** Calibration is low/thin -> raise the bar, prefer reversible moves. The top lever (Convert C2-C5 CTA rework, roadmap rank 1) is still UNSHIPPED and is now confirmed a real dead-CTA (121 recipients, windows elapsed, 0 clicks), not a timing artifact. Queue unchanged; the blocker is execution, not the queue.
+- Experiments: PH-374260 (coachmarks) data.js binding still says 'Running' but PostHog ended it Jun 9 inconclusive -- stale flag, low-priority hygiene fix.

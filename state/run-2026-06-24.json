@@ -1,0 +1,49 @@
+{
+  "date": "2026-06-24",
+  "started": true,
+  "steps": {
+    "0_orient": "done",
+    "0_resolve": "done \u2014 3 resolved (1 miss, 2 moot)",
+    "1_experiments": "done",
+    "2_funnel": "done",
+    "3_campaigns": "done",
+    "4_lifecycle": "done",
+    "5_measurement": "done",
+    "6_rerank": "done",
+    "7_roadmap": "done",
+    "7.5_qa": "done \u2014 revise, all catches fixed",
+    "8_publish": "in_progress"
+  },
+  "due_to_resolve": [
+    "PRED-2026-06-03-activate-flow",
+    "PRED-2026-06-09-tbs-category-fix",
+    "PRED-2026-06-17-checkout-outreach"
+  ],
+  "agent_returns": {},
+  "writes": [
+    "run-file",
+    "lessons.jsonl (3 resolved +8 lessons)",
+    "content.json commandCenter",
+    "experiment-roadmap.md",
+    "refresh-log.md"
+  ],
+  "scoreboard": {
+    "resolved_today": 3,
+    "verdicts": {
+      "activate-flow": "miss",
+      "tbs-category-fix": "moot",
+      "checkout-outreach": "moot"
+    },
+    "new_predictions": 0,
+    "calibration_note": "~0.25 n=4 after excluding 2 moot"
+  },
+  "qa": {
+    "verdict": "revise->fixed",
+    "catches": [
+      "onboarding 79/32 -> 80/35",
+      "unpersisted CTRs 3.96/2.04 dropped",
+      "2 preds re-resolved miss->moot"
+    ],
+    "boundary": "pass"
+  }
+}

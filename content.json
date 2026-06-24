@@ -2059,7 +2059,7 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 22, 2026",
+    "updated": "June 24, 2026",
     "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
     "items": [
       {
@@ -2067,7 +2067,7 @@
         "sev": "high",
         "title": "Make paid conversion visible -- check Stripe for the 10 checkout-starters",
         "owner": "Alejo + Jason",
-        "status": "8 days to goal. purchase_completed: 0 fires across the full 35-day window. 10 checkout-starters (same-user spine; reach view 11, d30 5), pricing->checkout 6%. Event wired (AccountPage success_url, keyed to user.id), verified end-to-end Jun 11 -- 0 fires most likely = 0 real payments, but client-side fire is ad-blockable. FASTEST read on the goal: confirm the 10 starters in Stripe; a hidden paid customer would re-frame everything. Convert flow also lacks a Subscription Started paid-exit (Jason).",
+        "status": "6 days to goal. purchase_completed: 0 fires all-time (37-day window). 10 checkout-starters (spine), 0 paid. Funnel converts fine to the aha then dies at the wallet: 79 try-ons -> 10 checkout -> 0 paid. Event wired + verified Jun 11 (client-side, ad-blockable). FASTEST read on the goal: confirm the 10 starters in Stripe. A hidden paid customer reframes everything. Alejo-gated.",
         "targets": "signup->paid >= 8% (measurable at all)",
         "body": "Verified: stripe.routes.ts success_url -> AccountPage.tsx:44-52 fires track('purchase_completed') on real purchase. 0 fires = 0 paid. Robustness gap: client-side fire is ad-blockable; bulletproof fix is server-side from the checkout.session.completed webhook (no posthog-node on server yet). Also needed: Subscription Started event for Convert flow exit, so it stops emailing paying customers. See state/diagnostics-2026-06-11.md.",
         "ladder": "KPI · cannot improve what you cannot see"
@@ -2077,7 +2077,7 @@
         "sev": "high",
         "title": "Rework Convert C2-C5 paid-ask CTAs (read but 0 clicks across 105 recipients)",
         "owner": "Claude draft / Alejo ship",
-        "status": "Convert flow live since Jun 6 (read from live.lifecycle today). C1 (+2h, n=7): 71% open, 14.3% click -- works. C2 (n=38) 34% open, C3 (n=23) 35%, C4 (n=24) 25%, C5 (n=20) 20% -- all 0 clicks. 105 recipients read, 0 acted. Not timing (real opens), not deliverability. The paid-ask CTA itself fails. Closest-to-money lever. Draft rework: one concrete action line + a direct /studio-or-checkout link. Escalate: editing a live flow emails real users.",
+        "status": "Convert flow live since Jun 6. C1 (+2h, n=8): 75% open, 12.5% click, 87.5% conv -- the sequence WORKS when the CTA lands. C2-C5: opens 20-36%, 0 clicks across 121 recipients (grew from 105). C5 at Day 11 has had its full window elapse -- NO longer a timing artifact, the later CTAs are genuinely dead. 121 try-on-completed users (the exact pre-paid cohort) read and click nothing. Top ACTIONABLE lever to the first sale. Rework drafted, still UNSHIPPED (escalate: edits a live flow). PRED-2026-06-22-cta-rework open (email_click 0->5, due Jul 6).",
         "targets": "Convert flow click->checkout rate",
         "body": "C4 IS being delivered and opened. Spam is not the diagnosis. The problem is that C2, C3, and C4 all have 0 clicks despite 20-35% opens -- meaning recipients read and leave. C1 works (16.7% click) because it is an in-the-moment AHA reinforcement with a clear link. C2-C4 drift toward abstract value props with no concrete next step. Fix: rewrite C2-C4 CTAs as one unmissable action per email ('Open your studio. Your credits are waiting.' + direct /studio link). If clicks still do not appear after rework, the blocker is price objection, not CTA, and direct outreach (rank 1) is the only lever before Jun 30.",
         "ladder": "KPI · signup->paid >= 8% · paid-ask is the final automated touch before sale"
@@ -2087,7 +2087,7 @@
         "sev": "high",
         "title": "Personal outreach to the 10 checkout starters",
         "owner": "Alejo",
-        "status": "8 days to goal. PRED-2026-06-17-checkout-outreach (payment_rate 6->8, due Jun 24). Window largely closed: 'moot if <5 of 10 contacted before Jun 20' -- now Jun 22; needs Alejo to confirm whether any went out. 10 checkout-starters (spine): 9 Direct, 1 Meta. Direct converts to checkout 13.7%. Still the most direct path to the first sale if not yet done.",
+        "status": "PRED-2026-06-17-checkout-outreach RESOLVED MISS Jun 24 (payment_rate 6->5, wrong direction, outreach not executed before the Jun-20 window). Window lapsed but the play is still live: 10 warm checkout-starters (9 Direct, 1 Meta), Direct converts to checkout 14%. A direct ask remains the most human path to customer #1. Alejo-gated.",
         "targets": "first paying customer · payment_rate",
         "body": "10 people entered Stripe and stopped. They saw pricing, had intent, and did not complete. A personal email from Alejo asking what got in the way is the surest path to the first customer in the next 12 days. Start with the 9 Direct/organic starters, who show 10x better checkout behavior than Meta signups. Even 1 converted plus 2 more new checkout completions brings payment_rate to 8%.",
         "ladder": "The brag · first paying customer"
@@ -2097,7 +2097,7 @@
         "sev": "high",
         "title": "Close the activation gap (49%) -- collapse at onboarding model-pick",
         "owner": "Alejo + Jason",
-        "status": "activation_rate 49% (spine 85/173), roughly steady. Clean signal: onboarding 14d sub-funnel (63 signups) -- 79% finish all 3 questions but only 33% pick a model (21) and 32% generate (20); 97% of pickers then generate. The collapse is at model-pick, not the questionnaire or generation. The 69->35 before/after is confounded by paid mix-shift (paid 44% vs direct 66%, confirmed Jun 11) -- read the intra-funnel collapse, not the overall drop. PRED-2026-06-19-onboarding-model-filter (49->57, due Jul 3) tests pre-filtering the gallery to ~5-8 matches. Product-owned. /studio rage-click cluster parallel.",
+        "status": "PRED-2026-06-03-activate-flow RESOLVED MISS Jun 24 (activation_rate 69->50; the Activate email flow did not lift it). Clean diagnosis (live.funnel.onboarding, 60 signups/14d): 80% finish all 3 questions, but only 33% pick a model (20) and 35% generate (21). The collapse is at model-pick, not the questionnaire or generation. 69->38 before/after is confounded by paid mix-shift (paid 44% vs direct 66%). Email can't fix it; needs the model-gallery pre-filter. PRED-2026-06-19-onboarding-model-filter open (49->57, due Jul 3). Product-owned.",
         "targets": "activation_rate >= 50% (at threshold)",
         "body": "Two parallel blockers, now with a specific root cause for the primary one. (1) Onboarding model-pick paralysis: the questionnaire collects segment (Q1: who they make for), category (Q2), and style (Q3), but the model gallery shows 50+ options cold. 34 of 63 question-completers bail at model selection. Fix: pre-filter the gallery to ~5-8 models matching Q1 answer -- nearly free for Product, kills the choice-paralysis. PRED-2026-06-19-onboarding-model-filter covers this. (2) /studio rage-click stall: 36 users, 76 events, recurring daily for those who bypass onboarding. Escalate to Jason with rage-click coordinates. Both PREDs resolve as misses unless fixes ship by Jun 24/26.",
         "ladder": "Project · activation gates every paid dollar"
@@ -2107,7 +2107,7 @@
         "sev": "high",
         "title": "Rework AHA flow B1/B2 CTAs (0 clicks on 24 recipients)",
         "owner": "Claude draft / Alejo ship",
-        "status": "AHA flow live since Jun 5 (live.lifecycle today). B1 (n=12) 41.7% open / 0 clicks; B2 (n=12) 25% open / 0 clicks. 24 read, 0 acted -- same CTA-failure class as Convert (rank 2). Draft rework: single concrete action + direct /studio link. Escalate the live edit.",
+        "status": "AHA flow live since Jun 5. B1 (n=13) 46% open / 0 clicks; B2 (n=12) 25% / 0. 25 read, 0 acted -- same dead-CTA class as Convert (rank 2). Rework drafted, unshipped. Escalate the live edit.",
         "targets": "tryon->checkout · payment_rate",
         "body": "Opens confirm deliverability and intent; 0 clicks means the CTA copy or link is the failure. Fix: rewrite B1 and B2 with a single concrete action line and a direct /studio link ('Your try-on is ready. Start now.', not 'learn more'). The in-product pricing prompt already moves 11/57 aha-reachers (18% CTR, 30d); the email CTA should amplify it. If clicks do not appear after rework, the blocker is price, not exposure, and direct outreach (rank 1) is the fallback. PRED-2026-06-16-aha-cta-rework: payment_rate 6->8, due Jun 30.",
         "ladder": "KPI · signup->paid >= 8%"
@@ -2117,7 +2117,7 @@
         "sev": "high",
         "title": "Fix value-capture leak (try-on -> download, 26%)",
         "owner": "Alejo + Jason",
-        "status": "Spine: 19 of 74 aha-reachers download (26%). postTryon 30d: 16 of 60 download (27%), 78% saw a pricing prompt, 13% clicked it (8), 5% started checkout (3). No post-render download/share prompt exists in-product. Adding one at the render moment could lift downloads and the pricing-prompt path together. Product-owned (try-on result screen, free surface).",
+        "status": "Spine: ~19-20 of 79 aha-reachers download (25%). postTryon: 78% see a pricing prompt, ~13% click it, ~5% start checkout. No post-render download/share prompt exists. Adding one at render could lift downloads and the pricing path together. Product-owned (try-on result screen).",
         "targets": "payment_rate (directional) · downloads as proof of value",
         "body": "If a user reaches try-on but does not download, the value never leaves the app. Downloads are a strong checkpoint for purchase intent: 6 of the 11 pricing-prompt clickers (54%) started checkout. A post-render download/share CTA overlay at the moment the try-on image renders could lift downloads from 25% toward 40%+ and pull more users into the checkout funnel. Fix: Jason build, post-tryon overlay with 'Download your result' primary CTA and 'Share with your team' secondary. This is a new item not previously tracked.",
         "ladder": "Revenue lever 2 · aha->paid conversion"
@@ -2127,7 +2127,7 @@
         "sev": "high",
         "title": "Fix /try garment -> generate drop (~47%, sharpest intent-weighted leak)",
         "owner": "Alejo + Jason",
-        "status": "Current (live.meta.funnelSuggestions, Jun 22, 'unchanged from last cycle'): tbs flow 622 viewed -> 230 category (37%) -> 198 added a garment -> 105 clicked Generate (~47% drop garment->generate), then 104 hit the signup wall. Sharpest intent-weighted leak in the paid funnel: these users picked a category, a model, and draped a product, then lost ~half at Generate. /try view->signup ~9.7%, roughly tied with home 10.1%. PRED-2026-06-18-try-generate-gap (view->signup 10.1->12.5, due Jul 2, moot if unshipped). Likely: the Generate button is not unmistakable post-drape. Product-owned.",
+        "status": "Top-of-funnel volume lever (live.meta.funnelSuggestions, Jun 24). tbs flow: ~68% leave before adding a garment, ~83% before Generate. /try view->signup ~10%, tied with home. PRED-2026-06-18-try-generate-gap open (view->signup 10.1->12.5, due Jul 2, moot if unshipped). Product-owned.",
         "targets": "home_signup_pct (via /try tbs cohort view->signup rate)",
         "body": "Users who added a garment have peak intent: they selected a category, picked a model, and draped a product. Losing 46% at the Generate step is the tightest in-flow leak before the signup wall. Likely causes: Generate button not visible after garment is added, unclear loading state, or no next-step prompt. Fix: (1) audit what the screen shows after garment is added; (2) add a loading/progress indicator; (3) add an inline 'Now generate your try-on' CTA. This is distinct from the category-selection drop (rank 9) -- different users, different step, different fix.",
         "ladder": "Revenue lever 1 · /try is the paid default, generate gap is its tightest in-flow leak"
@@ -2137,13 +2137,24 @@
         "sev": "med",
         "title": "Fix the /try category-selection drop (37% pass-through)",
         "owner": "Alejo + Product",
-        "status": "Current (live.meta.funnelSuggestions, Jun 22): 622 viewed /try -> 230 selected a category (37%, ~63% bounce before category). After category the funnel holds to garment-add, then the ~47% garment->generate drop (rank 7) bites. Two distinct /try leaks, different user states -- keep separate. PRED-2026-06-09-tbs-category-fix due Jun 23 (tomorrow) -- resolve then, moot if unshipped.",
+        "status": "PRED-2026-06-09-tbs-category-fix RESOLVED MISS Jun 24 (home_signup_pct 10.4 vs 10.5 baseline / 13 target -- the UI fix never shipped, so the leak persists). Still a real /try leak (~37-40% category pass-through), distinct from the garment->generate drop (rank 7). Re-log a bet only when a fix actually ships.",
         "targets": "home_signup_pct (via /try tbs cohort view->signup rate)",
         "body": "61% of /try viewers bounce before picking a category. After category selection the downstream funnel holds, but a second drop exists at the generate step (rank 4). Fix the category step first: larger tap targets, one-line descriptors per category, or a pre-selected default. A 15pp lift in category pass-through at current downstream rates recovers roughly 9 more signers per 100 additional visitors. PRED-2026-06-09-tbs-category-fix: baseline 10.5%, target 13.0%, due Jun 23.",
         "ladder": "Revenue lever 1 · /try category is the first drop in the paid funnel"
       },
       {
         "rank": "9",
+        "sev": "med",
+        "done": false,
+        "title": "Concentrate paid on Swim/Kids, trim Men, verify delivery (idle 24h)",
+        "owner": "Alejo (budget)",
+        "status": "Feed now trustworthy (fixed Jun 22): $1,375 lifetime / 114 signups / $12.06 CPL across the 3 Ablo Studio campaigns. Budget already 78% on the converting segments (Kids + Swim). Persisted best-day CTRs: Swim ~2.97% (best), Menswear ~1.91% (weakest) -- Men is the cut-and-reallocate candidate. (Live per-segment CPLs from Meta are not persisted and overstate vs the 114 true signups; trust relative ranking only.) Anomaly: the autopilot reports 0 spend/0 impressions in 24h (delivery idle) while the lifetime tile reads 'Live'. Verify in Ads Manager before assuming real; the feed was just fixed, do NOT re-raise a false 'ads dark' alarm. With 6 days to first-customer, the binding lever is wallet conversion (ranks 1-2), not top-funnel.",
+        "targets": "CAC < $300 . converting segments",
+        "body": "With acquisition healthy and budget rightly weighted, the marginal gain is reallocating the weakest segment (Men) to the strongest (Swim) and confirming delivery is live. But with 6 days to first-customer, the binding lever is wallet conversion (ranks 1-2), not more top-funnel.",
+        "ladder": "Lever 1 . grow top-of-funnel with the core audience"
+      },
+      {
+        "rank": "10",
         "sev": "med",
         "title": "Hold signup-modal gains (resolved Jun 18 as MISS)",
         "owner": "Alejo",
@@ -2153,7 +2164,7 @@
         "ladder": "Project · signup-modal drop was the #1 blocker, now partially resolved"
       },
       {
-        "rank": "10",
+        "rank": "11",
         "sev": "med",
         "title": "Win the homepage + paid landing pages (CRO)",
         "owner": "Alejo + Product",
@@ -2163,7 +2174,7 @@
         "ladder": "Revenue lever 1 · more qualified signups from core segments"
       },
       {
-        "rank": "11",
+        "rank": "12",
         "sev": "done",
         "title": "Fix the stale Meta feed (RESOLVED Jun 22 -- autopilot now aggregates all Ablo campaigns)",
         "owner": "Claude (shipped)",
@@ -2174,7 +2185,7 @@
         "done": true
       },
       {
-        "rank": "12",
+        "rank": "13",
         "sev": "done",
         "done": true,
         "title": "Wire the prepared lifecycle emails",
@@ -2185,7 +2196,7 @@
         "ladder": "Revenue lever 2 · convert signups already in the funnel"
       },
       {
-        "rank": "13",
+        "rank": "14",
         "sev": "done",
         "done": true,
         "title": "Fix the signup-modal leak",
