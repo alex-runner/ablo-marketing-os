@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 24, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-24T15:40:16.189959+00:00"
+    "updatedISO": "2026-06-24T16:00:21.462612+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2889,8 +2889,8 @@ window.ABLO_OS = {
           "sub": "$pageview",
           "group": "Acquire",
           "counts": {
-            "d7": 274,
-            "d30": 1395,
+            "d7": 273,
+            "d30": 1393,
             "d90": 1740,
             "all": 1740
           }
@@ -3303,7 +3303,7 @@ window.ABLO_OS = {
               "recipients": 8,
               "open": 75.0,
               "click": 12.5,
-              "conv": 87.5,
+              "conv": 100.0,
               "unsub": 0
             },
             {
@@ -3348,7 +3348,7 @@ window.ABLO_OS = {
             "recipients": 129,
             "open": 31.8,
             "click": 0.8,
-            "conv": 12,
+            "conv": 13,
             "convUniques": 5,
             "convLabel": "Try-on completed"
           }
@@ -3783,7 +3783,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223274,
+      "followers": 223277,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -4464,7 +4464,7 @@ window.ABLO_OS = {
         {
           "date": "2026-06-24",
           "landed": 19,
-          "engaged": 4,
+          "engaged": 5,
           "modal": 7,
           "signups": 5,
           "models": 3,
@@ -4479,7 +4479,7 @@ window.ABLO_OS = {
           "email_click": 0.0,
           "email_recipients": 25,
           "paying_customers": 0,
-          "ig_followers": 223274,
+          "ig_followers": 223277,
           "activation_rate": 50,
           "aha_rate": 43,
           "payment_rate": 5,
