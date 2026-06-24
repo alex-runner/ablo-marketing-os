@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 24, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-24T16:00:21.462612+00:00"
+    "updatedISO": "2026-06-24T16:07:53.519985+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2890,7 +2890,7 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 273,
-            "d30": 1393,
+            "d30": 1392,
             "d90": 1740,
             "all": 1740
           }
@@ -3029,41 +3029,102 @@ window.ABLO_OS = {
           {
             "label": "Signed up",
             "count": 185,
-            "pct": 100
+            "pct": 100,
+            "paid": {
+              "count": 102,
+              "pct": 100
+            },
+            "organic": {
+              "count": 83,
+              "pct": 100
+            }
           },
           {
             "label": "Entered studio",
             "count": 179,
-            "pct": 97
+            "pct": 97,
+            "paid": {
+              "count": 98,
+              "pct": 96
+            },
+            "organic": {
+              "count": 81,
+              "pct": 98
+            }
           },
           {
             "label": "Generated a model",
             "count": 92,
-            "pct": 50
+            "pct": 50,
+            "paid": {
+              "count": 44,
+              "pct": 43
+            },
+            "organic": {
+              "count": 48,
+              "pct": 58
+            }
           },
           {
             "label": "Tried on (aha)",
             "count": 79,
             "pct": 43,
-            "aha": true
+            "aha": true,
+            "paid": {
+              "count": 33,
+              "pct": 32
+            },
+            "organic": {
+              "count": 46,
+              "pct": 55
+            }
           },
           {
             "label": "Downloaded result",
             "count": 20,
-            "pct": 11
+            "pct": 11,
+            "paid": {
+              "count": 10,
+              "pct": 10
+            },
+            "organic": {
+              "count": 10,
+              "pct": 12
+            }
           },
           {
             "label": "Clicked pricing",
             "count": 10,
-            "pct": 5
+            "pct": 5,
+            "paid": {
+              "count": 1,
+              "pct": 1
+            },
+            "organic": {
+              "count": 9,
+              "pct": 11
+            }
           },
           {
             "label": "Started checkout",
             "count": 10,
             "pct": 5,
-            "payment": true
+            "payment": true,
+            "paid": {
+              "count": 1,
+              "pct": 1
+            },
+            "organic": {
+              "count": 9,
+              "pct": 11
+            }
           }
-        ]
+        ],
+        "denominators": {
+          "all": 185,
+          "paid": 102,
+          "organic": 83
+        }
       },
       "drops": [
         {

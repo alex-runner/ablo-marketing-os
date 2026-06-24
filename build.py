@@ -592,6 +592,32 @@ def fetch_funnel(env, base):
     """.strip()
     spine_rows = _hogql(env, spine_q)
 
+    # Same-user spine split by acquisition source (paid vs organic). PostHog's
+    # $virt_initial_channel_type is its built-in channel classifier; "Paid*"
+    # (Paid Social / Paid Search / ...) = paid, everything else (Direct, Organic*,
+    # Email, Referral, Unknown) = organic/non-paid. This answers "is paid actually
+    # converting": paid drives most signups but organic converts far deeper.
+    # Attribution is best-effort (initial UTM + identity stitching).
+    spine_src_q = """
+        SELECT if(startsWith(channel,'Paid'),'paid','organic') AS src,
+               countIf(s>0) a, countIf(s>0 AND en>0) b, countIf(s>0 AND mo>0) c,
+               countIf(s>0 AND ty>0) e, countIf(s>0 AND dl>0) f,
+               countIf(s>0 AND pr>0) g, countIf(s>0 AND ch>0) h
+        FROM (
+          SELECT person_id,
+            maxIf(1, event='signup_completed') s, maxIf(1, event='studio_entered') en,
+            maxIf(1, event='model_generated') mo,
+            maxIf(1, event='tryon_completed') ty,
+            maxIf(1, event IN ('result_downloaded','results_downloaded_all')) dl,
+            maxIf(1, event='pricing_plan_clicked') pr, maxIf(1, event='checkout_started') ch,
+            coalesce(nullIf(argMax(person.properties.$virt_initial_channel_type, timestamp), ''), 'Unknown') AS channel
+          FROM events WHERE timestamp >= now() - INTERVAL 365 DAY GROUP BY person_id
+        )
+        WHERE s>0
+        GROUP BY src
+    """.strip()
+    src_rows = _hogql(env, spine_src_q)
+
     import copy
     funnel = copy.deepcopy(base)
     funnel["source"] = "PostHog · live HogQL"
@@ -605,11 +631,29 @@ def fetch_funnel(env, base):
         v = [int(x) for x in spine_rows[0]]
         denom = v[0] or 1
         steps = funnel.get("spine", {}).get("steps", [])
+        # source split: {'paid': [7 counts], 'organic': [7 counts]}
+        src = {r[0]: [int(x) for x in r[1:]] for r in (src_rows or []) if r and r[0]}
+        pden = (src.get("paid") or [0])[0] or 1
+        oden = (src.get("organic") or [0])[0] or 1
         for i, step in enumerate(steps):
             if i < len(v):
                 step["count"] = v[i]
                 step["pct"] = round(v[i] / denom * 100)
+                if "paid" in src and i < len(src["paid"]):
+                    step["paid"] = {"count": src["paid"][i],
+                                    "pct": round(src["paid"][i] / pden * 100)}
+                if "organic" in src and i < len(src["organic"]):
+                    step["organic"] = {"count": src["organic"][i],
+                                       "pct": round(src["organic"][i] / oden * 100)}
         funnel["spine"]["denominator"] = v[0]
+        funnel["spine"]["denominators"] = {
+            "all": v[0],
+            "paid": (src.get("paid") or [0])[0],
+            "organic": (src.get("organic") or [0])[0],
+        }
+        if src:
+            log(f"spine source split: paid {(src.get('paid') or [0])[0]} signups, "
+                f"organic {(src.get('organic') or [0])[0]} signups")
     ob = _fetch_onboarding(env)
     if ob:
         funnel["onboarding"] = ob

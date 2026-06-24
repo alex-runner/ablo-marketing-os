@@ -272,6 +272,18 @@
     .spine .srow.pay .sbar i { background:var(--success); }
     .spine .spct { text-align:right; font-size:13.5px; font-weight:600; }
     .spine .spct span { font-size:11px; color:var(--muted); font-weight:400; margin-left:5px; }
+    /* unified funnel (visitor -> signup -> activation -> revenue) */
+    .funnel-unified .fbar { grid-template-columns:212px 1fr 156px; }
+    .funnel-unified .fbar.muted .lab span, .funnel-unified .fbar.muted .meta .n { color:var(--muted); }
+    .funnel-unified .fbar.muted .fill { opacity:.45; }
+    .fbar .meta .mp { font-size:11px; margin-top:3px; line-height:1.4; }
+    .fbar .meta .mp .cum { color:var(--muted); }
+    .fbar .meta .mp .step { font-size:11px; }
+    .fdivider { display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;
+      margin:12px 0; padding:9px 14px; border-left:2px solid var(--accent-dim);
+      background:rgba(232,213,163,0.05); border-radius:var(--radius-sm); font-size:12.5px; color:var(--text2); }
+    .fdivider .sub { color:var(--muted); font-size:11.5px; }
+    @media (max-width:600px){ .funnel-unified .fbar { grid-template-columns:130px 1fr 96px; gap:10px; } }
 
     /* ---------- Lifecycle ---------- */
     .tl { position:relative; padding-left:28px; margin-top:4px; }
@@ -453,6 +465,28 @@
       return e;
     }
     const frag=(...k)=>{const f=document.createDocumentFragment(); k.flat().forEach(x=>{if(x)f.append(x);}); return f;};
+
+    // ---- shared trend helpers (used by Funnel + Trends) ----
+    // sparkline from a numeric array (nulls dropped); accent stroke, last-point dot
+    function spark(vals){
+      const v=vals.filter(x=>typeof x==='number');
+      if(!v.length) return '';
+      const mn=Math.min(...v), mx=Math.max(...v), rng=(mx-mn)||1, n=v.length;
+      const xy=v.map((x,i)=>[(n===1?50:(i/(n-1))*100), 31-((x-mn)/rng)*28]);
+      const pts=xy.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+      const lp=xy[xy.length-1];
+      return '<svg viewBox="0 0 100 34" preserveAspectRatio="none">'
+        + (n>1?'<polyline fill="none" stroke="var(--accent-dim)" stroke-width="1.5" vector-effect="non-scaling-stroke" points="'+pts+'"/>':'')
+        + '<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="2.4" fill="var(--accent)" vector-effect="non-scaling-stroke"/></svg>';
+    }
+    const deltaChip=(cur,prev,good)=>{
+      if(prev==null||cur==null||prev===0) return h('span',{class:'tdelta flat'},'new');
+      const pct=Math.round((cur-prev)/Math.abs(prev)*100);
+      if(pct===0) return h('span',{class:'tdelta flat'},'0%');
+      const better = good==='neutral'? null : (good==='down' ? pct<0 : pct>0);
+      const cls = better==null?'flat':(better?'up':'down');
+      return h('span',{class:'tdelta '+cls}, (pct>0?'▲ +':'▼ ')+pct+'%');
+    };
 
     // ---- icons (lucide-style) ----
     const I = {
@@ -739,93 +773,165 @@
 
     S.funnel = ()=>{ const f=(L.funnel)||D.funnelCurated||{}; const live=(L.refreshedSources||{}).funnel;
       const lp=(L.landingPages)||null;
-      const wins = f.windows||['all'];
-      let win = wins.includes(funnelWin) ? funnelWin : 'all';
-      const stages=f.stages||[]; const wl=f.windowLabels||{};
-      const stepClass = p => p==null?'':(p>100?'step-mid':p>=70?'step-hi':p>=40?'step-mid':'step-lo');
+      const stages=f.stages||[];
+      const stepClass = p => p==null?'':(p>=70?'step-hi':p>=40?'step-mid':'step-lo');
 
-      // The bars rebuild in place when the window changes — no full re-render,
-      // so scroll position is preserved.
-      const barsWrap = h('div',{class:'card flat'});
-      function fillBars(){
-        const maxc=Math.max(1, ...stages.map(s=>(s.counts||{})[win]||0));
-        barsWrap.innerHTML='';
-        let prev=null, grp=null;
-        stages.forEach(s=>{
-          if(s.group && s.group!==grp){ barsWrap.append(h('div',{class:'fgroup'}, s.group)); grp=s.group; }
-          const c=(s.counts||{})[win]||0;
-          const step = prev!=null ? Math.round(c/prev*100) : null;
-          barsWrap.append(h('div',{class:'fbar'+(s.aha?' aha':'')+(s.payment?' pay':'')},
-            h('div',{class:'lab'}, h('span',{}, s.label, s.aha?h('span',{class:'badge-aha'},'aha'):s.payment?h('span',{class:'badge-pay'},'pay'):null), s.sub?h('span',{class:'ev'},s.sub):null),
-            h('div',{class:'track'}, h('div',{class:'fill',style:'width:'+(c/maxc*100).toFixed(1)+'%'})),
-            h('div',{class:'meta'}, h('div',{class:'n'}, String(c)),
-              step!=null ? h('div',{class:'step '+stepClass(step)}, (step>100?'≥100%':step+'%')+' of prev') : h('div',{class:'step',style:'color:var(--muted)'},'entry'))
-          ));
-          prev=c;
-        });
-      }
-      const selBtns = wins.map(w=>h('button',{class:(w===win?'on':'')}, wl[w]||w));
-      selBtns.forEach((btn,i)=>btn.addEventListener('click',()=>{
-        win = wins[i]; funnelWin = win;
-        selBtns.forEach(b=>b.classList.toggle('on', b===btn));
-        fillBars();
-      }));
-      const selector=h('div',{class:'win-sel'}, selBtns);
-      fillBars();
-
-      // activation spine (same-user, monotonic)
+      // ---- ONE funnel, ONE denominator per section ----
+      // Pre-signup rows are visit-level (denominator = visitors); post-signup rows
+      // come from the same-user spine (denominator = signups), so a later step can
+      // never exceed an earlier one. The distinct-user "reach" view is intentionally
+      // dropped from the main funnel — it was the source of the studio>signups
+      // contradiction. Onboarding (14d) and post-try-on (30d) return as labeled
+      // zoom-ins under the exact leak they explain.
+      // Visit-level top: keep the monotonic subset (Landed → Engaged → Signed up).
+      // 'Opened signup' reach is non-monotonic vs cta_clicked (people open the modal
+      // without a tracked CTA), so it lives in the signup-modal leak card, not here.
+      const acq = ['land','engage','signup'].map(k=>stages.find(s=>s.key===k)).filter(Boolean);
+      const visitors = (acq[0] && (acq[0].counts||{}).all) || 0;
       const sp=f.spine||{}; const ss=sp.steps||[];
+      const dens = sp.denominators || {all: sp.denominator||0};
+      const signups = dens.all || sp.denominator || 0;
+      const hasSplit = dens.paid!=null && dens.organic!=null;
+      const cntOf=(st,src)=> (!src||src==='all') ? (st.count||0) : ((st[src]||{}).count||0);
+      const pctOf=(st,src)=> (!src||src==='all') ? (st.pct||0)   : ((st[src]||{}).pct||0);
       const aha=ss.find(x=>x.aha)||{}, pay=ss.find(x=>x.payment)||{};
-      const spineRows=ss.map(s=>h('div',{class:'srow'+(s.aha?' aha':'')+(s.payment?' pay':'')},
-        h('div',{class:'sl'}, s.label),
-        h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
-        h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count)))));
+      const modelStep=ss.find(x=>/model/i.test(x.label))||{};
 
-      // onboarding sub-funnel (same-user, signup -> first model, post-launch). Auto-
-      // highlights the biggest step-over-step drop so the leak surfaces on its own.
-      const ob=f.onboarding; let obBlock=null;
-      if(ob && (ob.steps||[]).length){
-        const st=ob.steps; let worst={i:0,fall:0,from:'',to:''};
-        for(let i=1;i<st.length;i++){ const pv=st[i-1].count||0,cu=st[i].count||0;
-          const fall=pv?Math.round((pv-cu)/pv*100):0;
-          if(fall>worst.fall) worst={i,fall,from:st[i-1].label,to:st[i].label}; }
-        const obRows=st.map((s,i)=>h('div',{class:'srow'+(s.goal?' aha':'')+(i===worst.i?' pay':'')},
-          h('div',{class:'sl'}, s.label),
-          h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
-          h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count)))));
-        const ba=(ob.activationBefore!=null&&ob.activationAfter!=null)
-          ? '<b>Signup→model fell from '+ob.activationBefore+'% to '+ob.activationAfter+'%</b> after onboarding launched '+ob.launch+'. ' : '';
-        const dn=worst.fall? 'The onboarding screens hold, the cliff is <b style="color:var(--accent)">'+worst.from+' → '+worst.to+'</b> ('+worst.fall+'% fall), the handoff to the first generate, not the questions.' : '';
-        obBlock=frag(
-          blocktitle('Onboarding sub-funnel · same user, signup → first model'),
-          h('div',{class:'callout warn',style:'margin-bottom:12px'}, h('div',{class:'tag'},'The read'), h('p',{html:ba+dn})),
-          h('p',{class:'small',style:'margin:-4px 0 14px'}, 'Of '+ob.denominator+' signups since onboarding launched · last '+ob.window+(ob.skipped?' · '+ob.skipped+' skipped onboarding':'')),
-          h('div',{class:'card spine'}, obRows));
+      // biggest single-step drop on the all-spine — named in the read
+      let worst={fall:0,from:'',to:''};
+      for(let i=1;i<ss.length;i++){ const pv=cntOf(ss[i-1],'all'),cu=cntOf(ss[i],'all');
+        const fall=pv?Math.round((pv-cu)/pv*100):0;
+        if(fall>worst.fall) worst={fall,from:ss[i-1].label,to:ss[i].label}; }
+
+      // ---- the read (single narrative) ----
+      const readWhere = 'Of <b>'+signups+'</b> signups since launch, <b style="color:var(--accent)">'
+        +(modelStep.pct||0)+'%</b> generate a model, <b>'+(aha.pct||0)+'%</b> hit the aha (try-on) and <b>'
+        +(pay.pct||0)+'%</b> start checkout — <b>'+(f.purchases||0)+'</b> have paid. Biggest single-step drop: <b style="color:var(--accent)">'
+        +worst.from+' → '+worst.to+'</b> (−'+worst.fall+'%).';
+      const paidShare = signups? Math.round((dens.paid||0)/signups*100):0;
+      const readWho = hasSplit
+        ? ' Paid drives <b>'+paidShare+'%</b> of signups, but organic converts far deeper: <b style="color:var(--success)">'
+          +pctOf(pay,'organic')+'%</b> of organic signups reach checkout vs just <b style="color:var(--error)">'
+          +pctOf(pay,'paid')+'%</b> of paid.'
+        : '';
+
+      // ---- funnel row builder (reuses .fbar) ----
+      function funRow(label, ev, cnt, denom, prevCnt, opts){
+        opts=opts||{};
+        const cum = denom? Math.round(cnt/denom*100) : null;
+        const stepPct = prevCnt!=null ? (prevCnt? Math.round(cnt/prevCnt*100):0) : null;
+        const width = denom? Math.min(100, cnt/denom*100) : 0;
+        return h('div',{class:'fbar'+(opts.aha?' aha':'')+(opts.pay?' pay':'')+(opts.muted?' muted':'')},
+          h('div',{class:'lab'}, h('span',{}, label,
+              opts.aha?h('span',{class:'badge-aha'},'aha'):opts.pay?h('span',{class:'badge-pay'},'pay'):null),
+            ev?h('span',{class:'ev'},ev):null),
+          h('div',{class:'track'}, h('div',{class:'fill',style:'width:'+width.toFixed(1)+'%'})),
+          h('div',{class:'meta'}, h('div',{class:'n'}, String(cnt)),
+            h('div',{class:'mp'},
+              cum!=null? h('span',{class:'cum'}, cum+'% of '+(opts.denomLabel||'signups')) : null,
+              stepPct!=null? h('span',{class:'step '+stepClass(stepPct)}, ' · '+stepPct+'% step') : null)));
       }
 
-      return frag(
-        sectionHead('Funnel','The happy path, and where it leaks', f.note),
-        h('div',{class:'freshness'},
-          h('span',{class:'pill'}, h('span',{class:'dot '+(live?'live':'cached')}), 'PostHog · '+(f.source||(live?'live':'cached'))),
-          f.updated? h('span',{},'Updated '+f.updated):null),
-        h('div',{class:'callout'}, h('div',{class:'tag'},'The headline'),
-          h('p',{html:'Of <b>'+(sp.denominator||0)+'</b> signups, <b style="color:var(--accent)">'+(aha.pct||0)+'%</b> reach the aha (try-on) but only <b>'+(pay.pct||0)+'%</b> reach checkout, and <b>'+(f.purchases||0)+'</b> purchases have completed. The aha is healthy; value-capture and payment are where the money leaks.'})),
-        blocktitle('Activation spine · same user, of all signups'),
-        h('p',{class:'small',style:'margin:-8px 0 14px'}, sp.note||''),
-        h('div',{class:'card spine'}, spineRows),
-        obBlock,
-        f.postTryon ? frag(
-          blocktitle('After the first try-on · same user, last '+f.postTryon.window),
-          h('p',{class:'small',style:'margin:-8px 0 14px'}, 'Of '+f.postTryon.base+' users who completed a try-on, where they go next. The drop is the money ask: pricing-prompt click-through is just '+f.postTryon.pricingPromptCtr+'%.'),
-          h('div',{class:'card spine'}, f.postTryon.stages.map(s=>h('div',{class:'srow'+(/pricing prompt/i.test(s.label)?' aha':'')+(/checkout/i.test(s.label)?' pay':'')},
+      // ---- acquisition (visit-level, static) ----
+      const acqWrap = h('div',{class:'card flat funnel-unified'});
+      (function(){ let pv=null; acq.forEach(s=>{ const c=(s.counts||{}).all||0;
+        acqWrap.append(funRow(s.label, s.sub, c, visitors, pv, {denomLabel:'visitors'})); pv=c; }); })();
+      const convRate = visitors? Math.round(signups/visitors*100):0;
+      const divider = h('div',{class:'fdivider'},
+        h('span',{html:'↳ '+visitors+' visitors → <b>'+signups+'</b> signups · '+convRate+'% convert'}),
+        h('span',{class:'sub'}, 'below: same user, of signups'));
+
+      // ---- activation + revenue (same-user, paid/organic toggle) ----
+      const sameWrap = h('div',{class:'card flat funnel-unified'});
+      function fillSame(src){
+        sameWrap.innerHTML='';
+        const denom = (src==='all'? dens.all : dens[src]) || 0;
+        let prev=null;
+        ss.forEach(st=>{ const c=cntOf(st,src);
+          sameWrap.append(funRow(st.label, null, c, denom, prev, {aha:st.aha, pay:st.payment})); prev=c; });
+        sameWrap.append(funRow('Purchased', null, (f.purchases||0), denom, prev, {pay:true, muted:true}));
+      }
+      const SRCS = hasSplit ? [['all','All'],['paid','Paid'],['organic','Organic']] : [['all','All']];
+      let curSrc='all';
+      const srcBtns = SRCS.map(([k,lab])=>h('button',{class:(k===curSrc?'on':'')}, lab));
+      srcBtns.forEach((b,i)=>b.addEventListener('click',()=>{ curSrc=SRCS[i][0];
+        srcBtns.forEach(x=>x.classList.toggle('on', x===b)); fillSame(curSrc); }));
+      const srcSel = SRCS.length>1 ? h('div',{class:'win-sel',style:'margin:0'}, srcBtns) : null;
+      fillSame('all');
+
+      // ---- zoom-ins: onboarding (signup→model) + post-try-on (aha→checkout) ----
+      const ob=f.onboarding; let obZoom=null;
+      if(ob && (ob.steps||[]).length){
+        const st=ob.steps; let w={i:0,fall:0,from:'',to:''};
+        for(let i=1;i<st.length;i++){ const pv=st[i-1].count||0,cu=st[i].count||0;
+          const fall=pv?Math.round((pv-cu)/pv*100):0; if(fall>w.fall) w={i,fall,from:st[i-1].label,to:st[i].label}; }
+        const hold=st[w.i-1]||{};
+        obZoom = card({cls:'flat',children:[
+          h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px'},
+            h('h3',{style:'margin:0;font-size:14px'},'Zoom · Signup → Model leak (onboarding)'),
+            h('div',{class:'chips'}, chip('recent 14d','warn'), chip(ob.denominator+' signups','muted'))),
+          h('p',{class:'small',style:'margin:0 0 12px',html:'The onboarding questions hold (<b>'+(hold.pct||0)+'%</b> reach '+(hold.label||'the last question')+'), then <b style="color:var(--accent)">'+w.from+' → '+w.to+'</b> drops '+w.fall+'%. The cliff is the handoff to the first generate, not the questions.'+(ob.activationBefore!=null?' Signup→model moved '+ob.activationBefore+'%→'+ob.activationAfter+'% since launch '+ob.launch+' — partly a rising paid mix.':'')}),
+          h('div',{class:'card spine'}, st.map((s,i)=>h('div',{class:'srow'+(s.goal?' aha':'')+(i===w.i?' pay':'')},
             h('div',{class:'sl'}, s.label),
             h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
             h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count))))))
-        ) : null,
-        blocktitle('Full happy path · distinct users per milestone'),
-        selector,
-        barsWrap,
-        blocktitle('Where it leaks'),
+        ]});
+      }
+      const pt=f.postTryon; let ptZoom=null;
+      if(pt && (pt.stages||[]).length){
+        ptZoom = card({cls:'flat',children:[
+          h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px'},
+            h('h3',{style:'margin:0;font-size:14px'},'Zoom · Aha → Checkout leak (after try-on)'),
+            h('div',{class:'chips'}, chip('last '+pt.window,'warn'), chip(pt.base+' tried on','muted'))),
+          h('p',{class:'small',style:'margin:0 0 12px',html:'Of '+pt.base+' users who hit the aha, the money ask barely lands: pricing-prompt click-through is just <b style="color:var(--error)">'+pt.pricingPromptCtr+'%</b>, and most never export the result.'}),
+          h('div',{class:'card spine'}, pt.stages.map(s=>h('div',{class:'srow'+(/pricing prompt/i.test(s.label)?' aha':'')+(/checkout/i.test(s.label)?' pay':'')},
+            h('div',{class:'sl'}, s.label),
+            h('div',{class:'sbar'}, h('i',{style:'width:'+(s.pct||0)+'%'})),
+            h('div',{class:'spct'}, (s.pct!=null?s.pct+'%':''), h('span',{}, String(s.count))))))
+        ]});
+      }
+
+      // ---- trend strip (trailing 7-day rates from history) ----
+      const histRows=(L.history||{}).rows||[];
+      function trendCard(num,den,label){
+        const sum=(rs,k)=>rs.reduce((a,r)=>a+(typeof r[k]==='number'?r[k]:0),0);
+        const L7=histRows.slice(-7), P7=histRows.slice(-14,-7);
+        const r=rs=>{const d=sum(rs,den); return d?Math.round(sum(rs,num)/d*100):null;};
+        const cur=r(L7), prev=r(P7);
+        const series=histRows.map((_,i)=>{const wd=histRows.slice(Math.max(0,i-6),i+1); const d=sum(wd,den); return d?sum(wd,num)/d*100:null;});
+        return h('div',{class:'tcard'},
+          h('div',{class:'th'}, h('div',{class:'tlab'}, label), deltaChip(cur,prev,'up')),
+          h('div',{class:'tval'}, (cur!=null?cur:'—'), h('small',{},'%')),
+          h('div',{class:'tspark',html:spark(series)}),
+          h('div',{class:'tsub'},'trailing 7-day rate'));
+      }
+      const trendStrip = histRows.length ? h('div',{class:'grid g3'},
+        trendCard('engaged','landed','Engage rate'),
+        trendCard('signups','modal','Signup (modal→signup)'),
+        trendCard('models','signups','Activation (signup→model)'),
+        trendCard('tryons','signups','Aha rate (signup→try-on)'),
+        trendCard('checkouts','signups','Checkout (signup→checkout)')
+      ) : null;
+
+      return frag(
+        sectionHead('Funnel','Where users drop, and why', 'One connected funnel from first visit to revenue. Visit-level up top, same-user below the line, so the numbers reconcile.'),
+        h('div',{class:'freshness'},
+          h('span',{class:'pill'}, h('span',{class:'dot '+(live?'live':'cached')}), (f.source||(live?'PostHog · live':'PostHog · cached'))),
+          f.updated? h('span',{},'Updated '+f.updated):null),
+        h('div',{class:'callout'}, h('div',{class:'tag'},'The read'), h('p',{html:readWhere+readWho})),
+
+        blocktitle('The funnel · visitor → signup → activation → revenue'),
+        h('p',{class:'small',style:'margin:-8px 0 16px'}, 'Top is visit-level (of visitors). Below the line is same-user (of signups), so a later step never exceeds an earlier one.'+(hasSplit?' Toggle paid vs organic on the activation half.':'')),
+        h('div',{class:'fgroup'},'Acquisition · of visitors'),
+        acqWrap,
+        divider,
+        h('div',{style:'display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:20px 0 6px'},
+          h('div',{class:'fgroup',style:'margin:0'},'Activation & revenue · same user, of signups'),
+          srcSel),
+        sameWrap,
+        hasSplit? h('p',{class:'small',style:'margin:10px 0 0;color:var(--muted)'}, 'Paid = PostHog paid channels (Paid Social / Paid Search). Organic = direct, organic, email, referral. Attribution is best-effort (initial UTM + identity stitching).') : null,
+
+        blocktitle('Where it leaks — and why'),
         h('div',{class:'stack'}, (f.drops||[]).map(d=>card({cls:'flat',children:[
           h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px'},
             h('h3',{style:'margin:0;font-size:14px'},d.title),
@@ -833,6 +939,16 @@
           h('p',{style:'margin-bottom:8px'}, d.detail),
           d.fix? h('p',{class:'small',style:'color:var(--accent-dim)'}, '▸ Fix: '+d.fix):null
         ]}))),
+        (obZoom||ptZoom)? frag(
+          blocktitle('Drill into the two biggest leaks'),
+          h('div',{class:'stack'}, obZoom, ptZoom)
+        ):null,
+
+        trendStrip? frag(
+          blocktitle('Are we improving? · trailing 7-day conversion'),
+          trendStrip
+        ):null,
+
         lp? frag(
           blocktitle('Where they land · per-page conversion'),
           lp.insight? h('div',{class:'callout warn'}, h('div',{class:'tag'},'CRO signal'), h('p',{html:'<b>'+lp.insight+'</b>'})):null,
@@ -847,7 +963,8 @@
                 tb.append(tr); }); t.append(tb); return t; })()),
           h('p',{class:'small',style:'margin-top:8px;color:var(--muted)'}, 'First-pageview pathname · last '+(lp.window||'60d')+' · '+(lp.source||'PostHog'))
         ):null,
-        blocktitle('Measurement gaps'),
+
+        blocktitle('What we can\'t see yet'),
         card({cls:'flat',children:[bullets(f.gaps||[])]})
       );
     };
@@ -1268,26 +1385,7 @@
     S.trends = ()=>{ const hist=(L.history)||{}; const rows=hist.rows||[]; const live=(L.refreshedSources||{}).history;
       const sum=(arr,k)=>arr.reduce((a,r)=>a+(typeof r[k]==='number'?r[k]:0),0);
       const last=(k)=>{ for(let i=rows.length-1;i>=0;i--){ if(typeof rows[i][k]==='number') return rows[i][k]; } return null; };
-      // sparkline from a numeric array (nulls dropped); accent stroke, last-point dot
-      function spark(vals){
-        const v=vals.filter(x=>typeof x==='number');
-        if(!v.length) return '';
-        const mn=Math.min(...v), mx=Math.max(...v), rng=(mx-mn)||1, n=v.length;
-        const xy=v.map((x,i)=>[(n===1?50:(i/(n-1))*100), 31-((x-mn)/rng)*28]);
-        const pts=xy.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-        const lp=xy[xy.length-1];
-        return '<svg viewBox="0 0 100 34" preserveAspectRatio="none">'
-          + (n>1?'<polyline fill="none" stroke="var(--accent-dim)" stroke-width="1.5" vector-effect="non-scaling-stroke" points="'+pts+'"/>':'')
-          + '<circle cx="'+lp[0].toFixed(1)+'" cy="'+lp[1].toFixed(1)+'" r="2.4" fill="var(--accent)" vector-effect="non-scaling-stroke"/></svg>';
-      }
-      const deltaChip=(cur,prev,good)=>{
-        if(prev==null||cur==null||prev===0) return h('span',{class:'tdelta flat'},'new');
-        const pct=Math.round((cur-prev)/Math.abs(prev)*100);
-        if(pct===0) return h('span',{class:'tdelta flat'},'0%');
-        const better = good==='neutral'? null : (good==='down' ? pct<0 : pct>0);
-        const cls = better==null?'flat':(better?'up':'down');
-        return h('span',{class:'tdelta '+cls}, (pct>0?'▲ +':'▼ ')+pct+'%');
-      };
+      // spark() and deltaChip() are shared helpers hoisted to module scope.
 
       // window helpers (7d vs prior 7d)
       const L7=rows.slice(-7), P7=rows.slice(-14,-7);
