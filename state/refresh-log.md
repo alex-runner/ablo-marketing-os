@@ -101,3 +101,11 @@ Newest entries on top.
 - **No new experiment, no new prediction** (calibration low/thin; top levers escalate-gated or product-owned; existing open PREDs cover the queue). Disciplined hold.
 - **QA: revise -> all fixed.** Numbers caught rank-4 onboarding drift (Q3 80% not 79%, generate 35% not 32%) and unpersisted segment CTRs (3.96/2.04 -> persisted 2.97/1.91) -- both corrected. Calls caught the moot-vs-miss scoring -> re-resolved 2 as moot. Boundary: clean (only reversible files; flows/budget/Stripe/outreach untouched, CTA reworks staged). 4 qa lessons written.
 - **Proposes next:** (1) SHIP the Convert CTA rework -- it is the #1 lever to customer #1 and has sat unshipped for cycles. (2) Alejo: check Stripe for the 10 checkout-starters / work them directly. (3) verify Meta delivery in Ads Manager.
+
+## 2026-06-29
+- Resolved 2 due predictions, both MISS: post-AHA email (payment_rate 8->5) and /studio rage-clicks (activation 53->48). Calibration now ~0.14 (1/7 scored). Lesson: stop betting "fix X -> metric up" on email CTAs and blended activation; the money step is the wall.
+- Convergent read across all 4 read-agents: bottleneck is the money step, not coverage. Paid converts 11x worse than organic (1% vs 11% to checkout) yet is 57% of signups; every money-ask CTA gets ~0-1% clicks; 0 purchase_completed ever; PostHog cached + delivery idle this run.
+- Re-ranked Command Center: #1 make paid conversion measurable (Stripe + server-side event), #2 carry the wedge to paid or shift budget, #3 in-product aha price-ask. Logged PRED-2026-06-29-paid-wedge-gap; queued the paid value-first landing test.
+- QA (2 skeptics): SAFETY ok (all irreversible levers escalated, none fired), LADDER ok. Fixed 3 slips: organic activation 57% not 58%, Convert click 1.2% not 0.6%, tightened prediction hit band to ==5. Written back as 3 qa lessons.
+- NOTE: the 16:00 UTC daily-refresh git-reset wiped this run's edits once mid-routine; re-applied and committed immediately.
+- Escalations for Alejo: Stripe check on the 10 checkout-starters; move purchase_completed server-side; ship the in-product aha price-ask; resume Kids/Swim paid only with the wedge landing.

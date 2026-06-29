@@ -1,0 +1,28 @@
+{
+ "date": "2026-06-29",
+ "started": true,
+ "steps": {
+  "0_orient": "done",
+  "0_resolve": "done (2 due preds resolved MISS)",
+  "1_experiments": "done",
+  "2_funnel": "done",
+  "3_campaigns": "done",
+  "4_lifecycle": "done",
+  "5_measurement": "done (posthog cached, 0 purchases, no regression)",
+  "6_rerank": "done",
+  "7_experiment": "done (queued paid-wedge test, PRED-2026-06-29 logged)",
+  "7.5_qa": "done (2 skeptics, 3 fixes applied)",
+  "8_publish": "done"
+ },
+ "agent_returns": {
+  "experiments": {
+   "headline": "3 experiments, none cleanly powered; signup-Google +13pts shipped, value-first landing concluded, coachmarks 5/5 exposures keep-running",
+   "measurement_ok": false,
+   "posthog_refreshed": false
+  },
+  "funnel": "money step is the leak: paid 57% of signups but 1% checkout vs organic 11%; 0 purchases",
+  "campaigns": "Meta $11.78 CPL, Kids/Swim converting, Men wasting, delivery idle 24h",
+  "lifecycle": "all 3 flows live+read but money-ask CTAs ~0 clicks; rewrite Convert CTA, no new flow"
+ },
+ "complete": true
+}
