@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "June 29, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-06-29T16:05:02.130382+00:00"
+    "updatedISO": "2026-06-29T16:06:43.119674+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -1777,7 +1777,7 @@ window.ABLO_OS = {
     ],
     "spine": {
       "label": "Activation spine",
-      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. That keeps this a clean, strictly-declining drop to the aha and to checkout.",
+      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. Photoshoot (generate polished shots) is a post-aha step and always follows the try-on; it and Downloaded are near-tied, mostly-separate value-capture actions, so the bar may not strictly shrink between those two.",
       "denominator": 64,
       "steps": [
         {
@@ -1800,6 +1800,11 @@ window.ABLO_OS = {
           "count": 30,
           "pct": 47,
           "aha": true
+        },
+        {
+          "label": "Photoshoot",
+          "count": 19,
+          "pct": 10
         },
         {
           "label": "Downloaded result",
@@ -2232,8 +2237,8 @@ window.ABLO_OS = {
           "v": "0 / 5"
         },
         {
-          "k": "Signup → paid",
-          "v": "≥ 8%"
+          "k": "Signup → paid · goal ≥ 8%",
+          "v": "0%"
         },
         {
           "k": "Signup → activation · goal ≥ 50%",
@@ -2966,7 +2971,7 @@ window.ABLO_OS = {
       ],
       "spine": {
         "label": "Activation spine",
-        "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. That keeps this a clean, strictly-declining drop to the aha and to checkout.",
+        "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. Photoshoot (generate polished shots) is a post-aha step and always follows the try-on; it and Downloaded are near-tied, mostly-separate value-capture actions, so the bar may not strictly shrink between those two.",
         "denominator": 196,
         "steps": [
           {
@@ -3020,6 +3025,19 @@ window.ABLO_OS = {
             "organic": {
               "count": 46,
               "pct": 55
+            }
+          },
+          {
+            "label": "Photoshoot",
+            "count": 19,
+            "pct": 10,
+            "paid": {
+              "count": 9,
+              "pct": 8
+            },
+            "organic": {
+              "count": 10,
+              "pct": 12
             }
           },
           {
@@ -3094,8 +3112,8 @@ window.ABLO_OS = {
         {
           "sev": "high",
           "title": "Value-capture leak (try-on → download)",
-          "rate": "24%",
-          "detail": "Only 20 of 84 users who reach the aha export a result. The aha fires but the value never leaves the app.",
+          "rate": "23%",
+          "detail": "Only 19 of 84 users who reach the aha export a result. The aha fires but the value never leaves the app.",
           "fix": "Add a post-try-on download / share prompt the moment the image renders."
         },
         {
@@ -4580,6 +4598,7 @@ window.ABLO_OS = {
           "email_open": 34.4,
           "email_click": 0.0,
           "email_recipients": 32,
+          "paying_customers": 0,
           "ig_followers": 223182,
           "activation_rate": 48,
           "aha_rate": 43,

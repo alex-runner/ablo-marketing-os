@@ -578,13 +578,15 @@ def fetch_funnel(env, base):
     # so it reads as a clean, strictly-declining drop story.
     spine_q = """
         SELECT countIf(s>0) a, countIf(s>0 AND en>0) b, countIf(s>0 AND mo>0) c,
-               countIf(s>0 AND ty>0) e, countIf(s>0 AND dl>0) f,
+               countIf(s>0 AND ty>0) e, countIf(s>0 AND ps>0) p,
+               countIf(s>0 AND dl>0) f,
                countIf(s>0 AND pr>0) g, countIf(s>0 AND ch>0) h
         FROM (
           SELECT person_id,
             maxIf(1, event='signup_completed') s, maxIf(1, event='studio_entered') en,
             maxIf(1, event='model_generated') mo,
             maxIf(1, event='tryon_completed') ty,
+            maxIf(1, event IN ('photoshoot_started','photoshoot_completed')) ps,
             maxIf(1, event IN ('result_downloaded','results_downloaded_all')) dl,
             maxIf(1, event='pricing_plan_clicked') pr, maxIf(1, event='checkout_started') ch
           FROM events WHERE timestamp >= now() - INTERVAL 365 DAY GROUP BY person_id
@@ -601,13 +603,15 @@ def fetch_funnel(env, base):
     spine_src_q = """
         SELECT if(startsWith(channel,'Paid'),'paid','organic') AS src,
                countIf(s>0) a, countIf(s>0 AND en>0) b, countIf(s>0 AND mo>0) c,
-               countIf(s>0 AND ty>0) e, countIf(s>0 AND dl>0) f,
+               countIf(s>0 AND ty>0) e, countIf(s>0 AND ps>0) p,
+               countIf(s>0 AND dl>0) f,
                countIf(s>0 AND pr>0) g, countIf(s>0 AND ch>0) h
         FROM (
           SELECT person_id,
             maxIf(1, event='signup_completed') s, maxIf(1, event='studio_entered') en,
             maxIf(1, event='model_generated') mo,
             maxIf(1, event='tryon_completed') ty,
+            maxIf(1, event IN ('photoshoot_started','photoshoot_completed')) ps,
             maxIf(1, event IN ('result_downloaded','results_downloaded_all')) dl,
             maxIf(1, event='pricing_plan_clicked') pr, maxIf(1, event='checkout_started') ch,
             coalesce(nullIf(argMax(person.properties.$virt_initial_channel_type, timestamp), ''), 'Unknown') AS channel
