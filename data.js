@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "July 1, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-07-01T16:00:14.493172+00:00"
+    "updatedISO": "2026-07-01T16:11:46.909213+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2068,19 +2068,19 @@ window.ABLO_OS = {
   },
   "commandCenter": {
     "updated": "July 1, 2026",
-    "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
+    "intro": "The prioritized action queue, anchored to the goal. As of Jul 1 the end-of-June first-paying-customer deadline has PASSED with 0 paying customers. The diagnosis has been stable for weeks (funnel gates at aha->paid; the levers are the at-aha price-ask, the Convert CTA rework, and server-side purchase capture). The bottleneck is now EXECUTION: the top escalate-gated fixes keep not shipping. Every leak below is tied to the one fix that moves it and the KPI it ladders to.",
     "items": [
       {
         "rank": "1",
         "sev": "high",
         "title": "Make paid conversion visible -- Stripe check + move purchase_completed server-side",
-        "status": "0 purchase_completed fires all-time (deepest tracked = checkout_started, 10 starters). PostHog was cached this run, not live. Until Stripe confirms whether any of the 10 paid, or a real purchase lands, signup->paid is unmeasurable and every conversion call is blind. Escalate: Alejo checks Stripe; product moves the event server-side."
+        "status": "END-OF-JUNE DEADLINE PASSED, still 0 paying customers. 0 purchase_completed fires all-time (deepest tracked = checkout_started, 10-11 starters). The single highest-information move remains: confirm in Stripe whether any of the ~10 checkout-starters actually paid (client-side event is ad-blockable), and move purchase capture server-side. Alejo/Jason-gated."
       },
       {
         "rank": "2",
         "sev": "high",
         "title": "Paid converts ~11x worse than organic (1% vs 11% to checkout) -- carry the wedge to paid or shift budget",
-        "status": "Funnel split (live.funnel.spine): paid = 57% of signups (112/196) but 1/112 reach checkout vs 9/84 (11%) organic; organic also activates deeper (model 57% vs 41%, aha 55% vs 34%). Paid users treat the try-on as a free novelty. Lever: point Kids/Swim paid at a value-first landing that leads with the bodies-you-cannot-shoot wedge, measure paid aha->pricing. Top of the experiment roadmap (precondition: delivery resumes)."
+        "status": "Funnel split (live.funnel.spine, denom all=202/paid=116/organic=86): paid = 57% of signups but 1/116 (1%) reach checkout vs 9/86 (10%) organic; organic activates deeper (model 56% vs 41%). Nuance from live campaigns: Swim (paid) is the cheapest, best-CTR segment this week (live ad-set read, not persisted) -- so paid ACQUISITION is efficient, but paid signups still convert shallow to checkout. The gap is downstream conversion, not acquisition cost. Carry the wedge/value deeper into the paid cohort's post-signup experience."
       },
       {
         "rank": "3",
@@ -2092,13 +2092,13 @@ window.ABLO_OS = {
         "rank": "4",
         "sev": "high",
         "title": "Rework the Convert CTA layer (C2-C5 paid ask: 1.2% clicks across 161 reads)",
-        "status": "Flows read well (Activate 54% open, Convert 31%) but paid-ask CTAs get ~1% clicks; C1 is the lone bright spot (75% open, 12.5% click) because it rides the just-completed try-on. A/B one rewritten variant: single unmissable button, concrete reason-to-act-now, deep-link into the paid action. Low confidence -- prior CTA-rework bets MISSED."
+        "status": "STILL UNSHIPPED (3rd cycle). Live Klaviyo (Jul 1): Convert opens 25-36% but C2/C3/C5 = 0% clicks, C4 paid-ask = 2.4% on 41 recip; C1 the lone bright spot (77.8% open, 11.1% click, 9 recip, +2h reinforce). PRED-2026-06-16-aha-cta-rework RESOLVED MOOT today (never shipped). email_click pinned at 0 all window. Draft copy now STAGED at state/drafts/cta-rework-2026-07-01.md (subject + one-line body + single CTA + deep link for C2/C3/C4/C5 and AHA B1/B2, ready to paste into Klaviyo). Shipping the live edit is the only remaining step and it is escalate-gated (edits a live flow). This is the top ACTIONABLE lever to the first sale and it keeps not shipping. Also blocked: no Subscription Started paid-exit event (Jason)."
       },
       {
         "rank": "5",
         "sev": "med",
-        "title": "Concentrate paid on Swim/Kids, resume delivery (idle, $0/24h), trim Menswear",
-        "status": "Meta cheap ($11.78 CPL, far under the $300 CAC ceiling), Kids + Swim converting, Menswear wasting. Delivery idle 24h. Resuming is a budget change (escalate). Paid is volume not conversion (see #2), so resume ONLY paired with the value-first paid landing."
+        "title": "Concentrate paid on Swim (live winner), watch Kids CPL, Menswear off",
+        "status": "Delivery RESUMED (06-29 idle flag cleared; spent again on 06-30). Lifetime feed healthy ($1,558.61 / 132 signups / $11.81 CPL, far under the $300 ceiling). Only 1 Ablo Studio campaign live (the /try vs Home LP Test); the other 2 are off, Menswear not running. Live 7d ad-set read (NOT persisted, do not treat as fact): Swim is the clear winner (best CTR, cheapest CPL, most of the week's regs); Kids ran hot (few regs, high CPL) this window. This softens the old 'Kids cheapest' assumption but one week is too thin to re-weight budget. Watch, do not reallocate yet. Budget changes escalate."
       },
       {
         "rank": "6",
@@ -2128,7 +2128,7 @@ window.ABLO_OS = {
         "rank": "10",
         "sev": "med",
         "title": "Rework AHA flow B1/B2 CTAs (0 clicks on 32 recipients)",
-        "status": "AHA 34% open / 0% click. Per lessons, email CTA reworks have not moved payment_rate. Bundle into #4's CTA test, not a separate effort."
+        "status": "PRED-2026-06-16-aha-cta-rework RESOLVED MOOT today (never shipped; B1/B2 still 0% click on 33 recip). Email CTA reworks have not moved payment_rate across cycles. Bundle into #4's CTA test, do not run separately."
       },
       {
         "rank": "11",
@@ -2752,10 +2752,10 @@ window.ABLO_OS = {
         "metric": "signup-modal completion",
         "started": "May 27, 2026",
         "hypothesis": "Promoting Continue with Google to the primary action and dropping email/password (magic link kept as a secondary link) lifts signup-modal completion. The magic-link path forced an inbox round-trip most people never returned from. Shipped May 27 (Google added), May 28 (email/password removed).",
-        "signal": "Modal completion before May 27: 33% (22/66). After: 46% (172/372). Change: +13 pts.",
-        "delta": 12.9,
+        "signal": "Modal completion before May 27: 33% (22/66). After: 46% (172/373). Change: +13 pts.",
+        "delta": 12.8,
         "before": 33.3,
-        "after": 46.2,
+        "after": 46.1,
         "shipped": true
       },
       {
@@ -2784,31 +2784,31 @@ window.ABLO_OS = {
       "status": "Live",
       "asOf": "Jul 1, 2026",
       "deliveryFlag": "",
-      "funnelHeadline": "What changed: purchase-intent has now been flat at 6 for 9 straight days even as activations kept rising, but the single biggest lever is still upstream, where 814 enter the try-before-signup flow and only 133 (16%) reach 'generate'.",
+      "funnelHeadline": "Ad spend is idle ($0/24h) and the funnel is flat week-over-week (signups 168→183, activations 101→110), while purchase-intent has now been stuck at 6 for 9 straight days, but the single biggest lever is still upstream, where 824 enter the try-before-signup flow and only 134 (16%) reach 'generate'.",
       "funnelSuggestions": [
         {
           "step": "Tried the product",
           "severity": "high",
           "title": "Try-before-signup flow sheds ~84% before anyone clicks generate",
-          "evidence": "814 people viewed the TBS page, only 282 (35%) selected a category, 242 (30%) added a garment, and just 133 (16%) reached the generate click, an ~84% shed, all upstream of any auth. 132 then hit the signup wall."
+          "evidence": "824 people viewed the TBS page, only 285 (35%) selected a category, 245 (30%) added a garment, and just 134 (16%) reached the generate click, an ~84% shed, all upstream of any auth. 133 then hit the signup wall."
         },
         {
           "step": "Signed up",
           "severity": "high",
           "title": "Signup modal still loses 57%, and magic-link is no longer the cause",
-          "evidence": "427 opened the modal, 182 completed (43%). Mobile 127/308 (41%) and desktop 48/113 (42%) complete evenly, so it's the flow not the layout. magic_link_requested = 0 for all 26 days since 2026-06-05."
+          "evidence": "429 opened the modal, 183 completed (43%). Mobile 128/309 (41%) and desktop 48/114 (42%) complete evenly, so it's the flow not the layout. magic_link_requested = 0 for every day since 2026-06-05."
         },
         {
           "step": "Tried the product",
           "severity": "high",
           "title": "/studio activation wall: 6 in 10 who enter never generate a model",
-          "evidence": "201 entered /studio, only 83 (41%) generated a model and 75 completed a try-on. 43 of those 201 (21%) rage-clicked the page 87 times, and model_generated stays flat-to-low (0-5/day) even as signups accrue."
+          "evidence": "201 entered /studio, only 83 (41%) generated a model and 76 completed a try-on. 43 of those 201 (21%) rage-clicked the page 87 times, and model_generated stays flat-to-low (0-5/day) even as signups accrue."
         },
         {
           "step": "Purchase intent",
           "severity": "medium",
           "title": "Monetization has stalled, purchase-intent flat for 9 days",
-          "evidence": "purchase_intent has been 0 for 9 consecutive days (last non-zero 2026-06-22) even though activations rose +11 week-over-week (98 → 109). 65 people viewed the pricing prompt; only 6 lifetime intent events downstream (n is small, directional)."
+          "evidence": "purchase_intent has been 0 for 9 consecutive days (last non-zero 2026-06-22) even though activations rose +9 week-over-week (101 → 110). 66 people viewed the pricing prompt (217 views); only 6 lifetime intent events downstream (n is small, directional)."
         }
       ]
     },
@@ -2862,8 +2862,8 @@ window.ABLO_OS = {
           "sub": "signup_modal_opened",
           "group": "Acquire",
           "counts": {
-            "d7": 37,
-            "d30": 308,
+            "d7": 38,
+            "d30": 309,
             "d90": 442,
             "all": 442
           }
@@ -2912,7 +2912,7 @@ window.ABLO_OS = {
           "sub": "product_imported",
           "group": "Activate",
           "counts": {
-            "d7": 9,
+            "d7": 10,
             "d30": 61,
             "d90": 87,
             "all": 87
@@ -4679,11 +4679,11 @@ window.ABLO_OS = {
         {
           "date": "2026-07-01",
           "landed": 24,
-          "engaged": 7,
-          "modal": 5,
+          "engaged": 8,
+          "modal": 6,
           "signups": 3,
           "models": 2,
-          "imports": 4,
+          "imports": 5,
           "tryons": 5,
           "downloads": 1,
           "checkouts": 0,
@@ -4707,6 +4707,79 @@ window.ABLO_OS = {
     },
     "learning": {
       "lessons": [
+        {
+          "type": "lesson",
+          "id": "LES-2026-07-01-aha-cta-moot",
+          "date": "2026-07-01",
+          "lesson": "MOOT: the AHA CTA rework never shipped (B1/B2 0.0% click, email_click pinned at 0 from Jun 17 to Jul 1), so payment_rate (drifted 6->5) cannot be attributed to it. This is the 3rd consecutive cycle a CTA-rework bet resolved moot for non-execution. The pattern is not a diagnosis problem, it is an execution gap: the escalate-gated email/product fixes keep not shipping.",
+          "evidence": "live.lifecycle AHA B1/B2 click 0.0%; history email_click 0.0 all window; PRED-2026-06-16 moot-if-unshipped-by-Jun-21 clause.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "lifecycle",
+            "execution",
+            "calibration"
+          ],
+          "source_pred": "PRED-2026-06-16-aha-cta-rework"
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-07-01-qa-spine-denominators",
+          "date": "2026-07-01",
+          "lesson": "Re-derive every paid-vs-organic ratio from live.funnel.spine.denominators each run: CC #2 carried the prior cycle's 196/112/84 while live was 202/116/86 (paid 1/116 not 1/112, organic 9/86 not 9/84). The percentage was unchanged, which masked the stale raw counts. Never carry forward last cycle's denominators.",
+          "evidence": "QA numbers skeptic Jul 1; live spine denominators all=202/paid=116/organic=86.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "funnel",
+            "numbers"
+          ],
+          "source_pred": ""
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-07-01-qa-organic-activation-drift",
+          "date": "2026-07-01",
+          "lesson": "Organic model-activation is 56% in the file, mis-stated 57% again (same 56-vs-57/58 drift flagged Jun 29). Grep spine.steps['Generated a model'].organic.pct verbatim; treat 57/58 as a known miscopy trigger for this metric.",
+          "evidence": "QA numbers skeptic Jul 1; spine organic model pct=56.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "funnel",
+            "numbers"
+          ],
+          "source_pred": ""
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-07-01-qa-unpersisted-adset-3x",
+          "date": "2026-07-01",
+          "lesson": "THIRD repeat (Jun 11, Jun 24, Jul 1): unpersisted live-read ad-set CPL/CTR (e.g. Swim $4.61, Kids $35) were written into the Command Center as sourced facts. A 'not persisted' caveat is not enough, the precise numbers still read as sourced. Rule: state segment performance qualitatively (Swim best/cheapest, Kids hot) OR persist the ad-set read to data.js/history first, then cite. Recurrence means this needs a build-time guard, not another lesson, promote in the monthly audit.",
+          "evidence": "QA calls skeptic Jul 1; '4.61' absent from data.js; persisted bestDay is the only sourced segment CTR.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "campaigns",
+            "numbers",
+            "promote-to-skill"
+          ],
+          "source_pred": ""
+        },
+        {
+          "type": "lesson",
+          "id": "LES-2026-07-01-qa-stage-the-artifact",
+          "date": "2026-07-01",
+          "lesson": "When a run's headline is 'execution not diagnosis' for the Nth consecutive cycle, the reversible OS-ownable move is to PRODUCE the staged artifact (drafted CTA copy / at-aha price-ask spec as a ready-to-paste diff), not to re-escalate verbally. 'Drafted, waiting' with run writes:[] means nothing was actually staged. Acted on this run: wrote state/drafts/cta-rework-2026-07-01.md so shipping is a paste. Each future 'execution-blocked' cycle must ship the reversible half.",
+          "evidence": "QA calls skeptic Jul 1; refresh-log Jun15/22/24/29 all end 'ship the CTA rework (drafted)' with no staged copy until now.",
+          "confidence": "high",
+          "tags": [
+            "qa",
+            "execution",
+            "process",
+            "promote-to-skill"
+          ],
+          "source_pred": ""
+        },
         {
           "type": "lesson",
           "id": "LES-2026-06-29-post-aha-email-miss",
@@ -4804,96 +4877,9 @@ window.ABLO_OS = {
             "process"
           ],
           "source_pred": "PRED-2026-06-09-tbs-category-fix"
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-24-checkout-outreach-miss",
-          "date": "2026-06-24",
-          "lesson": "MOOT, not scored: the Alejo-gated 1:1 outreach to the 10 checkout-starters was not executed before the Jun-20 window, so payment_rate (drifted 6->5) cannot be attributed to it. Excluded from calibration per the moot-if-unexecuted clause. The first sale stays gated on execution, not analysis.",
-          "evidence": "history.jsonl payment_rate 2026-06-24=5; paying_customers=0 all window; outreach unconfirmed/undone.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "paid",
-            "process"
-          ],
-          "source_pred": "PRED-2026-06-17-checkout-outreach"
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-24-escalate-gated-calibration",
-          "date": "2026-06-24",
-          "lesson": "Resolve 'moot if unshipped' predictions as MOOT (excluded from calibration), not miss: folding non-execution into the hit-rate makes the number measure org throughput, not judgment, and biases the OS toward false timidity. Corrected this run (tbs-category + checkout-outreach re-resolved moot; only activate-flow, which shipped and declined, scored a true miss). Going forward, tag a prediction's execution owner; if the action is outside Claude's control, prefer not logging a calibration-scored bet at all.",
-          "evidence": "3 due predictions all missed 2026-06-24; tbs-category + checkout-outreach missed purely because the action never shipped/happened.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "predictions",
-            "process",
-            "calibration"
-          ],
-          "source_pred": ""
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-24-qa-moot-clause",
-          "date": "2026-06-24",
-          "lesson": "A prediction carrying a 'moot if unshipped/unexecuted' clause MUST resolve as moot (verdict:moot, excluded from calibration) when the action provably did not happen, not as a miss. build.py only counts hit/partial/miss toward n, so moot is the correct, honest exclusion. Scoring non-execution as a miss distorted today's calibration to 0.17 before correction.",
-          "evidence": "QA calls skeptic Jun 24; build.py:1568 _VERDICT_PTS excludes moot from n.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "predictions",
-            "process",
-            "calibration"
-          ],
-          "source_pred": ""
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-24-qa-escalate-stuck-lever",
-          "date": "2026-06-24",
-          "lesson": "When the top actionable lever (Convert C2-C5 CTA rework) sits escalate-gated and UNSHIPPED across multiple consecutive cycles, escalate the execution blocker as the run's HEADLINE signal to Alejo, not a status line. 'Discipline over a forced launch' is correct only while the gated work is actually moving; here it is not, and the first customer is gated on it.",
-          "evidence": "QA calls skeptic Jun 24; Convert rework drafted Jun 22, still unshipped Jun 24; 121 recipients, 0 clicks, windows elapsed.",
-          "confidence": "med",
-          "tags": [
-            "qa",
-            "process",
-            "execution"
-          ],
-          "source_pred": ""
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-06-24-qa-onboarding-verbatim",
-          "date": "2026-06-24",
-          "lesson": "Copy onboarding sub-funnel percentages verbatim from live.funnel.onboarding.steps each run: a draft cited Q3 79% (file 80%) and generate 32% (file 35%), a retype drift. Grep the exact step counts before asserting them.",
-          "evidence": "QA numbers skeptic Jun 24: onboarding steps Q3 48/60=80%, picked 20/60=33%, generated 21/60=35%.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "funnel",
-            "numbers"
-          ],
-          "source_pred": ""
         }
       ],
       "openPredictions": [
-        {
-          "type": "prediction",
-          "id": "PRED-2026-06-16-aha-cta-rework",
-          "date": "2026-06-16",
-          "action": "Rewrite AHA flow B1 and B2 CTAs with a direct action link and concrete value line, replacing the zero-click current CTA (B1: 11 recipients, 36.4% open, 0 clicks; B2: 9 recipients, 33.3% open, 0 clicks)",
-          "linked": "CC-rank-2",
-          "metric": "payment_rate",
-          "baseline": 6,
-          "predicted": 8,
-          "horizon_days": 14,
-          "due": "2026-06-30",
-          "rationale": "Both deployed AHA messages have strong opens (36.4% B1, 33.3% B2) and 0 clicks across 20 combined recipient-opens. Opens confirm deliverability and intent; 0 clicks is a copy or link failure. If 2-3 of 11 B1 readers click to /studio and 1-2 start checkout, payment_rate reaches 8% (12+ checkouts on 155+ signups). Window closing: users cycle out of the flow. Conservative call on thin sample (9 all-time checkouts). Conditional on rework shipping by Jun 21.",
-          "scoring": "payment_rate >= 8 by 2026-06-30; spine denominator 155+; moot if B1/B2 CTAs not rewritten by 2026-06-21",
-          "status": "open"
-        },
         {
           "type": "prediction",
           "id": "PRED-2026-06-18-try-generate-gap",
@@ -4969,33 +4955,17 @@ window.ABLO_OS = {
           "scoring": "hero_v2 vs hero_v1 UTM-cohort signup rate, post-ship >=14d; home_signup_pct directional only; moot if unshipped by due"
         }
       ],
-      "dueForReview": [
-        {
-          "type": "prediction",
-          "id": "PRED-2026-06-16-aha-cta-rework",
-          "date": "2026-06-16",
-          "action": "Rewrite AHA flow B1 and B2 CTAs with a direct action link and concrete value line, replacing the zero-click current CTA (B1: 11 recipients, 36.4% open, 0 clicks; B2: 9 recipients, 33.3% open, 0 clicks)",
-          "linked": "CC-rank-2",
-          "metric": "payment_rate",
-          "baseline": 6,
-          "predicted": 8,
-          "horizon_days": 14,
-          "due": "2026-06-30",
-          "rationale": "Both deployed AHA messages have strong opens (36.4% B1, 33.3% B2) and 0 clicks across 20 combined recipient-opens. Opens confirm deliverability and intent; 0 clicks is a copy or link failure. If 2-3 of 11 B1 readers click to /studio and 1-2 start checkout, payment_rate reaches 8% (12+ checkouts on 155+ signups). Window closing: users cycle out of the flow. Conservative call on thin sample (9 all-time checkouts). Conditional on rework shipping by Jun 21.",
-          "scoring": "payment_rate >= 8 by 2026-06-30; spine denominator 155+; moot if B1/B2 CTAs not rewritten by 2026-06-21",
-          "status": "open"
-        }
-      ],
+      "dueForReview": [],
       "calibration": {
         "n": 6,
         "hits": 1,
         "hitRate": 0.17
       },
       "counts": {
-        "lessons": 55,
+        "lessons": 60,
         "predictions": 14,
-        "resolved": 8,
-        "open": 6
+        "resolved": 9,
+        "open": 5
       }
     },
     "coverage": {

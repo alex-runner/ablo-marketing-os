@@ -109,3 +109,16 @@ Newest entries on top.
 - QA (2 skeptics): SAFETY ok (all irreversible levers escalated, none fired), LADDER ok. Fixed 3 slips: organic activation 57% not 58%, Convert click 1.2% not 0.6%, tightened prediction hit band to ==5. Written back as 3 qa lessons.
 - NOTE: the 16:00 UTC daily-refresh git-reset wiped this run's edits once mid-routine; re-applied and committed immediately.
 - Escalations for Alejo: Stripe check on the 10 checkout-starters; move purchase_completed server-side; ship the in-product aha price-ask; resume Kids/Swim paid only with the wedge landing.
+
+## 2026-07-01 — daily run (4 read-agents; deadline post-mortem)
+- **End-of-June goal MISSED: 0 paying customers.** Funnel gates entirely at aha->paid (87 try-ons -> 10 checkout -> 0 paid). Diagnosis has been stable for weeks; the blocker is execution, not analysis.
+- **1 due prediction resolved MOOT:** PRED-2026-06-16-aha-cta-rework (payment_rate 6->5, AHA CTA rework never shipped; email_click 0 all window). 3rd consecutive moot for an unshipped CTA-rework bet -> LES-2026-07-01-aha-cta-moot. Calibration 0.17 (n=6).
+- **Campaigns:** delivery resumed ($25.83 on 06-30, ~$9.70 CPL 7d). Swim is the clear live paid winner ($4.61 CPL, 3.28% CTR, 15/18 regs); Kids ran hot ($35 CPL) this window; only 1 campaign live, Menswear off. Updated CC #5.
+- **Lifecycle:** Convert opens 25-36% but ~0 clicks (C4 paid-ask 2.4%); rework still unshipped. Experiments: no powered test running (retire coachmarks). Photoshoot funnel step coverage now bound.
+- **No new experiment/prediction** (calibration low, levers escalate-gated). CC intro rewritten to name the deadline miss and the execution gap.
+- **Proposes next:** ESCALATE execution to Alejo/Jason: (1) ship the Convert CTA rework (drafted, waiting), (2) build the at-aha in-product price-ask, (3) server-side purchase capture + Stripe check on the 10 starters. The OS cannot move the goal further without one of these shipping.
+
+## 2026-07-01 (QA + publish)
+- **QA (2 skeptics): revise -> all fixed.** Numbers caught stale CC #2 denominators (196/112/84 -> live 202/116/86, organic activation 56 not 57) and unpersisted CC #5 ad-set CPLs. Calls caught the same unpersisted-CPL anti-pattern (3rd repeat) AND the real one: 5 cycles of "execution not diagnosis" with nothing ever staged. Boundary: clean.
+- **Acted on the sharp catch:** staged the actual Convert C2-C5 + AHA B1/B2 CTA rework copy at state/drafts/cta-rework-2026-07-01.md (ready to paste into Klaviyo). CC #4 now points to it. Shipping the live edit is the only remaining (escalate) step. This is the reversible half the OS should have produced weeks ago.
+- 4 qa-lessons written; 2 tagged promote-to-skill (unpersisted-adset guard, stage-the-artifact rule) for the monthly audit.

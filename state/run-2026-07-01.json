@@ -1,0 +1,39 @@
+{
+  "date": "2026-07-01",
+  "started": true,
+  "steps": {
+    "0_orient": "done",
+    "0_resolve": "done \u2014 1 moot",
+    "1-4_agents": "done",
+    "5_measurement": "done",
+    "6_rerank": "done",
+    "7_roadmap": "done",
+    "7.5_qa": "done \u2014 revise, all fixed",
+    "8_publish": "in_progress"
+  },
+  "agent_returns": {},
+  "writes": [
+    "run-file",
+    "lessons.jsonl (1 moot +5 lessons)",
+    "content.json commandCenter",
+    "state/drafts/cta-rework-2026-07-01.md",
+    "experiment-roadmap.md",
+    "refresh-log.md"
+  ],
+  "scoreboard": {
+    "resolved_today": 1,
+    "verdict": "moot (aha-cta-rework)",
+    "new_predictions": 0,
+    "calibration": "0.17 n=6"
+  },
+  "qa": {
+    "verdict": "revise->fixed",
+    "catches": [
+      "CC#2 stale denominators",
+      "organic activation 56 not 57",
+      "unpersisted ad-set CPLs (3rd repeat)",
+      "staged the CTA rework artifact (was only verbal for 5 cycles)"
+    ],
+    "boundary": "pass"
+  }
+}

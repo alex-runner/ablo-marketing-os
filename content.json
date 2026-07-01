@@ -2064,20 +2064,20 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "June 29, 2026",
-    "intro": "The prioritized action queue, anchored to the goal. Every live funnel leak is tied to the one fix that moves it and to the KPI it ladders up to, so priority always means goal-impact. This is the surface the daily routine rewrites as it reads the funnel, campaigns, experiments and lifecycle and learns which fixes moved which number.",
+    "updated": "July 1, 2026",
+    "intro": "The prioritized action queue, anchored to the goal. As of Jul 1 the end-of-June first-paying-customer deadline has PASSED with 0 paying customers. The diagnosis has been stable for weeks (funnel gates at aha->paid; the levers are the at-aha price-ask, the Convert CTA rework, and server-side purchase capture). The bottleneck is now EXECUTION: the top escalate-gated fixes keep not shipping. Every leak below is tied to the one fix that moves it and the KPI it ladders to.",
     "items": [
       {
         "rank": "1",
         "sev": "high",
         "title": "Make paid conversion visible -- Stripe check + move purchase_completed server-side",
-        "status": "0 purchase_completed fires all-time (deepest tracked = checkout_started, 10 starters). PostHog was cached this run, not live. Until Stripe confirms whether any of the 10 paid, or a real purchase lands, signup->paid is unmeasurable and every conversion call is blind. Escalate: Alejo checks Stripe; product moves the event server-side."
+        "status": "END-OF-JUNE DEADLINE PASSED, still 0 paying customers. 0 purchase_completed fires all-time (deepest tracked = checkout_started, 10-11 starters). The single highest-information move remains: confirm in Stripe whether any of the ~10 checkout-starters actually paid (client-side event is ad-blockable), and move purchase capture server-side. Alejo/Jason-gated."
       },
       {
         "rank": "2",
         "sev": "high",
         "title": "Paid converts ~11x worse than organic (1% vs 11% to checkout) -- carry the wedge to paid or shift budget",
-        "status": "Funnel split (live.funnel.spine): paid = 57% of signups (112/196) but 1/112 reach checkout vs 9/84 (11%) organic; organic also activates deeper (model 57% vs 41%, aha 55% vs 34%). Paid users treat the try-on as a free novelty. Lever: point Kids/Swim paid at a value-first landing that leads with the bodies-you-cannot-shoot wedge, measure paid aha->pricing. Top of the experiment roadmap (precondition: delivery resumes)."
+        "status": "Funnel split (live.funnel.spine, denom all=202/paid=116/organic=86): paid = 57% of signups but 1/116 (1%) reach checkout vs 9/86 (10%) organic; organic activates deeper (model 56% vs 41%). Nuance from live campaigns: Swim (paid) is the cheapest, best-CTR segment this week (live ad-set read, not persisted) -- so paid ACQUISITION is efficient, but paid signups still convert shallow to checkout. The gap is downstream conversion, not acquisition cost. Carry the wedge/value deeper into the paid cohort's post-signup experience."
       },
       {
         "rank": "3",
@@ -2089,13 +2089,13 @@
         "rank": "4",
         "sev": "high",
         "title": "Rework the Convert CTA layer (C2-C5 paid ask: 1.2% clicks across 161 reads)",
-        "status": "Flows read well (Activate 54% open, Convert 31%) but paid-ask CTAs get ~1% clicks; C1 is the lone bright spot (75% open, 12.5% click) because it rides the just-completed try-on. A/B one rewritten variant: single unmissable button, concrete reason-to-act-now, deep-link into the paid action. Low confidence -- prior CTA-rework bets MISSED."
+        "status": "STILL UNSHIPPED (3rd cycle). Live Klaviyo (Jul 1): Convert opens 25-36% but C2/C3/C5 = 0% clicks, C4 paid-ask = 2.4% on 41 recip; C1 the lone bright spot (77.8% open, 11.1% click, 9 recip, +2h reinforce). PRED-2026-06-16-aha-cta-rework RESOLVED MOOT today (never shipped). email_click pinned at 0 all window. Draft copy now STAGED at state/drafts/cta-rework-2026-07-01.md (subject + one-line body + single CTA + deep link for C2/C3/C4/C5 and AHA B1/B2, ready to paste into Klaviyo). Shipping the live edit is the only remaining step and it is escalate-gated (edits a live flow). This is the top ACTIONABLE lever to the first sale and it keeps not shipping. Also blocked: no Subscription Started paid-exit event (Jason)."
       },
       {
         "rank": "5",
         "sev": "med",
-        "title": "Concentrate paid on Swim/Kids, resume delivery (idle, $0/24h), trim Menswear",
-        "status": "Meta cheap ($11.78 CPL, far under the $300 CAC ceiling), Kids + Swim converting, Menswear wasting. Delivery idle 24h. Resuming is a budget change (escalate). Paid is volume not conversion (see #2), so resume ONLY paired with the value-first paid landing."
+        "title": "Concentrate paid on Swim (live winner), watch Kids CPL, Menswear off",
+        "status": "Delivery RESUMED (06-29 idle flag cleared; spent again on 06-30). Lifetime feed healthy ($1,558.61 / 132 signups / $11.81 CPL, far under the $300 ceiling). Only 1 Ablo Studio campaign live (the /try vs Home LP Test); the other 2 are off, Menswear not running. Live 7d ad-set read (NOT persisted, do not treat as fact): Swim is the clear winner (best CTR, cheapest CPL, most of the week's regs); Kids ran hot (few regs, high CPL) this window. This softens the old 'Kids cheapest' assumption but one week is too thin to re-weight budget. Watch, do not reallocate yet. Budget changes escalate."
       },
       {
         "rank": "6",
@@ -2125,7 +2125,7 @@
         "rank": "10",
         "sev": "med",
         "title": "Rework AHA flow B1/B2 CTAs (0 clicks on 32 recipients)",
-        "status": "AHA 34% open / 0% click. Per lessons, email CTA reworks have not moved payment_rate. Bundle into #4's CTA test, not a separate effort."
+        "status": "PRED-2026-06-16-aha-cta-rework RESOLVED MOOT today (never shipped; B1/B2 still 0% click on 33 recip). Email CTA reworks have not moved payment_rate across cycles. Bundle into #4's CTA test, do not run separately."
       },
       {
         "rank": "11",
