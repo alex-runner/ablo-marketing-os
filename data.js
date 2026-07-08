@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "July 8, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-07-08T16:01:44.007882+00:00"
+    "updatedISO": "2026-07-08T16:12:55.418019+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -1738,6 +1738,30 @@ window.ABLO_OS = {
         "aha": true
       },
       {
+        "key": "project",
+        "label": "Created a photoshoot project",
+        "sub": "photoshoot_project_created",
+        "group": "Photoshoot",
+        "counts": {
+          "d7": 2,
+          "d30": 18,
+          "d90": 20,
+          "all": 20
+        }
+      },
+      {
+        "key": "photoshoot",
+        "label": "Shot a photo",
+        "sub": "photoshoot_completed",
+        "group": "Photoshoot",
+        "counts": {
+          "d7": 2,
+          "d30": 16,
+          "d90": 18,
+          "all": 18
+        }
+      },
+      {
         "key": "download",
         "label": "Downloaded result",
         "sub": "result_downloaded",
@@ -1777,7 +1801,7 @@ window.ABLO_OS = {
     ],
     "spine": {
       "label": "Activation spine",
-      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. Photoshoot (generate polished shots) is a post-aha step and always follows the try-on; it and Downloaded are near-tied, mostly-separate value-capture actions, so the bar may not strictly shrink between those two.",
+      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. The Step 4 photoshoot is split into creating a project and then shooting a photo (generating an image); both are post-aha and follow the try-on. Shooting a photo can exceed creating a project because single-shot photoshoots skip the project step, so the bar may tick up there. Photoshoot and Downloaded are likewise near-tied, mostly-separate value-capture actions.",
       "denominator": 64,
       "steps": [
         {
@@ -1802,9 +1826,14 @@ window.ABLO_OS = {
           "aha": true
         },
         {
-          "label": "Photoshoot",
-          "count": 19,
-          "pct": 10
+          "label": "Created a photoshoot project",
+          "count": 20,
+          "pct": 31
+        },
+        {
+          "label": "Shot a photo",
+          "count": 18,
+          "pct": 28
         },
         {
           "label": "Downloaded result",
@@ -2084,8 +2113,8 @@ window.ABLO_OS = {
       {
         "rank": "2",
         "sev": "high",
-        "title": "Fix revenue tracking (amount_usd=0) + move purchase_completed server-side",
-        "status": "purchase_completed now FIRES (customer #1, Jul 2) but logs amount_usd=0.0 -- revenue value is NOT captured, so ARPU/LTV are blind. Also a geoip conflict (client KR vs server US) on the event. Fix the revenue payload and move capture server-side (client-side is ad-blockable). Jason. You cannot run or price a business you cannot measure, this is now the top measurement gap."
+        "title": "Fix tracking server-side: revenue (amount_usd=0), purchase capture, AND paid attribution",
+        "status": "purchase_completed now FIRES (customer #1, Jul 2) but logs amount_usd=0.0 -- revenue value is NOT captured, so ARPU/LTV are blind. Also a geoip conflict (client KR vs server US) on the event. Fix the revenue payload and move capture server-side (client-side is ad-blockable). Jason. You cannot run or price a business you cannot measure, this is now the top measurement gap. ALSO the attribution root cause: the product loses the paid source on the ablo.ai->studio.ablo.ai hop and in mobile in-app browsers, so ~22% of signups are unattributable. Real fix (product): pass UTMs through the domain hop + server-side CAPI. The OS now best-effort-corrects this in the evidence-based Attribution block (shipped 2026-07-08), but only the product fix makes it clean."
       },
       {
         "rank": "3",
@@ -2102,8 +2131,8 @@ window.ABLO_OS = {
       {
         "rank": "5",
         "sev": "high",
-        "title": "Paid acquires but does not convert; shift budget to Swim (organic is the proven path)",
-        "status": "Customer #1 was ORGANIC/direct, not paid (PostHog checkouts: Direct 11 vs Meta 2). Paid drives ~54% of signups (channels/UTM) but organic reaches pricing 10% vs paid 2% and converts to checkout far deeper. Live 7d ad-set read (NOT persisted, directional only): Swim is materially the cheaper, higher-CTR segment this week while Kids has gone expensive yet holds most of the budget. Direction is clear (Swim efficient, Kids not); the specific CPLs are unpersisted, so persist the segment read before it anchors a budget move. Reallocating toward Swim is escalate (money). Bigger point: the proven path to paid is organic + in-app conversion, fund and feed that."
+        "title": "Paid is most of acquisition (mostly tracked); the 'organic edge' was an attribution artifact",
+        "status": "CORRECTED by the new evidence-based attribution layer (Channels tab). Real first-touch split of 224 signups: paid 64% (mostly UTM-tracked), TRUE organic 14% (search + ChatGPT + tagged social), and 22% UNATTRIBUTED (UTM stripped in mobile in-app browsers + the ablo.ai->studio.ablo.ai hop). The old 'organic converts ~11x better' read was an artifact: it counted the 22% unattributed (mostly untracked paid) as 'organic'. True organic does convert better to checkout (7% vs paid 2%) but is a small real cohort, and the first paying customer is in the UNATTRIBUTED bucket (landed direct on the app root), not organic. Takeaway: do not over-rotate to 'organic'; the levers are conversion + fixing attribution, and ChatGPT (5 signups) is a real emerging channel worth naming."
       },
       {
         "rank": "6",
@@ -2942,6 +2971,30 @@ window.ABLO_OS = {
           "aha": true
         },
         {
+          "key": "project",
+          "label": "Created a photoshoot project",
+          "sub": "photoshoot_project_created",
+          "group": "Photoshoot",
+          "counts": {
+            "d7": 4,
+            "d30": 10,
+            "d90": 10,
+            "all": 10
+          }
+        },
+        {
+          "key": "photoshoot",
+          "label": "Shot a photo",
+          "sub": "photoshoot_completed",
+          "group": "Photoshoot",
+          "counts": {
+            "d7": 3,
+            "d30": 15,
+            "d90": 15,
+            "all": 15
+          }
+        },
+        {
           "key": "download",
           "label": "Downloaded result",
           "sub": "result_downloaded",
@@ -2981,7 +3034,7 @@ window.ABLO_OS = {
       ],
       "spine": {
         "label": "Activation spine",
-        "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. Photoshoot (generate polished shots) is a post-aha step and always follows the try-on; it and Downloaded are near-tied, mostly-separate value-capture actions, so the bar may not strictly shrink between those two.",
+        "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. The Step 4 photoshoot is split into creating a project and then shooting a photo (generating an image); both are post-aha and follow the try-on. Shooting a photo can exceed creating a project because single-shot photoshoots skip the project step, so the bar may tick up there. Photoshoot and Downloaded are likewise near-tied, mostly-separate value-capture actions.",
         "denominator": 224,
         "steps": [
           {
@@ -3038,16 +3091,29 @@ window.ABLO_OS = {
             }
           },
           {
-            "label": "Photoshoot",
-            "count": 22,
-            "pct": 10,
+            "label": "Created a photoshoot project",
+            "count": 10,
+            "pct": 4,
             "paid": {
-              "count": 12,
-              "pct": 9
+              "count": 6,
+              "pct": 5
             },
             "organic": {
-              "count": 10,
-              "pct": 10
+              "count": 4,
+              "pct": 4
+            }
+          },
+          {
+            "label": "Shot a photo",
+            "count": 15,
+            "pct": 7,
+            "paid": {
+              "count": 8,
+              "pct": 6
+            },
+            "organic": {
+              "count": 7,
+              "pct": 7
             }
           },
           {
@@ -3130,14 +3196,60 @@ window.ABLO_OS = {
           "sev": "high",
           "title": "Payment + measurement (try-on → checkout)",
           "rate": "13%",
-          "detail": "12 of 95 aha-reachers start checkout, and 0 purchases have completed: the success event is wired (AccountPage), it just has not fired because no checkout has paid yet.",
+          "detail": "12 of 95 aha-reachers start checkout, and 1 purchases have completed: the success event is wired (AccountPage), it just has not fired because no checkout has paid yet.",
           "fix": "In-product upgrade prompt at the aha, plus the price-ask test. Move purchase_completed server-side so it cannot be ad-blocked."
         }
       ],
       "gaps": [
-        "No paid event has fired yet (0 purchase_completed to date). checkout_started (13 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics until a real purchase lands. The event is instrumented (AccountPage success_url); it simply has not fired.",
+        "No paid event has fired yet (1 purchase_completed to date). checkout_started (13 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics until a real purchase lands. The event is instrumented (AccountPage success_url); it simply has not fired.",
         "studio_entered (241) exceeds signup_completed (224) because the studio is reachable by returning and anonymous sessions. The activation spine corrects for this by counting same-user, signup-anchored."
       ],
+      "onboarding": {
+        "window": "14d",
+        "launch": "2026-06-04",
+        "denominator": 39,
+        "skipped": 1,
+        "steps": [
+          {
+            "label": "Signed up",
+            "count": 39,
+            "pct": 100
+          },
+          {
+            "label": "Started onboarding",
+            "count": 28,
+            "pct": 72
+          },
+          {
+            "label": "Q1 · who they make for",
+            "count": 26,
+            "pct": 67
+          },
+          {
+            "label": "Q2 · product types",
+            "count": 24,
+            "pct": 62
+          },
+          {
+            "label": "Q3 · preferred style",
+            "count": 24,
+            "pct": 62
+          },
+          {
+            "label": "Picked a model",
+            "count": 13,
+            "pct": 33
+          },
+          {
+            "label": "Generated a model",
+            "count": 10,
+            "pct": 26,
+            "goal": true
+          }
+        ],
+        "activationBefore": 67,
+        "activationAfter": 35
+      },
       "postTryon": {
         "window": "30d",
         "base": 55,
@@ -3180,7 +3292,7 @@ window.ABLO_OS = {
           }
         ]
       },
-      "purchases": 0
+      "purchases": 1
     },
     "lifecycle": {
       "updated": "July 8, 2026",
@@ -3468,7 +3580,199 @@ window.ABLO_OS = {
         "On-model is what they come for (73%) - the core value prop. Still-life and flatlay are meaningful secondary asks (~20% each)."
       ]
     },
-    "channels": null,
+    "channels": {
+      "attribution": [
+        {
+          "channel": "Meta Ads",
+          "users": 1551,
+          "signups": 121,
+          "tryons": 38,
+          "checkouts": 2,
+          "signupShare": 54
+        },
+        {
+          "channel": "Direct / untagged",
+          "users": 716,
+          "signups": 85,
+          "tryons": 50,
+          "checkouts": 11,
+          "signupShare": 38
+        },
+        {
+          "channel": "Instagram (organic)",
+          "users": 65,
+          "signups": 11,
+          "tryons": 7,
+          "checkouts": 0,
+          "signupShare": 5
+        },
+        {
+          "channel": "Chatgpt.Com",
+          "users": 11,
+          "signups": 7,
+          "tryons": 5,
+          "checkouts": 0,
+          "signupShare": 3
+        },
+        {
+          "channel": "3Dklavi",
+          "users": 1,
+          "signups": 0,
+          "tryons": 0,
+          "checkouts": 0,
+          "signupShare": 0
+        },
+        {
+          "channel": "Apollo",
+          "users": 1,
+          "signups": 0,
+          "tryons": 0,
+          "checkouts": 0,
+          "signupShare": 0
+        },
+        {
+          "channel": "Email",
+          "users": 7,
+          "signups": 0,
+          "tryons": 2,
+          "checkouts": 1,
+          "signupShare": 0
+        },
+        {
+          "channel": "LinkedIn",
+          "users": 11,
+          "signups": 0,
+          "tryons": 0,
+          "checkouts": 0,
+          "signupShare": 0
+        }
+      ],
+      "insight": "54% of signups carry Meta Ads UTM tags.",
+      "updated": "July 8, 2026",
+      "source": "PostHog UTM · live"
+    },
+    "attribution": {
+      "sources": [
+        {
+          "label": "Paid · tracked",
+          "klass": "paid",
+          "tracked": true,
+          "signups": 129,
+          "checkouts": 2,
+          "purchases": 0,
+          "share": 63,
+          "checkoutPct": 2
+        },
+        {
+          "label": "Direct / unknown (attribution lost)",
+          "klass": "lost",
+          "tracked": false,
+          "signups": 40,
+          "checkouts": 5,
+          "purchases": 1,
+          "share": 19,
+          "checkoutPct": 12
+        },
+        {
+          "label": "Email auth loop (not a source)",
+          "klass": "exclude",
+          "tracked": false,
+          "signups": 18,
+          "checkouts": 2,
+          "purchases": 0,
+          "share": null,
+          "checkoutPct": 11
+        },
+        {
+          "label": "Organic search",
+          "klass": "organic",
+          "tracked": true,
+          "signups": 15,
+          "checkouts": 1,
+          "purchases": 0,
+          "share": 7,
+          "checkoutPct": 7
+        },
+        {
+          "label": "Tagged organic / social",
+          "klass": "organic",
+          "tracked": true,
+          "signups": 8,
+          "checkouts": 1,
+          "purchases": 0,
+          "share": 4,
+          "checkoutPct": 12
+        },
+        {
+          "label": "Cross-domain ablo.ai (source lost)",
+          "klass": "lost",
+          "tracked": false,
+          "signups": 6,
+          "checkouts": 1,
+          "purchases": 0,
+          "share": 3,
+          "checkoutPct": 17
+        },
+        {
+          "label": "AI referral (ChatGPT, etc.)",
+          "klass": "organic",
+          "tracked": true,
+          "signups": 5,
+          "checkouts": 0,
+          "purchases": 0,
+          "share": 2,
+          "checkoutPct": 0
+        },
+        {
+          "label": "Social, untagged (likely paid)",
+          "klass": "paid_likely",
+          "tracked": false,
+          "signups": 2,
+          "checkouts": 0,
+          "purchases": 0,
+          "share": 1,
+          "checkoutPct": 0
+        },
+        {
+          "label": "Paid · inferred (UTM lost on a paid page)",
+          "klass": "paid",
+          "tracked": false,
+          "signups": 1,
+          "checkouts": 0,
+          "purchases": 0,
+          "share": 0,
+          "checkoutPct": 0
+        }
+      ],
+      "rollup": {
+        "paid": 132,
+        "paidPct": 64,
+        "organic": 28,
+        "organicPct": 14,
+        "lost": 46,
+        "lostPct": 22,
+        "excluded": 18,
+        "acqTotal": 206
+      },
+      "integrity": {
+        "reliablyAttributedPct": 76,
+        "lostPct": 22,
+        "note": "Only 76% of signups have a reliable first-touch source. 22% are unattributed (UTM stripped in-app, or lost on the ablo.ai -> studio.ablo.ai hop), and 18 'signups' were the email auth loop, not a source. The old paid-vs-organic split read the lost bucket as 'organic', which is why organic looked oversized."
+      },
+      "conversion": {
+        "paidCheckoutPct": 2,
+        "organicCheckoutPct": 7,
+        "note": "True organic still converts to checkout better than paid, but it is a small real cohort; the big 'Direct' bucket everyone called organic is actually unattributed, and the first paying customer sits inside it (landed direct on the app root). Do not credit organic for the unknown."
+      },
+      "gems": [
+        "ChatGPT and other AI answer engines referred 5 signups. A real, un-instrumented channel worth naming.",
+        "18 'signups' were the magic-link email auth loop (Gmail -> /auth/verify), not acquisition. Filtered out here."
+      ],
+      "headline": "Paid is 64% of signups and mostly tracked; the mislabeled 'organic' is really 22% unattributed (incl. the first payer). True organic is 14%. The 'organic beats paid' read was an attribution artifact.",
+      "window": "since 2026-05-01",
+      "updated": "July 8, 2026",
+      "source": "PostHog first-touch · evidence-based"
+    },
     "landingPages": {
       "pages": [
         {
@@ -4890,6 +5194,21 @@ window.ABLO_OS = {
         },
         {
           "type": "lesson",
+          "id": "LES-2026-07-08-attribution-artifact",
+          "date": "2026-07-08",
+          "lesson": "The 'organic converts ~11x better than paid' conclusion was an ATTRIBUTION ARTIFACT, not a real channel signal. Evidence-based first-touch reclassification of 224 signups: paid 64% (mostly UTM-tracked), true organic 14%, and 22% UNATTRIBUTED (UTM stripped in mobile in-app browsers + the ablo.ai->studio.ablo.ai cross-domain hop). PostHog files that 22% under 'organic/direct', which inflated organic. The first paying customer is in the unattributed bucket (landed direct on the app root), NOT organic. Built an evidence-based attribution layer into build.py (classify_true_source + fetch_true_attribution) that classifies by referrer+landing, excludes the email auth loop (18 fake 'signups'), and reports an integrity % (only 76% reliably attributed). Real product fix (UTM pass-through + CAPI) stays flagged. Rule: never read PostHog's paid-vs-organic split literally when UTMs are lossy, reclassify from first-touch evidence and report what you cannot see.",
+          "evidence": "build.py fetch_true_attribution live: paid 132/organic 28/lost 46 of 206 acq; payer first-touch $direct on studio.ablo.ai/; ChatGPT 5 signups; auth loop 18 excluded.",
+          "confidence": "high",
+          "tags": [
+            "measurement",
+            "campaigns",
+            "attribution",
+            "qa"
+          ],
+          "source_pred": ""
+        },
+        {
+          "type": "lesson",
           "id": "LES-2026-07-01-aha-cta-moot",
           "date": "2026-07-01",
           "lesson": "MOOT: the AHA CTA rework never shipped (B1/B2 0.0% click, email_click pinned at 0 from Jun 17 to Jul 1), so payment_rate (drifted 6->5) cannot be attributed to it. This is the 3rd consecutive cycle a CTA-rework bet resolved moot for non-execution. The pattern is not a diagnosis problem, it is an execution gap: the escalate-gated email/product fixes keep not shipping.",
@@ -4909,20 +5228,6 @@ window.ABLO_OS = {
           "date": "2026-07-01",
           "lesson": "Re-derive every paid-vs-organic ratio from live.funnel.spine.denominators each run: CC #2 carried the prior cycle's 196/112/84 while live was 202/116/86 (paid 1/116 not 1/112, organic 9/86 not 9/84). The percentage was unchanged, which masked the stale raw counts. Never carry forward last cycle's denominators.",
           "evidence": "QA numbers skeptic Jul 1; live spine denominators all=202/paid=116/organic=86.",
-          "confidence": "high",
-          "tags": [
-            "qa",
-            "funnel",
-            "numbers"
-          ],
-          "source_pred": ""
-        },
-        {
-          "type": "lesson",
-          "id": "LES-2026-07-01-qa-organic-activation-drift",
-          "date": "2026-07-01",
-          "lesson": "Organic model-activation is 56% in the file, mis-stated 57% again (same 56-vs-57/58 drift flagged Jun 29). Grep spine.steps['Generated a model'].organic.pct verbatim; treat 57/58 as a known miscopy trigger for this metric.",
-          "evidence": "QA numbers skeptic Jul 1; spine organic model pct=56.",
           "confidence": "high",
           "tags": [
             "qa",
@@ -4971,7 +5276,7 @@ window.ABLO_OS = {
         "hitRate": 0.17
       },
       "counts": {
-        "lessons": 69,
+        "lessons": 70,
         "predictions": 14,
         "resolved": 12,
         "open": 2
@@ -5484,7 +5789,7 @@ window.ABLO_OS = {
       "meta": true,
       "funnel": true,
       "klaviyo": true,
-      "channels": false,
+      "channels": true,
       "landingPages": true,
       "feedback": true,
       "clickup": true,

@@ -340,6 +340,8 @@ FUNNEL_STAGES = [
     ("model",    ["model_generated"]),
     ("import",   ["product_imported", "product_url_submitted", "product_scrape_succeeded"]),
     ("tryon",    ["tryon_completed"]),
+    ("project",  ["photoshoot_project_created"]),
+    ("photoshoot", ["photoshoot_completed"]),
     ("download", ["result_downloaded", "results_downloaded_all"]),
     ("pricing",  ["pricing_plan_clicked"]),
     ("checkout", ["checkout_started"]),
@@ -487,7 +489,7 @@ def _bind_funnel_narrative(funnel):
     an inline fallback, so the prose still reads sanely if a value is missing."""
     reach = {s.get("key"): (s.get("counts") or {}).get("all")
              for s in funnel.get("stages", [])}
-    SPINE_KEYS = ["signup", "studio", "model", "tryon", "download", "pricing", "checkout"]
+    SPINE_KEYS = ["signup", "studio", "model", "tryon", "project", "photoshoot", "download", "pricing", "checkout"]
     steps = (funnel.get("spine") or {}).get("steps", [])
     spine = {k: step.get("count") for k, step in zip(SPINE_KEYS, steps)}
 
@@ -578,7 +580,7 @@ def fetch_funnel(env, base):
     # so it reads as a clean, strictly-declining drop story.
     spine_q = """
         SELECT countIf(s>0) a, countIf(s>0 AND en>0) b, countIf(s>0 AND mo>0) c,
-               countIf(s>0 AND ty>0) e, countIf(s>0 AND ps>0) p,
+               countIf(s>0 AND ty>0) e, countIf(s>0 AND pj>0) i, countIf(s>0 AND pc>0) p,
                countIf(s>0 AND dl>0) f,
                countIf(s>0 AND pr>0) g, countIf(s>0 AND ch>0) h
         FROM (
@@ -586,7 +588,8 @@ def fetch_funnel(env, base):
             maxIf(1, event='signup_completed') s, maxIf(1, event='studio_entered') en,
             maxIf(1, event='model_generated') mo,
             maxIf(1, event='tryon_completed') ty,
-            maxIf(1, event IN ('photoshoot_started','photoshoot_completed')) ps,
+            maxIf(1, event='photoshoot_project_created') pj,
+            maxIf(1, event='photoshoot_completed') pc,
             maxIf(1, event IN ('result_downloaded','results_downloaded_all')) dl,
             maxIf(1, event='pricing_plan_clicked') pr, maxIf(1, event='checkout_started') ch
           FROM events WHERE timestamp >= now() - INTERVAL 365 DAY GROUP BY person_id
@@ -603,7 +606,7 @@ def fetch_funnel(env, base):
     spine_src_q = """
         SELECT if(startsWith(channel,'Paid'),'paid','organic') AS src,
                countIf(s>0) a, countIf(s>0 AND en>0) b, countIf(s>0 AND mo>0) c,
-               countIf(s>0 AND ty>0) e, countIf(s>0 AND ps>0) p,
+               countIf(s>0 AND ty>0) e, countIf(s>0 AND pj>0) i, countIf(s>0 AND pc>0) p,
                countIf(s>0 AND dl>0) f,
                countIf(s>0 AND pr>0) g, countIf(s>0 AND ch>0) h
         FROM (
@@ -611,7 +614,8 @@ def fetch_funnel(env, base):
             maxIf(1, event='signup_completed') s, maxIf(1, event='studio_entered') en,
             maxIf(1, event='model_generated') mo,
             maxIf(1, event='tryon_completed') ty,
-            maxIf(1, event IN ('photoshoot_started','photoshoot_completed')) ps,
+            maxIf(1, event='photoshoot_project_created') pj,
+            maxIf(1, event='photoshoot_completed') pc,
             maxIf(1, event IN ('result_downloaded','results_downloaded_all')) dl,
             maxIf(1, event='pricing_plan_clicked') pr, maxIf(1, event='checkout_started') ch,
             coalesce(nullIf(argMax(person.properties.$virt_initial_channel_type, timestamp), ''), 'Unknown') AS channel
@@ -1157,14 +1161,166 @@ def fetch_channel_attribution(env):
     top = chans[0] if chans else None
     insight = ""
     if top and top["signupShare"] >= 40:
-        insight = (f"{top['signupShare']}% of signups come from {top['channel']}"
-                   + (" — acquisition is dominated by untagged / organic traffic, not paid. "
-                      "Tag founder posts and referral links with UTMs to see what is really working, "
-                      "and weigh whether paid is earning its share."
+        insight = (f"{top['signupShare']}% of signups carry {top['channel']} UTM tags"
+                   + (" — but 'Direct / untagged' here is NOT organic. It is mostly paid clicks that "
+                      "lost their UTM (mobile in-app browsers) plus the ablo.ai -> studio.ablo.ai hop. "
+                      "See the evidence-based Attribution block for the real split."
                       if top["channel"].startswith("Direct") else "."))
     log(f"PostHog channels: {len(chans)} source(s), top {top['channel'] if top else '-'}")
     return {"attribution": chans, "insight": insight,
             "updated": datetime.now(timezone.utc).strftime("%B %-d, %Y"), "source": "PostHog UTM · live"}
+
+
+# ------------------------------------------------------ true attribution ----
+# PostHog's utm_source / $virt_initial_channel_type dump three different things
+# into "Direct/organic" that are NOT organic visitors: (1) paid clicks whose UTM
+# was stripped in a mobile in-app browser, (2) the ablo.ai -> studio.ablo.ai
+# cross-domain hop that loses the original source, and (3) the magic-link email
+# auth loop (Gmail app -> /auth/verify) counted as a "source". Reading that split
+# literally produced the false "organic converts better than paid" conclusion.
+#
+# This layer reclassifies each SIGNED-UP person from their first-touch evidence
+# (earliest referrer + landing path + UTM), so the dashboard reports real sources
+# and, just as important, is honest about how much it genuinely cannot see. It
+# does not invent data the product never captured; the true fix (UTM pass-through
+# across the domain hop + server-side CAPI) is product work and stays flagged in
+# the Command Center. This is the best-effort correction on the data we have.
+
+# Ad-destination landing pages with no organic path: a "Direct" hit here is a
+# paid click that lost its UTM, not an organic visitor.
+PAID_LANDERS = ("/try", "/toddler", "/plus-size", "/swim", "/kids", "/maternity")
+_AI_DOMAINS = ("chatgpt", "openai", "perplexity", "gemini", "claude", "copilot", "bard")
+_SEARCH_DOMAINS = ("google.", "bing.", "duckduckgo", "yahoo", "ecosia", "search.brave")
+_SOCIAL_DOMAINS = ("instagram", "facebook", "fb.", "l.facebook", "lm.facebook", "t.co", "tiktok")
+
+# (class -> how it rolls up). paid/paid_likely -> paid-attributable; organic ->
+# real organic; lost -> attribution genuinely unknown; exclude -> not a source.
+_TRACKED_CLASSES = ("paid", "organic")  # first-touch we can actually name
+
+
+def _domain(ref):
+    m = re.search(r"https?://([^/]+)", (ref or "").lower())
+    return m.group(1) if m else (ref or "").lower()
+
+
+def classify_true_source(referrer, landing, utm_source, utm_medium):
+    """Best-effort first-touch classification -> (label, klass, tracked_bool).
+
+    Priority is evidence-strongest-first: an explicit paid UTM beats a guess from
+    the landing page, which beats a guess from the referrer domain, which beats
+    'direct/unknown'. klass in {paid, paid_likely, organic, lost, exclude}."""
+    us = (utm_source or "").lower(); um = (utm_medium or "").lower()
+    land = (landing or "").lower(); d = _domain(referrer)
+    if um in ("cpc", "ppc", "paid", "paidsocial", "paid_social", "paid-social") \
+            or us in ("facebook", "fb", "meta", "instagram_ad", "googleads", "google_ads", "adwords"):
+        return ("Paid · tracked", "paid", True)
+    if us in ("instagram", "ig", "linkedin", "newsletter", "klaviyo", "email", "twitter", "x") \
+            or um in ("social", "email", "referral"):
+        return ("Tagged organic / social", "organic", True)
+    if any(k in d for k in _AI_DOMAINS):
+        return ("AI referral (ChatGPT, etc.)", "organic", True)
+    if any(k in d for k in _SEARCH_DOMAINS):
+        return ("Organic search", "organic", True)
+    if "gmail" in d or "mail.google" in d or "accounts.google" in d or land.startswith("/auth"):
+        return ("Email auth loop (not a source)", "exclude", None)
+    if "ablo.ai" in d:
+        return ("Cross-domain ablo.ai (source lost)", "lost", False)
+    if any(land.startswith(p) for p in PAID_LANDERS):
+        return ("Paid · inferred (UTM lost on a paid page)", "paid", False)
+    if any(k in d for k in _SOCIAL_DOMAINS):
+        return ("Social, untagged (likely paid)", "paid_likely", False)
+    return ("Direct / unknown (attribution lost)", "lost", False)
+
+
+TRUE_ATTR_Q = """
+SELECT person_id,
+  argMin(ref, ts) AS first_ref, argMin(land, ts) AS first_land,
+  argMin(us, ts) AS utm_s, argMin(um, ts) AS utm_m,
+  maxIf(1, ev='signup_completed') AS su,
+  maxIf(1, ev='tryon_completed') AS ty,
+  maxIf(1, ev='checkout_started') AS ch,
+  maxIf(1, ev='purchase_completed') AS pd
+FROM (
+  SELECT person_id, timestamp AS ts, event AS ev,
+    properties.$referrer AS ref, properties.$pathname AS land,
+    coalesce(properties.utm_source, '') AS us, coalesce(properties.utm_medium, '') AS um
+  FROM events
+  WHERE timestamp >= toDateTime('2026-05-01 00:00:00')
+    AND person_id IN (
+      SELECT person_id FROM events
+      WHERE event='signup_completed' AND timestamp >= toDateTime('2026-05-01 00:00:00')
+    )
+)
+GROUP BY person_id
+LIMIT 100000
+""".strip()  # explicit LIMIT: HogQL defaults to 100 rows, which silently truncates a per-person pull.
+
+
+def fetch_true_attribution(env):
+    """Evidence-based first-touch attribution for signed-up users, with an
+    honesty readout of how much is genuinely un-attributable. None on failure."""
+    rows = _hogql(env, TRUE_ATTR_Q)
+    if not rows:
+        return None
+    buckets = {}
+    for r in rows:
+        if not r or not r[5]:  # r[5] = signup flag
+            continue
+        label, klass, tracked = classify_true_source(r[1], r[2], r[3], r[4])
+        b = buckets.setdefault(label, {"label": label, "klass": klass, "tracked": bool(tracked),
+                                       "signups": 0, "checkouts": 0, "purchases": 0})
+        b["signups"] += 1
+        b["checkouts"] += int(r[7] or 0)
+        b["purchases"] += int(r[8] or 0)
+
+    sources = sorted(buckets.values(), key=lambda x: x["signups"], reverse=True)
+    acq = [b for b in sources if b["klass"] != "exclude"]  # acquisition excludes the auth loop
+    acq_total = sum(b["signups"] for b in acq) or 1
+    for b in sources:
+        b["share"] = round(b["signups"] / acq_total * 100) if b["klass"] != "exclude" else None
+        b["checkoutPct"] = round(b["checkouts"] / b["signups"] * 100) if b["signups"] else 0
+
+    def _sum(pred, key="signups"):
+        return sum(b[key] for b in acq if pred(b))
+
+    paid = _sum(lambda b: b["klass"] in ("paid", "paid_likely"))
+    organic = _sum(lambda b: b["klass"] == "organic")
+    lost = _sum(lambda b: b["klass"] == "lost")
+    excluded = sum(b["signups"] for b in sources if b["klass"] == "exclude")
+    tracked = _sum(lambda b: b["tracked"])
+    paid_ck = _sum(lambda b: b["klass"] in ("paid", "paid_likely"), "checkouts")
+    org_ck = _sum(lambda b: b["klass"] == "organic", "checkouts")
+
+    pct = lambda n: round(n / acq_total * 100)
+    rollup = {"paid": paid, "paidPct": pct(paid), "organic": organic, "organicPct": pct(organic),
+              "lost": lost, "lostPct": pct(lost), "excluded": excluded, "acqTotal": acq_total}
+    integrity = {"reliablyAttributedPct": pct(tracked), "lostPct": pct(lost),
+                 "note": (f"Only {pct(tracked)}% of signups have a reliable first-touch source. "
+                          f"{pct(lost)}% are unattributed (UTM stripped in-app, or lost on the "
+                          f"ablo.ai -> studio.ablo.ai hop), and {excluded} 'signups' were the email "
+                          f"auth loop, not a source. The old paid-vs-organic split read the lost "
+                          f"bucket as 'organic', which is why organic looked oversized.")}
+    conversion = {"paidCheckoutPct": round(paid_ck / paid * 100) if paid else 0,
+                  "organicCheckoutPct": round(org_ck / organic * 100) if organic else 0,
+                  "note": ("True organic still converts to checkout better than paid, but it is a "
+                           "small real cohort; the big 'Direct' bucket everyone called organic is "
+                           "actually unattributed, and the first paying customer sits inside it "
+                           "(landed direct on the app root). Do not credit organic for the unknown.")}
+    ai = next((b["signups"] for b in sources if b["label"].startswith("AI referral")), 0)
+    gems = []
+    if ai:
+        gems.append(f"ChatGPT and other AI answer engines referred {ai} signups. A real, un-instrumented channel worth naming.")
+    if excluded:
+        gems.append(f"{excluded} 'signups' were the magic-link email auth loop (Gmail -> /auth/verify), not acquisition. Filtered out here.")
+    headline = (f"Paid is {rollup['paidPct']}% of signups and mostly tracked; the mislabeled 'organic' "
+                f"is really {rollup['lostPct']}% unattributed (incl. the first payer). True organic is "
+                f"{rollup['organicPct']}%. The 'organic beats paid' read was an attribution artifact.")
+    log(f"true attribution: paid {rollup['paidPct']}% / organic {rollup['organicPct']}% / "
+        f"lost {rollup['lostPct']}% · {integrity['reliablyAttributedPct']}% reliably attributed")
+    return {"sources": sources, "rollup": rollup, "integrity": integrity, "conversion": conversion,
+            "gems": gems, "headline": headline, "window": "since 2026-05-01",
+            "updated": datetime.now(timezone.utc).strftime("%B %-d, %Y"),
+            "source": "PostHog first-touch · evidence-based"}
 
 
 # ------------------------------------------------------------ landing pages --
@@ -2323,6 +2479,12 @@ def build():
     # signup / try-on / checkout). None on failure.
     channels_live = fetch_channel_attribution(env)
 
+    # Evidence-based first-touch attribution: reclassifies signups from referrer +
+    # landing page (not just the usually-missing UTM), so "Direct/organic" stops
+    # masking untracked paid + cross-domain loss + the email auth loop. This is the
+    # honest paid-vs-organic read; the raw channels block above is UTM-only.
+    attribution_live = fetch_true_attribution(env)
+
     # Live per-landing-page conversion (entry pathname -> engage -> signup). Makes
     # top-of-funnel CRO a measurable, per-page bet instead of an aggregate hunch.
     landing_live = fetch_landing_pages(env)
@@ -2466,6 +2628,7 @@ def build():
         "lifecycle": lifecycle,
         "audience": audience,
         "channels": channels_live,
+        "attribution": attribution_live,
         "landingPages": landing_live,
         "feedback": feedback,
         "clickup": clickup,

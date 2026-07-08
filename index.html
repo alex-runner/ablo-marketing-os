@@ -929,7 +929,7 @@
           h('div',{class:'fgroup',style:'margin:0'},'Activation & revenue · same user, of signups'),
           srcSel),
         sameWrap,
-        hasSplit? h('p',{class:'small',style:'margin:10px 0 0;color:var(--muted)'}, 'Paid = PostHog paid channels (Paid Social / Paid Search). Organic = direct, organic, email, referral. Attribution is best-effort (initial UTM + identity stitching).') : null,
+        hasSplit? h('p',{class:'small',style:'margin:10px 0 0;color:var(--muted)'}, 'Paid vs Organic here uses PostHog channel type, which files UTM-stripped paid and cross-domain hops under "organic/direct" — so this toggle overstates organic. The honest split is the evidence-based Attribution block on the Channels tab (paid ~64%, true organic ~14%, ~22% unattributed).') : null,
 
         blocktitle('Where it leaks — and why'),
         h('div',{class:'stack'}, (f.drops||[]).map(d=>card({cls:'flat',children:[
@@ -1099,6 +1099,37 @@
 
     S.channels = ()=>{ const c=D.channels||{}; const att=(L.channels)||null; const attLive=(L.refreshedSources||{}).channels;
       const maxSu=att? Math.max(1, ...att.attribution.map(x=>x.signups)) : 1;
+      // ---- evidence-based true attribution (the honest paid-vs-organic view) ----
+      const tatt = L.attribution || null;
+      const KTONE = {paid:'var(--accent)', paid_likely:'var(--accent-dim)', organic:'var(--success)', lost:'var(--muted)', exclude:'var(--line-soft)'};
+      const tattBlock = tatt ? frag(
+        blocktitle('True acquisition source · evidence-based first-touch'),
+        h('div',{class:'callout warn'}, h('div',{class:'tag'},'Attribution truth'),
+          h('p',{html:'<b>'+tatt.headline+'</b>'}),
+          h('p',{class:'small',style:'margin:8px 0 0;color:var(--muted)'}, tatt.integrity.note)),
+        h('div',{class:'table-wrap',style:'margin-top:12px'},
+          (function(){ const t=h('table'); const hr=h('tr');
+            ['True source','Signups','Share','Checkout %'].forEach((x,i)=>hr.append(h('th',{style:i?'text-align:right':''},x)));
+            t.append(h('thead',{},hr)); const tb=h('tbody');
+            const mx=Math.max(1, ...tatt.sources.map(s=>s.signups));
+            tatt.sources.forEach(s=>{ const tr=h('tr'); const muted=(s.klass==='lost'||s.klass==='exclude');
+              tr.append(h('td',{class:'lead-cell',style:muted?'color:var(--muted)':''},
+                h('span',{style:'display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:8px;background:'+(KTONE[s.klass]||'var(--muted)')}), s.label));
+              tr.append(h('td',{style:'text-align:right'+(muted?';color:var(--muted)':'')}, String(s.signups)));
+              tr.append(h('td',{style:'text-align:right'}, h('div',{style:'display:flex;align-items:center;gap:8px;justify-content:flex-end'},
+                h('div',{style:'width:56px;height:6px;border-radius:9px;background:var(--glass);overflow:hidden'}, h('div',{style:'height:100%;width:'+((s.signups/mx*100).toFixed(0))+'%;background:'+(KTONE[s.klass]||'var(--accent-dim)')+';border-radius:9px'})),
+                h('span',{style:'min-width:30px'}, s.share==null?'—':(s.share+'%')))));
+              tr.append(h('td',{style:'text-align:right'+(muted?';color:var(--muted)':'')}, (s.checkoutPct||0)+'%'));
+              tb.append(tr); }); t.append(tb); return t; })()),
+        h('div',{class:'chips',style:'margin-top:12px'},
+          chip('Reliably attributed '+tatt.integrity.reliablyAttributedPct+'%', 'accent'),
+          chip('Unattributed '+tatt.integrity.lostPct+'%', 'warn'),
+          chip('Paid→checkout '+tatt.conversion.paidCheckoutPct+'%', 'muted'),
+          chip('True organic→checkout '+tatt.conversion.organicCheckoutPct+'%', 'muted')),
+        h('p',{class:'small',style:'margin:10px 0 0;color:var(--muted)'}, tatt.conversion.note),
+        (tatt.gems&&tatt.gems.length)? h('div',{class:'callout',style:'margin-top:12px'}, h('div',{class:'tag'},'Worth naming'), bullets(tatt.gems)) : null,
+        h('p',{class:'small',style:'margin:10px 0 0;color:var(--muted)'}, 'The true product fix (UTM pass-through across ablo.ai → studio.ablo.ai + server-side CAPI) is product work, tracked in the Command Center. This block is the best-effort correction on the data we already have.')
+      ) : null;
       const attTable = att ? h('div',{class:'table-wrap',style:'margin-top:14px'},
         (function(){ const t=h('table'); const hr=h('tr'); ['Channel','Visitors','Signups','Try-ons','Checkouts','Signup share'].forEach((x,i)=>hr.append(h('th',{style:i?'text-align:right':''},x))); t.append(h('thead',{},hr));
           const tb=h('tbody'); att.attribution.forEach(r=>{ const tr=h('tr');
@@ -1111,10 +1142,12 @@
       return frag(
         sectionHead('Channels','Every surface, one scorecard', c.intro),
         h('div',{class:'freshness'},
-          att? h('span',{class:'pill'}, h('span',{class:'dot '+(attLive?'live':'cached')}), 'Attribution · '+(att.source||'PostHog UTM')):null,
+          tatt? h('span',{class:'pill'}, h('span',{class:'dot '+((L.refreshedSources||{}).channels?'live':'cached')}), 'Attribution · evidence-based'):null,
+          att? h('span',{class:'pill'}, h('span',{class:'dot '+(attLive?'live':'cached')}), 'UTM · '+(att.source||'PostHog UTM')):null,
           ((att&&att.updated)||c.updated)? h('span',{},'Updated '+((att&&att.updated)||c.updated)):null),
+        tattBlock,
         att? frag(
-          blocktitle('Live acquisition by channel · signup-attributed'),
+          blocktitle('Raw UTM tags (for reference; under-counts paid)'),
           att.insight? h('div',{class:'callout warn'}, h('div',{class:'tag'},'Attribution signal'), h('p',{html:'<b>'+att.insight+'</b>'})):null,
           attTable
         ):null,

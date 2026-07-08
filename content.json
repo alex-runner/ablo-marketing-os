@@ -1735,6 +1735,30 @@
         "aha": true
       },
       {
+        "key": "project",
+        "label": "Created a photoshoot project",
+        "sub": "photoshoot_project_created",
+        "group": "Photoshoot",
+        "counts": {
+          "d7": 2,
+          "d30": 18,
+          "d90": 20,
+          "all": 20
+        }
+      },
+      {
+        "key": "photoshoot",
+        "label": "Shot a photo",
+        "sub": "photoshoot_completed",
+        "group": "Photoshoot",
+        "counts": {
+          "d7": 2,
+          "d30": 16,
+          "d90": 18,
+          "all": 18
+        }
+      },
+      {
         "key": "download",
         "label": "Downloaded result",
         "sub": "result_downloaded",
@@ -1774,7 +1798,7 @@
     ],
     "spine": {
       "label": "Activation spine",
-      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. Photoshoot (generate polished shots) is a post-aha step and always follows the try-on; it and Downloaded are near-tied, mostly-separate value-capture actions, so the bar may not strictly shrink between those two.",
+      "note": "Same user, of everyone who signed up (since launch): the share who ever reached each milestone. Product import is a side-path (Surprise Me skips it), so it lives in the reach view above, not here. The Step 4 photoshoot is split into creating a project and then shooting a photo (generating an image); both are post-aha and follow the try-on. Shooting a photo can exceed creating a project because single-shot photoshoots skip the project step, so the bar may tick up there. Photoshoot and Downloaded are likewise near-tied, mostly-separate value-capture actions.",
       "denominator": 64,
       "steps": [
         {
@@ -1799,9 +1823,14 @@
           "aha": true
         },
         {
-          "label": "Photoshoot",
-          "count": 19,
-          "pct": 10
+          "label": "Created a photoshoot project",
+          "count": 20,
+          "pct": 31
+        },
+        {
+          "label": "Shot a photo",
+          "count": 18,
+          "pct": 28
         },
         {
           "label": "Downloaded result",
@@ -2081,8 +2110,8 @@
       {
         "rank": "2",
         "sev": "high",
-        "title": "Fix revenue tracking (amount_usd=0) + move purchase_completed server-side",
-        "status": "purchase_completed now FIRES (customer #1, Jul 2) but logs amount_usd=0.0 -- revenue value is NOT captured, so ARPU/LTV are blind. Also a geoip conflict (client KR vs server US) on the event. Fix the revenue payload and move capture server-side (client-side is ad-blockable). Jason. You cannot run or price a business you cannot measure, this is now the top measurement gap."
+        "title": "Fix tracking server-side: revenue (amount_usd=0), purchase capture, AND paid attribution",
+        "status": "purchase_completed now FIRES (customer #1, Jul 2) but logs amount_usd=0.0 -- revenue value is NOT captured, so ARPU/LTV are blind. Also a geoip conflict (client KR vs server US) on the event. Fix the revenue payload and move capture server-side (client-side is ad-blockable). Jason. You cannot run or price a business you cannot measure, this is now the top measurement gap. ALSO the attribution root cause: the product loses the paid source on the ablo.ai->studio.ablo.ai hop and in mobile in-app browsers, so ~22% of signups are unattributable. Real fix (product): pass UTMs through the domain hop + server-side CAPI. The OS now best-effort-corrects this in the evidence-based Attribution block (shipped 2026-07-08), but only the product fix makes it clean."
       },
       {
         "rank": "3",
@@ -2099,8 +2128,8 @@
       {
         "rank": "5",
         "sev": "high",
-        "title": "Paid acquires but does not convert; shift budget to Swim (organic is the proven path)",
-        "status": "Customer #1 was ORGANIC/direct, not paid (PostHog checkouts: Direct 11 vs Meta 2). Paid drives ~54% of signups (channels/UTM) but organic reaches pricing 10% vs paid 2% and converts to checkout far deeper. Live 7d ad-set read (NOT persisted, directional only): Swim is materially the cheaper, higher-CTR segment this week while Kids has gone expensive yet holds most of the budget. Direction is clear (Swim efficient, Kids not); the specific CPLs are unpersisted, so persist the segment read before it anchors a budget move. Reallocating toward Swim is escalate (money). Bigger point: the proven path to paid is organic + in-app conversion, fund and feed that."
+        "title": "Paid is most of acquisition (mostly tracked); the 'organic edge' was an attribution artifact",
+        "status": "CORRECTED by the new evidence-based attribution layer (Channels tab). Real first-touch split of 224 signups: paid 64% (mostly UTM-tracked), TRUE organic 14% (search + ChatGPT + tagged social), and 22% UNATTRIBUTED (UTM stripped in mobile in-app browsers + the ablo.ai->studio.ablo.ai hop). The old 'organic converts ~11x better' read was an artifact: it counted the 22% unattributed (mostly untracked paid) as 'organic'. True organic does convert better to checkout (7% vs paid 2%) but is a small real cohort, and the first paying customer is in the UNATTRIBUTED bucket (landed direct on the app root), not organic. Takeaway: do not over-rotate to 'organic'; the levers are conversion + fixing attribution, and ChatGPT (5 signups) is a real emerging channel worth naming."
       },
       {
         "rank": "6",
