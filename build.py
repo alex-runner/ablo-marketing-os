@@ -2334,110 +2334,9 @@ def build_coverage(env, posthog_experiments, clickup, today):
                 "summary": {"blind": 0, "autowired": 0, "stale": 0}}
 
 
-# --------------------------------------------------------------- strategy ----
-def _parse_frontmatter(text):
-    """Split a markdown doc into (frontmatter dict, body). Minimal flat YAML:
-    `key: value` lines between the leading --- fences. No pyyaml dependency.
-    'null'/empty -> None; surrounding quotes stripped. Returns ({}, text) when
-    there is no frontmatter block."""
-    if not text.startswith("---"):
-        return {}, text
-    end = text.find("\n---", 3)
-    if end == -1:
-        return {}, text
-    block = text[3:end].strip("\n")
-    body = text[end + 4:].lstrip("\n")
-    fm = {}
-    for line in block.split("\n"):
-        if ":" not in line or line.lstrip().startswith("#"):
-            continue
-        k, v = line.split(":", 1)
-        k, v = k.strip(), v.strip()
-        if len(v) >= 2 and v[0] in "\"'" and v[-1] == v[0]:
-            v = v[1:-1]
-        if v == "" or v.lower() == "null":
-            v = None
-        fm[k] = v
-    return fm, body
-
-
-def load_strategy_registry():
-    try:
-        return json.loads(STRATEGY_REGISTRY.read_text())
-    except Exception:  # noqa: BLE001
-        return {}
-
-
-def fetch_strategy(registry):
-    """Read the foundation markdown folder and assemble the live.strategy block:
-    each registry doc gets its current status + embedded body, plus a coverage
-    summary (counts by status). Fail-open: a missing folder or unreadable file
-    degrades that doc to status 'missing', never breaks the build."""
-    docs_meta = (registry or {}).get("docs", [])
-    groups = (registry or {}).get("groups", [])
-    VALID = {"complete", "draft", "stub"}
-    out_docs, present = [], 0
-    for d in docs_meta:
-        rec = {
-            "key": d.get("key"), "title": d.get("title"), "group": d.get("group"),
-            "mkt1": d.get("mkt1"), "osSection": d.get("osSection"),
-            "feeds": d.get("feeds"), "file": d.get("file"),
-            "status": "missing", "updated": None, "owner": None, "body": None,
-            "wordCount": 0,
-        }
-        path = STRATEGY_DIR / (d.get("file") or "")
-        try:
-            if path.is_file():
-                fm, body = _parse_frontmatter(path.read_text())
-                st = (fm.get("status") or "").lower()
-                rec["status"] = st if st in VALID else "draft"
-                rec["updated"] = fm.get("updated")
-                rec["owner"] = fm.get("owner")
-                rec["body"] = body.strip()
-                rec["wordCount"] = len(body.split())
-                present += 1
-        except Exception as e:  # noqa: BLE001
-            log(f"strategy: failed to read {d.get('file')} ({e})")
-        out_docs.append(rec)
-    counts = {"complete": 0, "draft": 0, "stub": 0, "missing": 0}
-    for r in out_docs:
-        counts[r["status"]] = counts.get(r["status"], 0) + 1
-    total = len(out_docs)
-    summary = {
-        "total": total, "present": present,
-        "complete": counts["complete"], "draft": counts["draft"],
-        "stub": counts["stub"], "missing": counts["missing"],
-        "pct": round(100 * counts["complete"] / total) if total else 0,
-        "gaps": [r["key"] for r in out_docs if r["status"] in ("stub", "missing")],
-    }
-    mounted = STRATEGY_DIR.is_dir()
-    log(f"strategy: {present}/{total} docs present · {counts['complete']} complete, "
-        f"{counts['draft']} draft, {counts['stub']} stub, {counts['missing']} missing"
-        + ("" if mounted else " · source folder NOT mounted (fail-open)"))
-    return {
-        "updated": (registry or {}).get("updated"),
-        "source": (registry or {}).get("source"),
-        "mounted": mounted,
-        "groups": groups,
-        "statusLabels": (registry or {}).get("statusLabels", {}),
-        "statusTone": (registry or {}).get("statusTone", {}),
-        "statusOrder": (registry or {}).get("statusOrder", []),
-        "docs": out_docs,
-        "summary": summary,
-    }
-
-
-def build_strategy():
-    """Orchestrate the foundation read. Fully fail-open: any error yields an empty
-    strategy block so the build (and the site render) never break."""
-    try:
-        return fetch_strategy(load_strategy_registry())
-    except Exception as e:  # noqa: BLE001
-        log(f"strategy: unexpected failure ({e}); emitting empty strategy block")
-        return {"updated": None, "mounted": False, "groups": [], "docs": [],
-                "statusLabels": {}, "statusTone": {}, "statusOrder": [],
-                "summary": {"total": 0, "present": 0, "complete": 0, "draft": 0,
-                            "stub": 0, "missing": 0, "pct": 0, "gaps": []}}
+# (The Foundation strategy layer was removed 2026-07-08. Canonical strategy docs
+# still live as markdown in the Brain/Obsidian; the OS no longer renders them as a
+# tab. The individual strategy tabs read from content.json.)
 
 
 # ------------------------------------------------------------------ build ----
@@ -2582,10 +2481,6 @@ def build():
     # registry (on real change) and the live.coverage block below, never content.json.
     # Runs before clickup['all'] is popped (it reads clickup['open'], which survives).
     coverage = build_coverage(env, experiments, clickup, now.strftime("%Y-%m-%d"))
-    # Foundation strategy layer — read the canonical markdown docs from the Brain
-    # (Obsidian) and embed them + a coverage summary. Source of truth for strategy
-    # lives there now, not in content.json. Fail-open (empty block if unreadable).
-    strategy = build_strategy()
     # Self-improving Command Center: stamp it reviewed on every run so the action
     # queue always reflects "checked today". Deeper status re-ranking (resolve
     # done items, surface new leaks) is done by the marketing-os-refresh agent
@@ -2639,7 +2534,6 @@ def build():
         "history": history,
         "learning": learning,
         "coverage": coverage,
-        "strategy": strategy,
         "refreshedSources": {
             "posthog": posthog_live,
             "meta": signups is not None,

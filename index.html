@@ -383,44 +383,6 @@
       .scrim.show { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:45; }
     }
     @media (min-width:901px){ .scrim{ display:none; } }
-    /* Foundation — the strategy context layer (markdown sourced from Obsidian) */
-    .fmeter { height:8px; border-radius:var(--full); background:var(--line); overflow:hidden; margin:6px 0 2px; }
-    .fmeter > span { display:block; height:100%; background:var(--success); border-radius:var(--full); transition:width .4s var(--ease); }
-    .fgroup-lede { color:var(--text2); font-size:13px; margin:-6px 0 16px; max-width:64ch; }
-    .fdoc { border:1px solid var(--line); border-radius:var(--radius); margin:0 0 10px; background:var(--bg2); overflow:hidden; }
-    .fdoc[open] { border-color:var(--accent-dim); }
-    .fdoc > summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; align-items:center; gap:11px; flex-wrap:wrap; }
-    .fdoc > summary::-webkit-details-marker { display:none; }
-    .fdoc > summary:hover { background:var(--bg3); }
-    .fdoc-t { font-weight:600; color:var(--text); font-size:14px; }
-    .fdoc-meta { color:var(--muted); font-size:11.5px; margin-left:auto; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-    .fdoc-feeds { color:var(--text2); }
-    .fdoc-body { padding:6px 22px 22px; border-top:1px solid var(--line); }
-    .fdoc-body > .blocktitle:first-child { margin-top:18px; }
-    .fdoc-body table { width:100%; }
-    .fdoc.missing { opacity:.65; }
-    .fdoc.missing > summary { cursor:default; }
-    .fdoc-body .wl { color:var(--accent-dim); }
-    .srcbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12px; color:var(--text2); text-decoration:none; padding:8px 14px; margin:0 0 22px; border:1px solid var(--line); border-radius:var(--full); background:var(--bg2); width:fit-content; max-width:100%; }
-    .srcbar:hover { border-color:var(--accent-dim); color:var(--text); }
-    .srcbar-ico svg { width:14px; height:14px; stroke:var(--accent); display:block; }
-    .srcbar-edit { color:var(--muted); }
-    /* Brand Guide — visual specimen (renders the design system, not just describes it) */
-    .bgv-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(116px,1fr)); gap:10px; margin:6px 0 10px; }
-    .bgv-sw { border-radius:10px; overflow:hidden; border:1px solid var(--line); background:var(--bg2); }
-    .bgv-sw .fill { height:50px; }
-    .bgv-sw .meta { padding:8px 10px; }
-    .bgv-sw .nm { font-size:11px; color:var(--text); font-weight:600; }
-    .bgv-sw .hx { font-size:10.5px; color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.02em; margin-top:2px; }
-    .bgv-stage { border:1px solid var(--line); border-radius:14px; padding:24px; background:#0c0c0c; margin:6px 0 10px; }
-    .bgv-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    .bgv-btn { display:inline-flex; align-items:center; gap:8px; border-radius:9999px; font-weight:500; font-size:13px; padding:10px 20px; border:1px solid transparent; }
-    .bgv-ico { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border-radius:11px; background:var(--bg2); border:1px solid var(--line); color:#e8d5a3; }
-    .bgv-ico svg { width:18px; height:18px; }
-    .bgv-radii { display:flex; gap:16px; flex-wrap:wrap; }
-    .bgv-radii .r { text-align:center; }
-    .bgv-radii .box { width:46px; height:46px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); }
-    .bgv-radii .lbl { font-size:10.5px; color:var(--muted); margin-top:7px; font-family:ui-monospace,Menlo,monospace; }
   </style>
 </head>
 <body>
@@ -533,41 +495,6 @@
     function bullets(arr){ const u=h('ul',{class:'bullets'}); arr.forEach(x=>u.append(h('li',{html:x}))); return u; }
     function table(headers,rows){ const w=h('div',{class:'table-wrap'}); const t=h('table'); const tr=h('tr'); headers.forEach(x=>tr.append(h('th',{},x))); t.append(h('thead',{},tr)); const tb=h('tbody'); rows.forEach(r=>{const x=h('tr'); r.forEach((c,i)=>{ if(c&&c.chip){x.append(h('td',{},chip(c.chip,c.tone)));} else {x.append(h('td',{class:(i===0?'lead-cell':''),html:(c&&c.html!=null?c.html:c)}));}}); tb.append(x);}); t.append(tb); w.append(t); return w; }
     const sectionHead=(eyebrow,title,lede)=>h('div',{class:'sec-head'},h('div',{class:'eyebrow'},eyebrow),h('h1',{},title),lede?h('p',{class:'lede'},lede):null);
-
-    // ---- minimal markdown -> DOM (renders the Foundation docs sourced from Obsidian) ----
-    function inlineMd(s){
-      s = String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      s = s.replace(/`([^`]+)`/g,'<code>$1</code>');
-      s = s.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
-      s = s.replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g,'$1<em>$2</em>');
-      s = s.replace(/\[\[([^\]]+)\]\]/g,'<span class="wl">$1</span>');
-      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-      return s;
-    }
-    const mdRow = line => line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(c=>c.trim());
-    function mdNodes(md){
-      const lines = String(md||'').replace(/\r/g,'').split('\n');
-      const out=[]; let para=[]; let i=0;
-      const flushP=()=>{ if(para.length){ out.push(h('p',{html:inlineMd(para.join(' '))})); para=[]; } };
-      while(i<lines.length && lines[i].trim()==='') i++;
-      if(i<lines.length && /^#\s+/.test(lines[i].trim())) i++;   // drop the leading H1 (card shows the title)
-      for(; i<lines.length; i++){
-        const t=lines[i].trim();
-        if(t===''){ flushP(); continue; }
-        if(t==='---'||t==='***'){ flushP(); continue; }
-        if(/^#{1,6}\s+/.test(t)){ flushP(); out.push(h('div',{class:'blocktitle'}, t.replace(/^#+\s+/,''))); continue; }
-        if(/^>\s?/.test(t)){ flushP(); const q=[]; while(i<lines.length && /^>\s?/.test(lines[i].trim())){ q.push(lines[i].trim().replace(/^>\s?/,'')); i++; } i--; out.push(h('div',{class:'callout'}, h('p',{html:inlineMd(q.join(' '))}))); continue; }
-        if(t.startsWith('|') && i+1<lines.length && /^\|?[\s:|-]*-[\s:|-]*$/.test(lines[i+1].trim())){
-          flushP(); const headers=mdRow(t); i+=2; const rows=[];
-          while(i<lines.length && lines[i].trim().startsWith('|')){ rows.push(mdRow(lines[i]).map(c=>({html:inlineMd(c)}))); i++; }
-          i--; out.push(table(headers,rows)); continue; }
-        if(/^[-*]\s+/.test(t)){ flushP(); const items=[]; while(i<lines.length && /^[-*]\s+/.test(lines[i].trim())){ items.push(inlineMd(lines[i].trim().replace(/^[-*]\s+/,''))); i++; } i--; out.push(bullets(items)); continue; }
-        if(/^\d+\.\s+/.test(t)){ flushP(); const ol=h('ol',{class:'bullets'}); while(i<lines.length && /^\d+\.\s+/.test(lines[i].trim())){ ol.append(h('li',{html:inlineMd(lines[i].trim().replace(/^\d+\.\s+/,''))})); i++; } i--; out.push(ol); continue; }
-        para.push(t);
-      }
-      flushP();
-      return out;
-    }
 
     // ============================ SECTIONS ============================
     const S = {};
@@ -1211,122 +1138,6 @@
       );
     };
 
-    // Brand Guide — render the design system, not just describe it (inspired by a
-    // Claude Design handoff). Tokens are the product's own (ablo-tech globals.css),
-    // shown on the brand's near-black canvas so the guide IS the brand.
-    function brandGuideVisual(){
-      const SW=[['bg-primary','#0c0c0c'],['bg-secondary','#151515'],['bg-tertiary','#1a1a1a'],['bg-elevated','#222222'],
-        ['border','#2a2a2a'],['text-primary','#fafafa'],['text-secondary','#999999'],['text-muted','#555555'],
-        ['accent','#e8d5a3'],['accent-hover','#f0e0b5'],['accent-dim','#c9a96e'],['success','#4ade80'],['error','#f87171']];
-      const swatches=h('div',{class:'bgv-grid'}, SW.map(([n,hex])=>h('div',{class:'bgv-sw'},
-        h('div',{class:'fill',style:'background:'+hex}),
-        h('div',{class:'meta'}, h('div',{class:'nm'},n), h('div',{class:'hx'},hex)))));
-      const specimen=h('div',{class:'bgv-stage'},
-        h('div',{style:'font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#e8d5a3;font-weight:600;margin-bottom:14px'},'Eyebrow label'),
-        h('div',{style:'font-weight:700;font-size:clamp(26px,4vw,38px);line-height:.95;letter-spacing:-.03em;color:#fafafa;margin-bottom:12px'},
-          'Start free. ', h('span',{style:'color:#e8d5a3'},'Scale per drop.')),
-        h('div',{style:'color:#999;font-size:15px;line-height:1.6;max-width:48ch'},
-          'Inter, tight on the display line and relaxed in the body. One warm gold accent carries emphasis on a near-black canvas. The two-tone headline is the signature move.'));
-      const comps=h('div',{class:'bgv-stage'},
-        h('div',{class:'bgv-row'},
-          h('span',{class:'bgv-btn',style:'background:#fafafa;color:#0c0c0c'},'Primary'),
-          h('span',{class:'bgv-btn',style:'background:rgba(255,255,255,.06);color:#fafafa;border-color:rgba(255,255,255,.08)'},'Secondary'),
-          h('span',{class:'bgv-btn',style:'color:#999'},'Ghost'),
-          h('span',{style:'display:inline-flex;border-radius:9999px;background:#e8d5a3;color:#0c0c0c;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px'},'Most popular')),
-        h('div',{class:'bgv-row',style:'margin-top:14px'},
-          h('div',{style:'border-radius:16px;background:#151515;border:1px solid rgba(255,255,255,.04);padding:16px 18px;min-width:170px'},
-            h('div',{style:'color:#fafafa;font-weight:600;font-size:14px'},'Card'),
-            h('div',{style:'color:#999;font-size:12px;margin-top:4px'},'rounded-2xl · hairline border')),
-          h('div',{style:'border-radius:16px;border:1px solid rgba(232,213,163,.2);background:linear-gradient(135deg,rgba(232,213,163,.07),rgba(255,255,255,.02),transparent);padding:16px 18px;min-width:170px'},
-            h('div',{style:'color:#fafafa;font-weight:600;font-size:14px'},'Accent card'),
-            h('div',{style:'color:#c9a96e;font-size:12px;margin-top:4px'},'the "chosen" highlight'))));
-      const ICONS=[['Sparkles','M12 3l1.7 5.3 5.3 1.7-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7z'],['Check','M20 6 9 17l-5-5'],
-        ['ArrowRight','M5 12h14M13 6l6 6-6 6'],['Plus','M12 5v14M5 12h14'],['Download','M12 3v11M8 11l4 4 4-4M5 20h14'],
-        ['Zap','M13 2L4 14h7l-1 8 10-12h-7z'],['Crown','M3 18h18M5 18l-2-9 5 4 4-7 4 7 5-4-2 9'],
-        ['Image','M4 5h16v14H4zM4 16l4-4 4 4 3-3 5 5']];
-      const iconRow=h('div',{class:'bgv-row'}, ICONS.map(([n,p])=>h('span',{class:'bgv-ico',title:n,html:svg(p)})));
-      const RADII=[['full','9999px'],['2xl','16px'],['xl','12px'],['lg','8px'],['md','6px']];
-      const radiiRow=h('div',{class:'bgv-radii'}, RADII.map(([n,r])=>h('div',{class:'r'},
-        h('div',{class:'box',style:'border-radius:'+r}), h('div',{class:'lbl'},'rounded-'+n))));
-      const elev=h('div',{class:'bgv-stage'},
-        h('div',{class:'bgv-row'},
-          h('div',{style:'border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px);padding:16px 18px;min-width:150px'},
-            h('div',{style:'color:#fafafa;font-weight:600;font-size:13px'},'Glass'),
-            h('div',{style:'color:#999;font-size:11.5px;margin-top:3px'},'backdrop-blur')),
-          h('div',{style:'border-radius:14px;background:#151515;border:1px solid rgba(232,213,163,.3);box-shadow:0 0 26px rgba(232,213,163,.22);padding:16px 18px;min-width:150px'},
-            h('div',{style:'color:#fafafa;font-weight:600;font-size:13px'},'Accent glow'),
-            h('div',{style:'color:#c9a96e;font-size:11.5px;margin-top:3px'},'focus / emphasis'))),
-        h('div',{style:'height:1px;margin:18px 0 6px;background:linear-gradient(to right,transparent,rgba(255,255,255,.10),transparent)'}),
-        h('div',{style:'color:#555;font-size:11px;text-align:center'},'divider · gradient-to-r'));
-      const logo=h('div',{class:'bgv-stage',style:'display:flex;align-items:center;gap:30px;flex-wrap:wrap'},
-        h('img',{src:'assets/ablo-logo.png',alt:'Ablo Studio logo',style:'height:36px;width:auto;display:block'}),
-        h('div',{style:'border-left:1px solid rgba(255,255,255,.1);padding-left:30px;display:flex;align-items:center;gap:18px;flex-wrap:wrap'},
-          h('img',{src:'assets/ablo-logo.png',alt:'',style:'height:18px;width:auto;opacity:.85'}),
-          h('div',{style:'color:#777;font-size:11px;line-height:1.5'}, 'ABLO mark + STUDIO', h('br'), 'reversed, on near-black · header size ~20px')));
-      return frag(
-        blocktitle('Logo'), logo,
-        blocktitle('Palette'), swatches,
-        blocktitle('Type & accent'), specimen,
-        blocktitle('Components'), comps,
-        blocktitle('Icons · lucide-react'), iconRow,
-        blocktitle('Radius'), radiiRow,
-        blocktitle('Elevation & glass'), elev,
-        h('p',{class:'small',style:'color:var(--muted);margin:8px 0 6px'},'Rendered live from the product tokens. Full spec below.'));
-    }
-
-    // Foundation — the strategy context layer. Canonical docs live as markdown in
-    // the Brain (Obsidian); build.py embeds each body + status into live.strategy.
-    // This view renders them and shows, by group, what is complete vs a gap.
-    S.foundation = ()=>{ const st=(L.strategy)||{}; const docs=st.docs||[]; const sm=st.summary||{};
-      const groups=st.groups||[];
-      const SL=st.statusLabels||{complete:'Complete',draft:'Draft',stub:'Stub',missing:'Missing'};
-      const STn=st.statusTone||{complete:'success',draft:'accent',stub:'warn',missing:'error'};
-      const pct=sm.pct||0;
-      const head = frag(
-        sectionHead('Foundation','The marketing context layer',
-          'The canonical source for Ablo Studio strategy, brand, and growth. Authored as markdown in the Brain (Obsidian) and rendered here, so strategy is edited at its source, not in this dashboard. Built on the MKT1 framework. What is missing shows as a gap below.'),
-        h('div',{class:'freshness'},
-          h('span',{class:'pill'}, h('span',{class:'dot '+(st.mounted?'live':'cached')}), 'Source'+(st.mounted?' · live':' · not mounted')),
-          st.updated? h('span',{},'Registry '+st.updated):null,
-          chip(sm.complete+' complete', sm.complete?'success':'muted'),
-          chip(sm.draft+' draft', sm.draft?'accent':'muted'),
-          chip(sm.stub+' stub', sm.stub?'warn':'muted'),
-          chip(sm.missing+' missing', sm.missing?'error':'muted')),
-        h('div',{style:'margin:18px 0 6px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap'},
-          h('span',{class:'small',style:'color:var(--text2)'}, pct+'% complete · '+(sm.present||0)+'/'+(sm.total||0)+' docs exist'),
-          (sm.gaps&&sm.gaps.length)? h('span',{class:'small',style:'color:var(--accent-dim)'},'Gaps · '+sm.gaps.join(', ')):null),
-        h('div',{class:'fmeter'}, h('span',{style:'width:'+pct+'%'})));
-      const renderDoc = d=>{
-        const tone=STn[d.status]||'muted'; const lbl=SL[d.status]||d.status;
-        const missing = d.status==='missing' || !d.body;
-        const det=h('details',{class:'fdoc'+(missing?' missing':'')});
-        det.append(h('summary',{},
-          h('span',{class:'fdoc-t'}, d.title), chip(lbl,tone),
-          d.mkt1? chip('MKT1','muted'):null,
-          h('span',{class:'fdoc-meta'},
-            d.feeds? h('span',{class:'fdoc-feeds'}, d.feeds):null,
-            d.updated? h('span',{}, 'upd '+d.updated):null,
-            d.wordCount? h('span',{}, d.wordCount+'w'):null)));
-        const bw=h('div',{class:'fdoc-body'});
-        if(d.key==='brand-guide' && d.body){ bw.append(brandGuideVisual()); }
-        if(d.body){ mdNodes(d.body).forEach(n=>bw.append(n)); }
-        else { bw.append(h('p',{class:'small',style:'color:var(--muted)'}, 'No file yet at '+(d.file||'this slot')+'. '+(d.feeds||''))); }
-        det.append(bw);
-        return det;
-      };
-      if(!docs.length) return frag(head, h('div',{class:'callout'}, h('div',{class:'tag'},'Not wired'),
-        h('p',{},'No strategy docs loaded. The foundation folder may not be mounted on this build, or build.py has not run since this feature shipped.')));
-      const groupEls = groups.map(g=>{
-        const gd=docs.filter(d=>d.group===g.key); if(!gd.length) return null;
-        const nC=gd.filter(d=>d.status==='complete').length;
-        return frag(
-          blocktitle(g.title+' · '+nC+'/'+gd.length+' complete'),
-          g.lede? h('p',{class:'fgroup-lede'}, g.lede):null,
-          h('div',{class:'stack'}, gd.map(renderDoc)));
-      });
-      return frag(head, groupEls);
-    };
-
     // Coverage Reconciler — live marketing surface diffed against what the OS
     // models. Blind spots = live but unmodeled (escalated for the agent to wire or
     // dismiss); stale = modeled but stopped firing. v1 never auto-wires.
@@ -1701,7 +1512,6 @@
         {id:'trends',label:'Trends',icon:I.trend},
       ]},
       {group:'Strategy', items:[
-        {id:'foundation',label:'Foundation',icon:I.book},
         {id:'overview',label:'Overview',icon:I.home},
         {id:'goals',label:'Goals & OKRs',icon:I.target},
         {id:'gtm',label:'GTM Strategy',icon:I.map},
@@ -1765,26 +1575,12 @@
 
     const view=document.getElementById('view');
     const crumb=document.getElementById('crumb');
-    // Provenance — the legacy structured Strategy/Brand tabs still render from
-    // content.json, but their canonical EDIT source is now the foundation doc.
-    // Show a slim link so the two can't silently drift (edit the markdown, not the view).
-    const FOUND_SRC={overview:'company-overview',goals:'goals',gtm:'gtm',icp:'icp',positioning:'positioning',competition:'competition',battlecard:'battle-card',messaging:'messaging',voice:'voice',content:'content-strategy'};
-    function provenanceBar(id){
-      const key=FOUND_SRC[id]; if(!key) return null;
-      const st=L.strategy||{}; const d=(st.docs||[]).find(x=>x.key===key); if(!d) return null;
-      const SL=st.statusLabels||{}; const STn=st.statusTone||{};
-      return h('a',{href:'#foundation',class:'srcbar'},
-        h('span',{class:'srcbar-ico',html:svg(I.book)}),
-        h('span',{}, 'Canonical source · Foundation → '+d.title),
-        chip(SL[d.status]||d.status, STn[d.status]||'muted'),
-        h('span',{class:'srcbar-edit'}, 'edit the markdown, not this view'));
-    }
     function render(id){
       if(!S[id]) id='overview';
       view.innerHTML='';
       const node=S[id]();
       // stagger child blocks
-      const wrap=h('div',{}); const pb=provenanceBar(id); if(pb) wrap.append(pb); wrap.append(node);
+      const wrap=h('div',{}); wrap.append(node);
       [...wrap.children].forEach((c,i)=>{ c.classList.add('reveal'); c.style.animationDelay=(i*55)+'ms'; });
       view.append(wrap);
       crumb.textContent=LABELS[id]||'Marketing OS';
