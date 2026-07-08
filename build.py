@@ -309,13 +309,16 @@ def fetch_result_feedback(env):
     sent_tone = {k: t for k, _, t in FEEDBACK_SENTIMENTS}
     note_rows = _hogql(env, (
         "SELECT toString(properties.note) AS note, properties.sentiment AS s, "
-        f"toString(toDate(timestamp)) AS d {base} "
+        "toString(toDate(timestamp)) AS d, "
+        "ifNull(toString(person.properties.email), '') AS email "
+        f"{base} "
         "AND ifNull(toString(properties.note), '') != '' ORDER BY timestamp DESC LIMIT 15"
     )) or []
     notes = [
         {"text": str(r[0]), "sentiment": str(r[1]),
          "sentimentLabel": sent_label.get(str(r[1]), str(r[1])),
-         "tone": sent_tone.get(str(r[1]), "default"), "date": str(r[2])}
+         "tone": sent_tone.get(str(r[1]), "default"), "date": str(r[2]),
+         "email": (str(r[3]).strip() or None) if len(r) > 3 else None}
         for r in note_rows if r and r[0]
     ]
 

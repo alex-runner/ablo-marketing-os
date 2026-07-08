@@ -1077,7 +1077,10 @@
       const noteCard = n => card({cls:'flat',children:[
         h('div',{style:'display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px'},
           chip(n.sentimentLabel, n.tone), h('span',{class:'small',style:'color:var(--muted)'}, n.date)),
-        h('p',{style:'margin:0'}, '“'+n.text+'”')
+        h('p',{style:'margin:0'}, '“'+n.text+'”'),
+        h('p',{class:'small',style:'margin:8px 0 0;color:var(--muted)'},
+          n.email ? h('a',{href:'mailto:'+n.email,style:'color:var(--accent);text-decoration:none'}, n.email)
+                  : h('span',{style:'font-style:italic'}, 'anonymous (no email)'))
       ]});
       return frag(
         sectionHead('Feedback','Voice of customer, right after the try-on',
