@@ -1,0 +1,35 @@
+{
+  "date": "2026-07-08",
+  "started": true,
+  "steps": {
+    "0_orient": "done",
+    "0_resolve": "done \u2014 3 moot",
+    "1-4_agents": "done",
+    "5_measurement": "done (amount_usd=0 bug flagged)",
+    "6_rerank": "done",
+    "7_roadmap": "done",
+    "7.5_qa": "done \u2014 numbers revise (fixed), calls pass",
+    "8_publish": "in_progress"
+  },
+  "agent_returns": {},
+  "writes": [
+    "run-file",
+    "lessons.jsonl (3 moot +9 lessons)",
+    "content.json commandCenter",
+    "state/drafts/at-aha-price-ask-2026-07-08.md",
+    "experiment-roadmap.md",
+    "refresh-log.md"
+  ],
+  "scoreboard": {
+    "milestone": "FIRST PAYING CUSTOMER Jul 2 (organic, Growth annual, in-app)",
+    "resolved_today": 3,
+    "verdicts": "3 moot",
+    "new_predictions": 0,
+    "calibration": "0.17 (1 hit / 6 scored); 6 moot excluded"
+  },
+  "qa": {
+    "numbers": "revise->fixed (Swim CPL qualitative, milestone tied to channel data, CC#1 one-shot caveat)",
+    "calls_boundary": "pass",
+    "boundary": "clean"
+  }
+}

@@ -2064,74 +2064,84 @@
     "decision": "Evidence points to Meta + Kids/Swim as the paid wedge to concentrate on once delivery is restored, with email as the cheapest immediate lever (the activation and aha flows are already built, just unwired). LinkedIn stays founder-led and US-only. Organic is deferred."
   },
   "commandCenter": {
-    "updated": "July 1, 2026",
-    "intro": "The prioritized action queue, anchored to the goal. As of Jul 1 the end-of-June first-paying-customer deadline has PASSED with 0 paying customers. The diagnosis has been stable for weeks (funnel gates at aha->paid; the levers are the at-aha price-ask, the Convert CTA rework, and server-side purchase capture). The bottleneck is now EXECUTION: the top escalate-gated fixes keep not shipping. Every leak below is tied to the one fix that moves it and the KPI it ladders to.",
+    "updated": "July 8, 2026",
+    "intro": "FIRST PAYING CUSTOMER achieved 2026-07-02 (organic/direct, Growth ANNUAL, converted in-app a day after the aha via the try-on pricing prompt; no email, no paid). The end-of-June deadline was missed by ~1 week, but the goal is hit. The one conversion came via the in-app aha path, consistent with WEEKS of channel data (email_click 0, Direct 11 vs Meta 2 checkouts, organic 10% vs paid 2% to pricing), so the queue pivots from 'get the first customer' to 'make it repeatable': convert the warm checkout-starters, fix revenue measurement, sharpen the in-app aha conversion that worked, reverse the activation slide. Every leak below ties to the one fix that moves it.",
     "items": [
       {
         "rank": "1",
         "sev": "high",
-        "title": "Make paid conversion visible -- Stripe check + move purchase_completed server-side",
-        "status": "END-OF-JUNE DEADLINE PASSED, still 0 paying customers. 0 purchase_completed fires all-time (deepest tracked = checkout_started, 10-11 starters). The single highest-information move remains: confirm in Stripe whether any of the ~10 checkout-starters actually paid (client-side event is ad-blockable), and move purchase capture server-side. Alejo/Jason-gated."
+        "done": false,
+        "title": "Convert the 11 stalled checkout-starters -> customer #2",
+        "owner": "Alejo + Jason",
+        "status": "12 users have started checkout since launch, only 1 has paid (customer #1). 11 reached the payment page and stopped -- the tightest, closest-to-money gate to customer #2. Customer #1 returned 19h after the aha to buy, so the pattern is delayed in-app conversion. Levers: an in-app return nudge / persistent cart (email is dead, click=0), and confirming in Stripe whether any of the 11 half-completed. This is the single highest-leverage move toward a repeatable second sale. Caveat: these 11 are a Direct/organic, non-renewable cohort, so converting them yields customer #2 but not a repeatable paid ENGINE. Repeatability comes from #3 (in-app aha conversion) and #5 (channel), this is the fastest near-term sale, not the engine.",
+        "targets": "first repeatable paid conversions . payment_rate",
+        "body": "With 1 organic payer proving the product converts, the fastest #2 is the warmest cohort: the 11 who already reached checkout. Reduce friction and give them a reason to return.",
+        "ladder": "The brag . first paying customers"
       },
       {
         "rank": "2",
         "sev": "high",
-        "title": "Paid converts ~11x worse than organic (1% vs 11% to checkout) -- carry the wedge to paid or shift budget",
-        "status": "Funnel split (live.funnel.spine, denom all=202/paid=116/organic=86): paid = 57% of signups but 1/116 (1%) reach checkout vs 9/86 (10%) organic; organic activates deeper (model 56% vs 41%). Nuance from live campaigns: Swim (paid) is the cheapest, best-CTR segment this week (live ad-set read, not persisted) -- so paid ACQUISITION is efficient, but paid signups still convert shallow to checkout. The gap is downstream conversion, not acquisition cost. Carry the wedge/value deeper into the paid cohort's post-signup experience."
+        "title": "Fix revenue tracking (amount_usd=0) + move purchase_completed server-side",
+        "status": "purchase_completed now FIRES (customer #1, Jul 2) but logs amount_usd=0.0 -- revenue value is NOT captured, so ARPU/LTV are blind. Also a geoip conflict (client KR vs server US) on the event. Fix the revenue payload and move capture server-side (client-side is ad-blockable). Jason. You cannot run or price a business you cannot measure, this is now the top measurement gap."
       },
       {
         "rank": "3",
         "sev": "high",
         "title": "Ship the in-product price-ask at the aha moment (value-capture leak, try-on->download 24%)",
-        "status": "~20/79 aha-reachers download (25%); only 12% click the pricing prompt; 0 purchase. Perceived value peaks the instant the try-on renders -- inject the upgrade/price-ask there, not three emails later. Product-owned (escalate to Jason). Highest in-product lever on payment_rate; email CTAs alone have moved nothing (see #4)."
+        "status": "VALIDATED by customer #1: they converted via exactly this, the pricing prompt shown at the try-on aha, then returned 19h later to buy in-app. Perceived value peaks the instant the try-on renders. ~20/79 aha-reachers download (25%), only ~12% click the pricing prompt today. Make the at-aha upgrade/price-ask sharper and add a return path (persistent project + in-app reminder), since the payer converted on a return visit, not first session. Product-owned. This is the proven conversion path, not email. Copy + placement + instrumentation spec now STAGED at state/drafts/at-aha-price-ask-2026-07-08.md (ready to build)."
       },
       {
         "rank": "4",
         "sev": "high",
-        "title": "Rework the Convert CTA layer (C2-C5 paid ask: 1.2% clicks across 161 reads)",
-        "status": "STILL UNSHIPPED (3rd cycle). Live Klaviyo (Jul 1): Convert opens 25-36% but C2/C3/C5 = 0% clicks, C4 paid-ask = 2.4% on 41 recip; C1 the lone bright spot (77.8% open, 11.1% click, 9 recip, +2h reinforce). PRED-2026-06-16-aha-cta-rework RESOLVED MOOT today (never shipped). email_click pinned at 0 all window. Draft copy now STAGED at state/drafts/cta-rework-2026-07-01.md (subject + one-line body + single CTA + deep link for C2/C3/C4/C5 and AHA B1/B2, ready to paste into Klaviyo). Shipping the live edit is the only remaining step and it is escalate-gated (edits a live flow). This is the top ACTIONABLE lever to the first sale and it keeps not shipping. Also blocked: no Subscription Started paid-exit event (Jason)."
+        "title": "Reverse the activation regression (51 -> 46, shrinking the aha pool)",
+        "status": "activation_rate regressed 51->46 over the last 3 weeks (below the 51 baseline). PRED-2026-06-19-onboarding-model-filter RESOLVED MOOT today (the pre-filter never shipped, so this is NOT that fix failing). Largest rage-click cluster still on /studio. This quietly starves every downstream stage incl. the paid funnel, if it keeps sliding it shrinks the pool that ever reaches the aha where conversion happens. Investigate the signup->model drop directly (product). Confounded partly by paid mix (organic activates deeper)."
       },
       {
         "rank": "5",
-        "sev": "med",
-        "title": "Concentrate paid on Swim (live winner), watch Kids CPL, Menswear off",
-        "status": "Delivery RESUMED (06-29 idle flag cleared; spent again on 06-30). Lifetime feed healthy ($1,558.61 / 132 signups / $11.81 CPL, far under the $300 ceiling). Only 1 Ablo Studio campaign live (the /try vs Home LP Test); the other 2 are off, Menswear not running. Live 7d ad-set read (NOT persisted, do not treat as fact): Swim is the clear winner (best CTR, cheapest CPL, most of the week's regs); Kids ran hot (few regs, high CPL) this window. This softens the old 'Kids cheapest' assumption but one week is too thin to re-weight budget. Watch, do not reallocate yet. Budget changes escalate."
+        "sev": "high",
+        "title": "Paid acquires but does not convert; shift budget to Swim (organic is the proven path)",
+        "status": "Customer #1 was ORGANIC/direct, not paid (PostHog checkouts: Direct 11 vs Meta 2). Paid drives ~54% of signups (channels/UTM) but organic reaches pricing 10% vs paid 2% and converts to checkout far deeper. Live 7d ad-set read (NOT persisted, directional only): Swim is materially the cheaper, higher-CTR segment this week while Kids has gone expensive yet holds most of the budget. Direction is clear (Swim efficient, Kids not); the specific CPLs are unpersisted, so persist the segment read before it anchors a budget move. Reallocating toward Swim is escalate (money). Bigger point: the proven path to paid is organic + in-app conversion, fund and feed that."
       },
       {
         "rank": "6",
         "sev": "med",
-        "title": "Personal outreach to the 10 checkout-starters",
-        "status": "PRED-2026-06-17-checkout-outreach RESOLVED MISS (payment_rate 6->5). Worth a manual founder touch but not a scalable lever. Alejo-owned."
+        "done": false,
+        "title": "Meta feed frozen again (persisted stale since 07-03; autopilot last ran ~Jul 2)",
+        "owner": "Claude/Alejo",
+        "status": "live.meta reads $1,589.72 / 138 signups / $11.52 CPL with asOf Jul 2, and signups_meta/CPL are identical for 07-03..07-08 while the account IS delivering ($22.54 yesterday, $169.65/7d live read). This is NOT the 06-22 aggregation bug (that fix holds); the autopilot itself appears to have stopped updating ~Jul 2 (its cron may have stalled or its Meta pull is erroring). Also 3 inconsistent signup counts across the feed (Meta 138 / funnelHeadline 190 / channels 121). Verify the autopilot LaunchAgent is running; do not trust the persisted CPL as current.",
+        "targets": "data integrity",
+        "body": "A frozen feed silently corrupts every campaign conclusion (it caused two false alarms before). Confirm the autopilot cron is alive and its last-cycle timestamp advances.",
+        "ladder": "Measurement integrity"
       },
       {
         "rank": "7",
+        "sev": "med",
+        "title": "Rework the Convert CTA layer (C2-C5 paid ask: 1.2% clicks across 161 reads)",
+        "status": "DOWNGRADED. Customer #1 came with ZERO email involvement (email_click pinned 0 all window; all reworked Convert/AHA emails still 0% click). PRED-2026-06-22-cta-rework RESOLVED MOOT today (4th consecutive CTA moot, never shipped). The staged draft (state/drafts/cta-rework-2026-07-01.md) is ready to paste, still escalate-gated. Ship it when convenient, but email is a weaker lever than the queue assumed, do not rank it above the in-app path. The one working email is C1 (9.1% click, rides the fresh try-on), mine its copy."
+      },
+      {
+        "rank": "8",
         "sev": "med",
         "title": "Fix /try garment->generate (~47%) and category (37%) drops",
         "status": "Top-of-funnel volume levers (live.meta.funnelSuggestions). PRED-2026-06-09-tbs-category-fix RESOLVED MISS (home_signup_pct flat 10.4 vs 10.5). Below the money step in leverage."
       },
       {
-        "rank": "8",
+        "rank": "9",
         "sev": "med",
         "title": "Win the homepage + paid landing CRO",
         "status": "Homepage 10.2% / /try 10.1% (tied); /try-kids 7.7%, /toddler 3.9% (pixel under-fires, numbers soft). Rolls into #2's value-first paid landing rather than a standalone effort."
       },
       {
-        "rank": "9",
-        "sev": "med",
-        "title": "Close the activation gap (paid-mix-driven, not a single UX bug)",
-        "status": "PRED-2026-06-03-activate-flow and PRED-2026-06-12-studio-rageclicks BOTH RESOLVED MISS. activation_rate (48-49%) is dominated by paid-vs-organic mix (organic 57% vs paid 41%), not the rage-click fix. Stop chasing blended activation; fix per-source via #2."
-      },
-      {
         "rank": "10",
         "sev": "med",
-        "title": "Rework AHA flow B1/B2 CTAs (0 clicks on 32 recipients)",
-        "status": "PRED-2026-06-16-aha-cta-rework RESOLVED MOOT today (never shipped; B1/B2 still 0% click on 33 recip). Email CTA reworks have not moved payment_rate across cycles. Bundle into #4's CTA test, do not run separately."
+        "title": "Hold signup-modal gains (45% completion)",
+        "status": "Modal open->signup 45% all-time, holding. Maintenance only."
       },
       {
         "rank": "11",
         "sev": "med",
-        "title": "Hold signup-modal gains (45% completion)",
-        "status": "Modal open->signup 45% all-time, holding. Maintenance only."
+        "title": "Personal outreach to the 10 checkout-starters",
+        "status": "PRED-2026-06-17-checkout-outreach RESOLVED MISS (payment_rate 6->5). Worth a manual founder touch but not a scalable lever. Alejo-owned."
       },
       {
         "rank": "12",
