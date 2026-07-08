@@ -14,7 +14,7 @@ window.ABLO_OS = {
     "endOfJuneGoal": "First paying customer.",
     "updated": "July 8, 2026",
     "sourceNote": "Source of truth: the marketing strategy spine and the Minimum Viable Context. Curated strategy is human-edited; experiments and campaign metrics refresh automatically each week.",
-    "updatedISO": "2026-07-08T15:39:26.166883+00:00"
+    "updatedISO": "2026-07-08T16:01:44.007882+00:00"
   },
   "overview": {
     "elevator": "Self-serve AI on-model imagery for fashion brands. Create an AI model, paste a product URL, get campaign-ready 2K imagery in minutes. It replaces the photoshoot, not one incumbent tool.",
@@ -2848,7 +2848,7 @@ window.ABLO_OS = {
           "group": "Acquire",
           "counts": {
             "d7": 243,
-            "d30": 1034,
+            "d30": 1032,
             "d90": 2108,
             "all": 2108
           }
@@ -2898,7 +2898,7 @@ window.ABLO_OS = {
           "group": "Activate",
           "counts": {
             "d7": 32,
-            "d30": 130,
+            "d30": 129,
             "d90": 241,
             "all": 241
           }
@@ -3130,60 +3130,14 @@ window.ABLO_OS = {
           "sev": "high",
           "title": "Payment + measurement (try-on → checkout)",
           "rate": "13%",
-          "detail": "12 of 95 aha-reachers start checkout, and 1 purchases have completed: the success event is wired (AccountPage), it just has not fired because no checkout has paid yet.",
+          "detail": "12 of 95 aha-reachers start checkout, and 0 purchases have completed: the success event is wired (AccountPage), it just has not fired because no checkout has paid yet.",
           "fix": "In-product upgrade prompt at the aha, plus the price-ask test. Move purchase_completed server-side so it cannot be ad-blocked."
         }
       ],
       "gaps": [
-        "No paid event has fired yet (1 purchase_completed to date). checkout_started (13 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics until a real purchase lands. The event is instrumented (AccountPage success_url); it simply has not fired.",
+        "No paid event has fired yet (0 purchase_completed to date). checkout_started (13 users) is the deepest tracked step, so true paid conversion and revenue cannot be read from product analytics until a real purchase lands. The event is instrumented (AccountPage success_url); it simply has not fired.",
         "studio_entered (241) exceeds signup_completed (224) because the studio is reachable by returning and anonymous sessions. The activation spine corrects for this by counting same-user, signup-anchored."
       ],
-      "onboarding": {
-        "window": "14d",
-        "launch": "2026-06-04",
-        "denominator": 39,
-        "skipped": 1,
-        "steps": [
-          {
-            "label": "Signed up",
-            "count": 39,
-            "pct": 100
-          },
-          {
-            "label": "Started onboarding",
-            "count": 28,
-            "pct": 72
-          },
-          {
-            "label": "Q1 · who they make for",
-            "count": 26,
-            "pct": 67
-          },
-          {
-            "label": "Q2 · product types",
-            "count": 24,
-            "pct": 62
-          },
-          {
-            "label": "Q3 · preferred style",
-            "count": 24,
-            "pct": 62
-          },
-          {
-            "label": "Picked a model",
-            "count": 13,
-            "pct": 33
-          },
-          {
-            "label": "Generated a model",
-            "count": 10,
-            "pct": 26,
-            "goal": true
-          }
-        ],
-        "activationBefore": 67,
-        "activationAfter": 35
-      },
       "postTryon": {
         "window": "30d",
         "base": 55,
@@ -3226,7 +3180,7 @@ window.ABLO_OS = {
           }
         ]
       },
-      "purchases": 1
+      "purchases": 0
     },
     "lifecycle": {
       "updated": "July 8, 2026",
@@ -3514,77 +3468,7 @@ window.ABLO_OS = {
         "On-model is what they come for (73%) - the core value prop. Still-life and flatlay are meaningful secondary asks (~20% each)."
       ]
     },
-    "channels": {
-      "attribution": [
-        {
-          "channel": "Meta Ads",
-          "users": 1551,
-          "signups": 121,
-          "tryons": 38,
-          "checkouts": 2,
-          "signupShare": 54
-        },
-        {
-          "channel": "Direct / untagged",
-          "users": 716,
-          "signups": 85,
-          "tryons": 50,
-          "checkouts": 11,
-          "signupShare": 38
-        },
-        {
-          "channel": "Instagram (organic)",
-          "users": 65,
-          "signups": 11,
-          "tryons": 7,
-          "checkouts": 0,
-          "signupShare": 5
-        },
-        {
-          "channel": "Chatgpt.Com",
-          "users": 11,
-          "signups": 7,
-          "tryons": 5,
-          "checkouts": 0,
-          "signupShare": 3
-        },
-        {
-          "channel": "LinkedIn",
-          "users": 11,
-          "signups": 0,
-          "tryons": 0,
-          "checkouts": 0,
-          "signupShare": 0
-        },
-        {
-          "channel": "Email",
-          "users": 7,
-          "signups": 0,
-          "tryons": 2,
-          "checkouts": 1,
-          "signupShare": 0
-        },
-        {
-          "channel": "Apollo",
-          "users": 1,
-          "signups": 0,
-          "tryons": 0,
-          "checkouts": 0,
-          "signupShare": 0
-        },
-        {
-          "channel": "3Dklavi",
-          "users": 1,
-          "signups": 0,
-          "tryons": 0,
-          "checkouts": 0,
-          "signupShare": 0
-        }
-      ],
-      "insight": "54% of signups come from Meta Ads.",
-      "updated": "July 8, 2026",
-      "source": "PostHog UTM · live"
-    },
+    "channels": null,
     "landingPages": {
       "pages": [
         {
@@ -3849,7 +3733,7 @@ window.ABLO_OS = {
     },
     "instagram": {
       "username": "ablo.ai",
-      "followers": 223020,
+      "followers": 223019,
       "posts": 165,
       "source": "Meta Graph · live",
       "canPost": false,
@@ -4848,7 +4732,7 @@ window.ABLO_OS = {
         },
         {
           "date": "2026-07-08",
-          "landed": 23,
+          "landed": 24,
           "engaged": 3,
           "modal": 4,
           "signups": 3,
@@ -4864,7 +4748,7 @@ window.ABLO_OS = {
           "email_click": 0.0,
           "email_recipients": 36,
           "paying_customers": 1,
-          "ig_followers": 223020,
+          "ig_followers": 223019,
           "activation_rate": 46,
           "aha_rate": 42,
           "payment_rate": 5,
@@ -5099,8 +4983,8 @@ window.ABLO_OS = {
         {
           "key": "tbs_*",
           "dimension": "events",
-          "where": "PostHog, 812 users/30d (13 events)",
-          "volume": 812,
+          "where": "PostHog, 811 users/30d (13 events)",
+          "volume": 811,
           "cluster": true,
           "action": "Investigate the tbs_* flow; map a funnel stage or dismiss it to the registry with a reason",
           "status": "escalated"
@@ -5600,7 +5484,7 @@ window.ABLO_OS = {
       "meta": true,
       "funnel": true,
       "klaviyo": true,
-      "channels": true,
+      "channels": false,
       "landingPages": true,
       "feedback": true,
       "clickup": true,
